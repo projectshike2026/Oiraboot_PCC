@@ -158,407 +158,719 @@
   <div class="faded-glow-veil" aria-hidden="true"></div>
   <div class="faded-edge-mask" aria-hidden="true"></div>
 
-  <!-- SECTION 2: DEDICATED STUDIOS SHOWCASE (AWARD-WINNING GLASSMORPHISM) -->
-  <section id="studios" class="relative z-10 py-24 sm:py-32 px-4 sm:px-6 lg:px-10">
-    <div class="max-w-7xl mx-auto space-y-24 relative z-10">
+    <!-- SECTION 2: DEDICATED STUDIOS SHOWCASE — KINETIC 3D FLASHCARDS DECK -->
+  <section id="studios" class="relative z-10 py-16 sm:py-24 px-4 sm:px-6 lg:px-10">
+    <div class="max-w-7xl mx-auto space-y-8 relative z-10">
 
-      <!-- Section Heading -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end reveal">
-        <div class="lg:col-span-7 space-y-3">
+      <!-- Editorial Section Heading with Live Telemetry & Auto-Play Control -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-hairline/60">
+        <div class="space-y-3">
           <div
             class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
             <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
-            <span>Autonomous Systems Architecture</span>
+            <span data-i18n="archEyebrow">{{ 'মডুলার ইন্টেলিজেন্স ডেক · ৩টি লাইভ স্টুডিও' if current_lang == 'bn' else 'Modular Intelligence Deck · 03 Live Studios' }}</span>
           </div>
           <h2
             class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
-            <span>Three Dedicated Studios.</span>
-            <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">Independent
-              Workspaces.</span>
+            <span data-i18n="archTitle">{{ 'তিনটি ডেডিকেটেড স্টুডিও।' if current_lang == 'bn' else 'Three Dedicated Studios.' }}</span>
+            <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]" data-i18n="archSubtitle">{{ 'ডাইনামিক ফ্ল্যাশকার্ড অভিজ্ঞতা।' if current_lang == 'bn' else 'Choreographed in Motion.' }}</span>
           </h2>
         </div>
-        <div class="lg:col-span-5">
-          <p class="text-sm sm:text-base text-muted leading-relaxed">
-            Each track operates as a self-contained intelligence workspace featuring dedicated data pipelines,
-            verifiable citation safeguards, multi-turn conversational context, and deterministic rule engines.
+
+        <div class="flex flex-col items-start lg:items-end gap-3 max-w-xl">
+          <p class="text-xs sm:text-sm text-muted leading-relaxed lg:text-right" data-i18n="archDesc">
+            {{ 'প্রতিটি স্টুডিওর লাইভ অ্যানিমেটেড ডেমো দেখুন—পিডিএফ স্ক্যানার, মাল্টি-টার্ন মেমোরি ও স্কলারশিপ গ্যাপ রাডার। আর্কিটেকচার ব্লুপ্রিন্ট দেখতে যেকোনো কার্ড ফ্লিপ করুন।' if current_lang == 'bn' else 'Watch each flashcard self-demonstrate its live retrieval, conversational memory, and deterministic scholarship engine—or flip any card to inspect its architecture.' }}
           </p>
+
+          <div class="flex items-center gap-2 pt-1">
+            <span id="deckPositionLabel" class="font-mono text-[11px] text-muted px-2.5 py-1 rounded-md border border-hairline surface-subtle">CARD 01 / 03</span>
+
+            <button
+              id="autoPlayToggle"
+              type="button"
+              title="Pause or Resume Automated Presentation"
+              class="px-3 py-1.5 rounded-lg text-[11px] font-mono border border-hairline surface-subtle text-main hover:border-crimson transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+            >
+              <span id="autoPlayDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="autoPlayText">Auto-Play: ON</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- STUDIO 1: DOCUMENT STUDIO (TRACK 1) -->
-      <div class="glass-panel p-6 sm:p-10 lg:p-12 reveal">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-
-          <!-- Left: In-depth System Specification -->
-          <div class="lg:col-span-6 space-y-6">
-            <div
-              class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-hairline bg-crimson-soft text-crimson font-mono text-[11px] font-bold uppercase tracking-wider">
-              <i data-lucide="file-search-2" class="w-4 h-4"></i>
-              <span>Track 01 • Studio Workspace</span>
-            </div>
-
-            <div class="space-y-2">
-              <h3 class="font-athens text-2xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
-                Document Studio</h3>
-              <p class="font-editorial italic text-xl sm:text-2xl text-muted font-normal">
-                High-Precision Study Notes Search & Adaptive MCQ Generator
-              </p>
-            </div>
-
-            <p class="text-sm text-muted leading-relaxed">
-              Upload complex lecture notes or academic syllabi in PDF format. Oiraboot indexes every page with
-              character-exact coordinates, enabling deep natural language queries in both English and Bengali. Answers
-              are guaranteed with verbatim excerpt citations and page badges. Generate 5–15 question MCQ assessments on
-              demand, complete with instant in-place grading and verifiable proof tags.
-            </p>
-
-            <!-- System Feature Checklist -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-main">
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="shield-check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Strict character-exact page citations</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="shield-alert" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Refusal guardrail for out-of-scope queries</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="sliders" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Configurable MCQ engine (5–15 questions)</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="download" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Verbatim proof tag per question & CSV export</span>
-              </div>
-            </div>
-
-            <!-- Launch CTA Button -->
-            <div class="pt-4">
-              <a href="/documents"
-                class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] inline-flex items-center gap-3">
-                <span>Open Document Studio</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-              </a>
-            </div>
+      <!-- KINETIC TIMELINE RAIL (Auto-Filling Progress Indicators for 3 Cards) -->
+      <section aria-label="Studio Deck Timeline" class="grid grid-cols-3 gap-3 sm:gap-5 mb-2">
+        <!-- Track 01 Timeline Tab -->
+        <button
+          type="button"
+          data-select-card="0"
+          class="timeline-tab group text-left p-3 sm:p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-xs transition-all hover:border-zinc-400 dark:hover:border-zinc-600 focus:outline-none cursor-pointer"
+        >
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="font-display font-bold text-xs sm:text-sm text-crimson dark:text-crimson-darkAccent">01</span>
+            <span class="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-muted truncate hidden sm:inline">RAG + MCQ</span>
           </div>
-
-          <!-- Right: Animated Glass Interactive Preview -->
-          <div class="lg:col-span-6">
-            <div class="glass-subcard p-6 sm:p-7 rounded-2xl space-y-4">
-
-              <!-- Document Meta Bar -->
-              <div class="flex items-center justify-between pb-3.5 border-b border-hairline">
-                <span class="font-mono text-xs font-semibold text-main flex items-center gap-2">
-                  <i data-lucide="file-text" class="w-4 h-4 text-crimson"></i>
-                  <span>CS301_AI_Algorithms_Notes.pdf</span>
-                </span>
-                <span
-                  class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 text-[10px] font-mono font-bold flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                  <span>INDEXED (4 PAGES)</span>
-                </span>
-              </div>
-
-              <!-- Interactive Simulated Query Box -->
-              <div class="space-y-3 text-xs">
-                <div class="surface-subtle p-3.5 rounded-xl border border-hairline">
-                  <p class="font-mono text-[10px] text-muted mb-1 flex items-center gap-1.5 uppercase tracking-wider">
-                    <i data-lucide="help-circle" class="w-3 h-3 text-crimson"></i>
-                    <span>Student Query</span>
-                  </p>
-                  <p class="font-medium text-main text-xs sm:text-sm">
-                    What is Retrieval-Augmented Generation (RAG)?
-                  </p>
-                </div>
-
-                <!-- Verified Citation Proof Card -->
-                <div class="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/[0.04] space-y-2.5">
-                  <div class="flex items-center justify-between">
-                    <span
-                      class="font-mono text-[10px] text-emerald-600 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                      <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
-                      <span>Verbatim Citation Proof</span>
-                    </span>
-                    <span
-                      class="px-2 py-0.5 rounded bg-[var(--bg-page)] border border-hairline font-mono text-[10px] text-main font-semibold">
-                      Page 1 • Paragraph 3
-                    </span>
-                  </div>
-                  <p class="text-xs text-muted leading-relaxed italic border-l-2 border-emerald-500 pl-3 py-0.5">
-                    "Retrieval-Augmented Generation (RAG) is an architectural framework that enhances Large Language
-                    Models by retrieving relevant document snippets..."
-                  </p>
-                </div>
-              </div>
-
-              <!-- Interactive Mini-Quiz Selector Demo -->
-              <div class="pt-3 border-t border-hairline space-y-2.5">
-                <div class="flex items-center justify-between text-xs">
-                  <span class="font-mono text-[11px] text-muted font-medium">MCQ Assessment Engine:</span>
-                  <span class="font-mono text-[11px] text-crimson font-bold">100% Citation Grounding</span>
-                </div>
-                <div class="grid grid-cols-3 gap-2">
-                  <button type="button" onclick="setPreviewQuizDifficulty(5, 'Easy', this)"
-                    class="preview-quiz-btn px-3 py-2 rounded-lg border border-crimson/30 bg-crimson-soft text-center font-mono text-[11px] text-crimson font-bold transition-all cursor-pointer">
-                    5 Qs (Easy)
-                  </button>
-                  <button type="button" onclick="setPreviewQuizDifficulty(10, 'Medium', this)"
-                    class="preview-quiz-btn px-3 py-2 rounded-lg border border-hairline surface-subtle text-center font-mono text-[11px] text-muted font-medium transition-all cursor-pointer">
-                    10 Qs (Medium)
-                  </button>
-                  <button type="button" onclick="setPreviewQuizDifficulty(15, 'Hard', this)"
-                    class="preview-quiz-btn px-3 py-2 rounded-lg border border-hairline surface-subtle text-center font-mono text-[11px] text-muted font-medium transition-all cursor-pointer">
-                    15 Qs (Hard)
-                  </button>
-                </div>
-              </div>
-
-            </div>
+          <div class="font-serif text-sm sm:text-base font-medium text-main truncate" data-i18n="t1Title">{{ 'ডকুমেন্ট স্টুডিও' if current_lang == 'bn' else 'Document Studio' }}</div>
+          <div class="mt-2.5 h-1 w-full rounded-full bg-zinc-200/80 dark:bg-zinc-800 overflow-hidden">
+            <div id="timeline-bar-0" class="h-full rounded-full bg-crimson dark:bg-crimson-darkAccent transition-[width] duration-100 ease-linear" style="width: 0%"></div>
           </div>
+        </button>
 
-        </div>
-      </div>
+        <!-- Track 02 Timeline Tab -->
+        <button
+          type="button"
+          data-select-card="1"
+          class="timeline-tab group text-left p-3 sm:p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-surface-light/60 dark:bg-surface-dark/50 backdrop-blur-xs transition-all hover:border-zinc-400 dark:hover:border-zinc-600 focus:outline-none cursor-pointer"
+        >
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="font-display font-bold text-xs sm:text-sm text-zinc-400 dark:text-zinc-500">02</span>
+            <span class="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-muted truncate hidden sm:inline">Multi-Turn</span>
+          </div>
+          <div class="font-serif text-sm sm:text-base font-medium text-main truncate" data-i18n="t2Title">{{ 'অ্যাডমিশন ডেস্ক' if current_lang == 'bn' else 'Admissions Desk' }}</div>
+          <div class="mt-2.5 h-1 w-full rounded-full bg-zinc-200/80 dark:bg-zinc-800 overflow-hidden">
+            <div id="timeline-bar-1" class="h-full rounded-full bg-crimson dark:bg-crimson-darkAccent transition-[width] duration-100 ease-linear" style="width: 0%"></div>
+          </div>
+        </button>
 
-      <!-- STUDIO 2: ADMISSIONS DESK (TRACK 2) -->
-      <div class="glass-panel p-6 sm:p-10 lg:p-12 reveal">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <!-- Track 03 Timeline Tab -->
+        <button
+          type="button"
+          data-select-card="2"
+          class="timeline-tab group text-left p-3 sm:p-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-surface-light/60 dark:bg-surface-dark/50 backdrop-blur-xs transition-all hover:border-zinc-400 dark:hover:border-zinc-600 focus:outline-none cursor-pointer"
+        >
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="font-display font-bold text-xs sm:text-sm text-zinc-400 dark:text-zinc-500">03</span>
+            <span class="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-muted truncate hidden sm:inline">Gap Radar</span>
+          </div>
+          <div class="font-serif text-sm sm:text-base font-medium text-main truncate" data-i18n="t3Title">{{ 'স্কলারশিপ অ্যাটলাস' if current_lang == 'bn' else 'Scholarship Atlas' }}</div>
+          <div class="mt-2.5 h-1 w-full rounded-full bg-zinc-200/80 dark:bg-zinc-800 overflow-hidden">
+            <div id="timeline-bar-2" class="h-full rounded-full bg-crimson dark:bg-crimson-darkAccent transition-[width] duration-100 ease-linear" style="width: 0%"></div>
+          </div>
+        </button>
+      </section>
 
-          <!-- Left: Simulated Multi-Turn Conversation & Circular Progress Ring -->
-          <div class="lg:col-span-6 order-2 lg:order-1">
-            <div class="glass-subcard p-6 sm:p-7 rounded-2xl space-y-4">
+      <!-- 3D SPATIAL FLASHCARD DECK VIEWPORT -->
+      <section id="deckSection" class="relative mb-6 pr-2 sm:pr-8">
+        <div
+          id="flashcardDeck"
+          class="deck-viewport relative w-full h-[640px] sm:h-[660px] md:h-[680px] lg:h-[700px] select-none"
+        >
+<article
+          id="card-0"
+          data-card-index="0"
+          data-pos="front"
+          class="flashcard-shell"
+        >
+          <div class="flashcard-inner">
 
-              <div class="flex items-center justify-between pb-3.5 border-b border-hairline">
-                <span class="font-mono text-xs font-semibold text-main flex items-center gap-2">
-                  <i data-lucide="messages-square" class="w-4 h-4 text-crimson"></i>
-                  <span>Institutional Admissions Concierge</span>
-                </span>
-                <span
-                  class="px-2.5 py-1 rounded-full bg-crimson-soft text-crimson border border-crimson/30 text-[10px] font-mono font-bold flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
-                  <span>CONTEXT ACTIVE</span>
-                </span>
-              </div>
+            <!-- FRONT FACE: Auto-Animated Live Workspace -->
+            <div class="flashcard-face flashcard-face-front card-sheen bg-surface-light dark:bg-surface-dark border border-zinc-200/90 dark:border-zinc-800/90 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.16)] dark:shadow-[0_28px_80px_-20px_rgba(0,0,0,0.8)] flex flex-col">
 
-              <!-- Multi-Turn Memory Simulation -->
-              <div class="space-y-3 text-xs">
-                <div class="surface-subtle p-3 rounded-xl border border-hairline">
-                  <p class="font-mono text-[10px] text-muted mb-0.5">STUDENT</p>
-                  <p class="font-medium text-main">What is the total tuition fee for B.Sc. in CSE?</p>
-                </div>
-
-                <div class="p-3.5 rounded-xl border border-hairline bg-[var(--bg-surface)] space-y-1">
-                  <p class="font-mono text-[10px] text-crimson font-bold">ADVISOR (OFFICIAL FEE SCHEDULE)</p>
-                  <p class="text-main leading-relaxed">
-                    For B.Sc. in CSE, estimated total tuition and fees are BDT 4,48,000 for 150 credits across 12
-                    trimesters.
-                  </p>
-                </div>
-
-                <div class="surface-subtle p-3 rounded-xl border border-hairline">
-                  <p class="font-mono text-[10px] text-muted mb-0.5">FOLLOW-UP (PRONOUN RESOLUTION)</p>
-                  <p class="font-medium text-main">And for BBA?</p>
-                </div>
-
-                <div class="p-3.5 rounded-xl border border-hairline bg-[var(--bg-surface)] space-y-1">
-                  <p class="font-mono text-[10px] text-crimson font-bold">ADVISOR (RESOLVES CONTEXT)</p>
-                  <p class="text-main leading-relaxed">
-                    For BBA, total estimated tuition and fees are BDT 3,92,000 across 126 credits.
-                  </p>
-                </div>
-              </div>
-
-              <!-- 6-Step Checklist Progress Ring Widget -->
-              <div class="pt-3.5 border-t border-hairline flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <svg class="w-10 h-10 -rotate-90" viewBox="0 0 36 36">
-                    <path class="text-hairline stroke-current" stroke-width="3.5" fill="none"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                    <path class="text-crimson stroke-current" stroke-dasharray="67, 100" stroke-linecap="round"
-                      stroke-width="3.5" fill="none"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                  </svg>
-                  <div>
-                    <p class="font-mono text-xs font-bold text-main">67% Completed</p>
-                    <p class="text-[11px] text-muted">4 of 6 milestones achieved</p>
+              <!-- Card Header Chrome -->
+              <div class="px-5 sm:px-6 py-4 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/75 dark:bg-zinc-900/60 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="font-display font-extrabold text-xl sm:text-2xl text-crimson dark:text-crimson-darkAccent leading-none">01</span>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <h2 class="font-serif text-lg sm:text-xl font-medium text-zinc-900 dark:text-zinc-50 truncate">Document Studio</h2>
+                      <span class="hidden sm:inline-flex font-mono text-[10px] px-2 py-0.5 rounded-full bg-crimson/10 dark:bg-rose-500/15 text-crimson dark:text-crimson-darkAccent">Optical RAG</span>
+                    </div>
+                    <p class="font-mono text-[10px] text-zinc-400 truncate">CS402_AI_Algorithms_Notes.pdf · 14 Pages Indexed</p>
                   </div>
                 </div>
-                <span class="px-3 py-1 rounded-full surface-subtle text-[11px] font-mono text-main font-semibold">
-                  Live Checklist
-                </span>
-              </div>
 
-            </div>
-          </div>
-
-          <!-- Right: In-depth Specification -->
-          <div class="lg:col-span-6 space-y-6 order-1 lg:order-2">
-            <div
-              class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-hairline bg-crimson-soft text-crimson font-mono text-[11px] font-bold uppercase tracking-wider">
-              <i data-lucide="messages-square" class="w-4 h-4"></i>
-              <span>Track 02 • Studio Workspace</span>
-            </div>
-
-            <div class="space-y-2">
-              <h3 class="font-athens text-2xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
-                Admissions Desk</h3>
-              <p class="font-editorial italic text-xl sm:text-2xl text-muted font-normal">
-                Context-Aware Advisory Concierge & Live Milestones
-              </p>
-            </div>
-
-            <p class="text-sm text-muted leading-relaxed">
-              Navigating university enrollment requires nuanced guidance. The Admissions Desk acts as an institutional
-              concierge grounded directly in official fee schedules, credit loads, and program requirements. It retains
-              multi-turn memory to answer follow-up queries naturally, asks clarifying questions when prompts are
-              incomplete, and continuously maintains a 6-step admissions checklist with circular progress tracking.
-            </p>
-
-            <!-- System Feature Checklist -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-main">
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="brain" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Multi-turn conversational memory for follow-ups</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="calculator" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Strict numerical validation of official fees</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="help-circle" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Clarifying questions for ambiguous requests</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="check-circle" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Live 6-step admissions checklist with SVG ring</span>
-              </div>
-            </div>
-
-            <!-- Launch CTA Button -->
-            <div class="pt-4">
-              <a href="/admissions"
-                class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] inline-flex items-center gap-3">
-                <span>Open Admissions Desk</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- STUDIO 3: SCHOLARSHIP ATLAS (TRACK 3) -->
-      <div class="glass-panel p-6 sm:p-10 lg:p-12 reveal">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-
-          <!-- Left: In-depth Specification -->
-          <div class="lg:col-span-6 space-y-6">
-            <div
-              class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-hairline bg-crimson-soft text-crimson font-mono text-[11px] font-bold uppercase tracking-wider">
-              <i data-lucide="award" class="w-4 h-4"></i>
-              <span>Track 03 • Studio Workspace</span>
-            </div>
-
-            <div class="space-y-2">
-              <h3 class="font-athens text-2xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
-                Scholarship Atlas</h3>
-              <p class="font-editorial italic text-xl sm:text-2xl text-muted font-normal">
-                Merit Grant Discovery & Almost-Eligible Gap Analysis
-              </p>
-            </div>
-
-            <p class="text-sm text-muted leading-relaxed">
-              Institutional scholarship programs are ingested straight from official CSV data. Filter in real time using
-              the interactive CGPA slider, pick your degree program, and toggle financial need criteria to instantly
-              discover every award you qualify for. Each match receives a tailored AI fit rationale. Near-misses are
-              automatically evaluated in the Almost-Eligible Gap Radar to identify exact criteria deficits.
-            </p>
-
-            <!-- System Feature Checklist -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-main">
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Deterministic CGPA, department & need matching</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="sparkles" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Personalized AI fit rationales dynamically synthesized</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="target" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Almost-Eligible Gap Radar with missing requirement delta</span>
-              </div>
-              <div class="flex items-start gap-2.5">
-                <i data-lucide="table" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-                <span>Card Grid vs Dense Data Table with CSV export</span>
-              </div>
-            </div>
-
-            <!-- Launch CTA Button -->
-            <div class="pt-4">
-              <a href="/scholarships"
-                class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] inline-flex items-center gap-3">
-                <span>Open Scholarship Atlas</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Right: Interactive CGPA & Gap Radar Simulator -->
-          <div class="lg:col-span-6">
-            <div class="glass-subcard p-6 sm:p-7 rounded-2xl space-y-4">
-
-              <!-- Interactive CGPA Simulator Header -->
-              <div class="space-y-2 pb-3.5 border-b border-hairline">
-                <div class="flex items-center justify-between text-xs font-mono">
-                  <span class="text-main font-semibold flex items-center gap-2">
-                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-crimson"></i>
-                    <span>CGPA Simulator: <span id="preview-cgpa-val"
-                        class="text-crimson font-bold text-sm">3.75</span></span>
-                  </span>
-                  <span id="preview-match-badge"
-                    class="px-2.5 py-0.5 rounded-full bg-crimson text-white text-[10px] font-bold">
-                    5 MATCHED
-                  </span>
-                </div>
-                <input type="range" min="3.00" max="4.00" step="0.05" value="3.75"
-                  oninput="togglePreviewCgpa(parseFloat(this.value))" class="w-full accent-crimson cursor-pointer" />
-              </div>
-
-              <!-- Matched Scholarship Card -->
-              <div class="p-4 rounded-xl border border-hairline bg-[var(--bg-surface)] space-y-2.5 shadow-sm">
-                <div class="flex items-start justify-between gap-3">
-                  <h4 id="preview-match-title" class="font-bold text-sm text-main">Bangladesh STEM Innovators Fellowship
-                  </h4>
-                  <span id="preview-match-val" class="font-mono text-xs font-bold text-crimson shrink-0">BDT
-                    95,000</span>
-                </div>
-                <p id="preview-match-rationale" class="text-xs text-muted leading-relaxed">
-                  <strong class="text-crimson">Why you fit:</strong> Your CGPA exceeds the required 3.60 minimum, and
-                  your department (CSE) directly matches eligible engineering programs.
-                </p>
-                <div
-                  class="flex items-center justify-between pt-2 border-t border-hairline font-mono text-[10px] text-faint">
-                  <span>Deadline: Dec 28, 2026</span>
-                  <span class="text-emerald-600 font-semibold flex items-center gap-1">
-                    <i data-lucide="check" class="w-3 h-3"></i> 100% Fit Match
-                  </span>
+                <!-- Utility Deck Actions (Flip / Next) -->
+                <div class="flex items-center gap-2 shrink-0">
+                  <a
+                    href="/documents"
+                    class="font-mono text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-crimson hover:bg-crimson/90 text-white transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                    <span>Try Now</span>
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
+                  <button
+                    type="button"
+                    data-flip-card="0"
+                    class="flip-trigger font-mono text-[10px] px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:border-crimson dark:hover:border-crimson-darkAccent hover:text-crimson dark:hover:text-crimson-darkAccent transition-colors flex items-center gap-1.5"
+                    title="Flip flashcard to inspect Architecture Blueprint"
+                  >
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 1l4 4-4 4" /><path d="M3 11V9a4 4 0 0 1 4-4h14" /><path d="M7 23l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                    </svg>
+                    <span class="hidden sm:inline">Flip Blueprint</span>
+                  </button>
+                  <button
+                    type="button"
+                    data-next-card
+                    aria-label="Next Flashcard"
+                    class="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  >
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" /></svg>
+                  </button>
                 </div>
               </div>
 
-              <!-- Gap Radar Diagnostic Chip -->
-              <div
-                class="p-3.5 rounded-xl border border-crimson/30 bg-crimson-soft flex items-center justify-between text-xs">
+              <!-- Card Body: Kinetic Live Engine -->
+              <div class="flex-1 p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 overflow-y-auto thin-scroll">
+
+                <!-- Left (7 cols): Live Typewriter Query + Grounded Output + Auto-Grading MCQ -->
+                <div class="lg:col-span-7 flex flex-col justify-between gap-4">
+                  <!-- Animated Typewriter Prompt Stage -->
+                  <div class="space-y-2.5">
+                    <div class="flex items-center justify-between">
+                      <span class="font-mono text-[10px] uppercase tracking-wider text-zinc-400">Live Query Stream</span>
+                      <span id="docStageStatus" class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                        <span>Scanning Vectors...</span>
+                      </span>
+                    </div>
+
+                    <div class="rounded-xl border border-zinc-200/90 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-950/70 px-4 py-3 flex items-center justify-between gap-3">
+                      <div class="text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 min-h-[20px]">
+                        <span id="docTypedQuery">What is Retrieval-Augmented Generation (RAG)?</span><span class="typing-caret bg-crimson dark:bg-crimson-darkAccent"></span>
+                      </div>
+                      <div class="flex items-center gap-1 shrink-0">
+                        <button type="button" data-doc-manual="rag" class="doc-pill font-mono text-[10px] px-2 py-1 rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">RAG</button>
+                        <button type="button" data-doc-manual="astar" class="doc-pill font-mono text-[10px] px-2 py-1 rounded-md bg-zinc-200/70 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">A*</button>
+                        <button type="button" data-doc-manual="refusal" class="doc-pill font-mono text-[10px] px-2 py-1 rounded-md bg-crimson/10 text-crimson dark:text-crimson-darkAccent">Refusal</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Grounded Answer Box -->
+                  <div id="docAnswerCard" class="rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-4 space-y-2.5 transition-all duration-300">
+                    <div class="flex items-center justify-between gap-2">
+                      <span id="docVerdictBadge" class="font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                        ✓ Character-Exact Grounded Answer
+                      </span>
+                      <span id="docOffsetBadge" class="font-mono text-[10px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                        Page 4 · [412:589]
+                      </span>
+                    </div>
+                    <p id="docAnswerBody" class="text-xs sm:text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                      <mark class="bg-crimson/12 dark:bg-rose-500/20 text-zinc-900 dark:text-zinc-50 px-1 rounded">Retrieval-Augmented Generation (RAG) binds LLM synthesis to verbatim retrieved excerpts</mark>, eliminating unverified speculation.
+                    </p>
+                  </div>
+
+                  <!-- Auto-Animated Adaptive MCQ Strip -->
+                  <div class="rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/40 p-3.5 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <span class="font-mono text-[10px] uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">Instant MCQ Verification</span>
+                      <span id="mcqAutoBadge" class="font-mono text-[10px] text-zinc-400">Auto-Grading Active</span>
+                    </div>
+                    <p id="mcqAutoQ" class="text-xs font-medium text-zinc-800 dark:text-zinc-200">
+                      Which safeguard prevents hallucinated responses outside uploaded PDF notes?
+                    </p>
+                    <div id="mcqAutoOpts" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <button type="button" data-mcq-opt="0" class="mcq-opt-btn text-left px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-700 dark:text-zinc-300 transition-all duration-300">
+                        A. Out-of-Scope Refusal Guardrail
+                      </button>
+                      <button type="button" data-mcq-opt="1" class="mcq-opt-btn text-left px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-700 dark:text-zinc-300 transition-all duration-300">
+                        B. Random Temperature Sampling
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right (5 cols): Live Optical PDF Page with Automated Laser Scan Beam -->
+                <div class="lg:col-span-5 relative rounded-2xl border border-zinc-200/90 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-950/80 p-4 flex flex-col justify-between overflow-hidden min-h-[220px]">
+                  <!-- Animated Laser Scanner Beam -->
+                  <div class="pdf-scanner-beam"></div>
+
+                  <div class="relative z-10 flex items-center justify-between border-b border-zinc-200/70 dark:border-zinc-800 pb-2.5 mb-3">
+                    <span class="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Optical PDF Inspector</span>
+                    <span id="pdfActivePage" class="font-mono text-[10px] font-semibold text-crimson dark:text-crimson-darkAccent">PAGE 04 / 14</span>
+                  </div>
+
+                  <div class="relative z-10 space-y-2.5 font-serif text-[11.5px] leading-relaxed text-zinc-500 dark:text-zinc-400 flex-1">
+                    <div id="scan-block-rag" class="p-2.5 rounded-xl transition-all duration-500 bg-crimson-soft/80 dark:bg-rose-500/15 text-zinc-900 dark:text-zinc-100 ring-1 ring-crimson/40">
+                      <span class="font-mono text-[9px] uppercase text-crimson dark:text-crimson-darkAccent block mb-0.5">§ 2.1 · Chars 412–589</span>
+                      “Retrieval-Augmented Generation (RAG) binds LLM synthesis to verbatim retrieved excerpts prior to response generation.”
+                    </div>
+                    <div id="scan-block-astar" class="p-2.5 rounded-xl transition-all duration-500 opacity-65">
+                      <span class="font-mono text-[9px] uppercase text-zinc-400 block mb-0.5">§ 3.1 · Theorem 9.2</span>
+                      “A* guarantees optimal shortest-path discovery whenever h(n) is admissible and consistent across graph edges.”
+                    </div>
+                    <div id="scan-block-refusal" class="p-2.5 rounded-xl transition-all duration-500 opacity-50 border border-dashed border-transparent">
+                      <span class="font-mono text-[9px] uppercase text-zinc-400 block mb-0.5">§ Guardrail Policy</span>
+                      “Zero matching spans detected → Refusal triggered automatically to maintain 0.0% hallucination rate.”
+                    </div>
+                  </div>
+
+                  <div class="relative z-10 pt-2.5 mt-2 border-t border-zinc-200/70 dark:border-zinc-800 flex items-center justify-between font-mono text-[10px] text-zinc-400">
+                    <span>FAITHFULNESS</span>
+                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold">99.6% VERIFIED</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Architectural Blueprint (Revealed on 3D Flip) -->
+            <div class="flashcard-face flashcard-face-back bg-zinc-950 text-zinc-100 border border-zinc-800 p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+              <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                <div>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-crimson-darkAccent">Architecture Blueprint · Track 01</span>
+                  <h3 class="font-serif text-2xl font-normal mt-1">Document Studio Pipeline</h3>
+                </div>
                 <div class="flex items-center gap-2">
-                  <i data-lucide="target" class="w-4 h-4 text-crimson"></i>
-                  <span class="font-mono text-[11px] text-crimson font-bold">Gap Radar: 1 Near Match</span>
+                  <button type="button" data-flip-card="0" class="flip-trigger font-mono text-[11px] px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-crimson-darkAccent text-zinc-200 transition-colors">
+                    ← Back to Live Demo
+                  </button>
+                  <a href="/documents" class="font-mono text-[11px] font-semibold px-3.5 py-1.5 rounded-lg bg-crimson hover:bg-crimson/90 text-white transition-all flex items-center gap-1.5">
+                    <span>Open Studio</span>
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
                 </div>
-                <span id="preview-radar-msg" class="font-mono text-[10px] text-main font-medium">Chancellor Merit:
-                  Missing 0.10 CGPA</span>
               </div>
 
+              <!-- Animated SVG Data Pipeline Diagram -->
+              <div class="my-4 p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800">
+                <svg class="w-full h-28" viewBox="0 0 680 110" fill="none">
+                  <line x1="130" y1="55" x2="255" y2="55" stroke="#FB7185" stroke-width="2" class="pipeline-flow" />
+                  <line x1="415" y1="55" x2="540" y2="55" stroke="#34D399" stroke-width="2" class="pipeline-flow" />
+
+                  <rect x="10" y="25" width="120" height="60" rx="12" fill="#18181B" stroke="#3F3F46" />
+                  <text x="70" y="51" text-anchor="middle" fill="#FAFAFA" font-size="11" font-family="JetBrains Mono">PDF Parser</text>
+                  <text x="70" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Char Offsets</text>
+
+                  <rect x="255" y="25" width="160" height="60" rx="12" fill="#18181B" stroke="#FB7185" />
+                  <text x="335" y="51" text-anchor="middle" fill="#FB7185" font-size="11" font-family="JetBrains Mono">Citation Guard</text>
+                  <text x="335" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Refusal Threshold</text>
+
+                  <rect x="540" y="25" width="130" height="60" rx="12" fill="#18181B" stroke="#34D399" />
+                  <text x="605" y="51" text-anchor="middle" fill="#34D399" font-size="11" font-family="JetBrains Mono">MCQ + CSV</text>
+                  <text x="605" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Proof Verified</text>
+                </svg>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">INDEXING</span>
+                  Exact page, paragraph &amp; character coordinate locking.
+                </div>
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">SAFEGUARD</span>
+                  Zero-hallucination refusal for out-of-syllabus prompts.
+                </div>
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">ASSESSMENT</span>
+                  Adaptive 5–15 question MCQ generator with CSV export.
+                </div>
+              </div>
             </div>
           </div>
+        </article>
 
+<article
+          id="card-1"
+          data-card-index="1"
+          data-pos="next"
+          class="flashcard-shell"
+        >
+          <div class="flashcard-inner">
+
+            <!-- FRONT FACE: Auto-Choreographed Dialogue + Animated Ring -->
+            <div class="flashcard-face flashcard-face-front card-sheen bg-surface-light dark:bg-surface-dark border border-zinc-200/90 dark:border-zinc-800/90 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.16)] dark:shadow-[0_28px_80px_-20px_rgba(0,0,0,0.8)] flex flex-col">
+
+              <!-- Card Header Chrome -->
+              <div class="px-5 sm:px-6 py-4 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/75 dark:bg-zinc-900/60 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="font-display font-extrabold text-xl sm:text-2xl text-crimson dark:text-crimson-darkAccent leading-none">02</span>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <h2 class="font-serif text-lg sm:text-xl font-medium text-zinc-900 dark:text-zinc-50 truncate">Admissions Desk</h2>
+                      <span class="hidden sm:inline-flex font-mono text-[10px] px-2 py-0.5 rounded-full bg-crimson/10 dark:bg-rose-500/15 text-crimson dark:text-crimson-darkAccent">Stateful Memory</span>
+                    </div>
+                    <p class="font-mono text-[10px] text-zinc-400 truncate">Official Fee Schedules · Multi-Turn Context Concierge</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  <a
+                    href="/admissions"
+                    class="font-mono text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-crimson hover:bg-crimson/90 text-white transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                    <span>Try Now</span>
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
+                  <button
+                    type="button"
+                    data-flip-card="1"
+                    class="flip-trigger font-mono text-[10px] px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:border-crimson dark:hover:border-crimson-darkAccent hover:text-crimson dark:hover:text-crimson-darkAccent transition-colors flex items-center gap-1.5"
+                  >
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 1l4 4-4 4" /><path d="M3 11V9a4 4 0 0 1 4-4h14" /><path d="M7 23l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                    </svg>
+                    <span class="hidden sm:inline">Flip Blueprint</span>
+                  </button>
+                  <button
+                    type="button"
+                    data-next-card
+                    aria-label="Next Flashcard"
+                    class="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  >
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" /></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card Body -->
+              <div class="flex-1 p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 overflow-y-auto thin-scroll">
+
+                <!-- Left (7 cols): Auto-Morphing Multi-Turn Dialogue & Rolling Fee Counter -->
+                <div class="lg:col-span-7 flex flex-col justify-between gap-3.5">
+                  <!-- Animated Context Memory Telemetry Header -->
+                  <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/75 border border-zinc-200/80 dark:border-zinc-800">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-crimson dark:bg-crimson-darkAccent animate-pulse"></span>
+                      <span class="font-mono text-[10px] uppercase tracking-wider text-zinc-400">Active Context:</span>
+                      <span id="admMemoryChip" class="font-mono text-[11px] font-semibold px-2 py-0.5 rounded bg-crimson/10 dark:bg-rose-500/15 text-crimson dark:text-crimson-darkAccent transition-all">
+                        B.Sc. in CSE
+                      </span>
+                    </div>
+                    <div class="font-mono text-xs font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+                      <span id="admRollingFee">BDT 6,85,000</span>
+                    </div>
+                  </div>
+
+                  <!-- Live Animated Dialogue Feed -->
+                  <div id="admKineticFeed" class="space-y-2.5 min-h-[195px] max-h-[215px] overflow-y-auto thin-scroll pr-1"></div>
+
+                  <!-- Quick Interactive Follow-Up Trigger Bar -->
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                    <span class="font-mono text-[10px] text-zinc-400 mr-1">Test Follow-Up:</span>
+                    <button type="button" data-adm-quick="CSE" class="adm-quick-btn font-mono text-[10px] px-2.5 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-crimson dark:hover:border-crimson-darkAccent text-zinc-700 dark:text-zinc-300 transition-colors">CSE Tuition</button>
+                    <button type="button" data-adm-quick="BBA" class="adm-quick-btn font-mono text-[10px] px-2.5 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-crimson dark:hover:border-crimson-darkAccent text-zinc-700 dark:text-zinc-300 transition-colors">“And for BBA?”</button>
+                    <button type="button" data-adm-quick="EEE" class="adm-quick-btn font-mono text-[10px] px-2.5 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-crimson dark:hover:border-crimson-darkAccent text-zinc-700 dark:text-zinc-300 transition-colors">“And for EEE?”</button>
+                    <button type="button" data-adm-quick="LAB" class="adm-quick-btn font-mono text-[10px] px-2.5 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-crimson dark:hover:border-crimson-darkAccent text-zinc-700 dark:text-zinc-300 transition-colors">“Lab Fees?”</button>
+                  </div>
+                </div>
+
+                <!-- Right (5 cols): Auto-Progressing 6-Step Orbital Milestone Ring -->
+                <div class="lg:col-span-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/50 p-4 flex flex-col justify-between gap-3">
+                  <div class="flex items-center justify-between pb-3 border-b border-zinc-200/70 dark:border-zinc-800">
+                    <div>
+                      <span class="font-mono text-[10px] uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">Live Sync</span>
+                      <h3 class="font-serif text-base font-medium text-zinc-900 dark:text-zinc-100">6-Step Enrollment</h3>
+                    </div>
+
+                    <div class="relative w-14 h-14 flex items-center justify-center">
+                      <svg class="w-14 h-14" viewBox="0 0 56 56">
+                        <circle cx="28" cy="28" r="22" fill="none" stroke="currentColor" stroke-width="3.5" class="text-zinc-200 dark:text-zinc-800" />
+                        <circle
+                          id="admOrbitalCircle"
+                          cx="28"
+                          cy="28"
+                          r="22"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="3.5"
+                          stroke-linecap="round"
+                          stroke-dasharray="138.23"
+                          stroke-dashoffset="92.15"
+                          class="progress-ring-circle text-crimson dark:text-crimson-darkAccent"
+                        />
+                      </svg>
+                      <span id="admOrbitalPct" class="absolute font-mono text-xs font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">33%</span>
+                    </div>
+                  </div>
+
+                  <ul id="admOrbitalList" class="space-y-1.5"></ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Architectural Blueprint -->
+            <div class="flashcard-face flashcard-face-back bg-zinc-950 text-zinc-100 border border-zinc-800 p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+              <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                <div>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-crimson-darkAccent">Architecture Blueprint · Track 02</span>
+                  <h3 class="font-serif text-2xl font-normal mt-1">Admissions Concierge Engine</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button type="button" data-flip-card="1" class="flip-trigger font-mono text-[11px] px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-crimson-darkAccent text-zinc-200 transition-colors">
+                    ← Back to Live Demo
+                  </button>
+                  <a href="/admissions" class="font-mono text-[11px] font-semibold px-3.5 py-1.5 rounded-lg bg-crimson hover:bg-crimson/90 text-white transition-all flex items-center gap-1.5">
+                    <span>Open Desk</span>
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="my-4 p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800">
+                <svg class="w-full h-28" viewBox="0 0 680 110" fill="none">
+                  <line x1="145" y1="55" x2="260" y2="55" stroke="#FB7185" stroke-width="2" class="pipeline-flow" />
+                  <line x1="420" y1="55" x2="535" y2="55" stroke="#34D399" stroke-width="2" class="pipeline-flow" />
+
+                  <rect x="10" y="25" width="135" height="60" rx="12" fill="#18181B" stroke="#3F3F46" />
+                  <text x="77" y="51" text-anchor="middle" fill="#FAFAFA" font-size="11" font-family="JetBrains Mono">Context Memory</text>
+                  <text x="77" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Coreference Slot</text>
+
+                  <rect x="260" y="25" width="160" height="60" rx="12" fill="#18181B" stroke="#FB7185" />
+                  <text x="340" y="51" text-anchor="middle" fill="#FB7185" font-size="11" font-family="JetBrains Mono">Official Ledger</text>
+                  <text x="340" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Deterministic Fees</text>
+
+                  <rect x="535" y="25" width="135" height="60" rx="12" fill="#18181B" stroke="#34D399" />
+                  <text x="602" y="51" text-anchor="middle" fill="#34D399" font-size="11" font-family="JetBrains Mono">Milestone Sync</text>
+                  <text x="602" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">6-Step Checklist</text>
+                </svg>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">MULTI-TURN</span>
+                  Resolves elliptical follow-ups like “And for BBA?” effortlessly.
+                </div>
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">CLARIFICATION</span>
+                  Detects ambiguous prompts and asks targeted follow-up questions.
+                </div>
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">PRECISION</span>
+                  Direct binding to verified credit loads and semester fee tables.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+<article
+          id="card-2"
+          data-card-index="2"
+          data-pos="back"
+          class="flashcard-shell"
+        >
+          <div class="flashcard-inner">
+
+            <!-- FRONT FACE: Auto-Sweeping CGPA Simulator & Radar Sonar -->
+            <div class="flashcard-face flashcard-face-front card-sheen bg-surface-light dark:bg-surface-dark border border-zinc-200/90 dark:border-zinc-800/90 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.16)] dark:shadow-[0_28px_80px_-20px_rgba(0,0,0,0.8)] flex flex-col">
+
+              <!-- Card Header Chrome -->
+              <div class="px-5 sm:px-6 py-4 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/75 dark:bg-zinc-900/60 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="font-display font-extrabold text-xl sm:text-2xl text-crimson dark:text-crimson-darkAccent leading-none">03</span>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <h2 class="font-serif text-lg sm:text-xl font-medium text-zinc-900 dark:text-zinc-50 truncate">Scholarship Atlas</h2>
+                      <span class="hidden sm:inline-flex font-mono text-[10px] px-2 py-0.5 rounded-full bg-crimson/10 dark:bg-rose-500/15 text-crimson dark:text-crimson-darkAccent">Gap Radar</span>
+                    </div>
+                    <p class="font-mono text-[10px] text-zinc-400 truncate">Deterministic Grant Matching · Almost-Eligible Delta Engine</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  <a
+                    href="/scholarships"
+                    class="font-mono text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-crimson hover:bg-crimson/90 text-white transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                    <span>Try Now</span>
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
+                  <button
+                    type="button"
+                    data-flip-card="2"
+                    class="flip-trigger font-mono text-[10px] px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:border-crimson dark:hover:border-crimson-darkAccent hover:text-crimson dark:hover:text-crimson-darkAccent transition-colors flex items-center gap-1.5"
+                  >
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 1l4 4-4 4" /><path d="M3 11V9a4 4 0 0 1 4-4h14" /><path d="M7 23l-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                    </svg>
+                    <span class="hidden sm:inline">Flip Blueprint</span>
+                  </button>
+                  <button
+                    type="button"
+                    data-next-card
+                    aria-label="Next Flashcard"
+                    class="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  >
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" /></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card Body -->
+              <div class="flex-1 p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 overflow-y-auto thin-scroll">
+
+                <!-- Left (8 cols): Live Auto-Sweeping CGPA Controls + Grant Cards -->
+                <div class="lg:col-span-8 flex flex-col justify-between gap-4">
+                  <div class="rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/60 p-4 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <div class="flex items-baseline gap-2.5">
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Live CGPA Sweep</span>
+                        <span id="atlasCgpaValue" class="font-display font-bold text-3xl tabular-nums text-crimson dark:text-crimson-darkAccent leading-none">3.74</span>
+                      </div>
+
+                      <div class="flex items-center gap-2">
+                        <span id="atlasMatchBadge" class="font-mono text-[10px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                          2 MATCHED
+                        </span>
+                        <select
+                          id="atlasDeptSelect"
+                          aria-label="Select Department"
+                          class="font-mono text-[11px] rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-2 py-1 text-zinc-700 dark:text-zinc-200 focus:outline-none focus:border-crimson"
+                        >
+                          <option value="CSE">B.Sc. CSE</option>
+                          <option value="EEE">B.Sc. EEE</option>
+                          <option value="BBA">BBA</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <input
+                      id="atlasCgpaSlider"
+                      type="range"
+                      min="2.80"
+                      max="4.00"
+                      step="0.01"
+                      value="3.74"
+                      class="studio-slider w-full bg-zinc-200 dark:bg-zinc-800"
+                    />
+                    <div class="flex justify-between font-mono text-[10px] text-zinc-400">
+                      <span>2.80</span>
+                      <span>3.50 Need</span>
+                      <span>3.60 STEM</span>
+                      <span>3.80 Full Medal</span>
+                      <span>4.00</span>
+                    </div>
+                  </div>
+
+                  <!-- Live Matched & Near-Miss Cards -->
+                  <div id="atlasGrantsList" class="space-y-2.5"></div>
+                </div>
+
+                <!-- Right (4 cols): Animated Gap-Radar Sonar Telemetry -->
+                <div class="lg:col-span-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-950 text-zinc-100 p-4 flex flex-col items-center justify-between gap-3 relative overflow-hidden">
+                  <div class="w-full flex items-center justify-between">
+                    <span class="font-mono text-[10px] uppercase tracking-wider text-zinc-400">Gap Sonar</span>
+                    <span id="radarStatusTag" class="font-mono text-[10px] text-crimson-darkAccent">SCANNING</span>
+                  </div>
+
+                  <!-- Animated Concentric SVG Radar -->
+                  <div class="relative w-36 h-36 flex items-center justify-center">
+                    <svg class="w-36 h-36" viewBox="0 0 160 160" fill="none">
+                      <circle cx="80" cy="80" r="68" stroke="#27272A" stroke-width="1" />
+                      <circle cx="80" cy="80" r="46" stroke="#27272A" stroke-width="1" stroke-dasharray="3 3" />
+                      <circle cx="80" cy="80" r="24" stroke="#3F3F46" stroke-width="1" />
+                      <line x1="80" y1="10" x2="80" y2="150" stroke="#27272A" stroke-width="1" />
+                      <line x1="10" y1="80" x2="150" y2="80" stroke="#27272A" stroke-width="1" />
+
+                      <!-- Sweeping Radar Cone -->
+                      <g class="radar-sweep">
+                        <path d="M80 80 L80 12 A68 68 0 0 1 138 45 Z" fill="url(#radarGrad)" />
+                        <line x1="80" y1="80" x2="80" y2="12" stroke="#FB7185" stroke-width="1.5" />
+                      </g>
+
+                      <!-- Dynamic Blip Marker -->
+                      <circle id="radarBlipPing" cx="106" cy="48" r="6" stroke="#FB7185" stroke-width="1.5" class="radar-ping-ring" />
+                      <circle id="radarBlipDot" cx="106" cy="48" r="3.5" fill="#FB7185" />
+
+                      <defs>
+                        <linearGradient id="radarGrad" x1="80" y1="12" x2="138" y2="55" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stop-color="#FB7185" stop-opacity="0.38" />
+                          <stop offset="100%" stop-color="#FB7185" stop-opacity="0" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+
+                  <div class="w-full text-center space-y-1">
+                    <div id="radarHeadline" class="font-mono text-xs font-semibold text-crimson-darkAccent">Missing 0.06 CGPA</div>
+                    <p id="radarCaption" class="text-[11px] text-zinc-400 leading-snug">
+                      Target: Chancellor’s 100% Distinction Medal
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK FACE: Architectural Blueprint -->
+            <div class="flashcard-face flashcard-face-back bg-zinc-950 text-zinc-100 border border-zinc-800 p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+              <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                <div>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-crimson-darkAccent">Architecture Blueprint · Track 03</span>
+                  <h3 class="font-serif text-2xl font-normal mt-1">Deterministic Scholarship Atlas</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button type="button" data-flip-card="2" class="flip-trigger font-mono text-[11px] px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-crimson-darkAccent text-zinc-200 transition-colors">
+                    ← Back to Live Demo
+                  </button>
+                  <a href="/scholarships" class="font-mono text-[11px] font-semibold px-3.5 py-1.5 rounded-lg bg-crimson hover:bg-crimson/90 text-white transition-all flex items-center gap-1.5">
+                    <span>Open Atlas</span>
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="my-4 p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800">
+                <svg class="w-full h-28" viewBox="0 0 680 110" fill="none">
+                  <line x1="145" y1="55" x2="260" y2="55" stroke="#FB7185" stroke-width="2" class="pipeline-flow" />
+                  <line x1="420" y1="55" x2="535" y2="55" stroke="#34D399" stroke-width="2" class="pipeline-flow" />
+
+                  <rect x="10" y="25" width="135" height="60" rx="12" fill="#18181B" stroke="#3F3F46" />
+                  <text x="77" y="51" text-anchor="middle" fill="#FAFAFA" font-size="11" font-family="JetBrains Mono">CSV Rule Ingest</text>
+                  <text x="77" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">CGPA + Need</text>
+
+                  <rect x="260" y="25" width="160" height="60" rx="12" fill="#18181B" stroke="#FB7185" />
+                  <text x="340" y="51" text-anchor="middle" fill="#FB7185" font-size="11" font-family="JetBrains Mono">Gap Delta Engine</text>
+                  <text x="340" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Near-Miss Radar</text>
+
+                  <rect x="535" y="25" width="135" height="60" rx="12" fill="#18181B" stroke="#34D399" />
+                  <text x="602" y="51" text-anchor="middle" fill="#34D399" font-size="11" font-family="JetBrains Mono">Fit Rationale</text>
+                  <text x="602" y="68" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Instant Export</text>
+                </svg>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">DETERMINISTIC</span>
+                  Direct evaluation against institutional CSV eligibility matrices.
+                </div>
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">GAP RADAR</span>
+                  Pinpoints exact CGPA deficits so applicants know their next milestone.
+                </div>
+                <div class="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800">
+                  <span class="text-crimson-darkAccent block text-[10px] mb-1">RATIONALE</span>
+                  Synthesizes personalized plain-language fit explanations per grant.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        </div>
+      </section>
+
+      <!-- Continuous Kinetic Editorial Telemetry Marquee -->
+      <div class="relative z-10 border-y border-zinc-200/80 dark:border-zinc-800/80 bg-surface-light/60 dark:bg-surface-dark/60 backdrop-blur-xs py-3 overflow-hidden rounded-xl">
+        <div class="marquee-track font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+          <div class="flex items-center gap-8 pr-8">
+            <span>01 · Character-Exact PDF Citations</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>Zero-Hallucination Refusal Guardrail</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>02 · Multi-Turn Context Memory</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>6-Step Live Enrollment Ring</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>03 · Almost-Eligible Gap Radar</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>Deterministic Institutional Grounding</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+          </div>
+          <div class="flex items-center gap-8 pr-8" aria-hidden="true">
+            <span>01 · Character-Exact PDF Citations</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>Zero-Hallucination Refusal Guardrail</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>02 · Multi-Turn Context Memory</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>6-Step Live Enrollment Ring</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>03 · Almost-Eligible Gap Radar</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+            <span>Deterministic Institutional Grounding</span>
+            <span class="text-crimson dark:text-crimson-darkAccent">✦</span>
+          </div>
         </div>
       </div>
 
@@ -1195,51 +1507,813 @@
     }
   }
 
-  // Interactive Mini-Quiz Selector on Homepage Preview
-  function setPreviewQuizDifficulty(count, diff, btn) {
-    document.querySelectorAll('.preview-quiz-btn').forEach(b => {
-      b.className = 'preview-quiz-btn px-3 py-2 rounded-lg border border-hairline surface-subtle text-center font-mono text-[11px] text-muted font-medium transition-all cursor-pointer';
-    });
-    btn.className = 'preview-quiz-btn px-3 py-2 rounded-lg border border-crimson/30 bg-crimson-soft text-center font-mono text-[11px] text-crimson font-bold transition-all cursor-pointer';
-  }
+  
+  // =========================================================================
+  // KINETIC 3D STUDIO FLASHCARDS DECK CONTROLLER & CHOREOGRAPHY
+  // =========================================================================
+  function initKineticStudioDeck() {
+    const deckViewport = document.getElementById('flashcardDeck');
+    if (!deckViewport) return;
 
-  // Interactive CGPA Slider Demo on Homepage Preview
-  function togglePreviewCgpa(cgpa) {
-    const valEl = document.getElementById('preview-cgpa-val');
-    const badgeEl = document.getElementById('preview-match-badge');
-    const titleEl = document.getElementById('preview-match-title');
-    const rewardEl = document.getElementById('preview-match-val');
-    const rationaleEl = document.getElementById('preview-match-rationale');
-    const radarEl = document.getElementById('preview-radar-msg');
+(function () {
+      // -------------------------------------------------------------------
+      // Helpers: Non-blocking async sleep & toast feedback
+      // -------------------------------------------------------------------
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    if (valEl) valEl.textContent = cgpa.toFixed(2);
-    if (cgpa >= 3.85) {
-      if (badgeEl) badgeEl.textContent = '7 MATCHED (100% WAIVER)';
-      if (titleEl) titleEl.textContent = 'Chancellor Presidential Merit Grant';
-      if (rewardEl) rewardEl.textContent = '100% Tuition Waiver';
-      if (rationaleEl) rationaleEl.innerHTML = '<strong class="text-crimson">Why you fit:</strong> Your exceptional CGPA of ' + cgpa.toFixed(2) + ' qualifies for the highest institutional academic distinction.';
-      if (radarEl) radarEl.textContent = 'Eligible for all top-tier institutional fellowships!';
-    } else if (cgpa >= 3.50) {
-      if (badgeEl) badgeEl.textContent = '5 MATCHED';
-      if (titleEl) titleEl.textContent = 'Bangladesh STEM Innovators Fellowship';
-      if (rewardEl) rewardEl.textContent = 'BDT 95,000';
-      if (rationaleEl) rationaleEl.innerHTML = '<strong class="text-crimson">Why you fit:</strong> Your CGPA of ' + cgpa.toFixed(2) + ' exceeds the required 3.60 minimum, and your department (CSE) directly matches eligible engineering programs.';
-      const delta = (3.85 - cgpa).toFixed(2);
-      if (radarEl) radarEl.textContent = 'Chancellor Merit: Missing ' + delta + ' CGPA (Required: 3.85)';
-    } else {
-      if (badgeEl) badgeEl.textContent = '3 MATCHED';
-      if (titleEl) titleEl.textContent = 'Dean General Academic Bursary';
-      if (rewardEl) rewardEl.textContent = 'BDT 45,000';
-      if (rationaleEl) rationaleEl.innerHTML = '<strong class="text-crimson">Why you fit:</strong> Your academic record qualifies for standard departmental tuition support.';
-      const delta = (3.60 - cgpa).toFixed(2);
-      if (radarEl) radarEl.textContent = 'STEM Fellowship: Missing ' + delta + ' CGPA (Required: 3.60)';
-    }
+      let toastTimer = null;
+      const toastBox = document.getElementById('toastBox');
+      const toastText = document.getElementById('toastText');
+      function showToast(msg) {
+        toastText.textContent = msg;
+        toastBox.classList.remove('opacity-0', 'translate-y-2');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastBox.classList.add('opacity-0', 'translate-y-2'), 2400);
+      }
+
+      // -------------------------------------------------------------------
+      // Theme Toggle & Bilingual Toggle
+      // -------------------------------------------------------------------
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          if (typeof toggleTheme === 'function') toggleTheme();
+          else document.documentElement.classList.toggle('dark');
+        });
+      }
+
+      let currentLang = 'en';
+      const langLabel = document.getElementById('langLabel');
+      const i18n = {
+        en: {
+          archEyebrow: 'Modular Intelligence Deck · 03 Live Studios',
+          archTitle: 'Three Dedicated Studios.',
+          archSubtitle: 'Choreographed in Motion.',
+          archDesc:
+            'Watch each flashcard self-demonstrate its live retrieval, conversational memory, and deterministic scholarship engine—or flip any card to inspect its architecture.',
+          tryNow: 'Try Now',
+          t1Title: 'Document Studio',
+          t2Title: 'Admissions Desk',
+          t3Title: 'Scholarship Atlas',
+        },
+        bn: {
+          archEyebrow: 'মডুলার ইন্টেলিজেন্স ডেক · ৩টি লাইভ স্টুডিও',
+          archTitle: 'তিনটি ডেডিকেটেড স্টুডিও।',
+          archSubtitle: 'ডাইনামিক ফ্ল্যাশকার্ড অভিজ্ঞতা।',
+          archDesc:
+            'প্রতিটি স্টুডিওর লাইভ অ্যানিমেটেড ডেমো দেখুন—পিডিএফ স্ক্যানার, মাল্টি-টার্ন মেমোরি ও স্কলারশিপ গ্যাপ রাডার। আর্কিটেকচার দেখতে যেকোনো কার্ড ফ্লিপ করুন।',
+          tryNow: 'শুরু করুন',
+          t1Title: 'ডকুমেন্ট স্টুডিও',
+          t2Title: 'অ্যাডমিশন ডেস্ক',
+          t3Title: 'স্কলারশিপ অ্যাটলাস',
+        },
+      };
+
+      const langToggleBtn = document.getElementById('langToggleBtn');
+      if (langToggleBtn) {
+        langToggleBtn.addEventListener('click', () => {
+          if (typeof toggleLanguage === 'function') toggleLanguage();
+        });
+      }
+
+      // -------------------------------------------------------------------
+      // 3D Flashcard Deck State, Auto-Cycle Timeline & Dealing Physics
+      // -------------------------------------------------------------------
+      const cards = [
+        document.getElementById('card-0'),
+        document.getElementById('card-1'),
+        document.getElementById('card-2'),
+      ];
+      const timelineTabs = document.querySelectorAll('.timeline-tab');
+      const timelineBars = [
+        document.getElementById('timeline-bar-0'),
+        document.getElementById('timeline-bar-1'),
+        document.getElementById('timeline-bar-2'),
+      ];
+      const ambientAura = document.getElementById('ambientAura');
+      const deckPositionLabel = document.getElementById('deckPositionLabel');
+      const autoPlayToggle = document.getElementById('autoPlayToggle');
+      const autoPlayDot = document.getElementById('autoPlayDot');
+      const autoPlayText = document.getElementById('autoPlayText');
+
+      const studioAuras = [
+        'radial-gradient(circle, #9F1239 0%, transparent 70%)',
+        'radial-gradient(circle, #BE123C 0%, #312E81 45%, transparent 72%)',
+        'radial-gradient(circle, #059669 0%, #9F1239 50%, transparent 72%)',
+      ];
+
+      let activeIndex = 0;
+      let isAutoPlaying = true;
+      let isDealing = false;
+      let choreographyGen = 0; // Cancels stale async animations cleanly
+      let cycleElapsed = 0;
+      const CYCLE_DURATION = 9500; // 9.5 seconds per studio choreography
+      let lastTick = performance.now();
+
+      function updateAutoPlayUI() {
+        autoPlayText.textContent = isAutoPlaying ? 'Auto-Play: ON' : 'Auto-Play: PAUSED';
+        autoPlayDot.className = isAutoPlaying
+          ? 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse'
+          : 'w-2 h-2 rounded-full bg-zinc-400';
+      }
+
+      function pauseAutoPlay(reasonToast) {
+        if (isAutoPlaying) {
+          isAutoPlaying = false;
+          updateAutoPlayUI();
+          if (reasonToast) showToast(reasonToast);
+        }
+      }
+
+      autoPlayToggle.addEventListener('click', () => {
+        isAutoPlaying = !isAutoPlaying;
+        lastTick = performance.now();
+        updateAutoPlayUI();
+        if (isAutoPlaying) {
+          // Ensure current card isn't flipped when resuming auto-showcase
+          cards.forEach((c) => c.classList.remove('is-flipped'));
+          runActiveCardChoreography(activeIndex);
+        }
+      });
+
+      function applyDeckPositions(targetIndex, animateDeal) {
+        if (isDealing) return;
+        const previousIndex = activeIndex;
+
+        if (animateDeal && previousIndex !== targetIndex) {
+          isDealing = true;
+          const outgoingCard = cards[previousIndex];
+          outgoingCard.classList.remove('is-flipped');
+          outgoingCard.setAttribute('data-pos', 'dealing');
+
+          activeIndex = targetIndex;
+          // Move new front & next immediately into place
+          cards.forEach((card, idx) => {
+            if (idx === previousIndex) return;
+            const rel = (idx - activeIndex + 3) % 3;
+            card.setAttribute('data-pos', rel === 0 ? 'front' : rel === 1 ? 'next' : 'back');
+          });
+
+          // Tuck outgoing card cleanly to the back of the stack after deal arc
+          setTimeout(() => {
+            const rel = (previousIndex - activeIndex + 3) % 3;
+            outgoingCard.setAttribute('data-pos', rel === 1 ? 'next' : 'back');
+            isDealing = false;
+          }, 420);
+        } else {
+          activeIndex = targetIndex;
+          cards.forEach((card, idx) => {
+            card.classList.remove('is-flipped');
+            const rel = (idx - activeIndex + 3) % 3;
+            card.setAttribute('data-pos', rel === 0 ? 'front' : rel === 1 ? 'next' : 'back');
+          });
+        }
+
+        // Reset timeline bars & update visual indicators
+        cycleElapsed = 0;
+        timelineBars.forEach((bar, i) => {
+          bar.style.width = i < activeIndex ? '100%' : '0%';
+        });
+        timelineTabs.forEach((tab, i) => {
+          const isCurrent = i === activeIndex;
+          const numEl = tab.querySelector('.font-display');
+          if (isCurrent) {
+            tab.classList.add('border-crimson/50', 'dark:border-rose-500/40', 'bg-surface-light', 'dark:bg-surface-dark');
+            numEl.classList.add('text-crimson', 'dark:text-crimson-darkAccent');
+            numEl.classList.remove('text-zinc-400', 'dark:text-zinc-500');
+          } else {
+            tab.classList.remove('border-crimson/50', 'dark:border-rose-500/40', 'bg-surface-light', 'dark:bg-surface-dark');
+            numEl.classList.remove('text-crimson', 'dark:text-crimson-darkAccent');
+            numEl.classList.add('text-zinc-400', 'dark:text-zinc-500');
+          }
+        });
+
+        if (ambientAura) ambientAura.style.background = studioAuras[activeIndex];
+        deckPositionLabel.textContent = `CARD 0${activeIndex + 1} / 03`;
+
+        // Launch the automated internal animation sequence for the new front card
+        runActiveCardChoreography(activeIndex);
+      }
+
+      // Continuous RAF loop for smooth auto-advance timeline bar
+      function timelineLoop(now) {
+        const dt = now - lastTick;
+        lastTick = now;
+
+        if (isAutoPlaying && !isDealing && !cards[activeIndex].classList.contains('is-flipped')) {
+          cycleElapsed += dt;
+          const pct = Math.min(100, (cycleElapsed / CYCLE_DURATION) * 100);
+          timelineBars[activeIndex].style.width = `${pct.toFixed(1)}%`;
+
+          if (cycleElapsed >= CYCLE_DURATION) {
+            applyDeckPositions((activeIndex + 1) % 3, true);
+          }
+        }
+        requestAnimationFrame(timelineLoop);
+      }
+
+      // Subtle 3D Mouse Tilt + Specular Sheen on Front Flashcard
+      const flashcardDeck = document.getElementById('flashcardDeck');
+      flashcardDeck.addEventListener('mousemove', (e) => {
+        const front = cards[activeIndex];
+        if (!front || front.classList.contains('is-flipped')) return;
+        const rect = front.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const normX = (x / rect.width - 0.5) * 2; // -1 to 1
+        const normY = (y / rect.height - 0.5) * 2;
+        front.style.setProperty('--tilt-y', `${(normX * 3.2).toFixed(2)}deg`);
+        front.style.setProperty('--tilt-x', `${(-normY * 2.4).toFixed(2)}deg`);
+        front.style.setProperty('--mx', `${x}px`);
+        front.style.setProperty('--my', `${y}px`);
+      });
+
+      flashcardDeck.addEventListener('mouseleave', () => {
+        cards.forEach((c) => {
+          c.style.setProperty('--tilt-y', '0deg');
+          c.style.setProperty('--tilt-x', '0deg');
+        });
+      });
+
+      // Clicking a peeking card deals it straight to the front
+      cards.forEach((card, idx) => {
+        card.addEventListener('click', (e) => {
+          if (card.getAttribute('data-pos') !== 'front') {
+            e.stopPropagation();
+            applyDeckPositions(idx, true);
+          }
+        });
+      });
+
+      // Timeline tab selection
+      timelineTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const idx = Number(tab.getAttribute('data-select-card'));
+          applyDeckPositions(idx, true);
+        });
+      });
+
+      // Next card triggers inside card headers
+      document.querySelectorAll('[data-next-card]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          applyDeckPositions((activeIndex + 1) % 3, true);
+        });
+      });
+
+      // 3D Flip triggers (Front <-> Architecture Blueprint)
+      document.querySelectorAll('[data-flip-card]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = Number(btn.getAttribute('data-flip-card'));
+          const flipped = cards[idx].classList.toggle('is-flipped');
+          if (flipped) {
+            cards[idx].style.setProperty('--tilt-y', '0deg');
+            cards[idx].style.setProperty('--tilt-x', '0deg');
+            showToast('Inspecting Architecture Blueprint — click back to resume');
+          }
+        });
+      });
+
+      // Touch Swipe Support for Mobile Flashcard Shuffling
+      let touchStartX = 0;
+      let touchStartY = 0;
+      flashcardDeck.addEventListener(
+        'touchstart',
+        (e) => {
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
+        },
+        { passive: true }
+      );
+      flashcardDeck.addEventListener(
+        'touchend',
+        (e) => {
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          const dy = e.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+            if (dx < 0) applyDeckPositions((activeIndex + 1) % 3, true);
+            else applyDeckPositions((activeIndex + 2) % 3, true);
+          }
+        },
+        { passive: true }
+      );
+
+      // Keyboard Controls (Arrows + Space to Flip)
+      document.addEventListener('keydown', (e) => {
+        if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+        if (e.key === 'ArrowRight') applyDeckPositions((activeIndex + 1) % 3, true);
+        if (e.key === 'ArrowLeft') applyDeckPositions((activeIndex + 2) % 3, true);
+        if (e.key === ' ') {
+          e.preventDefault();
+          cards[activeIndex].classList.toggle('is-flipped');
+        }
+      });
+
+      // Single Primary CTA Button ("Try Now"): Focuses active card interactively
+      const tryNowBtn = document.getElementById('tryNowBtn');
+      if (tryNowBtn) {
+        tryNowBtn.addEventListener('click', () => {
+          pauseAutoPlay('Interactive mode active — explore controls freely');
+          cards[activeIndex].classList.remove('is-flipped');
+          document.getElementById('deckSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (activeIndex === 2) {
+            const s = document.getElementById('atlasCgpaSlider');
+            if (s) s.focus();
+          }
+        });
+      }
+
+      // ===================================================================
+      // CARD 01 CHOREOGRAPHY: Typewriter + Optical Scan Lock + Auto MCQ
+      // ===================================================================
+      const docScenarios = {
+        rag: {
+          query: 'What is Retrieval-Augmented Generation (RAG)?',
+          status: 'Verified Vector Match · 38ms',
+          verdict: '✓ Character-Exact Grounded Answer',
+          verdictClass: 'text-emerald-600 dark:text-emerald-400',
+          offset: 'Page 4 · [412:589]',
+          page: 'PAGE 04 / 14',
+          blockId: 'scan-block-rag',
+          highlight: 'Retrieval-Augmented Generation (RAG) binds LLM synthesis to verbatim retrieved excerpts',
+          rest: ', eliminating unverified speculation outside uploaded lecture notes.',
+        },
+        astar: {
+          query: 'When does A* Search guarantee an optimal path?',
+          status: 'Theorem Match · 41ms',
+          verdict: '✓ Character-Exact Grounded Answer',
+          verdictClass: 'text-emerald-600 dark:text-emerald-400',
+          offset: 'Page 9 · Theorem 3.1',
+          page: 'PAGE 09 / 14',
+          blockId: 'scan-block-astar',
+          highlight: 'A* guarantees optimal shortest-path discovery whenever h(n) is admissible and consistent',
+          rest: ' across all graph transitions in the search space.',
+        },
+        refusal: {
+          query: 'Predict tomorrow’s Bitcoin closing price.',
+          status: '0 Source Spans · Guardrail Engaged',
+          verdict: '✕ Out-of-Scope Refusal Guardrail',
+          verdictClass: 'text-crimson dark:text-crimson-darkAccent',
+          offset: '0 Spans · Refused',
+          page: 'NO MATCH',
+          blockId: 'scan-block-refusal',
+          highlight: 'Refusal Triggered: No supporting passage exists in CS402_AI_Algorithms_Notes.pdf.',
+          rest: ' External speculation is blocked to preserve academic integrity.',
+        },
+      };
+
+      const docTypedQuery = document.getElementById('docTypedQuery');
+      const docStageStatus = document.getElementById('docStageStatus');
+      const docVerdictBadge = document.getElementById('docVerdictBadge');
+      const docOffsetBadge = document.getElementById('docOffsetBadge');
+      const docAnswerBody = document.getElementById('docAnswerBody');
+      const pdfActivePage = document.getElementById('pdfActivePage');
+      const mcqAutoBadge = document.getElementById('mcqAutoBadge');
+      const mcqOptBtns = document.querySelectorAll('.mcq-opt-btn');
+
+      function applyDocScenario(key) {
+        const sc = docScenarios[key];
+        docStageStatus.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${key === 'refusal' ? 'bg-crimson' : 'bg-emerald-500'}"></span><span>${sc.status}</span>`;
+        docVerdictBadge.textContent = sc.verdict;
+        docVerdictBadge.className = `font-mono text-[10px] font-semibold uppercase tracking-wider ${sc.verdictClass}`;
+        docOffsetBadge.textContent = sc.offset;
+        pdfActivePage.textContent = sc.page;
+        docAnswerBody.innerHTML = `<mark class="bg-crimson/12 dark:bg-rose-500/20 text-zinc-900 dark:text-zinc-50 px-1 rounded">${sc.highlight}</mark>${sc.rest}`;
+
+        ['scan-block-rag', 'scan-block-astar', 'scan-block-refusal'].forEach((id) => {
+          const el = document.getElementById(id);
+          el.classList.remove(
+            'bg-crimson-soft/80',
+            'dark:bg-rose-500/15',
+            'text-zinc-900',
+            'dark:text-zinc-100',
+            'ring-1',
+            'ring-crimson/40',
+            'citation-lock-pulse',
+            'opacity-65',
+            'opacity-50'
+          );
+          if (id === sc.blockId) {
+            el.classList.add(
+              'bg-crimson-soft/80',
+              'dark:bg-rose-500/15',
+              'text-zinc-900',
+              'dark:text-zinc-100',
+              'ring-1',
+              'ring-crimson/40',
+              'citation-lock-pulse'
+            );
+          } else {
+            el.classList.add('opacity-55');
+          }
+        });
+
+        document.querySelectorAll('.doc-pill').forEach((pill) => {
+          const active = pill.getAttribute('data-doc-manual') === key;
+          pill.className = active
+            ? 'doc-pill font-mono text-[10px] px-2 py-1 rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition-colors'
+            : 'doc-pill font-mono text-[10px] px-2 py-1 rounded-md bg-zinc-200/70 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 transition-colors';
+        });
+      }
+
+      async function typeText(el, fullText, gen, speedMs = 24) {
+        el.textContent = '';
+        for (let i = 1; i <= fullText.length; i++) {
+          if (gen !== choreographyGen) return false;
+          el.textContent = fullText.slice(0, i);
+          await sleep(speedMs);
+        }
+        return true;
+      }
+
+      async function runDocChoreography(gen) {
+        // Reset MCQ visual state
+        mcqOptBtns.forEach((b) => {
+          b.className = 'mcq-opt-btn text-left px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-700 dark:text-zinc-300 transition-all duration-300';
+        });
+        mcqAutoBadge.textContent = 'Auto-Grading Active';
+
+        const sequence = ['rag', 'astar', 'refusal'];
+        for (let s = 0; s < sequence.length; s++) {
+          const key = sequence[s];
+          docStageStatus.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-crimson animate-ping"></span><span>Retrieving PDF Spans...</span>`;
+          const ok = await typeText(docTypedQuery, docScenarios[key].query, gen, 22);
+          if (!ok) return;
+          applyDocScenario(key);
+
+          // Highlight correct MCQ answer during second beat
+          if (s === 1) {
+            mcqOptBtns[0].classList.add('border-emerald-500', 'bg-emerald-500/12', 'text-emerald-700', 'dark:text-emerald-300', 'font-medium');
+            mcqAutoBadge.textContent = '✓ Verified (Page 4)';
+          }
+          await sleep(2150);
+          if (gen !== choreographyGen) return;
+        }
+      }
+
+      document.querySelectorAll('.doc-pill').forEach((pill) => {
+        pill.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pauseAutoPlay();
+          choreographyGen++;
+          const key = pill.getAttribute('data-doc-manual');
+          docTypedQuery.textContent = docScenarios[key].query;
+          applyDocScenario(key);
+        });
+      });
+
+      mcqOptBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pauseAutoPlay();
+          const idx = Number(btn.getAttribute('data-mcq-opt'));
+          mcqOptBtns.forEach((b) => {
+            b.className = 'mcq-opt-btn text-left px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-700 dark:text-zinc-300 transition-all duration-300';
+          });
+          if (idx === 0) {
+            btn.classList.add('border-emerald-500', 'bg-emerald-500/12', 'text-emerald-700', 'dark:text-emerald-300', 'font-medium');
+            mcqAutoBadge.textContent = '✓ Correct · Verbatim Proof Locked';
+          } else {
+            btn.classList.add('border-crimson', 'bg-crimson/10', 'text-crimson');
+            mcqAutoBadge.textContent = '✕ Try Option A';
+          }
+        });
+      });
+
+      // ===================================================================
+      // CARD 02 CHOREOGRAPHY: Stateful Chat + Rolling Fee + Orbital Ring
+      // ===================================================================
+      const admKineticFeed = document.getElementById('admKineticFeed');
+      const admMemoryChip = document.getElementById('admMemoryChip');
+      const admRollingFee = document.getElementById('admRollingFee');
+      const admOrbitalCircle = document.getElementById('admOrbitalCircle');
+      const admOrbitalPct = document.getElementById('admOrbitalPct');
+      const admOrbitalList = document.getElementById('admOrbitalList');
+      const ORBITAL_CIRC = 2 * Math.PI * 22; // 138.23
+
+      const admStepLabels = [
+        'GPA Eligibility Verified',
+        'Online Form Submitted',
+        'Transcripts Checked',
+        'Written Admission Test',
+        'Departmental Viva',
+        'Semester Enrollment',
+      ];
+      let admCompletedCount = 2;
+      let currentFeeNumeric = 685000;
+
+      function formatBDT(num) {
+        const s = Math.round(num).toString();
+        if (s.length <= 3) return `BDT ${s}`;
+        const last3 = s.slice(-3);
+        const rest = s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+        return `BDT ${rest},${last3}`;
+      }
+
+      function animateRollingFee(targetAmount) {
+        const start = currentFeeNumeric;
+        const startTime = performance.now();
+        const duration = 520;
+        function step(now) {
+          const t = Math.min(1, (now - startTime) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const val = start + (targetAmount - start) * eased;
+          admRollingFee.textContent = formatBDT(val);
+          if (t < 1) requestAnimationFrame(step);
+          else currentFeeNumeric = targetAmount;
+        }
+        requestAnimationFrame(step);
+      }
+
+      function renderOrbitalMilestones(completed) {
+        admCompletedCount = completed;
+        const pct = Math.round((completed / admStepLabels.length) * 100);
+        const offset = ORBITAL_CIRC - (pct / 100) * ORBITAL_CIRC;
+        admOrbitalCircle.style.strokeDashoffset = offset.toFixed(2);
+        admOrbitalPct.textContent = `${pct}%`;
+
+        admOrbitalList.innerHTML = '';
+        admStepLabels.forEach((label, idx) => {
+          const done = idx < completed;
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <button type="button" data-step-idx="${idx + 1}" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left text-[11.5px] transition-all duration-300 ${
+              done
+                ? 'bg-crimson-soft/80 dark:bg-rose-500/12 text-zinc-900 dark:text-zinc-100'
+                : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/60'
+            }">
+              <span class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                done
+                  ? 'bg-crimson dark:bg-crimson-darkAccent text-white dark:text-zinc-950 scale-100'
+                  : 'border border-zinc-300 dark:border-zinc-700 scale-95'
+              }">
+                ${done ? '<svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+              </span>
+              <span class="truncate ${done ? 'font-medium' : ''}">${idx + 1}. ${label}</span>
+            </button>
+          `;
+          admOrbitalList.appendChild(li);
+        });
+      }
+
+      admOrbitalList.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-step-idx]');
+        if (!btn) return;
+        e.stopPropagation();
+        pauseAutoPlay();
+        choreographyGen++;
+        const clickedStep = Number(btn.getAttribute('data-step-idx'));
+        renderOrbitalMilestones(clickedStep === admCompletedCount ? clickedStep - 1 : clickedStep);
+      });
+
+      function appendAdmBubble(role, tag, html) {
+        const isUser = role === 'user';
+        admKineticFeed.insertAdjacentHTML(
+          'beforeend',
+          `
+          <div class="animate-bubble rounded-xl px-3.5 py-2.5 text-xs ${
+            isUser
+              ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200'
+              : 'border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-950/60 text-zinc-700 dark:text-zinc-300'
+          }">
+            <span class="font-mono text-[9px] uppercase ${isUser ? 'text-zinc-400' : 'text-crimson dark:text-crimson-darkAccent'} block mb-0.5">${tag}</span>
+            ${html}
+          </div>
+        `
+        );
+        admKineticFeed.scrollTop = admKineticFeed.scrollHeight;
+      }
+
+      async function runAdmissionsChoreography(gen) {
+        admKineticFeed.innerHTML = '';
+        admMemoryChip.textContent = 'B.Sc. in CSE';
+        renderOrbitalMilestones(1);
+        animateRollingFee(685000);
+
+        appendAdmBubble('user', 'Applicant', 'What is the total tuition fee for B.Sc. in CSE?');
+        await sleep(850);
+        if (gen !== choreographyGen) return;
+
+        appendAdmBubble('bot', 'Advisor · Official Ledger', 'For <strong>B.Sc. in CSE</strong> (148 credits), total tuition &amp; fees are <strong>BDT 6,85,000</strong> across 12 semesters.');
+        renderOrbitalMilestones(3);
+        await sleep(1700);
+        if (gen !== choreographyGen) return;
+
+        appendAdmBubble('user', 'Follow-Up · Zero Repetition Needed', 'And for BBA?');
+        await sleep(750);
+        if (gen !== choreographyGen) return;
+
+        admMemoryChip.textContent = 'BBA (Context Shifted)';
+        admMemoryChip.classList.add('citation-lock-pulse');
+        animateRollingFee(540000);
+        appendAdmBubble('bot', 'Advisor · Context Resolved → BBA', 'For <strong>BBA</strong> (126 credits), total tuition &amp; fees are <strong>BDT 5,40,000</strong>. Golden GPA 5.00 qualifies for a 50% waiver.');
+        renderOrbitalMilestones(5);
+        await sleep(1800);
+        if (gen !== choreographyGen) return;
+
+        renderOrbitalMilestones(6);
+      }
+
+      const quickAdmData = {
+        CSE: { chip: 'B.Sc. in CSE', fee: 685000, q: 'Total tuition for B.Sc. in CSE?', a: '<strong>B.Sc. in CSE</strong> (148 credits) totals <strong>BDT 6,85,000</strong> across 12 semesters.' },
+        BBA: { chip: 'BBA', fee: 540000, q: 'And for BBA?', a: '<strong>BBA</strong> (126 credits) totals <strong>BDT 5,40,000</strong> across 12 semesters.' },
+        EEE: { chip: 'B.Sc. in EEE', fee: 660000, q: 'And for EEE?', a: '<strong>B.Sc. in EEE</strong> (146 credits) totals <strong>BDT 6,60,000</strong> including core engineering labs.' },
+        LAB: { chip: 'Active Program Labs', fee: 4800, q: 'What are the semester lab fees?', a: 'Official lab &amp; facility charges range from <strong>BDT 1,500 (BBA)</strong> to <strong>BDT 4,800 (EEE)</strong> per semester.' },
+      };
+
+      document.querySelectorAll('.adm-quick-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pauseAutoPlay();
+          choreographyGen++;
+          const d = quickAdmData[btn.getAttribute('data-adm-quick')];
+          admMemoryChip.textContent = d.chip;
+          animateRollingFee(d.fee);
+          appendAdmBubble('user', 'Applicant Follow-Up', d.q);
+          appendAdmBubble('bot', `Advisor · ${d.chip}`, d.a);
+        });
+      });
+
+      // ===================================================================
+      // CARD 03 CHOREOGRAPHY: Automated CGPA Sweep + Radar Sonar Unlock
+      // ===================================================================
+      const atlasCgpaSlider = document.getElementById('atlasCgpaSlider');
+      const atlasCgpaValue = document.getElementById('atlasCgpaValue');
+      const atlasDeptSelect = document.getElementById('atlasDeptSelect');
+      const atlasMatchBadge = document.getElementById('atlasMatchBadge');
+      const atlasGrantsList = document.getElementById('atlasGrantsList');
+      const radarStatusTag = document.getElementById('radarStatusTag');
+      const radarHeadline = document.getElementById('radarHeadline');
+      const radarCaption = document.getElementById('radarCaption');
+      const radarBlipDot = document.getElementById('radarBlipDot');
+      const radarBlipPing = document.getElementById('radarBlipPing');
+
+      const atlasGrants = [
+        { name: 'Bangladesh STEM Innovators Fellowship', amount: 'BDT 95,000 / yr', min: 3.60, depts: ['CSE', 'EEE'] },
+        { name: 'Vice-Chancellor’s Merit-Need Grant', amount: '60% Waiver', min: 3.50, depts: ['CSE', 'EEE', 'BBA'] },
+        { name: 'Chancellor’s 100% Distinction Medal', amount: '100% Full Grant', min: 3.80, depts: ['CSE', 'EEE', 'BBA'] },
+      ];
+
+      function renderScholarshipAtlas() {
+        const cgpa = parseFloat(atlasCgpaSlider.value);
+        const dept = atlasDeptSelect.value;
+        atlasCgpaValue.textContent = cgpa.toFixed(2);
+
+        const matched = [];
+        const nearMiss = [];
+
+        atlasGrants.forEach((g) => {
+          if (!g.depts.includes(dept)) return;
+          const delta = +(g.min - cgpa).toFixed(2);
+          if (delta <= 0) matched.push(g);
+          else nearMiss.push({ ...g, delta });
+        });
+
+        atlasMatchBadge.textContent = `${matched.length} MATCHED`;
+        atlasGrantsList.innerHTML = '';
+
+        matched.forEach((g) => {
+          const isFull = g.min >= 3.80;
+          atlasGrantsList.insertAdjacentHTML(
+            'beforeend',
+            `
+            <div class="rounded-xl border ${
+              isFull
+                ? 'border-emerald-500/50 bg-emerald-500/8 grant-unlocked-glow'
+                : 'border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900/70'
+            } px-4 py-3 flex items-center justify-between gap-3 transition-all">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                <span class="font-serif text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">${g.name}</span>
+              </div>
+              <span class="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">${g.amount}</span>
+            </div>
+          `
+          );
+        });
+
+        // Update Gap Radar Sonar telemetry based on closest near-miss
+        if (nearMiss.length > 0) {
+          nearMiss.sort((a, b) => a.delta - b.delta);
+          const closest = nearMiss[0];
+          const pct = Math.max(15, Math.min(96, Math.round((cgpa / closest.min) * 100)));
+
+          atlasGrantsList.insertAdjacentHTML(
+            'beforeend',
+            `
+            <div class="rounded-xl border border-dashed border-crimson/50 dark:border-rose-500/50 bg-crimson-soft/45 dark:bg-rose-500/5 p-3.5 space-y-2">
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="font-medium text-zinc-900 dark:text-zinc-100 truncate">Near-Miss: ${closest.name}</span>
+                <span class="font-mono text-[10px] font-semibold text-crimson dark:text-crimson-darkAccent shrink-0">−${closest.delta.toFixed(2)} CGPA</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                <div class="h-full rounded-full bg-crimson dark:bg-crimson-darkAccent transition-all duration-200" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `
+          );
+
+          radarStatusTag.textContent = 'NEAR-MISS LOCKED';
+          radarStatusTag.className = 'font-mono text-[10px] text-crimson-darkAccent';
+          radarHeadline.textContent = `Missing ${closest.delta.toFixed(2)} CGPA`;
+          radarHeadline.className = 'font-mono text-xs font-semibold text-crimson-darkAccent';
+          radarCaption.textContent = `Target: ${closest.name}`;
+
+          // Move radar blip closer to center as gap shrinks
+          const dist = Math.min(54, Math.max(12, closest.delta * 110));
+          const bx = (80 + dist * 0.72).toFixed(1);
+          const by = (80 - dist * 0.68).toFixed(1);
+          radarBlipDot.setAttribute('cx', bx);
+          radarBlipDot.setAttribute('cy', by);
+          radarBlipDot.setAttribute('fill', '#FB7185');
+          radarBlipPing.setAttribute('cx', bx);
+          radarBlipPing.setAttribute('cy', by);
+          radarBlipPing.setAttribute('stroke', '#FB7185');
+        } else {
+          radarStatusTag.textContent = 'ALL TIERS UNLOCKED';
+          radarStatusTag.className = 'font-mono text-[10px] text-emerald-400';
+          radarHeadline.textContent = '100% Distinction Active';
+          radarHeadline.className = 'font-mono text-xs font-semibold text-emerald-400';
+          radarCaption.textContent = 'Zero remaining CGPA gaps across eligible grants.';
+
+          radarBlipDot.setAttribute('cx', '80');
+          radarBlipDot.setAttribute('cy', '80');
+          radarBlipDot.setAttribute('fill', '#34D399');
+          radarBlipPing.setAttribute('cx', '80');
+          radarBlipPing.setAttribute('cy', '80');
+          radarBlipPing.setAttribute('stroke', '#34D399');
+        }
+      }
+
+      async function smoothSweepCgpa(fromVal, toVal, durationMs, gen) {
+        const start = performance.now();
+        while (true) {
+          if (gen !== choreographyGen) return false;
+          const t = Math.min(1, (performance.now() - start) / durationMs);
+          const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          const current = fromVal + (toVal - fromVal) * eased;
+          atlasCgpaSlider.value = current.toFixed(2);
+          renderScholarshipAtlas();
+          if (t >= 1) return true;
+          await sleep(16);
+        }
+      }
+
+      async function runAtlasChoreography(gen) {
+        atlasDeptSelect.value = 'CSE';
+        atlasCgpaSlider.value = '3.40';
+        renderScholarshipAtlas();
+        await sleep(600);
+        if (gen !== choreographyGen) return;
+
+        // Sweep up to 3.74 (activates near-miss gap radar at -0.06)
+        const ok1 = await smoothSweepCgpa(3.40, 3.74, 1800, gen);
+        if (!ok1) return;
+        await sleep(1600);
+        if (gen !== choreographyGen) return;
+
+        // Dramatic final boost to 3.86 (unlocks 100% Distinction Medal!)
+        await smoothSweepCgpa(3.74, 3.86, 1300, gen);
+      }
+
+      atlasCgpaSlider.addEventListener('input', (e) => {
+        e.stopPropagation();
+        pauseAutoPlay();
+        choreographyGen++;
+        renderScholarshipAtlas();
+      });
+      atlasDeptSelect.addEventListener('change', (e) => {
+        e.stopPropagation();
+        pauseAutoPlay();
+        choreographyGen++;
+        renderScholarshipAtlas();
+      });
+
+      // -------------------------------------------------------------------
+      // Master Choreography Dispatcher
+      // -------------------------------------------------------------------
+      function runActiveCardChoreography(index) {
+        choreographyGen++;
+        const gen = choreographyGen;
+        if (index === 0) runDocChoreography(gen);
+        else if (index === 1) runAdmissionsChoreography(gen);
+        else if (index === 2) runAtlasChoreography(gen);
+      }
+
+      // Initialize all three cards with rich initial visuals & boot animation loop
+      renderOrbitalMilestones(2);
+      renderScholarshipAtlas();
+      applyDeckPositions(0, false);
+      requestAnimationFrame(timelineLoop);
+    })();
   }
 
   function initHeroSafe() {
     try {
       resizeHeroCanvas();
       initHeroVideoInteractions();
+      initKineticStudioDeck();
       startSceneTypewriter(0);
       requestAnimationFrame(renderHeroFrame);
       document.body.classList.add('hero-ready');
