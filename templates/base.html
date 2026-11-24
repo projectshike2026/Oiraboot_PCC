@@ -50,7 +50,7 @@
               DEFAULT: '#9F1239',
               hover: '#881337',
               soft: '#FFF1F2',
-              darkAccent: '#FB7185',
+              darkAccent: '#91DDFB',
             },
           },
         },
@@ -107,11 +107,208 @@
       }
     }
 
+    /* Complete Bilingual Client-Side Engine */
+    const I18N_DICTIONARY = {
+      en: {
+        navDocs: 'Documents',
+        navAdm: 'Admissions',
+        navSch: 'Scholarships',
+        langLabel: 'বাংলা',
+        statusTextDoc: 'Zero-Hallucination Guardrail Active',
+        statusTextAdm: 'Official Institutional Grounding Active',
+        statusTextSch: 'Deterministic Grant Matching Active',
+        heroEyebrowDoc: 'Autonomous Retrieval-Augmented Generation',
+        heroTitleDoc: 'Document Studio.',
+        heroSubtitleDoc: 'নোট স্টুডিও — Cognitive Study Partner.',
+        heroDescDoc: 'Transform static lecture notes, textbooks, and course syllabi into an interactive intelligence workspace. Query topics in natural English or Bengali with guaranteed verbatim page citations, and generate tailored 5 to 15 question assessments with automated scoring and rationale proofs.',
+        tryNowBtn: 'Try Now',
+        neuralNodeStatus: 'Autonomous Neural Engine · Active Stream',
+        c1TitleDoc: 'Character-Exact Grounding',
+        c1DescDoc: 'Sub-paragraph coordinate extraction pins answers to source pages with verifiable proof badges and confidence scoring.',
+        c2TitleDoc: 'Multi-Document Vault',
+        c2DescDoc: 'Index multiple lecture PDFs, lab manuals, or course syllabi simultaneously with sub-second retrieval across all files.',
+        c3TitleDoc: 'Adaptive Quiz Engine',
+        c3DescDoc: 'Generate 5 to 15 question multiple-choice assessments with automated grading, rationale proof tags, and CSV export.',
+        wsTitleDoc: 'Live Document Intelligence Studio',
+        vaultTitle: 'Active Documents',
+        uploadTitle: 'Upload Text PDF(s)',
+        uploadSub: 'Supports multiple PDFs with real page indexing',
+        inspectBtn: 'Inspect Pages',
+        tabChat: 'Document Q&A',
+        tabQuiz: 'Quiz Engine',
+        strictCitation: 'Strict Page Citations',
+        heroEyebrowAdm: 'Context-Aware Dialogue & Multi-Turn Memory',
+        heroTitleAdm: 'Admissions Desk.',
+        heroSubtitleAdm: 'ভর্তি ডেস্ক — Institutional Counselor.',
+        heroDescAdm: 'Verified university enrollment guidance grounded directly in official fee schedules, credit requirements, and admission calendars—paired with conversational memory and a live 6-step registration tracker.',
+        feeScheduleBtn: 'Official Fee Schedules',
+        c1TitleAdm: 'Contextual Counseling',
+        c1DescAdm: 'Evaluate SSC/HSC GPA thresholds, semester credit loads, and merit waivers with natural conversational continuity.',
+        c2TitleAdm: 'Interactive Progress Ring',
+        c2DescAdm: 'Track application milestones sequentially: Online Form, Document Verification, Admission Test, Viva, and Enrollment.',
+        c3TitleAdm: 'Deterministic Fee Schedules',
+        c3DescAdm: 'Grounded strictly in verified institutional records for B.Sc. in CSE, EEE, BBA, LLB, English, and Pharmacy programs.',
+        wsTitleAdm: 'Live Admissions Advisory Dialogue',
+        checklistTitle: 'Admission Checklist',
+        checklistProgress: 'Enrollment Progress',
+        heroEyebrowSch: 'Deterministic Eligibility Engine & Gap Radar',
+        heroTitleSch: 'Scholarship Atlas.',
+        heroSubtitleSch: 'বৃত্তি অ্যাটলাস — Academic Financial Navigator.',
+        heroDescSch: 'Discover, evaluate, and qualify for university tuition waivers, governmental grants, and merit fellowships. Cross-reference your CGPA and department against official criteria, unlock instant fit rationales, and analyze near-miss gap deficits.',
+        exportCsvBtn: 'Export Official CSV',
+        c1TitleSch: 'Dynamic CGPA Simulator',
+        c1DescSch: 'Slide between 2.00 and 4.00 to immediately see matching grants recalculate in real-time with instant fit tags.',
+        c2TitleSch: 'Departmental Filtering',
+        c2DescSch: 'Filter across CSE, EEE, BBA, LLB, English, and Pharmacy programs for specialized departmental endowments.',
+        c3TitleSch: 'Actionable Gap Radar',
+        c3DescSch: 'Clear breakdown of requirements needed for almost-eligible awards with direct deficit tracking.',
+        wsTitleSch: 'Live Scholarship & Waiver Discovery',
+        filterTitle: 'Eligibility Parameters',
+        cgpaLabel: 'Current CGPA',
+        deptLabel: 'Department / Program',
+        needLabel: 'Demonstrated Financial Need Criterion',
+        recalcBtn: 'Recalculate Matches',
+        matchedPill: 'Matched Grants',
+        almostPill: 'Near-Miss Awards',
+        statusText: 'Official Institutional Grounding Active',
+        heroEyebrow: 'Context-Aware Dialogue & Multi-Turn Memory',
+        heroTitleMain: 'Admissions Desk.',
+        heroTitleSub: 'ভর্তি ডেস্ক — Institutional Counselor.',
+        heroDescription: 'Verified university enrollment guidance grounded directly in official fee schedules, credit requirements, and admission calendars—paired with conversational memory and a live 6-step registration tracker.',
+        groundingHeader: 'Institutional Grounding',
+        g1Title: 'Multi-Turn Memory',
+        g1Desc: 'Maintains applicant context seamlessly across follow-ups like “And for BBA?” or “What are the lab fees?”.',
+        g2Title: 'Live Milestones',
+        g2Desc: 'Interactive checklist automatically synchronizes progress from initial eligibility to final registration.',
+        g3Title: 'Official Contact Referral',
+        g3Desc: 'Direct verified departmental channels for specialized credit transfer or scholarship inquiries.',
+        c1Title: 'Contextual Counseling',
+        c1Desc: 'Evaluate SSC/HSC GPA thresholds, semester credit loads, and merit waivers with natural conversational continuity.',
+        c2Title: 'Interactive Progress Ring',
+        c2Desc: 'Track application milestones sequentially: Online Form, Document Verification, Admission Test, Viva, and Enrollment.',
+        c3Title: 'Deterministic Fee Schedules',
+        c3Desc: 'Grounded strictly in verified institutional records for B.Sc. in CSE, EEE, BBA, LLB, English, and Pharmacy programs.',
+        wsTitle: 'Live Admissions Advisory Dialogue'
+      },
+      bn: {
+        navDocs: 'ডকুমেন্টস',
+        navAdm: 'ভর্তি ডেস্ক',
+        navSch: 'বৃত্তি অ্যাটলাস',
+        langLabel: 'English',
+        statusTextDoc: 'জিরো-হ্যালোসিনেশন ফিল্টার সক্রিয়',
+        statusTextAdm: 'অফিসিয়াল প্রাতিষ্ঠানিক তথ্যভাণ্ডার সক্রিয়',
+        statusTextSch: 'নির্ধারিত অনুদান ম্যাচিং সক্রিয়',
+        heroEyebrowDoc: 'স্বয়ংক্রিয় রিট্রিভাল-অগমেন্টেড জেনারেশন',
+        heroTitleDoc: 'ডকুমেন্ট স্টুডিও।',
+        heroSubtitleDoc: 'Document Studio — কগনিটিভ স্টাডি পার্টনার।',
+        heroDescDoc: 'আপনার লেকচার নোট, পাঠ্যবই এবং সিলেবাসকে রূপান্তর করুন একটি কার্যকর ইন্টেলিজেন্স ওয়ার্কস্পেসে। পৃষ্ঠা নম্বরসহ নিশ্চিত উদ্ধৃতি দিয়ে ইংরেজি বা বাংলায় যেকোনো বিষয়ের উত্তর জানুন এবং স্বয়ংক্রিয় গ্রেডিংসহ ৫-১৫টি বহুনির্বাচনী কুইজ তৈরি করুন।',
+        tryNowBtn: 'এখনই ব্যবহার করুন',
+        neuralNodeStatus: 'অটোনোমাস নিউরাল ইঞ্জিন · সক্রিয় স্ট্রিম',
+        c1TitleDoc: 'পৃষ্ঠা-নির্ভুল গ্রাউন্ডিং',
+        c1DescDoc: 'প্যারাগ্রাফ ও পৃষ্ঠার সঠিক অবস্থান থেকে তথ্য তুলে এনে অডিটযোগ্য প্রুফ ব্যাজ প্রদান করে।',
+        c2TitleDoc: 'মাল্টি-ডকুমেন্ট ভল্ট',
+        c2DescDoc: 'একাধিক লেকচার নোট, ল্যাব ম্যানুয়াল ও সিলেবাস একসাথে আপলোড করে নিমিষেই অনুসন্ধান করুন।',
+        c3TitleDoc: 'অ্যাডাপ্টিভ কুইজ ইঞ্জিন',
+        c3DescDoc: 'স্বয়ংক্রিয় মূল্যায়ন, প্রতিটি প্রশ্নের ব্যাখ্যামূলক প্রুফ এবং সিএসভি এক্সপোর্টসহ ৫-১৫টি কুইজ তৈরি করুন।',
+        wsTitleDoc: 'লাইভ ডকুমেন্ট ইন্টেলিজেন্স স্টুডিও',
+        vaultTitle: 'সক্রিয় ডকুমেন্টস',
+        uploadTitle: 'টেক্সট পিডিএফ আপলোড করুন',
+        uploadSub: 'পৃষ্ঠা ইনডেক্সিংসহ একাধিক পিডিএফ সমর্থিত',
+        inspectBtn: 'পৃষ্ঠাগুলো দেখুন',
+        tabChat: 'ডকুমেন্ট প্রশ্নোত্তর',
+        tabQuiz: 'কুইজ ইঞ্জিন',
+        strictCitation: 'নির্ভুল পৃষ্ঠা উদ্ধৃতি',
+        heroEyebrowAdm: 'প্রাসঙ্গিক কথোপকথন ও মাল্টি-টার্ন মেমোরি',
+        heroTitleAdm: 'ভর্তি ডেস্ক।',
+        heroSubtitleAdm: 'Admissions Desk — প্রাতিষ্ঠানিক পরামর্শদাতা।',
+        heroDescAdm: 'অফিসিয়াল ফি কাঠামো, ক্রেডিট নীতিমালা এবং ভর্তি ক্যালেন্ডারের ওপর ভিত্তি করে নির্ভুল দিকনির্দেশনা—সাথে থাকছে ৬-ধাপের লাইভ এনরোলমেন্ট চেকলিস্ট।',
+        feeScheduleBtn: 'অফিসিয়াল ফি তালিকা',
+        c1TitleAdm: 'প্রাসঙ্গিক কাউন্সেলিং',
+        c1DescAdm: 'এসএসসি/এইচএসসি জিপিএ যোগ্যতা, সেমিস্টার ক্রেডিট এবং মেধা বৃত্তি সম্পর্কে সহজ ও নির্ভুল পরামর্শ।',
+        c2TitleAdm: 'ইন্টারেক্টিভ প্রোগ্রেস রিং',
+        c2DescAdm: 'অনলাইন ফর্ম, কাগজপত্র যাচাই, ভর্তি পরীক্ষা, ভাইভা এবং সেমিস্টার এনরোলমেন্ট ধাপে ধাপে অনুসরণ করুন।',
+        c3TitleAdm: 'নির্ধারিত ফি কাঠামো',
+        c3DescAdm: 'সিএসই, ইইই, বিবিএ, এলএলবি, ইংরেজি এবং ফার্মেসি বিভাগের যাচাইকৃত টিউশন ফি তথ্য।',
+        wsTitleAdm: 'লাইভ ভর্তি পরামর্শ সংলাপ',
+        checklistTitle: 'ভর্তি চেকলিস্ট',
+        checklistProgress: 'ভর্তির অগ্রগতি',
+        heroEyebrowSch: 'নির্ধারিত যোগ্যতা ইঞ্জিন ও গ্যাপ রাডার',
+        heroTitleSch: 'বৃত্তি অ্যাটলাস।',
+        heroSubtitleSch: 'Scholarship Atlas — শিক্ষা অনুদান সহায়ক।',
+        heroDescSch: 'বিশ্ববিদ্যালয়ের টিউশন ছাড়, সরকারি অনুদান ও মেধা বৃত্তির তথ্য খুঁজুন। সিজিপিএ ও বিভাগ যাচাই করে যোগ্যতার ব্যাখ্যা পান এবং অল্পের জন্য মিস হওয়া বৃত্তির ব্যবধান ট্র্যাক করুন।',
+        exportCsvBtn: 'অফিসিয়াল সিএসভি এক্সপোর্ট',
+        c1TitleSch: 'ডায়নামিক সিজিপিএ সিমুলেটর',
+        c1DescSch: '২.০০ থেকে ৪.০০ সিজিপিএ স্লাইড করলেই তাৎক্ষণিক যোগ্য অনুদানগুলো রিয়েল-টাইমে আপডেট হয়।',
+        c2TitleSch: 'বিভাগীয় ফিল্টারিং',
+        c2DescSch: 'সিএসই, ইইই, বিবিএ, এলএলবি, ইংরেজি এবং ফার্মেসি বিভাগের জন্য বিশেষায়িত অনুদান দেখুন।',
+        c3TitleSch: 'কার্যকর গ্যাপ রাডার',
+        c3DescSch: 'যেসব বৃত্তিতে অল্পের জন্য যোগ্যতা মেলেনি, তাদের সিজিপিএ ঘাটতি সরাসরি প্রদর্শন করে।',
+        wsTitleSch: 'লাইভ স্কলারশিপ ও ওয়েভার অনুসন্ধান',
+        filterTitle: 'যোগ্যতার মাপকাঠি',
+        cgpaLabel: 'বর্তমান সিজিপিএ',
+        deptLabel: 'বিভাগ / প্রোগ্রাম',
+        needLabel: 'প্রমাণিত আর্থিক প্রয়োজনের মাপকাঠি',
+        recalcBtn: 'পুনরায় হিসাব করুন',
+        matchedPill: 'উপযুক্ত অনুদানসমূহ',
+        almostPill: 'নিকটবর্তী বৃত্তিসমূহ',
+        statusText: 'অফিসিয়াল প্রাতিষ্ঠানিক তথ্যভাণ্ডার সক্রিয়',
+        heroEyebrow: 'প্রাসঙ্গিক কথোপকথন ও মাল্টি-টার্ন মেমোরি',
+        heroTitleMain: 'ভর্তি ডেস্ক।',
+        heroTitleSub: 'Admissions Desk — প্রাতিষ্ঠানিক পরামর্শদাতা।',
+        heroDescription: 'অফিসিয়াল ফি কাঠামো, ক্রেডিট নীতিমালা এবং ভর্তি ক্যালেন্ডারের ওপর ভিত্তি করে নির্ভুল দিকনির্দেশনা—সাথে থাকছে ৬-ধাপের লাইভ এনরোলমেন্ট চেকলিস্ট।',
+        groundingHeader: 'প্রাতিষ্ঠানিক গ্রাউন্ডিং',
+        g1Title: 'মাল্টি-টার্ন মেমোরি',
+        g1Desc: '“বিবিএ এর জন্য কেমন?” বা “ল্যাব ফি কত?” এমন ফলো-আপ প্রশ্নেও আবেদনকারীর পূর্ববর্তী তথ্য স্মরণে রাখে।',
+        g2Title: 'লাইভ মাইলস্টোন',
+        g2Desc: 'আবেদনের যোগ্যতা থেকে চূড়ান্ত রেজিস্ট্রেশন পর্যন্ত প্রতিটি ধাপ স্বয়ংক্রিয়ভাবে ট্র্যাক করে।',
+        g3Title: 'অফিসিয়াল যোগাযোগ রেফারেল',
+        g3Desc: 'ক্রেডিট ট্রান্সফার বা বিশেষ বৃত্তির জন্য সরাসরি যাচাইকৃত বিভাগীয় চ্যানেলের তথ্য।',
+        c1Title: 'প্রাসঙ্গিক কাউন্সেলিং',
+        c1Desc: 'এসএসসি/এইচএসসি জিপিএ যোগ্যতা, সেমিস্টার ক্রেডিট এবং মেধা বৃত্তি সম্পর্কে সহজ ও নির্ভুল পরামর্শ।',
+        c2Title: 'ইন্টারেক্টিভ প্রোগ্রেস রিং',
+        c2Desc: 'অনলাইন ফর্ম, কাগজপত্র যাচাই, ভর্তি পরীক্ষা, ভাইভা এবং সেমিস্টার এনরোলমেন্ট ধাপে ধাপে অনুসরণ করুন।',
+        c3Title: 'নির্ধারিত ফি কাঠামো',
+        c3Desc: 'সিএসই, ইইই, বিবিএ, এলএলবি, ইংরেজি এবং ফার্মেসি বিভাগের যাচাইকৃত টিউশন ফি তথ্য।',
+        wsTitle: 'লাইভ ভর্তি পরামর্শ সংলাপ'
+      }
+    };
+
+    function applyI18n(lang) {
+      const selected = (lang === 'bn') ? 'bn' : 'en';
+      const dict = I18N_DICTIONARY[selected];
+      document.documentElement.setAttribute('lang', selected);
+      localStorage.setItem('oiraboot_lang', selected);
+      document.cookie = `lang=${selected}; path=/; max-age=31536000; SameSite=Lax`;
+
+      const langLabel = document.getElementById('lang-label');
+      if (langLabel) langLabel.textContent = dict.langLabel;
+
+      const navDocs = document.getElementById('nav-docs');
+      const navAdm = document.getElementById('nav-admissions');
+      const navSch = document.getElementById('nav-scholarships');
+      if (navDocs) navDocs.textContent = dict.navDocs;
+      if (navAdm) navAdm.textContent = dict.navAdm;
+      if (navSch) navSch.textContent = dict.navSch;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.innerHTML = dict[key];
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.setAttribute('placeholder', dict[key]);
+      });
+
+      try {
+        fetch(`/lang/${selected}`, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      } catch (_) {}
+    }
+
     function toggleLanguage() {
-      const currentLang = document.documentElement.getAttribute('lang') || 'en';
-      const nextLang = currentLang === 'en' ? 'bn' : 'en';
-      document.cookie = `lang=${nextLang}; path=/; max-age=31536000; SameSite=Lax`;
-      window.location.href = `/lang/${nextLang}`;
+      const current = document.documentElement.getAttribute('lang') || localStorage.getItem('oiraboot_lang') || 'en';
+      const nextLang = (current === 'bn') ? 'en' : 'bn';
+      applyI18n(nextLang);
     }
 
     // Guaranteed Preloader Dismissal (never gets stuck)
@@ -126,11 +323,19 @@
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('oiraboot_theme') || 'light';
       syncThemeUI(savedTheme);
+      const savedLang = localStorage.getItem('oiraboot_lang') || (document.cookie.match(/lang=(en|bn)/) ? RegExp.$1 : '');
+      if (savedLang) {
+        applyI18n(savedLang);
+      }
       setTimeout(dismissPreloader, 400);
     });
     window.addEventListener('load', () => {
       const savedTheme = localStorage.getItem('oiraboot_theme') || 'light';
       syncThemeUI(savedTheme);
+      const savedLang = localStorage.getItem('oiraboot_lang') || (document.cookie.match(/lang=(en|bn)/) ? RegExp.$1 : '');
+      if (savedLang) {
+        applyI18n(savedLang);
+      }
       setTimeout(dismissPreloader, 200);
     });
     // Hard safety guarantee: dismiss regardless within 850ms so user never gets stuck!
@@ -181,15 +386,15 @@
 
       <!-- Center Navigation Links -->
       <nav class="hidden md:flex items-center gap-8 text-sm">
-        <a href="/documents"
+        <a id="nav-docs" href="/documents"
           class="{% if active_nav == 'documents' %}text-crimson dark:text-crimson-darkAccent font-medium relative py-5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-crimson dark:after:bg-crimson-darkAccent{% else %}text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors{% endif %}">
           {{ 'ডকুমেন্টস' if current_lang == 'bn' else 'Documents' }}
         </a>
-        <a href="/admissions"
+        <a id="nav-admissions" href="/admissions"
           class="{% if active_nav == 'admissions' %}text-crimson dark:text-crimson-darkAccent font-medium relative py-5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-crimson dark:after:bg-crimson-darkAccent{% else %}text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors{% endif %}">
           {{ 'ভর্তি' if current_lang == 'bn' else 'Admissions' }}
         </a>
-        <a href="/scholarships"
+        <a id="nav-scholarships" href="/scholarships"
           class="{% if active_nav == 'scholarships' %}text-crimson dark:text-crimson-darkAccent font-medium relative py-5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-crimson dark:after:bg-crimson-darkAccent{% else %}text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors{% endif %}">
           {{ 'বৃত্তি' if current_lang == 'bn' else 'Scholarships' }}
         </a>

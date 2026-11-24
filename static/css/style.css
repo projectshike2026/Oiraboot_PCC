@@ -91,10 +91,11 @@
   --text-faint: #676670;
   --border-hairline: rgba(250, 249, 246, 0.11);
   --border-strong: rgba(250, 249, 246, 0.26);
-  --crimson: #E11D3A;
-  --crimson-hover: #EF4444;
-  --crimson-soft: rgba(225, 29, 58, 0.14);
-  --crimson-border: rgba(225, 29, 58, 0.36);
+  --crimson: #91DDFB; /* Ethereal luminous cyan-light accent for dark mode */
+  --crimson-hover: #BAE6FD;
+  --crimson-soft: rgba(145, 221, 251, 0.12);
+  --crimson-border: rgba(145, 221, 251, 0.35);
+  --crimson-glow: 0 0 16px rgba(145, 221, 251, 0.45);
   --nav-bg: rgba(5, 5, 7, 0.72);
   --grain-opacity: 0.045;
   --grid-line: rgba(250, 249, 246, 0.04);
@@ -105,9 +106,126 @@
   --glass-border: rgba(250, 249, 246, 0.12);
   --glass-highlight: rgba(255, 255, 255, 0.08);
   --glass-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.65);
-  --glass-shadow-hover: 0 32px 70px -16px rgba(225, 29, 58, 0.22);
+  --glass-shadow-hover: 0 32px 70px -16px rgba(145, 221, 251, 0.22);
   --input-bg: #0C0C0F;
   --select-bg: #141418;
+}
+
+/* Dark Mode Luminous Light Glowing Accents (Replaces dark muddy red in Dark Mode) */
+.dark .text-crimson,
+[data-theme="dark"] .text-crimson,
+.dark .text-crimson-darkAccent,
+[data-theme="dark"] .text-crimson-darkAccent,
+.dark .dark\:text-crimson-darkAccent,
+[data-theme="dark"] .dark\:text-crimson-darkAccent,
+.dark [class*="text-crimson"],
+[data-theme="dark"] [class*="text-crimson"] {
+  color: #91DDFB !important;
+  text-shadow: 0 0 14px rgba(145, 221, 251, 0.45);
+}
+
+.dark .glow-title-accent,
+[data-theme="dark"] .glow-title-accent {
+  color: #91DDFB !important;
+  text-shadow: 0 0 18px rgba(145, 221, 251, 0.55);
+}
+
+.dark .glow-eyebrow,
+[data-theme="dark"] .glow-eyebrow {
+  color: #91DDFB !important;
+  border-color: rgba(145, 221, 251, 0.35) !important;
+  background-color: rgba(145, 221, 251, 0.1) !important;
+  box-shadow: 0 0 15px rgba(145, 221, 251, 0.2);
+}
+
+.dark .border-crimson,
+[data-theme="dark"] .border-crimson {
+  border-color: rgba(145, 221, 251, 0.4) !important;
+}
+
+.dark .bg-crimson,
+[data-theme="dark"] .bg-crimson {
+  background-color: #91DDFB !important;
+  color: #070709 !important;
+}
+
+.dark .bg-crimson-soft,
+[data-theme="dark"] .bg-crimson-soft {
+  background-color: rgba(145, 221, 251, 0.12) !important;
+  border-color: rgba(145, 221, 251, 0.3) !important;
+  color: #91DDFB !important;
+}
+
+.dark svg.text-crimson,
+[data-theme="dark"] svg.text-crimson {
+  color: #91DDFB !important;
+  filter: drop-shadow(0 0 6px rgba(145, 221, 251, 0.6));
+}
+
+/* =========================================================================
+   AUTONOMOUS 3D ISOMETRIC NEURAL SERVER NODE & PARTICLE ENGINE (Uiverse.io)
+   ========================================================================= */
+#svg-global {
+  zoom: 1.15;
+  overflow: visible;
+  filter: drop-shadow(0 12px 28px rgba(87, 39, 204, 0.32));
+  transition: filter 0.4s ease;
+}
+
+[data-theme="dark"] #svg-global {
+  filter: drop-shadow(0 12px 32px rgba(145, 221, 251, 0.45)) drop-shadow(0 0 20px rgba(87, 39, 204, 0.4));
+}
+
+@keyframes fade-particles {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 1; }
+  90% { opacity: 0.85; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+#particles {
+  animation: fade-particles 5s infinite alternate;
+}
+.particle {
+  animation: floatUp linear infinite;
+}
+
+.p1 { animation-duration: 2.2s; animation-delay: 0s; }
+.p2 { animation-duration: 2.5s; animation-delay: 0.3s; }
+.p3 { animation-duration: 2s; animation-delay: 0.6s; }
+.p4 { animation-duration: 2.8s; animation-delay: 0.2s; }
+.p5 { animation-duration: 2.3s; animation-delay: 0.4s; }
+.p6 { animation-duration: 3s; animation-delay: 0.1s; }
+.p7 { animation-duration: 2.1s; animation-delay: 0.5s; }
+.p8 { animation-duration: 2.6s; animation-delay: 0.2s; }
+.p9 { animation-duration: 2.4s; animation-delay: 0.3s; }
+
+@keyframes bounce-lines {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3.5px); }
+}
+
+#line-v1,
+#line-v2,
+#node-server,
+#panel-rigth,
+#reflectores,
+#particles {
+  animation: bounce-lines 3s ease-in-out infinite alternate;
+}
+#line-v2 {
+  animation-delay: 0.2s;
+}
+#node-server,
+#panel-rigth,
+#reflectores,
+#particles {
+  animation-delay: 0.4s;
 }
 
 * {

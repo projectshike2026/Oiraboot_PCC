@@ -105,12 +105,16 @@ def create_app():
             "mock_llm": bool(Config.MOCK_LLM)
         })
 
-    @app.route("/lang/<lang_code>")
+    @app.route("/lang/<lang_code>", methods=["GET", "POST"])
     def set_language(lang_code):
         lang = "bn" if lang_code == "bn" else "en"
         sid = get_session_id()
         touch_session(sid, lang)
         session["lang"] = lang
+        if request.method == "POST" or request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            resp = jsonify({"ok": True, "lang": lang})
+            resp.set_cookie("lang", lang, max_age=365*24*3600, path="/", samesite="Lax")
+            return resp
         ref = request.referrer
         if not ref or "/lang/" in ref:
             ref = url_for("index")
