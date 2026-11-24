@@ -70,80 +70,12 @@
 
   </div>
 
-  <!-- VIDEO-STYLE INTERACTIVE CHAPTER SCRUBBER & PLAYBACK BAR (CLEAN HAIRLINES) -->
+  <!-- AN OONORI SYSTEM FOOTER STRIP -->
   <div class="relative z-10 enter-fade d-4 w-full border-t border-hairline bg-[var(--bg-surface)] nav-glass pointer-events-auto">
-    <div
-      class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3.5 sm:py-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-
-      <!-- 3 Synchronized Video Chapters -->
-      <div class="grid grid-cols-3 gap-4 sm:gap-8 flex-1 max-w-3xl">
-        <!-- Chapter 01 -->
-        <button type="button" onclick="selectChapter(0)"
-          class="chapter-trigger group text-left space-y-2 focus:outline-none cursor-pointer">
-          <div class="flex items-center justify-between gap-2">
-            <span
-              class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-main transition-colors truncate">
-              <span class="text-crimson font-semibold mr-1.5">01</span>
-              <span data-i18n="ch1">{{ 'পিডিএফ ও কুইজ' if current_lang == 'bn' else 'PDF & Quiz' }}</span>
-            </span>
-            <i data-lucide="file-search-2"
-              class="w-3.5 h-3.5 text-faint group-hover:text-crimson transition-colors hidden sm:block"></i>
-          </div>
-          <div class="w-full h-[2px] bg-[var(--border-hairline)] overflow-hidden">
-            <div id="progress-0" class="h-full bg-[var(--crimson)] w-0 transition-all duration-75"></div>
-          </div>
-        </button>
-
-        <!-- Chapter 02 -->
-        <button type="button" onclick="selectChapter(1)"
-          class="chapter-trigger group text-left space-y-2 focus:outline-none cursor-pointer">
-          <div class="flex items-center justify-between gap-2">
-            <span
-              class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-main transition-colors truncate">
-              <span class="text-crimson font-semibold mr-1.5">02</span>
-              <span data-i18n="ch2">{{ 'ভর্তি সহায়তা' if current_lang == 'bn' else 'Admissions' }}</span>
-            </span>
-            <i data-lucide="messages-square"
-              class="w-3.5 h-3.5 text-faint group-hover:text-crimson transition-colors hidden sm:block"></i>
-          </div>
-          <div class="w-full h-[2px] bg-[var(--border-hairline)] overflow-hidden">
-            <div id="progress-1" class="h-full bg-[var(--crimson)] w-0 transition-all duration-75"></div>
-          </div>
-        </button>
-
-        <!-- Chapter 03 -->
-        <button type="button" onclick="selectChapter(2)"
-          class="chapter-trigger group text-left space-y-2 focus:outline-none cursor-pointer">
-          <div class="flex items-center justify-between gap-2">
-            <span
-              class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-main transition-colors truncate">
-              <span class="text-crimson font-semibold mr-1.5">03</span>
-              <span data-i18n="ch3">{{ 'স্কলারশিপ' if current_lang == 'bn' else 'Scholarships' }}</span>
-            </span>
-            <i data-lucide="orbit"
-              class="w-3.5 h-3.5 text-faint group-hover:text-crimson transition-colors hidden sm:block"></i>
-          </div>
-          <div class="w-full h-[2px] bg-[var(--border-hairline)] overflow-hidden">
-            <div id="progress-2" class="h-full bg-[var(--crimson)] w-0 transition-all duration-75"></div>
-          </div>
-        </button>
-      </div>
-
-      <!-- Video Playback Toggle & Sculpting Hint -->
-      <div
-        class="flex items-center justify-between md:justify-end gap-5 pt-2 md:pt-0 border-t md:border-t-0 border-hairline">
-        <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-faint">
-          <i data-lucide="move" class="w-3.5 h-3.5 text-crimson"></i>
-          <span data-i18n="interactHint">Move & click canvas to sculpt</span>
-        </div>
-
-        <button type="button" id="play-pause-btn" onclick="togglePlayback()"
-          class="w-9 h-9 rounded-full border border-hairline hover:border-[var(--crimson)] flex items-center justify-center text-main hover:text-crimson transition-colors shrink-0 cursor-pointer"
-          title="Play or Pause Hero Reel" aria-label="Play or Pause Hero Reel">
-          <i id="play-pause-icon" data-lucide="pause" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-3.5 sm:py-4 flex items-center justify-center text-center">
+      <span class="font-mono text-xs sm:text-[13px] uppercase tracking-[0.35em] text-muted font-semibold select-none">
+        AN OONORI  SYSTEM
+      </span>
     </div>
   </div>
 
@@ -165,11 +97,6 @@
       <!-- Clean Compact Section Header -->
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-hairline/70">
         <div class="space-y-2.5">
-          <div
-            class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-crimson/25 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em]">
-            <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
-            <span data-i18n="archEyebrow">{{ 'মডুলার ইন্টেলিজেন্স · ৩টি ওয়ার্কস্পেস' if current_lang == 'bn' else 'Modular Intelligence · 03 Workspaces' }}</span>
-          </div>
           <h2
             class="font-athens text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-[0.02em] text-main leading-[1.1] light-reactive-title">
             <span data-i18n="archTitle">{{ 'তিনটি ডেডিকেটেড স্টুডিও।' if current_lang == 'bn' else 'Three Dedicated Studios.' }}</span>
