@@ -3,260 +3,378 @@
 {% block title %}Admissions Desk (ভর্তি ডেস্ক) — Oiraboot (ঐরাবত){% endblock %}
 
 {% block content %}
-<div class="pt-28 pb-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto space-y-16">
+<div class="pt-10 pb-20 max-w-6xl mx-auto px-5 sm:px-8 space-y-12 sm:space-y-16">
 
   <!-- =========================================================================
-       SECTION 1: ADMISSIONS DESK OVERVIEW, DEEP DETAILS & "TRY NOW" CALL-TO-ACTION
+       SUBTLE CONTEXT STRIP
        ========================================================================= -->
-  <section class="space-y-8">
-    <!-- Breadcrumb & Telemetry -->
-    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-hairline">
-      <div class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
-        <a href="/" class="hover:text-crimson transition-colors flex items-center gap-1.5">
-          <i data-lucide="home" class="w-3.5 h-3.5"></i>
-          <span>Overview</span>
-        </a>
-        <span class="text-faint">/</span>
-        <span class="text-crimson font-semibold">Track 2 • Admissions Concierge</span>
-      </div>
+  <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 dark:text-zinc-400 pb-2 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    <div class="flex items-center gap-2">
+      <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Overview</a>
+      <span class="text-zinc-300 dark:text-zinc-700">/</span>
+      <span class="font-medium text-zinc-700 dark:text-zinc-300">Track 02 · Admissions Concierge</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span data-i18n="statusText">Official Institutional Grounding Active</span>
+    </div>
+  </div>
 
-      <div class="flex items-center gap-2.5">
-        <span class="px-3 py-1.5 rounded-full surface-subtle border border-hairline font-mono text-[11px] font-semibold text-main flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Official Institutional Grounding Active</span>
+  <!-- =========================================================================
+       HERO SECTION: CLEAN, MINIMAL, EDITORIAL WITH ENGAGING "TRY NOW" ACTION
+       ========================================================================= -->
+  <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pb-12 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    
+    <!-- Left Editorial Column (7 cols) -->
+    <div class="lg:col-span-7 space-y-6">
+      <p class="text-xs font-medium tracking-wider uppercase text-crimson dark:text-crimson-darkAccent" data-i18n="heroEyebrow">
+        Context-Aware Dialogue &amp; Multi-Turn Memory
+      </p>
+
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.35rem] leading-[1.12] tracking-tight text-zinc-900 dark:text-zinc-50 font-normal">
+        <span data-i18n="heroTitleMain">Admissions Desk.</span>
+        <span class="block mt-1.5 italic text-crimson dark:text-crimson-darkAccent text-3xl sm:text-4xl lg:text-[2.65rem]" data-i18n="heroTitleSub">
+          ভর্তি ডেস্ক — Institutional Counselor.
         </span>
-      </div>
-    </div>
+      </h1>
 
-    <!-- Editorial Hero Plate -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-      <div class="lg:col-span-8 space-y-5">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
-          <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
-          <span>Context-Aware Dialogue & Multi-Turn Memory</span>
-        </div>
+      <p class="text-base sm:text-[17px] leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-xl" data-i18n="heroDescription">
+        Verified university enrollment guidance grounded directly in official fee schedules, credit requirements, and admission calendars—paired with conversational memory and a live 6-step registration tracker.
+      </p>
 
-        <h1 class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
-          <span>Admissions Desk.</span>
-          <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">
-            ভর্তি ডেস্ক — Institutional Counselor.
+      <!-- Engaging "Try Now" Action Bar -->
+      <div class="pt-2 flex flex-wrap items-center gap-4">
+        <button
+          id="tryNowBtn"
+          type="button"
+          onclick="openAdmissionsWorkspace(event)"
+          class="relative inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden cursor-pointer"
+        >
+          <!-- Shimmer reflection effect -->
+          <span class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 dark:via-black/10 to-transparent -translate-x-full group-hover:translate-x-[250%] transition-transform duration-700 ease-out pointer-events-none"></span>
+
+          <!-- Pulsing Radar Status Dot -->
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-crimson"></span>
           </span>
-        </h1>
 
-        <p class="text-base sm:text-lg text-muted leading-relaxed font-sans max-w-3xl">
-          Navigating university enrollment requires nuanced, verified guidance. The Admissions Desk acts as an institutional concierge grounded directly in official program fee schedules, credit requirements, and seasonal admission calendars. It retains conversational context to resolve follow-ups naturally, asks clarifying questions when prompts are ambiguous, and maintains a real-time 6-step enrollment checklist.
-        </p>
+          <span class="tracking-wide" data-i18n="tryNowBtn">Try Now</span>
 
-        <!-- Primary Action Row -->
-        <div class="pt-3 flex flex-wrap items-center gap-4">
-          <a
-            href="#admissions-workspace"
-            onclick="openAdmissionsWorkspace(event)"
-            class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-bold text-xs sm:text-[13px] uppercase tracking-[0.2em] inline-flex items-center gap-3 shadow-lg shadow-crimson/20 cursor-pointer"
-          >
-            <span class="w-2 h-2 rounded-full bg-crimson animate-ping"></span>
-            <span>Try Now — Open Desk ↓</span>
-            <i data-lucide="arrow-down" class="w-4 h-4 text-crimson"></i>
-          </a>
+          <!-- Micro Badge Pill -->
+          <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-md bg-white/10 dark:bg-black/10 text-zinc-300 dark:text-zinc-600 transition-colors group-hover:text-white dark:group-hover:text-black">
+            Concierge
+          </span>
 
-          <button
-            type="button"
-            onclick="openAdmissionDataModal()"
-            class="px-6 py-4 rounded-full surface-subtle border border-hairline hover:border-crimson text-xs font-semibold text-main transition-all flex items-center gap-2 cursor-pointer"
-          >
-            <i data-lucide="database" class="w-4 h-4 text-crimson"></i>
-            <span>Browse Official Fee Schedules</span>
-          </button>
-        </div>
-      </div>
+          <!-- Animated Glide Arrow -->
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </button>
 
-      <!-- Quick Knowledge Summary -->
-      <div class="lg:col-span-4 surface-card rounded-2xl p-6 space-y-4 border border-hairline">
-        <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Institutional Grounding</p>
-        <div class="space-y-3.5">
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="history" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Multi-Turn Memory</strong>
-              <span class="text-muted leading-normal">Maintains applicant context across queries like "And for BBA?" or "What are the lab fees?".</span>
-            </div>
-          </div>
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Live Milestones</strong>
-              <span class="text-muted leading-normal">Interactive checklist automatically synchronizes your progress from eligibility to registration.</span>
-            </div>
-          </div>
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="phone-call" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Official Contact Referral</strong>
-              <span class="text-muted leading-normal">Direct contact channels provided for specialized departmental inquiries.</span>
-            </div>
-          </div>
-        </div>
+        <button
+          type="button"
+          onclick="openAdmissionDataModal()"
+          class="px-5 py-3.5 rounded-xl border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <ellipse cx="12" cy="5" rx="9" ry="3" />
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+          </svg>
+          <span>Official Fee Schedules</span>
+        </button>
       </div>
     </div>
 
-    <!-- 3 Core Capability Pillars -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-          <i data-lucide="messages-square" class="w-5 h-5"></i>
+    <!-- Right Grounding Specification Card (5 cols) -->
+    <div class="lg:col-span-5">
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-zinc-100 dark:border-zinc-800/80">
+          <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500" data-i18n="groundingHeader">
+            Institutional Grounding
+          </span>
+          <span class="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">v2.4 Verified</span>
         </div>
-        <h3 class="font-athens text-base font-bold text-main">Contextual Counseling</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Ask complex questions regarding SSC/HSC requirements, semester credits, and fee waivers with natural conversational memory.
-        </p>
-      </div>
 
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl surface-subtle text-main flex items-center justify-center">
-          <i data-lucide="list-todo" class="w-5 h-5 text-crimson"></i>
-        </div>
-        <h3 class="font-athens text-base font-bold text-main">Interactive Progress Ring</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Track application steps sequentially: Online Form, Document Verification, Admission Test, Viva, and Semester Enrollment.
-        </p>
-      </div>
+        <div class="divide-y divide-zinc-100 dark:divide-zinc-800/80">
+          <!-- Item 1 -->
+          <div class="pb-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 8v4l3 3" />
+                <circle cx="12" cy="12" r="9" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="g1Title">Multi-Turn Memory</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1" data-i18n="g1Desc">
+                Maintains applicant context seamlessly across follow-ups like “And for BBA?” or “What are the lab fees?”.
+              </p>
+            </div>
+          </div>
 
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-          <i data-lucide="shield-check" class="w-5 h-5"></i>
+          <!-- Item 2 -->
+          <div class="py-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="g2Title">Live Milestones</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1" data-i18n="g2Desc">
+                Interactive checklist automatically synchronizes progress from initial eligibility to final registration.
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="pt-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="g3Title">Official Contact Referral</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1" data-i18n="g3Desc">
+                Direct verified departmental channels for specialized credit transfer or scholarship inquiries.
+              </p>
+            </div>
+          </div>
         </div>
-        <h3 class="font-athens text-base font-bold text-main">Deterministic Pricing Data</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Grounded directly in institutional databases containing B.Sc. in CSE, EEE, BBA, LLB, English, and Pharmacy fee structures.
-        </p>
       </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       SECTION 2: LIVE ADMISSIONS WORKSPACE (LAUNCHED VIA "TRY NOW")
+       CORE PILLARS: MINIMAL 3-COLUMN BENTO
        ========================================================================= -->
-  <section id="admissions-workspace" class="scroll-mt-24 space-y-6 pt-8 border-t border-hairline">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div>
-        <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson font-semibold">Active Workspace</p>
-        <h2 class="font-athens text-xl sm:text-2xl font-bold text-main mt-0.5">Live Admissions Advisory Dialogue</h2>
+  <section id="capabilities" class="pb-12 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Card 1 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="c1Title">Contextual Counseling</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2" data-i18n="c1Desc">
+          Evaluate SSC/HSC GPA thresholds, semester credit loads, and merit waivers with natural conversational continuity.
+        </p>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="font-mono text-[11px] text-muted">Counselor Session:</span>
-        <span class="px-2.5 py-1 rounded-lg bg-[var(--bg-subtle)] border border-hairline font-mono text-[11px] font-semibold text-main">
-          Undergraduate & Graduate Enrollment
+
+      <!-- Card 2 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="c2Title">Interactive Progress Ring</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2" data-i18n="c2Desc">
+          Track application milestones sequentially: Online Form, Document Verification, Admission Test, Viva, and Enrollment.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100" data-i18n="c3Title">Deterministic Fee Schedules</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2" data-i18n="c3Desc">
+          Grounded strictly in verified institutional records for B.Sc. in CSE, EEE, BBA, LLB, English, and Pharmacy programs.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ACTIVE INTERACTIVE WORKSPACE
+       ========================================================================= -->
+  <section id="workspace" class="scroll-mt-24 space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-wider text-crimson dark:text-crimson-darkAccent" data-i18n="wsEyebrow">
+          Active Workspace
+        </p>
+        <h2 class="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-50 mt-1" data-i18n="wsTitle">
+          Live Admissions Advisory Dialogue
+        </h2>
+      </div>
+      <div class="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+        <span>Session:</span>
+        <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/90 text-zinc-700 dark:text-zinc-300 font-medium">
+          Undergraduate &amp; Graduate Enrollment
         </span>
       </div>
     </div>
 
-    <!-- Main Grid -->
+    <!-- Workspace Grid (8 cols Dialogue / 4 cols Checklist) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-      <!-- Left Main Stage: Admissions Chat -->
-      <div class="lg:col-span-8 surface-card rounded-2xl overflow-hidden flex flex-col border border-hairline shadow-sm">
-        <!-- Workspace Header -->
-        <div class="px-6 py-4 border-b border-hairline bg-[var(--bg-subtle)] flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-3.5">
-            <div class="relative w-10 h-10 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center">
-              <i data-lucide="landmark" class="w-5 h-5 text-crimson"></i>
-              <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
+      
+      <!-- Left: Advisory Chat Interface (8 cols) -->
+      <div class="lg:col-span-8 rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.03)] flex flex-col">
+        
+        <!-- Chat Header -->
+        <div class="px-5 py-4 border-b border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6" />
+              </svg>
             </div>
             <div>
-              <h3 class="font-athens text-sm sm:text-base font-bold text-main tracking-wide">Oiraboot Admissions Advisor</h3>
-              <p class="font-mono text-[10px] uppercase tracking-widest text-muted">
-                Context Memory Active • English & বাংলা
+              <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Oiraboot Admissions Advisor</h3>
+              <p class="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Context Memory Active · English &amp; বাংলা</span>
               </p>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <button onclick="openAdmissionDataModal()" class="px-3.5 py-2 rounded-xl bg-[var(--bg-surface)] border border-hairline hover:border-crimson text-xs font-semibold text-main flex items-center gap-1.5 transition-all cursor-pointer">
-              <i data-lucide="database" class="w-3.5 h-3.5 text-crimson"></i>
-              <span>Official Records</span>
+            <button
+              type="button"
+              onclick="openAdmissionDataModal()"
+              class="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 px-2.5 py-1.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <ellipse cx="12" cy="5" rx="9" ry="3" />
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+              </svg>
+              <span>Records</span>
             </button>
-            <button onclick="clearAdmissionChat()" class="px-3.5 py-2 rounded-xl bg-crimson-soft border border-crimson text-xs font-semibold text-crimson hover:bg-crimson hover:text-white flex items-center gap-1.5 transition-all cursor-pointer">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              <span>Clear Chat</span>
+            <button
+              id="clearChatBtn"
+              type="button"
+              onclick="clearAdmissionChat()"
+              class="text-xs font-medium text-zinc-500 hover:text-crimson dark:text-zinc-400 dark:hover:text-crimson-darkAccent px-2.5 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/70 transition-colors cursor-pointer"
+            >
+              Reset
             </button>
           </div>
         </div>
 
-        <!-- Quick Question Prompt Strip -->
-        <div class="px-6 py-3 border-b border-hairline bg-[var(--bg-surface)] flex items-center gap-2 overflow-x-auto">
-          <span class="font-mono text-[10px] uppercase tracking-widest text-faint shrink-0 mr-1">Prompts:</span>
-          <button onclick="sendAdmissionQuick('What are the admission steps?')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-main transition-all cursor-pointer">
-            Admission steps
+        <!-- Chat Messages Feed -->
+        <div id="admission-chat-messages" class="p-5 space-y-4 h-[350px] overflow-y-auto thin-scrollbar bg-zinc-50/40 dark:bg-zinc-950/30">
+          <!-- Initial Advisor Message -->
+          <div class="flex items-start gap-3 max-w-[88%]">
+            <div class="w-7 h-7 rounded-lg bg-crimson/10 dark:bg-rose-500/15 text-crimson dark:text-crimson-darkAccent flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">
+              O
+            </div>
+            <div class="rounded-2xl rounded-tl-sm bg-surface-light dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 px-4 py-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 shadow-2xs">
+              Welcome to the <strong>Oiraboot Admissions Desk</strong>. Ask about program tuition schedules (CSE, EEE, BBA, LLB, Pharmacy), SSC/HSC GPA eligibility, or merit waivers. I maintain full context across your follow-up questions.
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Sample Prompts -->
+        <div class="px-5 py-2.5 border-t border-zinc-100 dark:border-zinc-800/80 bg-surface-light dark:bg-surface-dark flex items-center gap-2 overflow-x-auto">
+          <span class="text-[11px] text-zinc-400 shrink-0">Try asking:</span>
+          <button type="button" onclick="sendAdmissionQuick('B.Sc. in CSE tuition & waivers?')" class="quick-prompt shrink-0 text-xs px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer">
+            B.Sc. in CSE tuition &amp; waivers?
           </button>
-          <button onclick="sendAdmissionQuick('What is the tuition fee for CSE?')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-main transition-all cursor-pointer">
-            CSE Tuition Fees
+          <button type="button" onclick="sendAdmissionQuick('And for BBA?')" class="quick-prompt shrink-0 text-xs px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer">
+            And for BBA?
           </button>
-          <button onclick="sendAdmissionQuick('And for BBA?')" class="shrink-0 px-3 py-1.5 rounded-lg bg-crimson-soft border border-crimson text-xs font-medium text-crimson transition-all flex items-center gap-1 cursor-pointer">
-            <i data-lucide="corner-down-right" class="w-3 h-3"></i>
-            <span>Follow-up: And for BBA?</span>
-          </button>
-          <button onclick="sendAdmissionQuick('ভর্তির যোগ্যতা ও শেষ তারিখ কবে?')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-main transition-all cursor-pointer">
-            Bangla: যোগ্যতা ও তারিখ
-          </button>
-          <button onclick="sendAdmissionQuick('Tell me about fees')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-muted transition-all cursor-pointer">
-            Clarifying Prompt Test
+          <button type="button" onclick="sendAdmissionQuick('Required documents for verification?')" class="quick-prompt shrink-0 text-xs px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer">
+            Required documents for verification?
           </button>
         </div>
 
-        <!-- Messages Area (Fixed, Ergonomic Height with Guaranteed Visible Input Bar) -->
-        <div id="admission-chat-messages" class="p-6 space-y-4 overflow-y-auto h-[380px] sm:h-[420px]"></div>
-
-        <!-- Sticky Input Bar -->
-        <form onsubmit="handleAdmissionSubmit(event)" class="p-4 border-t border-hairline bg-[var(--bg-subtle)] flex items-center gap-3">
+        <!-- Chat Input Form -->
+        <form id="chatForm" onsubmit="handleAdmissionSubmit(event)" class="p-3.5 border-t border-zinc-200/70 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark flex items-center gap-2.5">
           <input
             id="admission-chat-input"
             type="text"
-            placeholder="Ask about departments, tuition fees, eligibility, deadlines, or follow up..."
-            class="field-input flex-1 px-4 py-3.5 rounded-xl text-sm transition-all"
+            autocomplete="off"
+            placeholder="Ask about fees, eligibility, or enrollment steps..."
+            class="flex-1 bg-zinc-100/70 dark:bg-zinc-900 border border-transparent focus:border-zinc-300 dark:focus:border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none transition-all"
           />
-          <button type="submit" class="btn-crimson px-5 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 cursor-pointer">
-            <span>Send</span>
-            <i data-lucide="send" class="w-4 h-4"></i>
+          <button
+            type="submit"
+            aria-label="Send message"
+            class="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 transition-colors shrink-0 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
           </button>
         </form>
       </div>
 
-      <!-- Right Sidebar: Interactive Applicant Checklist + Direct Office Contact -->
-      <div class="lg:col-span-4 space-y-5">
-        <div class="surface-card rounded-2xl p-6 space-y-5 border border-hairline">
-          <div class="flex items-center justify-between pb-3 border-b border-hairline">
-            <div>
-              <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Enrollment Progress</p>
-              <h3 class="font-athens text-base font-bold text-main mt-0.5">Admission Checklist</h3>
-            </div>
-            <div class="relative w-12 h-12 flex items-center justify-center">
-              <svg class="w-12 h-12 -rotate-90" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="18" fill="none" stroke="var(--border-hairline)" stroke-width="3.5" />
-                <circle id="checklist-progress-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--crimson)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" class="transition-all duration-500" />
-              </svg>
-              <span id="checklist-percent" class="absolute font-mono text-[10px] font-bold text-main">0%</span>
-            </div>
+      <!-- Right: 6-Step Interactive Enrollment Checklist (4 cols) -->
+      <div class="lg:col-span-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 shadow-[0_1px_3px_rgba(0,0,0,0.03)] space-y-5">
+        <div class="flex items-center justify-between pb-5 border-b border-zinc-100 dark:border-zinc-800/80">
+          <div>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">Enrollment Progress</span>
+            <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 mt-0.5">Admission Checklist</h3>
           </div>
 
-          <div id="admission-checklist" class="space-y-2.5"></div>
+          <!-- Interactive SVG Progress Ring -->
+          <div class="relative w-12 h-12 flex items-center justify-center">
+            <svg class="w-12 h-12" viewBox="0 0 48 48">
+              <circle
+                cx="24"
+                cy="24"
+                r="19"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.5"
+                class="text-zinc-100 dark:text-zinc-800"
+              />
+              <circle
+                id="checklist-progress-ring"
+                cx="24"
+                cy="24"
+                r="19"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-dasharray="119.38"
+                stroke-dashoffset="99.48"
+                class="progress-ring-circle text-crimson dark:text-crimson-darkAccent"
+              />
+            </svg>
+            <span id="checklist-percent" class="absolute text-[11px] font-semibold text-zinc-900 dark:text-zinc-100">17%</span>
+          </div>
         </div>
 
-        <!-- Official Admission Office Card -->
-        <div class="surface-card rounded-2xl p-5 space-y-3 border-l-[3px] border-l-[var(--crimson)] border border-hairline">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-              <i data-lucide="building-2" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <p class="text-xs font-bold text-main">Oiraboot Admission Desk</p>
-              <p class="text-[11px] text-muted">Direct Institutional Contact</p>
-            </div>
-          </div>
-          <div class="space-y-1.5 text-xs text-muted font-mono">
-            <p class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-crimson"></i> 7-14 Nikunja Housing, South Khulshi</p>
-            <p class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5 text-crimson"></i> +880 1851-120791</p>
-            <p class="flex items-center gap-2"><i data-lucide="mail" class="w-3.5 h-3.5 text-crimson"></i> admission@oiraboot.edu.bd</p>
-          </div>
+        <!-- Checklist Steps Container (Synced with real backend or interactive click) -->
+        <ul id="admission-checklist" class="space-y-2"></ul>
+
+        <!-- Direct Verified Office Contact -->
+        <div class="pt-4 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-500 dark:text-zinc-400 space-y-2">
+          <p class="font-medium text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span>7-14 Nikunja Housing, South Khulshi</span>
+          </p>
+          <p class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <span>+880 1851-120791 · admission@oiraboot.edu.bd</span>
+          </p>
         </div>
       </div>
 
@@ -268,18 +386,36 @@
 <script>
   function openAdmissionsWorkspace(e) {
     if (e) e.preventDefault();
-    const ws = document.getElementById('admissions-workspace');
+    const ws = document.getElementById('workspace');
     if (ws) {
       ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(() => {
         const inp = document.getElementById('admission-chat-input');
         if (inp) {
           inp.focus();
-          inp.classList.add('ring-2', 'ring-[var(--crimson)]');
-          setTimeout(() => inp.classList.remove('ring-2', 'ring-[var(--crimson)]'), 1200);
+          inp.classList.add('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950');
+          setTimeout(() => inp.classList.remove('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950'), 1500);
         }
-      }, 500);
+      }, 450);
     }
+  }
+
+  // Fallback direct modal trigger if openAdmissionDataModal is called
+  if (typeof openAdmissionDataModal !== 'function') {
+    window.openAdmissionDataModal = async function() {
+      try {
+        const res = await fetch('/api/admission/data');
+        const data = await res.json();
+        const content = `<pre class="text-xs font-mono whitespace-pre-wrap leading-relaxed text-zinc-800 dark:text-zinc-200">${escapeHtml(data.content || JSON.stringify(data, null, 2))}</pre>`;
+        if (typeof openCustomModal === 'function') {
+          openCustomModal('Official Fee Schedules & Grounding Records', content);
+        } else {
+          alert('Fee Schedules loaded.');
+        }
+      } catch (err) {
+        console.error('Failed to load admission data', err);
+      }
+    };
   }
 </script>
 {% endblock %}

@@ -7,11 +7,11 @@
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>{% block title %}Oiraboot (ঐরাবত) — Academic Intelligence Suite{% endblock %}</title>
 
-  <!-- Classical Monumental Typography + Precision UI + Bangla Support -->
+  <!-- Classical Monumental Typography + Editorial Serif + Inter Sans + Bangla Support -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Tiro+Bangla:ital@0;1&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+Bengali:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Tiro+Bangla:ital@0;1&display=swap"
     rel="stylesheet" />
 
   <!-- Tailwind CSS -->
@@ -29,21 +29,22 @@
       theme: {
         extend: {
           fontFamily: {
+            sans: ['Inter', 'Space Grotesk', 'Plus Jakarta Sans', 'Hind Siliguri', 'system-ui', 'sans-serif'],
+            serif: ['Newsreader', 'Fraunces', 'Cormorant Garamond', 'Noto Serif Bengali', 'Georgia', 'serif'],
+            bangla: ['Hind Siliguri', 'Inter', 'sans-serif'],
             athens: ['Cinzel', 'Hind Siliguri', 'serif'],
-            editorial: ['Cormorant Garamond', 'Hind Siliguri', 'serif'],
-            sans: ['Space Grotesk', 'Plus Jakarta Sans', 'Hind Siliguri', 'system-ui', 'sans-serif'],
-            serif: ['Fraunces', 'Cormorant Garamond', 'Tiro Bangla', 'Georgia', 'serif'],
+            editorial: ['Newsreader', 'Cormorant Garamond', 'Hind Siliguri', 'serif'],
             display: ['Cinzel', 'Syne', 'Space Grotesk', 'serif'],
             mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
           },
           colors: {
             canvas: {
-              light: '#F8F7F4',
-              dark: '#070709',
+              light: '#FCFCFA',
+              dark: '#09090B',
             },
             surface: {
               light: '#FFFFFF',
-              dark: '#101014',
+              dark: '#121215',
             },
             crimson: {
               DEFAULT: '#9F1239',
@@ -73,14 +74,21 @@
     function syncThemeUI(theme) {
       const current = theme || document.documentElement.getAttribute('data-theme') || 'light';
       document.documentElement.classList.toggle('dark', current === 'dark');
+      document.documentElement.setAttribute('data-theme', current);
       const icon = document.getElementById('theme-icon');
       const label = document.getElementById('theme-label');
+      const moon = document.getElementById('theme-moon');
+      const sun = document.getElementById('theme-sun');
       if (current === 'dark') {
         if (icon) icon.setAttribute('data-lucide', 'sun');
         if (label) label.textContent = 'White Mode';
+        if (moon) moon.classList.add('hidden');
+        if (sun) sun.classList.remove('hidden');
       } else {
         if (icon) icon.setAttribute('data-lucide', 'moon');
         if (label) label.textContent = 'Black Mode';
+        if (sun) sun.classList.add('hidden');
+        if (moon) moon.classList.remove('hidden');
       }
       if (typeof lucide !== 'undefined' && lucide.createIcons) {
         lucide.createIcons();
@@ -150,142 +158,98 @@
     </div>
   </div>
 
-  <!-- Floating Minimal Architectural Header -->
-  <header class="fixed top-3 inset-x-0 z-40 px-4 sm:px-6 lg:px-10 no-print">
-    <nav
-      class="max-w-7xl mx-auto nav-glass rounded-2xl px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-4 shadow-sm">
-      <!-- Official Oiraboot Brand Plate -->
-      <a href="/" class="flex items-center gap-3.5 group shrink-0" title="Oiraboot Academic Intelligence Suite">
-        <div
-          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0B0B0D] text-white flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105 shadow-sm p-1.5 border border-hairline">
-          <img src="/static/img/oiraboot_logo_tight_white.png" alt="Oiraboot" class="w-full h-full object-contain" />
-          <span
-            class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
+  <!-- Top Navigation Bar (Clean Minimal Editorial Architecture) -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-canvas-light/85 dark:bg-canvas-dark/85 border-b border-zinc-200/70 dark:border-zinc-800/80 no-print transition-colors">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Brand Identity -->
+      <a href="/" class="flex items-center gap-3 group focus:outline-none" title="Oiraboot Academic Intelligence">
+        <div class="w-8 h-8 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 flex items-center justify-center shadow-sm transition-transform duration-200 group-hover:scale-105">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3L2 9l10 6 10-6-10-6z" />
+            <path d="M2 15l10 6 10-6" />
+          </svg>
         </div>
-        <div class="leading-tight">
-          <div class="font-athens font-bold text-sm sm:text-base tracking-[0.09em] text-main flex items-center gap-1.5">
-            <span>OIRABOOT</span>
-            <span class="text-crimson font-serif font-normal">ঐরাবত</span>
+        <div class="flex flex-col">
+          <div class="flex items-baseline gap-1.5">
+            <span class="font-semibold tracking-tight text-sm sm:text-base text-zinc-900 dark:text-zinc-100">Oiraboot</span>
+            <span class="font-serif text-sm sm:text-base text-crimson dark:text-crimson-darkAccent font-medium">ঐরাবত</span>
           </div>
-          <p class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-faint hidden sm:block">
-            Academic Intelligence Suite
-          </p>
+          <span class="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 hidden sm:block">Academic Intelligence</span>
         </div>
       </a>
 
-      <!-- Center: Dedicated Studios (ONLY 3 Links: Documents, Admissions, Scholarships) -->
-      <div class="flex items-center gap-1 sm:gap-2 md:gap-4">
+      <!-- Center Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm">
         <a href="/documents"
-          class="px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-colors {{ 'text-crimson font-bold' if active_nav == 'documents' else 'text-muted hover:text-crimson hover:text-main' }}">
+          class="{% if active_nav == 'documents' %}text-crimson dark:text-crimson-darkAccent font-medium relative py-5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-crimson dark:after:bg-crimson-darkAccent{% else %}text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors{% endif %}">
           {{ 'ডকুমেন্টস' if current_lang == 'bn' else 'Documents' }}
         </a>
         <a href="/admissions"
-          class="px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-colors {{ 'text-crimson font-bold' if active_nav == 'admissions' else 'text-muted hover:text-crimson hover:text-main' }}">
+          class="{% if active_nav == 'admissions' %}text-crimson dark:text-crimson-darkAccent font-medium relative py-5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-crimson dark:after:bg-crimson-darkAccent{% else %}text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors{% endif %}">
           {{ 'ভর্তি' if current_lang == 'bn' else 'Admissions' }}
         </a>
         <a href="/scholarships"
-          class="px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-colors {{ 'text-crimson font-bold' if active_nav == 'scholarships' else 'text-muted hover:text-crimson hover:text-main' }}">
+          class="{% if active_nav == 'scholarships' %}text-crimson dark:text-crimson-darkAccent font-medium relative py-5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-crimson dark:after:bg-crimson-darkAccent{% else %}text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors{% endif %}">
           {{ 'বৃত্তি' if current_lang == 'bn' else 'Scholarships' }}
         </a>
-      </div>
+      </nav>
 
-      <!-- Right: Pure Minimal Clean Pills (Language + Black/White Mode) -->
-      <div class="flex items-center gap-2 shrink-0">
-        <button id="lang-toggle" onclick="toggleLanguage()"
-          class="px-3.5 py-1.5 rounded-full border border-hairline hover:border-crimson text-xs font-mono font-medium text-main transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
-          title="Switch English / বাংলা">
-          <i data-lucide="languages" class="w-3.5 h-3.5 text-crimson"></i>
-          <span id="lang-label">{{ 'EN' if current_lang == 'bn' else 'বাংলা' }}</span>
+      <!-- Utility Controls (Language & Theme) -->
+      <div class="flex items-center gap-2">
+        <button
+          id="lang-toggle"
+          onclick="toggleLanguage()"
+          type="button"
+          aria-label="Switch Language"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/70 transition-colors flex items-center gap-1.5 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+          <span id="lang-label">{{ 'English' if current_lang == 'bn' else 'বাংলা' }}</span>
         </button>
 
-        <button id="theme-toggle" onclick="toggleTheme()"
-          class="px-3.5 py-1.5 rounded-full border border-hairline hover:border-crimson text-xs font-mono font-medium text-main transition-all flex items-center gap-2 shadow-sm cursor-pointer"
-          title="Toggle Black / White Mode">
-          <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5 text-crimson"></i>
-          <span id="theme-label" class="hidden sm:inline">Black Mode</span>
+        <button
+          id="theme-toggle"
+          onclick="toggleTheme()"
+          type="button"
+          aria-label="Toggle Dark Mode"
+          class="p-2 rounded-lg border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/70 transition-colors cursor-pointer"
+        >
+          <!-- Moon Icon (shown in light mode) -->
+          <svg id="theme-moon" class="w-3.5 h-3.5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <!-- Sun Icon (shown in dark mode) -->
+          <svg id="theme-sun" class="w-3.5 h-3.5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
         </button>
       </div>
-    </nav>
+    </div>
   </header>
 
   <!-- Main Content Stage -->
   <main class="relative z-10">
     {% block content %}{% endblock %}
 
-    <!-- Classical Institutional Footer -->
-    <footer class="mt-20 border-t border-hairline bg-[var(--bg-surface)] no-print">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
-          <div class="md:col-span-5 space-y-4">
-            <div class="flex items-center gap-3.5">
-              <div
-                class="w-10 h-10 rounded-xl bg-[#0B0B0D] text-white flex items-center justify-center relative shadow-sm p-1.5 border border-hairline">
-                <img src="/static/img/oiraboot_logo_tight_white.png" alt="Oiraboot"
-                  class="w-full h-full object-contain" />
-                <span
-                  class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
-              </div>
-              <div class="leading-tight">
-                <div class="font-athens font-bold text-base tracking-[0.09em] text-main flex items-center gap-1.5">
-                  <span>OIRABOOT</span>
-                  <span class="text-crimson font-serif font-normal">ঐরাবত</span>
-                </div>
-                <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint">
-                  Academic Intelligence Suite
-                </p>
-              </div>
-            </div>
-            <p class="text-xs text-muted leading-relaxed max-w-md">
-              A unified academic intelligence suite engineered by Oiraboot — bringing verified study notes search,
-              seamless admissions counseling, and transparent scholarship discovery to students with strict
-              zero-hallucination guarantees.
-            </p>
-          </div>
-
-          <div class="md:col-span-4 space-y-3 text-xs text-muted">
-            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint">Headquarters & Desk</p>
-            <p class="flex items-start gap-2.5 text-main">
-              <i data-lucide="map-pin" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-              <span>7-14, Nikunja Housing Society, South Khulshi, Chattogram, Bangladesh - 4000</span>
-            </p>
-            <p class="flex items-center gap-2.5">
-              <i data-lucide="globe" class="w-4 h-4 text-crimson shrink-0"></i>
-              <span>www.oiraboot.edu.bd</span>
-            </p>
-            <p class="flex items-center gap-2.5">
-              <i data-lucide="mail" class="w-4 h-4 text-crimson shrink-0"></i>
-              <span>info@oiraboot.edu.bd</span>
-            </p>
-          </div>
-
-          <div class="md:col-span-3 space-y-2.5 text-xs">
-            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint mb-3">Dedicated Studios</p>
-            <a href="/documents"
-              class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Document Studio
-            </a>
-            <a href="/admissions"
-              class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Admissions Desk
-            </a>
-            <a href="/scholarships"
-              class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Scholarship Atlas
-            </a>
-            <a href="/about"
-              class="w-full text-left text-muted hover:text-crimson flex items-center gap-2 transition-colors font-medium pt-1">
-              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-crimson"></i> Architecture & Verification
-            </a>
-          </div>
+    <!-- Minimal Institutional Footer -->
+    <footer class="border-t border-zinc-200/70 dark:border-zinc-800/80 py-8 mt-16 no-print">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400 dark:text-zinc-500">
+        <div class="flex items-center gap-2">
+          <span class="font-medium text-zinc-600 dark:text-zinc-300">Oiraboot ঐরাবত</span>
+          <span>·</span>
+          <span>Academic Intelligence Suite</span>
         </div>
-
-        <div
-          class="mt-10 pt-6 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-faint">
-          <span>OIRABOOT (ঐরাবত) • ACADEMIC INTELLIGENCE SUITE 2026</span>
-          <span class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-crimson"></span>
-            <span>White / Black & Crimson Edition</span>
-          </span>
+        <div class="flex items-center gap-4">
+          <a href="/documents" class="hover:text-crimson transition-colors">Documents</a>
+          <a href="/admissions" class="hover:text-crimson transition-colors">Admissions</a>
+          <a href="/scholarships" class="hover:text-crimson transition-colors">Scholarships</a>
+          <span>·</span>
+          <span>Verified Institutional Grounding</span>
         </div>
       </div>
     </footer>

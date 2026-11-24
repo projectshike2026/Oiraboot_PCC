@@ -3,287 +3,435 @@
 {% block title %}Scholarship Atlas (বৃত্তি অ্যাটলাস) — Oiraboot (ঐরাবত){% endblock %}
 
 {% block content %}
-<div class="pt-28 pb-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto space-y-16">
+<div class="pt-10 pb-20 max-w-6xl mx-auto px-5 sm:px-8 space-y-12 sm:space-y-16">
 
   <!-- =========================================================================
-       SECTION 1: SCHOLARSHIP ATLAS OVERVIEW, DEEP DETAILS & "TRY NOW" CALL-TO-ACTION
+       SUBTLE CONTEXT STRIP
        ========================================================================= -->
-  <section class="space-y-8">
-    <!-- Breadcrumb & Telemetry -->
-    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-hairline">
-      <div class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
-        <a href="/" class="hover:text-crimson transition-colors flex items-center gap-1.5">
-          <i data-lucide="home" class="w-3.5 h-3.5"></i>
-          <span>Overview</span>
-        </a>
-        <span class="text-faint">/</span>
-        <span class="text-crimson font-semibold">Track 3 • Financial Aid Atlas</span>
-      </div>
+  <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 dark:text-zinc-400 pb-2 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    <div class="flex items-center gap-2">
+      <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Overview</a>
+      <span class="text-zinc-300 dark:text-zinc-700">/</span>
+      <span class="font-medium text-zinc-700 dark:text-zinc-300">Track 03 · Financial Aid Atlas</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>Deterministic Grant Matching Active</span>
+    </div>
+  </div>
 
-      <div class="flex items-center gap-2.5">
-        <span class="px-3 py-1.5 rounded-full surface-subtle border border-hairline font-mono text-[11px] font-semibold text-main flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Deterministic Grant Matching Active</span>
+  <!-- =========================================================================
+       HERO SECTION: CLEAN, MINIMAL, EDITORIAL WITH ENGAGING "TRY NOW" ACTION
+       ========================================================================= -->
+  <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pb-12 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    
+    <!-- Left Editorial Column (7 cols) -->
+    <div class="lg:col-span-7 space-y-6">
+      <p class="text-xs font-medium tracking-wider uppercase text-crimson dark:text-crimson-darkAccent">
+        Deterministic Eligibility Engine &amp; Gap Radar
+      </p>
+
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.35rem] leading-[1.12] tracking-tight text-zinc-900 dark:text-zinc-50 font-normal">
+        <span>Scholarship Atlas.</span>
+        <span class="block mt-1.5 italic text-crimson dark:text-crimson-darkAccent text-3xl sm:text-4xl lg:text-[2.65rem]">
+          বৃত্তি অ্যাটলাস — Academic Financial Navigator.
         </span>
-      </div>
-    </div>
+      </h1>
 
-    <!-- Editorial Hero Plate -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-      <div class="lg:col-span-8 space-y-5">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
-          <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
-          <span>Deterministic Eligibility Engine & Gap Radar</span>
-        </div>
+      <p class="text-base sm:text-[17px] leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-xl">
+        Discover, evaluate, and qualify for university tuition waivers, governmental grants, and merit fellowships. Cross-reference your CGPA and department against official criteria, unlock instant fit rationales, and analyze near-miss gap deficits.
+      </p>
 
-        <h1 class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
-          <span>Scholarship Atlas.</span>
-          <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">
-            বৃত্তি অ্যাটলাস — Academic Financial Navigator.
+      <!-- Engaging "Try Now" Action Bar -->
+      <div class="pt-2 flex flex-wrap items-center gap-4">
+        <button
+          id="tryNowBtn"
+          type="button"
+          onclick="openScholarshipsWorkspace(event)"
+          class="relative inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden cursor-pointer"
+        >
+          <!-- Shimmer reflection effect -->
+          <span class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 dark:via-black/10 to-transparent -translate-x-full group-hover:translate-x-[250%] transition-transform duration-700 ease-out pointer-events-none"></span>
+
+          <!-- Pulsing Radar Status Dot -->
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-crimson"></span>
           </span>
-        </h1>
 
-        <p class="text-base sm:text-lg text-muted leading-relaxed font-sans max-w-3xl">
-          Discover, evaluate, and qualify for university tuition waivers, governmental grants, and merit fellowships. The Scholarship Atlas cross-references your current CGPA, enrolled department, and financial background against institutional criteria. For matched grants, it generates tailored fit rationales; for near-miss awards, it displays actionable gap radar analytics detailing the exact GPA delta required.
-        </p>
+          <span class="tracking-wide">Try Now</span>
 
-        <!-- Primary Action Row -->
-        <div class="pt-3 flex flex-wrap items-center gap-4">
-          <a
-            href="#scholarships-workspace"
-            onclick="openScholarshipsWorkspace(event)"
-            class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-bold text-xs sm:text-[13px] uppercase tracking-[0.2em] inline-flex items-center gap-3 shadow-lg shadow-crimson/20 cursor-pointer"
-          >
-            <span class="w-2 h-2 rounded-full bg-crimson animate-ping"></span>
-            <span>Try Now — Match Awards ↓</span>
-            <i data-lucide="arrow-down" class="w-4 h-4 text-crimson"></i>
-          </a>
+          <!-- Micro Badge Pill -->
+          <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-md bg-white/10 dark:bg-black/10 text-zinc-300 dark:text-zinc-600 transition-colors group-hover:text-white dark:group-hover:text-black">
+            Atlas
+          </span>
 
-          <button
-            type="button"
-            onclick="downloadScholarshipReport()"
-            class="px-6 py-4 rounded-full surface-subtle border border-hairline hover:border-crimson text-xs font-semibold text-main transition-all flex items-center gap-2 cursor-pointer"
-          >
-            <i data-lucide="download" class="w-4 h-4 text-crimson"></i>
-            <span>Export Official CSV Dataset</span>
-          </button>
-        </div>
-      </div>
+          <!-- Animated Glide Arrow -->
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </button>
 
-      <!-- Quick Matching Rules -->
-      <div class="lg:col-span-4 surface-card rounded-2xl p-6 space-y-4 border border-hairline">
-        <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Evaluation Rules</p>
-        <div class="space-y-3.5">
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="target" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Deterministic Thresholds</strong>
-              <span class="text-muted leading-normal">CGPA floors, departmental restrictions, and need criteria strictly verified.</span>
-            </div>
-          </div>
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="radar" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Near-Miss Gap Radar</strong>
-              <span class="text-muted leading-normal">Calculates the precise distance (e.g. +0.15 CGPA) needed to unlock higher-tier waivers.</span>
-            </div>
-          </div>
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="sparkles" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Tailored AI Fit Explanations</strong>
-              <span class="text-muted leading-normal">Synthesizes specific justification points on why your academic record matches each grant.</span>
-            </div>
-          </div>
-        </div>
+        <button
+          type="button"
+          onclick="downloadScholarshipReport()"
+          class="px-5 py-3.5 rounded-xl border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span>Export Official CSV</span>
+        </button>
       </div>
     </div>
 
-    <!-- 3 Core Capability Pillars -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-          <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+    <!-- Right Grounding Specification Card (5 cols) -->
+    <div class="lg:col-span-5">
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-zinc-100 dark:border-zinc-800/80">
+          <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            Evaluation Rules
+          </span>
+          <span class="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">v2.4 Verified</span>
         </div>
-        <h3 class="font-athens text-base font-bold text-main">Dynamic CGPA Simulation</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Slide your current or projected CGPA across 2.00 to 4.00 to immediately see matching waiver percentages and total award values.
-        </p>
-      </div>
 
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl surface-subtle text-main flex items-center justify-center">
-          <i data-lucide="file-spreadsheet" class="w-5 h-5 text-crimson"></i>
-        </div>
-        <h3 class="font-athens text-base font-bold text-main">Custom CSV Integration</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Upload custom institutional scholarship datasets in CSV format or download structured evaluation reports with a single click.
-        </p>
-      </div>
+        <div class="divide-y divide-zinc-100 dark:divide-zinc-800/80">
+          <!-- Item 1 -->
+          <div class="pb-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Zero-Margin Precision</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">
+                CGPA thresholds, departmental criteria, and quotas strictly verified. No false positives.
+              </p>
+            </div>
+          </div>
 
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-          <i data-lucide="layout-grid" class="w-5 h-5"></i>
+          <!-- Item 2 -->
+          <div class="py-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Near-Miss Gap Radar</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">
+                Calculates the precise distance (e.g. +0.15 CGPA) required to unlock higher-tier waivers.
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="pt-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Personalized Fit Reasons</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">
+                Synthesizes specific justification points on why your academic record matches each grant.
+              </p>
+            </div>
+          </div>
         </div>
-        <h3 class="font-athens text-base font-bold text-main">Dual Grid & Table Views</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Toggle seamlessly between editorial scholarship cards and structured tabular data sorted by award amount or application deadline.
-        </p>
       </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       SECTION 2: LIVE SCHOLARSHIP WORKSPACE (LAUNCHED VIA "TRY NOW")
+       CORE PILLARS: MINIMAL 3-COLUMN BENTO
        ========================================================================= -->
-  <section id="scholarships-workspace" class="scroll-mt-24 space-y-6 pt-8 border-t border-hairline">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div>
-        <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson font-semibold">Active Workspace</p>
-        <h2 class="font-athens text-xl sm:text-2xl font-bold text-main mt-0.5">Live Award Matching Engine</h2>
+  <section id="capabilities" class="pb-12 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Card 1 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10" />
+            <polygon points="12 6 12 12 16 14" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Dynamic CGPA Simulator</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2">
+          Slide between 2.00 and 4.00 to immediately see matching grants recalculate in real-time with instant fit tags.
+        </p>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="font-mono text-[11px] text-muted">Active Dataset:</span>
-        <span id="csv-count-label" class="px-2.5 py-1 rounded-lg bg-[var(--bg-subtle)] border border-hairline font-mono text-[11px] font-semibold text-main">
-          9 Institutional Records
+
+      <!-- Card 2 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Departmental Filtering</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2">
+          Filter across CSE, EEE, BBA, LLB, English, and Pharmacy programs for specialized departmental endowments.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="2" x2="12" y2="6" />
+            <line x1="12" y1="18" x2="12" y2="22" />
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76" />
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07" />
+            <line x1="2" y1="12" x2="6" y2="12" />
+            <line x1="18" y1="12" x2="22" y2="12" />
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24" />
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Actionable Gap Radar</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2">
+          Clear breakdown of requirements needed for almost-eligible awards with direct deficit tracking.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ACTIVE INTERACTIVE WORKSPACE
+       ========================================================================= -->
+  <section id="workspace" class="scroll-mt-24 space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">
+          Active Workspace
+        </p>
+        <h2 class="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-50 mt-1">
+          Live Scholarship &amp; Waiver Discovery
+        </h2>
+      </div>
+      <div class="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+        <span>Catalog:</span>
+        <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/90 text-zinc-700 dark:text-zinc-300 font-medium">
+          Official Institutional Grants (14 Loaded)
         </span>
       </div>
     </div>
 
-    <!-- Main Grid -->
+    <!-- Main Workspace Grid (4 cols Filters / 8 cols Results) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <!-- Left Sidebar: Applicant Profile Parameters & CSV Data Source -->
+      <!-- Left Column: Filter Controls Card (4 cols) -->
       <div class="lg:col-span-4 space-y-5">
-        <div class="surface-card rounded-2xl p-6 space-y-5 border border-hairline shadow-sm">
-          <div class="flex items-center justify-between pb-3 border-b border-hairline">
+        <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 space-y-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800/80">
             <div>
-              <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Applicant Profile</p>
-              <h3 class="font-athens text-base font-bold text-main mt-0.5">Eligibility Parameters</h3>
-            </div>
-            <div class="w-9 h-9 rounded-xl surface-subtle flex items-center justify-center text-crimson">
-              <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">Profile Filters</span>
+              <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 mt-0.5">Eligibility Parameters</h3>
             </div>
           </div>
 
-          <form id="scholarship-form" onsubmit="runScholarshipMatcher(event)" class="space-y-5">
-            <!-- CGPA Slider -->
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <label for="student-cgpa" class="font-mono text-[11px] uppercase tracking-wider text-muted">Current CGPA</label>
-                <span id="cgpa-value-badge" class="px-2.5 py-1 rounded-lg bg-crimson text-white font-mono text-sm font-bold">3.75</span>
+          <form id="scholarship-form" onsubmit="event.preventDefault(); runScholarshipMatcher();" class="space-y-5">
+            <!-- CGPA Tactile Slider -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="student-cgpa" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                  Current CGPA
+                </label>
+                <span id="cgpa-value-badge" class="px-2.5 py-0.5 rounded-md bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent font-mono text-xs font-bold border border-crimson/20 dark:border-rose-500/20">
+                  3.75
+                </span>
               </div>
-              <input id="student-cgpa" type="range" min="2.00" max="4.00" step="0.05" value="3.75" oninput="updateCgpaBadge(this.value)" class="crimson-slider w-full cursor-pointer" />
-              <div class="flex justify-between font-mono text-[10px] text-faint mt-1.5">
-                <span>2.00</span><span>3.00</span><span>3.50</span><span>4.00</span>
+              <input
+                type="range"
+                id="student-cgpa"
+                min="2.00"
+                max="4.00"
+                step="0.05"
+                value="3.75"
+                oninput="updateCgpaBadge(this.value); runScholarshipMatcher();"
+                class="w-full accent-crimson cursor-pointer"
+              />
+              <div class="flex justify-between text-[10px] font-mono text-zinc-400">
+                <span>2.00</span>
+                <span>3.00</span>
+                <span>4.00</span>
               </div>
+            </div>
+
+            <!-- Quick CGPA Presets -->
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" onclick="setPresetCgpa(3.85)" class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 transition-colors">
+                3.85
+              </button>
+              <button type="button" onclick="setPresetCgpa(3.50)" class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 transition-colors">
+                3.50
+              </button>
+              <button type="button" onclick="setPresetCgpa(3.20)" class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 transition-colors">
+                3.20
+              </button>
+              <button type="button" onclick="setPresetCgpa(2.75)" class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 transition-colors">
+                2.75
+              </button>
             </div>
 
             <!-- Department Select -->
-            <div>
-              <label for="student-dept" class="block font-mono text-[11px] uppercase tracking-wider text-muted mb-2">Department</label>
-              <select id="student-dept" class="field-input w-full px-4 py-3 rounded-xl text-sm font-medium">
-                <option value="CSE" selected>Computer Science & Engineering (CSE)</option>
-                <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+            <div class="space-y-1.5">
+              <label for="student-dept" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                Department / Program
+              </label>
+              <select
+                id="student-dept"
+                onchange="runScholarshipMatcher();"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-colors"
+              >
+                <option value="CSE" selected>Computer Science &amp; Engineering (CSE)</option>
+                <option value="EEE">Electrical &amp; Electronic Engineering (EEE)</option>
                 <option value="BBA">Business Administration (BBA)</option>
-                <option value="Textile">Textile Engineering</option>
-                <option value="Civil">Civil Engineering</option>
-                <option value="English">English Literature</option>
                 <option value="LLB">Law (LLB)</option>
+                <option value="English">English Language &amp; Literature</option>
+                <option value="Pharmacy">Pharmacy</option>
+                <option value="All">All Departments / Interdisciplinary</option>
               </select>
             </div>
 
-            <!-- Financial Support Toggle -->
-            <div class="p-4 rounded-xl surface-subtle flex items-center justify-between gap-3 border border-hairline">
-              <div>
-                <p class="text-xs font-bold text-main">Financial Support Required</p>
-                <p class="text-[11px] text-muted">Include need-based & hardship awards</p>
-              </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="student-need" checked class="sr-only peer" />
-                <div class="w-11 h-6 bg-[var(--border-strong)] rounded-full peer peer-checked:bg-crimson after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div>
-              </label>
-            </div>
+            <!-- Financial Need Toggle -->
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+              <input
+                type="checkbox"
+                id="student-need"
+                onchange="runScholarshipMatcher();"
+                class="rounded border-zinc-300 text-crimson focus:ring-crimson w-4 h-4 cursor-pointer"
+              />
+              <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300 select-none">
+                Demonstrated Financial Need Criterion
+              </span>
+            </label>
 
-            <button type="submit" id="find-scholarships-btn" class="btn-primary w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-[0.14em] flex items-center justify-center gap-2 cursor-pointer">
-              <i data-lucide="search-check" class="w-4 h-4"></i>
-              <span>Evaluate & Match Awards</span>
+            <!-- Submit Button -->
+            <button
+              id="find-scholarships-btn"
+              type="submit"
+              class="w-full py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
+            >
+              <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>Recalculate Matches</span>
             </button>
           </form>
 
-          <!-- CSV Dataset Controls -->
-          <div class="pt-4 border-t border-hairline space-y-2.5">
-            <div class="flex items-center justify-between text-xs">
-              <span class="font-mono text-[10px] uppercase tracking-wider text-faint">Dataset Source</span>
-              <span class="font-mono text-[11px] font-semibold text-crimson">9 Records (CSV)</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <label for="csv-upload-input" class="cursor-pointer py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs font-semibold text-main flex items-center justify-center gap-1.5 transition-all">
-                <input type="file" id="csv-upload-input" accept=".csv" class="hidden" onchange="handleCsvUpload(event)" />
-                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-crimson"></i>
-                <span>Load CSV</span>
-              </label>
-              <button onclick="downloadScholarshipReport()" class="py-2.5 px-3 rounded-xl bg-crimson-soft border border-crimson text-xs font-semibold text-crimson hover:bg-crimson hover:text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                <span>Export CSV</span>
-              </button>
-            </div>
+          <!-- Export Action -->
+          <div class="pt-3 border-t border-zinc-100 dark:border-zinc-800/80">
+            <button
+              type="button"
+              onclick="downloadScholarshipReport()"
+              class="w-full py-2.5 px-3 rounded-xl border border-zinc-200/80 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 text-xs font-semibold text-zinc-700 dark:text-zinc-300 flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>Download Official CSV</span>
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Right Main Stage: Results & Near-Match Gap Radar -->
-      <div class="lg:col-span-8 space-y-6">
-        <!-- Toolbar -->
-        <div class="surface-card rounded-2xl px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-hairline">
-          <div class="flex items-center gap-2.5">
-            <span id="matched-count-pill" class="px-3 py-1.5 rounded-lg bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-mono text-xs font-bold">
-              0 Eligible
+      <!-- Right Column: Results & Gap Radar (8 cols) -->
+      <div class="lg:col-span-8 rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 space-y-6 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+        
+        <!-- Controls Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-zinc-100 dark:border-zinc-800/80">
+          <div class="flex items-center gap-2">
+            <span id="matched-count-pill" class="px-3 py-1.5 rounded-lg bg-crimson-soft dark:bg-rose-500/10 border border-crimson/25 dark:border-rose-500/25 text-xs font-semibold text-crimson dark:text-crimson-darkAccent">
+              Matched Grants
             </span>
-            <span id="almost-count-pill" class="px-3 py-1.5 rounded-lg bg-crimson-soft border border-crimson font-mono text-xs font-semibold text-crimson">
-              0 Near Match
+            <span id="almost-count-pill" class="px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+              Near-Miss Awards
             </span>
           </div>
 
-          <div class="flex flex-wrap items-center gap-2.5">
-            <div class="flex items-center gap-1 p-1 rounded-xl surface-subtle">
-              <button id="sort-amount-btn" onclick="setScholarshipSort('amount')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-1.5 cursor-pointer">
-                <i data-lucide="banknote" class="w-3.5 h-3.5 text-crimson"></i>
-                <span>Amount</span>
-              </button>
-              <button id="sort-deadline-btn" onclick="setScholarshipSort('deadline')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-muted hover:text-main transition-all flex items-center gap-1.5 cursor-pointer">
-                <i data-lucide="calendar-clock" class="w-3.5 h-3.5"></i>
-                <span>Deadline</span>
-              </button>
-            </div>
-
-            <div class="flex items-center gap-1 p-1 rounded-xl surface-subtle">
-              <button id="view-cards-btn" onclick="setScholarshipView('cards')" class="p-2 rounded-lg bg-[var(--bg-surface)] text-crimson shadow-sm cursor-pointer" title="Card Grid">
-                <i data-lucide="layout-grid" class="w-4 h-4"></i>
-              </button>
-              <button id="view-table-btn" onclick="setScholarshipView('table')" class="p-2 rounded-lg text-muted hover:text-main cursor-pointer" title="Data Table">
-                <i data-lucide="table-2" class="w-4 h-4"></i>
-              </button>
-            </div>
+          <div class="flex items-center gap-1.5">
+            <button
+              id="sort-amount-btn"
+              onclick="setScholarshipSort('amount')"
+              type="button"
+              class="px-2.5 py-1.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              Amount ↓
+            </button>
+            <button
+              id="sort-deadline-btn"
+              onclick="setScholarshipSort('deadline')"
+              type="button"
+              class="px-2.5 py-1.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800 text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+            >
+              Deadline
+            </button>
+            <button
+              id="view-cards-btn"
+              onclick="setScholarshipView('cards')"
+              type="button"
+              class="p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
+              title="Cards View"
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+            </button>
+            <button
+              id="view-table-btn"
+              onclick="setScholarshipView('table')"
+              type="button"
+              class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+              title="Table View"
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
           </div>
         </div>
 
-        <!-- Eligible Output Container -->
-        <div id="scholarship-results-container" class="space-y-4"></div>
+        <!-- Matched Scholarships Container -->
+        <div id="scholarship-results-container" class="space-y-4">
+          <!-- Dynamically populated by app.js runScholarshipMatcher() -->
+        </div>
 
-        <!-- Almost-Qualified Gap Radar -->
-        <div id="almost-qualified-section" class="surface-card rounded-2xl p-6 border-l-[3px] border-l-[var(--crimson)] border border-hairline space-y-4 hidden">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-              <i data-lucide="target" class="w-4 h-4"></i>
-            </div>
+        <!-- Near-Miss / Almost Qualified Section -->
+        <div id="almost-qualified-section" class="pt-6 border-t border-zinc-100 dark:border-zinc-800/80 space-y-4">
+          <div class="flex items-center justify-between">
             <div>
-              <h4 class="font-athens text-base font-bold text-main">Almost Eligible — Requirement Gap</h4>
-              <p class="text-xs text-muted">Awards you narrowly miss and the exact requirement needed to qualify</p>
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">Near-Miss Gap Radar</span>
+              <h4 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Almost-Eligible Awards</h4>
             </div>
+            <span class="text-[11px] text-zinc-400">Delta Deficits Calculated</span>
           </div>
-          <div id="almost-qualified-list" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+
+          <div id="almost-qualified-list" class="space-y-3">
+            <!-- Dynamically populated by app.js -->
+          </div>
         </div>
+
       </div>
 
     </div>
@@ -294,15 +442,26 @@
 <script>
   function openScholarshipsWorkspace(e) {
     if (e) e.preventDefault();
-    const ws = document.getElementById('scholarships-workspace');
+    const ws = document.getElementById('workspace');
     if (ws) {
       ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(() => {
         const slider = document.getElementById('student-cgpa');
         if (slider) {
           slider.focus();
+          slider.classList.add('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950');
+          setTimeout(() => slider.classList.remove('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950'), 1500);
         }
-      }, 500);
+      }, 450);
+    }
+  }
+
+  function setPresetCgpa(val) {
+    const slider = document.getElementById('student-cgpa');
+    if (slider) {
+      slider.value = val;
+      if (typeof updateCgpaBadge === 'function') updateCgpaBadge(val);
+      if (typeof runScholarshipMatcher === 'function') runScholarshipMatcher();
     }
   }
 </script>

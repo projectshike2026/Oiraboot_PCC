@@ -3,316 +3,422 @@
 {% block title %}Document Studio (নোট স্টুডিও) — Oiraboot (ঐরাবত){% endblock %}
 
 {% block content %}
-<div class="pt-28 pb-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto space-y-16">
+<div class="pt-10 pb-20 max-w-6xl mx-auto px-5 sm:px-8 space-y-12 sm:space-y-16">
 
   <!-- =========================================================================
-       SECTION 1: STUDIO OVERVIEW, DEEP DETAILS & "TRY NOW" CALL-TO-ACTION
+       SUBTLE CONTEXT STRIP
        ========================================================================= -->
-  <section class="space-y-8">
-    <!-- Breadcrumb & Track Telemetry -->
-    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-hairline">
-      <div class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
-        <a href="/" class="hover:text-crimson transition-colors flex items-center gap-1.5">
-          <i data-lucide="home" class="w-3.5 h-3.5"></i>
-          <span>Overview</span>
-        </a>
-        <span class="text-faint">/</span>
-        <span class="text-crimson font-semibold">Track 1 • Cognitive Retrieval</span>
-      </div>
+  <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 dark:text-zinc-400 pb-2 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    <div class="flex items-center gap-2">
+      <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Overview</a>
+      <span class="text-zinc-300 dark:text-zinc-700">/</span>
+      <span class="font-medium text-zinc-700 dark:text-zinc-300">Track 01 · Cognitive Study Partner</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>Zero-Hallucination Guardrail Active</span>
+    </div>
+  </div>
 
-      <div class="flex items-center gap-2.5">
-        <span class="px-3 py-1.5 rounded-full surface-subtle border border-hairline font-mono text-[11px] font-semibold text-main flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Zero-Hallucination Guardrail Active</span>
+  <!-- =========================================================================
+       HERO SECTION: CLEAN, MINIMAL, EDITORIAL WITH ENGAGING "TRY NOW" ACTION
+       ========================================================================= -->
+  <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pb-12 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    
+    <!-- Left Editorial Column (7 cols) -->
+    <div class="lg:col-span-7 space-y-6">
+      <p class="text-xs font-medium tracking-wider uppercase text-crimson dark:text-crimson-darkAccent">
+        Autonomous Retrieval-Augmented Generation
+      </p>
+
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.35rem] leading-[1.12] tracking-tight text-zinc-900 dark:text-zinc-50 font-normal">
+        <span>Document Studio.</span>
+        <span class="block mt-1.5 italic text-crimson dark:text-crimson-darkAccent text-3xl sm:text-4xl lg:text-[2.65rem]">
+          নোট স্টুডিও — Cognitive Study Partner.
         </span>
-      </div>
-    </div>
+      </h1>
 
-    <!-- Editorial Hero Plate -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-      <div class="lg:col-span-8 space-y-5">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
-          <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
-          <span>Autonomous Retrieval-Augmented Generation</span>
-        </div>
+      <p class="text-base sm:text-[17px] leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-xl">
+        Transform static lecture notes, textbooks, and course syllabi into an interactive intelligence workspace. Query topics in natural English or Bengali with guaranteed verbatim page citations, and generate tailored 5 to 15 question assessments with automated scoring and rationale proofs.
+      </p>
 
-        <h1 class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
-          <span>Document Studio.</span>
-          <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">
-            নোট স্টুডিও — Cognitive Study Partner.
+      <!-- Engaging "Try Now" Action Bar -->
+      <div class="pt-2 flex flex-wrap items-center gap-4">
+        <button
+          id="tryNowBtn"
+          type="button"
+          onclick="openDocumentWorkspace(event)"
+          class="relative inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden cursor-pointer"
+        >
+          <!-- Shimmer reflection effect -->
+          <span class="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 dark:via-black/10 to-transparent -translate-x-full group-hover:translate-x-[250%] transition-transform duration-700 ease-out pointer-events-none"></span>
+
+          <!-- Pulsing Radar Status Dot -->
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-crimson"></span>
           </span>
-        </h1>
 
-        <p class="text-base sm:text-lg text-muted leading-relaxed font-sans max-w-3xl">
-          Transform static academic textbooks, research papers, and course syllabi into an interactive, verifiable intelligence workspace. Upload lecture PDFs with character-exact coordinate indexing. Query complex topics in natural English or Bengali with guaranteed verbatim page citations, and generate tailored 5 to 15 question multiple-choice assessments with automated grading and conceptual rationale proofs.
-        </p>
+          <span class="tracking-wide">Try Now</span>
 
-        <!-- Primary Action Row -->
-        <div class="pt-3 flex flex-wrap items-center gap-4">
-          <a
-            href="#studio-workspace"
-            onclick="openStudioWorkspace(event)"
-            class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-bold text-xs sm:text-[13px] uppercase tracking-[0.2em] inline-flex items-center gap-3 shadow-lg shadow-crimson/20 cursor-pointer"
-          >
-            <span class="w-2 h-2 rounded-full bg-crimson animate-ping"></span>
-            <span>Try Now — Open Studio ↓</span>
-            <i data-lucide="arrow-down" class="w-4 h-4 text-crimson"></i>
-          </a>
+          <!-- Micro Badge Pill -->
+          <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-md bg-white/10 dark:bg-black/10 text-zinc-300 dark:text-zinc-600 transition-colors group-hover:text-white dark:group-hover:text-black">
+            Studio
+          </span>
 
-          <button
-            type="button"
-            onclick="openDocumentInspector()"
-            class="px-6 py-4 rounded-full surface-subtle border border-hairline hover:border-crimson text-xs font-semibold text-main transition-all flex items-center gap-2 cursor-pointer"
-          >
-            <i data-lucide="book-open" class="w-4 h-4 text-crimson"></i>
-            <span>Inspect Default Notes</span>
-          </button>
-        </div>
-      </div>
+          <!-- Animated Glide Arrow -->
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </button>
 
-      <!-- Quick Metrics Sidebar -->
-      <div class="lg:col-span-4 surface-card rounded-2xl p-6 space-y-4 border border-hairline">
-        <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Architectural Safeguards</p>
-        <div class="space-y-3.5">
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="quote" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Verbatim Citations Only</strong>
-              <span class="text-muted leading-normal">Every response outputs exact source text with page numbers. Zero speculation.</span>
-            </div>
-          </div>
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="languages" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Bilingual Intelligence</strong>
-              <span class="text-muted leading-normal">Full parity across English and Bengali tokenization and queries.</span>
-            </div>
-          </div>
-          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
-            <i data-lucide="shield-alert" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-main block font-semibold">Refusal Enforcement</strong>
-              <span class="text-muted leading-normal">Prompts outside the indexed documents receive a strict refusal notice.</span>
-            </div>
-          </div>
-        </div>
+        <button
+          type="button"
+          onclick="openDocumentInspector()"
+          class="px-5 py-3.5 rounded-xl border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+          <span>Inspect Default Notes</span>
+        </button>
       </div>
     </div>
 
-    <!-- 3 Core Capability Pillars -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-          <i data-lucide="file-search-2" class="w-5 h-5"></i>
+    <!-- Right Grounding Specification Card (5 cols) -->
+    <div class="lg:col-span-5">
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-zinc-100 dark:border-zinc-800/80">
+          <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            Architectural Safeguards
+          </span>
+          <span class="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">v2.4 Verified</span>
         </div>
-        <h3 class="font-athens text-base font-bold text-main">Character-Exact Grounding</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Oiraboot uses exact coordinate extraction to pin each answer to the source page and paragraph, providing an auditable proof badge.
-        </p>
-      </div>
 
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl surface-subtle text-main flex items-center justify-center">
-          <i data-lucide="folder-archive" class="w-5 h-5 text-crimson"></i>
-        </div>
-        <h3 class="font-athens text-base font-bold text-main">Multi-Document Vault</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Upload and index multiple lecture PDFs, lab manuals, or course notes simultaneously with sub-second retrieval across all files.
-        </p>
-      </div>
+        <div class="divide-y divide-zinc-100 dark:divide-zinc-800/80">
+          <!-- Item 1 -->
+          <div class="pb-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Verbatim Citations Only</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">
+                Every response outputs exact source text with page numbers. Zero speculation or ungrounded synthesis.
+              </p>
+            </div>
+          </div>
 
-      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
-          <i data-lucide="list-checks" class="w-5 h-5"></i>
+          <!-- Item 2 -->
+          <div class="py-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Bilingual Parity</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">
+                Full dual-language capability across English and Bengali tokenization, query extraction, and evaluations.
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="pt-4 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-crimson-soft dark:bg-rose-500/10 text-crimson dark:text-crimson-darkAccent flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Refusal Enforcement</h2>
+              <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">
+                Prompts outside the indexed documents receive a strict refusal notice with zero hallucinated guesses.
+              </p>
+            </div>
+          </div>
         </div>
-        <h3 class="font-athens text-base font-bold text-main">Adaptive Quiz Engine</h3>
-        <p class="text-xs text-muted leading-relaxed">
-          Generate 5 to 15 question interactive assessments on demand with automated scoring, class grade badges, and rationale proofs.
-        </p>
       </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       SECTION 2: LIVE INTERACTIVE STUDIO WORKSPACE (LAUNCHED VIA "TRY NOW")
+       CORE PILLARS: MINIMAL 3-COLUMN BENTO
        ========================================================================= -->
-  <section id="studio-workspace" class="scroll-mt-24 space-y-6 pt-8 border-t border-hairline">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div>
-        <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson font-semibold">Active Workspace</p>
-        <h2 class="font-athens text-xl sm:text-2xl font-bold text-main mt-0.5">Live Document Intelligence Studio</h2>
+  <section id="capabilities" class="pb-12 border-b border-zinc-200/70 dark:border-zinc-800/80">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Card 1 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Character-Exact Grounding</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2">
+          Sub-paragraph coordinate extraction pins answers to source pages with verifiable proof badges and confidence scoring.
+        </p>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="font-mono text-[11px] text-muted">Preloaded Pack:</span>
-        <span class="px-2.5 py-1 rounded-lg bg-[var(--bg-subtle)] border border-hairline font-mono text-[11px] font-semibold text-main">
+
+      <!-- Card 2 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="21 8 21 21 3 21 3 8" />
+            <rect x="1" y="3" width="22" height="5" />
+            <line x1="10" y1="12" x2="14" y2="12" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Multi-Document Vault</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2">
+          Index multiple lecture PDFs, lab manuals, or course syllabi simultaneously with sub-second retrieval across all files.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 transition-colors hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 flex items-center justify-center mb-4">
+          <svg class="w-4 h-4 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Adaptive Quiz Engine</h3>
+        <p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 mt-2">
+          Generate 5 to 15 question multiple-choice assessments with automated grading, rationale proof tags, and CSV export.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ACTIVE INTERACTIVE WORKSPACE
+       ========================================================================= -->
+  <section id="workspace" class="scroll-mt-24 space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">
+          Active Workspace
+        </p>
+        <h2 class="font-serif text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-50 mt-1">
+          Live Document Intelligence Studio
+        </h2>
+      </div>
+      <div class="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+        <span>Active Pack:</span>
+        <span class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/90 text-zinc-700 dark:text-zinc-300 font-medium">
           CS301_AI_and_RAG_Notes.pdf
         </span>
       </div>
     </div>
 
-    <!-- Main Workspace Grid -->
+    <!-- Main Workspace Grid (4 cols Vault / 8 cols Stage) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <!-- Left Column: Document Archive Vault & Uploader -->
+      <!-- Left Column: Document Archive Vault & Uploader (4 cols) -->
       <div class="lg:col-span-4 space-y-5">
-        <div class="surface-card rounded-2xl p-6 space-y-5">
-          <div class="flex items-center justify-between pb-3 border-b border-hairline">
+        <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-6 space-y-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+          <div class="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800/80">
             <div>
-              <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Library Vault</p>
-              <h3 class="font-athens text-base font-bold text-main mt-0.5">Active Documents</h3>
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-crimson dark:text-crimson-darkAccent">Library Vault</span>
+              <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 mt-0.5">Active Documents</h3>
             </div>
-            <span id="pdf-count-badge" class="px-2.5 py-1 rounded-lg bg-crimson-soft border border-crimson font-mono text-[11px] font-semibold text-crimson">
+            <span id="pdf-count-badge" class="px-2.5 py-1 rounded-lg bg-crimson-soft dark:bg-rose-500/10 border border-crimson/30 dark:border-rose-500/30 text-xs font-semibold text-crimson dark:text-crimson-darkAccent">
               1 Active
             </span>
           </div>
 
           <!-- Multi-PDF Dropzone -->
-          <label for="pdf-upload-input" class="block cursor-pointer rounded-xl border border-dashed border-[var(--border-strong)] hover:border-crimson bg-[var(--bg-subtle)] transition-all p-5 text-center group">
+          <label for="pdf-upload-input" class="block cursor-pointer rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 hover:border-crimson dark:hover:border-crimson-darkAccent bg-zinc-50/70 dark:bg-zinc-900/60 transition-all p-5 text-center group">
             <input type="file" id="pdf-upload-input" accept="application/pdf" multiple class="hidden" onchange="handlePdfUpload(event)" />
-            <div class="w-10 h-10 mx-auto rounded-xl bg-[var(--bg-surface)] border border-hairline flex items-center justify-center text-crimson group-hover:scale-105 transition-transform mb-3">
-              <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+            <div class="w-10 h-10 mx-auto rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-crimson dark:text-crimson-darkAccent group-hover:scale-105 transition-transform mb-3 shadow-2xs">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
             </div>
-            <p class="text-xs font-bold text-main uppercase tracking-wider">Upload Text PDF(s)</p>
-            <p class="text-[11px] text-muted mt-1">Supports multiple PDFs with real page indexing</p>
+            <p class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Upload Text PDF(s)</p>
+            <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">Supports multiple PDFs with real page indexing</p>
           </label>
 
           <!-- Loaded PDF List -->
-          <div id="pdf-list" class="space-y-2.5 max-h-52 overflow-y-auto pr-1"></div>
+          <div id="pdf-list" class="space-y-2 max-h-52 overflow-y-auto thin-scrollbar pr-1"></div>
 
           <!-- Multi-Doc Toggle & Reset Controls -->
-          <div class="pt-3 border-t border-hairline flex items-center gap-2">
-            <button onclick="openDocumentInspector()" class="flex-1 py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs font-semibold text-main flex items-center justify-center gap-2 transition-all cursor-pointer">
-              <i data-lucide="book-open" class="w-3.5 h-3.5 text-crimson"></i>
+          <div class="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center gap-2">
+            <button onclick="openDocumentInspector()" type="button" class="flex-1 py-2.5 px-3 rounded-xl border border-zinc-200/80 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 text-xs font-semibold text-zinc-700 dark:text-zinc-300 flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
               <span>Inspect Pages</span>
             </button>
-            <button onclick="resetSamplePdf()" class="py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs text-muted hover:text-crimson transition-all cursor-pointer" title="Restore Default Notes">
-              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <button onclick="resetSamplePdf()" type="button" class="py-2.5 px-3 rounded-xl border border-zinc-200/80 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 text-xs text-zinc-500 hover:text-crimson transition-all cursor-pointer" title="Restore Default Notes">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                <path d="M3 21v-5h5" />
+              </svg>
             </button>
           </div>
         </div>
 
         <!-- Curated Verification Prompts -->
-        <div class="surface-card rounded-2xl p-5 space-y-3">
-          <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint flex items-center gap-1.5">
-            <i data-lucide="compass" class="w-3.5 h-3.5 text-crimson"></i>
+        <div class="rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 p-5 space-y-3 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+          <p class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
             <span>Verification Prompts</span>
           </p>
           <div class="flex flex-wrap gap-2">
-            <button onclick="askPdfSuggestion('What is Retrieval-Augmented Generation and why is it used?')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all cursor-pointer">
-              What is RAG & why is it used?
+            <button onclick="askPdfSuggestion('What is Retrieval-Augmented Generation and why is it used?')" type="button" class="text-left px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200/70 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition-all cursor-pointer">
+              What is RAG &amp; why is it used?
             </button>
-            <button onclick="askPdfSuggestion('Explain the attention mechanism formula in Transformers.')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all cursor-pointer">
+            <button onclick="askPdfSuggestion('Explain the attention mechanism formula in Transformers.')" type="button" class="text-left px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200/70 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition-all cursor-pointer">
               Transformer attention formula
             </button>
-            <button onclick="askPdfSuggestion('Who won the 2022 FIFA World Cup?')" class="text-left px-3 py-2 rounded-lg bg-crimson-soft border border-crimson text-xs font-medium text-crimson transition-all flex items-center gap-1.5 cursor-pointer">
-              <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+            <button onclick="askPdfSuggestion('Who won the 2022 FIFA World Cup?')" type="button" class="text-left px-3 py-1.5 rounded-lg bg-crimson-soft/70 dark:bg-rose-500/10 border border-crimson/25 dark:border-rose-500/25 text-xs font-medium text-crimson dark:text-crimson-darkAccent transition-all flex items-center gap-1.5 cursor-pointer">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
               <span>Test Out-of-Document Refusal</span>
             </button>
-            <button onclick="askPdfSuggestion('ওভারফিটিং (Overfitting) কী এবং কীভাবে কমানো যায়?')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all cursor-pointer">
+            <button onclick="askPdfSuggestion('ওভারফিটিং (Overfitting) কী এবং কীভাবে কমানো যায়?')" type="button" class="text-left px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200/70 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 transition-all cursor-pointer">
               Bangla: ওভারফিটিং কী?
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Cited Q&A + Quiz Builder Stage -->
-      <div class="lg:col-span-8 surface-card rounded-2xl overflow-hidden flex flex-col border border-hairline shadow-sm">
+      <!-- Right Column: Cited Q&A + Quiz Builder Stage (8 cols) -->
+      <div class="lg:col-span-8 rounded-2xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800/90 overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.03)] flex flex-col">
         <!-- Top Workspace Mode Switcher Bar -->
-        <div class="px-6 py-4 border-b border-hairline bg-[var(--bg-subtle)] flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-surface)] border border-hairline">
-            <button id="m1-mode-chat" onclick="switchM1Mode('chat')" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-2 cursor-pointer">
-              <i data-lucide="message-square-text" class="w-3.5 h-3.5 text-crimson"></i>
-              <span>Document Q&A</span>
+        <div class="px-5 py-3.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4 bg-zinc-50/50 dark:bg-zinc-950/20">
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface-light dark:bg-surface-dark border border-zinc-200/80 dark:border-zinc-800">
+            <button id="m1-mode-chat" onclick="switchM1Mode('chat')" type="button" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition-all flex items-center gap-2 cursor-pointer shadow-2xs">
+              <svg class="w-3.5 h-3.5 text-crimson dark:text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              <span>Document Q&amp;A</span>
             </button>
-            <button id="m1-mode-quiz" onclick="switchM1Mode('quiz')" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-muted hover:text-main transition-all flex items-center gap-2 cursor-pointer">
-              <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+            <button id="m1-mode-quiz" onclick="switchM1Mode('quiz')" type="button" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-all flex items-center gap-2 cursor-pointer">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 11 12 14 22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
               <span>Quiz Engine</span>
             </button>
           </div>
 
-          <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-muted">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-crimson"></i>
+          <div class="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
             <span>Strict Page Citations</span>
           </div>
         </div>
 
         <!-- SUB-VIEW A: DOCUMENT Q&A -->
         <div id="m1-chat-view" class="flex flex-col">
-          <!-- Messages Area (Fixed, Ergonomic Height with Guaranteed Visible Input Bar) -->
-          <div id="pdf-chat-messages" class="p-6 space-y-4 overflow-y-auto h-[380px] sm:h-[420px]">
-            <div class="flex items-start gap-3.5 msg-animate">
-              <div class="w-9 h-9 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center shrink-0">
-                <i data-lucide="book-marked" class="w-4 h-4 text-crimson"></i>
+          <!-- Messages Area -->
+          <div id="pdf-chat-messages" class="p-5 space-y-4 overflow-y-auto thin-scrollbar h-[350px] bg-zinc-50/40 dark:bg-zinc-950/30">
+            <div class="flex items-start gap-3 max-w-[88%]">
+              <div class="w-7 h-7 rounded-lg bg-crimson/10 dark:bg-rose-500/15 text-crimson dark:text-crimson-darkAccent flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">
+                O
               </div>
-              <div class="surface-subtle rounded-2xl rounded-tl-sm p-4 max-w-2xl border border-hairline">
-                <p class="text-sm text-main leading-relaxed">
-                  Welcome to <strong>Document Studio</strong>. A 4-page lecture pack (<em>CS301: Foundations of AI & RAG Systems</em>) is loaded and ready, or upload your own text-based PDFs. Every response displays exact source quotes with page numbers and strictly refuses topics outside your documents.
-                </p>
-                <div class="mt-3 pt-2.5 border-t border-hairline flex flex-wrap items-center gap-2 text-[11px] text-muted">
-                  <span class="font-mono uppercase text-faint">Try asking:</span>
-                  <button onclick="askPdfSuggestion('What is Retrieval-Augmented Generation and why is it used?')" class="text-crimson hover:underline font-medium">What is RAG?</button>
-                  <span>•</span>
-                  <button onclick="askPdfSuggestion('Explain the attention mechanism formula in Transformers.')" class="text-crimson hover:underline font-medium">Attention Formula</button>
-                </div>
+              <div class="rounded-2xl rounded-tl-sm bg-surface-light dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 px-4 py-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                Welcome to <strong>Document Studio</strong>. A 4-page lecture pack (<em>CS301: Foundations of AI &amp; RAG Systems</em>) is loaded and ready, or upload your own text-based PDFs. Every response displays exact source quotes with page numbers and strictly refuses topics outside your documents.
               </div>
             </div>
           </div>
 
-          <!-- Sticky Input Bar (Always in View) -->
-          <form onsubmit="handlePdfChatSubmit(event)" class="p-4 border-t border-hairline bg-[var(--bg-subtle)] flex items-center gap-3">
+          <!-- Input Bar -->
+          <form onsubmit="handlePdfChatSubmit(event)" class="p-3.5 border-t border-zinc-200/70 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark flex items-center gap-2.5">
             <input
               id="pdf-chat-input"
               type="text"
-              placeholder="Ask a question grounded strictly in your uploaded PDFs (English or Bangla)..."
-              class="field-input flex-1 px-4 py-3.5 rounded-xl text-sm transition-all"
+              autocomplete="off"
+              placeholder="Ask a question about the loaded study notes (e.g. attention formula, overfitting)..."
+              class="flex-1 bg-zinc-100/70 dark:bg-zinc-900 border border-transparent focus:border-zinc-300 dark:focus:border-zinc-700 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none transition-all"
             />
-            <button type="submit" class="btn-crimson px-5 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 cursor-pointer">
-              <span>Query</span>
-              <i data-lucide="send" class="w-4 h-4"></i>
+            <button
+              type="submit"
+              aria-label="Send query"
+              class="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 transition-colors shrink-0 cursor-pointer"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
             </button>
           </form>
         </div>
 
-        <!-- SUB-VIEW B: INTERACTIVE QUIZ ENGINE -->
-        <div id="m1-quiz-view" class="hidden flex-col p-6 space-y-6 overflow-y-auto max-h-[560px]">
-          <div class="p-5 rounded-xl surface-subtle flex flex-wrap items-end justify-between gap-4 border border-hairline">
+        <!-- SUB-VIEW B: ADAPTIVE QUIZ BUILDER -->
+        <div id="m1-quiz-view" class="hidden flex-col">
+          <!-- Quiz Controls Strip -->
+          <div class="p-5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4 bg-surface-light dark:bg-surface-dark">
             <div class="flex flex-wrap items-center gap-4">
               <div>
-                <label class="block font-mono text-[10px] uppercase tracking-widest text-faint mb-1.5">Questions</label>
-                <select id="quiz-count" class="field-input px-3.5 py-2.5 rounded-xl text-xs font-semibold">
-                  <option value="5" selected>5 Questions</option>
-                  <option value="7">7 Questions</option>
-                  <option value="10">10 Questions</option>
+                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider mb-1">Questions</label>
+                <select id="quiz-count" class="px-3 py-1.5 rounded-lg border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-xs font-semibold text-zinc-800 dark:text-zinc-200 focus:outline-none">
+                  <option value="5" selected>5 Questions (Sprint)</option>
+                  <option value="10">10 Questions (Standard)</option>
+                  <option value="15">15 Questions (Mastery)</option>
                 </select>
               </div>
+
               <div>
-                <label class="block font-mono text-[10px] uppercase tracking-widest text-faint mb-1.5">Difficulty</label>
-                <select id="quiz-difficulty" class="field-input px-3.5 py-2.5 rounded-xl text-xs font-semibold">
+                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-wider mb-1">Difficulty</label>
+                <select id="quiz-difficulty" class="px-3 py-1.5 rounded-lg border border-zinc-200/90 dark:border-zinc-800 bg-surface-light dark:bg-surface-dark text-xs font-semibold text-zinc-800 dark:text-zinc-200 focus:outline-none">
                   <option value="easy">Foundational (Easy)</option>
-                  <option value="medium" selected>Intermediate (Medium)</option>
-                  <option value="hard">Advanced (Hard)</option>
+                  <option value="medium" selected>Balanced (Medium)</option>
+                  <option value="hard">Rigorous (Hard)</option>
                 </select>
               </div>
             </div>
 
-            <button id="generate-quiz-btn" onclick="generatePdfQuiz()" class="btn-crimson px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer">
-              <i data-lucide="file-check-2" class="w-4 h-4"></i>
+            <button
+              id="generate-quiz-btn"
+              onclick="generatePdfQuiz()"
+              type="button"
+              class="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-sm"
+            >
+              <svg class="w-3.5 h-3.5 text-crimson" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
               <span>Generate Quiz</span>
             </button>
           </div>
 
-          <div id="quiz-container" class="flex flex-col items-center justify-center text-center py-10 space-y-4">
-            <div class="w-14 h-14 rounded-2xl surface-subtle flex items-center justify-center text-crimson">
-              <i data-lucide="clipboard-list" class="w-7 h-7"></i>
-            </div>
-            <div class="max-w-md">
-              <h4 class="font-athens text-lg font-bold text-main">Ready for Self-Assessment</h4>
-              <p class="text-xs text-muted mt-1.5 leading-relaxed">
-                Select question count and difficulty, then click <strong class="text-crimson">Generate Quiz</strong> to build an interactive multiple-choice assessment backed by exact PDF source proofs.
-              </p>
+          <!-- Quiz Render Area -->
+          <div id="quiz-container" class="p-6 overflow-y-auto thin-scrollbar h-[380px] bg-zinc-50/30 dark:bg-zinc-950/20 space-y-6">
+            <div class="text-center py-12 text-zinc-400 dark:text-zinc-500 space-y-2">
+              <svg class="w-10 h-10 mx-auto text-zinc-300 dark:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              <p class="text-xs font-medium">Click "Generate Quiz" above to synthesize an instant assessment from your loaded notes.</p>
             </div>
           </div>
         </div>
+
       </div>
 
     </div>
@@ -321,19 +427,19 @@
 </div>
 
 <script>
-  function openStudioWorkspace(e) {
+  function openDocumentWorkspace(e) {
     if (e) e.preventDefault();
-    const ws = document.getElementById('studio-workspace');
+    const ws = document.getElementById('workspace');
     if (ws) {
       ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(() => {
         const inp = document.getElementById('pdf-chat-input');
         if (inp) {
           inp.focus();
-          inp.classList.add('ring-2', 'ring-[var(--crimson)]');
-          setTimeout(() => inp.classList.remove('ring-2', 'ring-[var(--crimson)]'), 1200);
+          inp.classList.add('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950');
+          setTimeout(() => inp.classList.remove('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950'), 1500);
         }
-      }, 500);
+      }, 450);
     }
   }
 </script>

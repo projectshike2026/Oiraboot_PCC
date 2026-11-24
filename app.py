@@ -16,6 +16,8 @@ from tracks.track2.kb import kb
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
     app.config["SECRET_KEY"] = Config.SECRET_KEY
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
+    app.jinja_env.auto_reload = True
     app.teardown_appcontext(close_db)
 
     # Initialize DB with schemas on app creation
