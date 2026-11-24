@@ -166,14 +166,17 @@
    AUTONOMOUS 3D ISOMETRIC NEURAL SERVER NODE & PARTICLE ENGINE (Uiverse.io)
    ========================================================================= */
 #svg-global {
+  --node-size: clamp(190px, 22vw, 255px);
+  width: var(--node-size);
+  height: auto;
   overflow: visible;
-  filter: drop-shadow(0 16px 36px rgba(2, 132, 199, 0.28)) drop-shadow(0 6px 14px rgba(6, 182, 212, 0.35));
+  filter: drop-shadow(0 14px 28px rgba(56, 189, 248, 0.22)) drop-shadow(0 4px 12px rgba(14, 165, 233, 0.18));
   transition: filter 0.4s ease, transform 0.4s ease;
 }
 
 [data-theme="dark"] #svg-global,
 .dark #svg-global {
-  filter: drop-shadow(0 18px 45px rgba(34, 211, 238, 0.45)) drop-shadow(0 0 28px rgba(0, 229, 255, 0.55));
+  filter: drop-shadow(0 16px 36px rgba(125, 211, 252, 0.35)) drop-shadow(0 0 22px rgba(56, 189, 248, 0.42));
 }
 
 @keyframes fade-particles {
