@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and environments
+.pytest_cache/
+.env
+venv/
+env/
+.venv/
+
+# Database and runtime uploads
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Confidential / Internal planning / Scratch files
+PRD*.md
+*prd*
+*PRD*
+problem-statement*.pdf
+demo.ui.txt
+DECISIONS.md
+logo/
+
+# OS / Editor files
+.vscode/
+.idea/
+*.swp
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Architecture & Verification Guarantee — Oiraboot (ঐরাবত){% endblock %}
+
+{% block content %}
+<div class="pt-32 pb-20 px-4 sm:px-6 lg:px-10 max-w-4xl mx-auto space-y-10">
+  <div class="surface-card rounded-2xl p-8 sm:p-10 space-y-6">
+    <div class="space-y-2">
+      <p class="font-mono text-xs uppercase tracking-[0.28em] text-crimson font-bold">Platform Architecture</p>
+      <h1 class="font-athens text-3xl sm:text-5xl font-bold text-main">Zero-Hallucination Academic Intelligence</h1>
+      <p class="font-editorial italic text-xl text-muted">Engineered by Oiraboot (ঐরাবত) • 2026</p>
+    </div>
+
+    <div class="pt-6 border-t border-hairline space-y-8 text-sm text-muted leading-relaxed">
+      <section class="space-y-3">
+        <h2 class="font-athens text-lg font-bold text-main flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-5 h-5 text-crimson"></i>
+          <span>1. Strict Source Verification (Anti-Hallucination)</span>
+        </h2>
+        <p>
+          Unlike generic conversational wrappers that make plausible-sounding guesses, every response generated in the <strong>Oiraboot Academic Intelligence Suite</strong> undergoes server-side verification before reaching the user:
+        </p>
+        <ul class="list-disc pl-5 space-y-1.5 text-xs text-main">
+          <li><strong>Document Studio (Track 1):</strong> Answers require verbatim character-for-character citation spans. The server validates each chunk against the source PDF text using exact matching and high-ratio fuzzy string comparison (SequenceMatcher &ge; 0.85). If zero citations verify, the engine strictly outputs <strong class="text-crimson">"Not found in the document"</strong>.</li>
+          <li><strong>Admissions Desk (Track 2):</strong> Every fact is verified against official institutional records (<code class="bg-[var(--bg-subtle)] px-1.5 py-0.5 rounded">data/admission.txt</code>). All numerical quantities (tuition fees, credit counts, dates, minimum GPAs) are verified against the document's cached number set. If ungrounded or absent, the model strictly reverts to official admission office referral contacts.</li>
+          <li><strong>Scholarship Atlas (Track 3):</strong> Eligibility matching is computed deterministically in pure Python code against live CSV records. AI-generated fit summaries fall back to strict template rationales whenever the model is unavailable.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="font-athens text-lg font-bold text-main flex items-center gap-2">
+          <i data-lucide="cpu" class="w-5 h-5 text-crimson"></i>
+          <span>2. Hybrid BM25 & Full-Context RAG Architecture</span>
+        </h2>
+        <p>
+          For short lecture documents (&le; 48,000 characters), the engine passes all page-bounded chunks to ensure zero retrieval misses. For larger materials, an in-memory pure Python implementation of <strong>BM25</strong> selects the most contextually relevant excerpts across pages, accounting for prior conversation turns to handle follow-up queries naturally.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="font-athens text-lg font-bold text-main flex items-center gap-2">
+          <i data-lucide="languages" class="w-5 h-5 text-crimson"></i>
+          <span>3. Bilingual English & Bangla Fidelity</span>
+        </h2>
+        <p>
+          Built natively for students in Bangladesh, the entire UI chrome, error handling, question prompts, and AI reasoning streams seamlessly between English and Bangla. Language detection automatically detects Bengali script input to deliver native Bangla answers with identical source proofs.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="font-athens text-lg font-bold text-main flex items-center gap-2">
+          <i data-lucide="award" class="w-5 h-5 text-crimson"></i>
+          <span>4. Modular Studio Ecosystem</span>
+        </h2>
+        <p>
+          Oiraboot separates concerns into dedicated workspaces: <strong>Document Studio</strong> (`/documents`), <strong>Admissions Desk</strong> (`/admissions`), and <strong>Scholarship Atlas</strong> (`/scholarships`), unified under an Overview Portal (`/`).
+        </p>
+      </section>
+    </div>
+
+    <div class="pt-6 border-t border-hairline flex items-center justify-between">
+      <a href="/" class="btn-crimson px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Return to Overview</span>
+      </a>
+      <span class="font-mono text-xs text-faint">Oiraboot Intelligence Suite 2026</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

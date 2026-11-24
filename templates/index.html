@@ -1,0 +1,1266 @@
+{% extends "base.html" %}
+
+{% block title %}Oiraboot (ঐরাবত) — Academic Intelligence Suite{% endblock %}
+
+{% block content %}
+<!-- =========================================================================
+     HERO SECTION PLATE (PURE FULL-VIEWPORT COMPOSITION + GENERATIVE VIDEO)
+     ========================================================================= -->
+<section id="hero-plate" class="relative z-20 w-full min-h-screen flex flex-col justify-between pt-20 bg-[var(--bg-page)]">
+
+  <!-- Interactive Generative Video Canvas (Sculptural 3D Ribbons + Cosmic Particles) -->
+  <canvas id="hero-video-canvas" aria-label="Interactive animated visualization"></canvas>
+
+  <!-- Soft Optical Contrast Veil Behind Typography (Zero Boxes) -->
+  <div class="optical-veil" aria-hidden="true"></div>
+
+  <!-- CENTERPIECE MONUMENTAL TYPOGRAPHY & SEAMLESS INLINE TYPEWRITER (ZERO BOXES) -->
+  <div
+    class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-5 sm:px-8 max-w-5xl mx-auto w-full py-12 pointer-events-none">
+
+    <!-- Active Scene Caption (Pure Typography — Zero Pills or Boxes) -->
+    <div class="enter-fade d-1 flex items-center gap-3 mb-6">
+      <span class="w-6 h-[1.5px] bg-[var(--crimson)]"></span>
+      <span id="scene-kicker"
+        class="font-mono text-[11px] sm:text-xs uppercase tracking-[0.3em] text-crimson font-semibold">
+        01 — Document Intelligence
+      </span>
+      <span class="w-6 h-[1.5px] bg-[var(--crimson)]"></span>
+    </div>
+
+    <!-- Monumental Classical Athens Headline -->
+    <h1
+      class="font-athens text-4xl sm:text-6xl md:text-7xl lg:text-[5.2rem] font-bold leading-[1.03] tracking-[0.05em] text-main select-none">
+      <span class="mask-line">
+        <span class="mask-inner" data-i18n="heroLine1">{{ 'একাডেমিক' if current_lang == 'bn' else 'INTELLIGENCE'
+          }}</span>
+      </span>
+      <span class="mask-line mt-1 sm:mt-2">
+        <span class="mask-inner d-1">
+          <span data-i18n="heroLine2">{{ 'নির্ভুল' if current_lang == 'bn' else 'BUILT FOR' }}</span>
+          <span class="font-editorial italic font-medium text-crimson tracking-normal ml-2 sm:ml-4 text-[1.16em]"
+            data-i18n="heroLine3">{{ 'প্ল্যাটফর্ম' if current_lang == 'bn' else 'Clarity' }}</span>
+        </span>
+      </span>
+    </h1>
+
+    <!-- Seamless Editorial Typewriter Stream (Floats Directly in Space — No Card/Box) -->
+    <div
+      class="enter-fade d-2 mt-7 sm:mt-9 min-h-[3.8rem] sm:min-h-[3.2rem] max-w-2xl flex items-center justify-center px-4">
+      <p class="font-editorial text-xl sm:text-2xl md:text-[1.72rem] font-normal leading-snug text-muted">
+        <span id="typewriter-text" class="text-main"></span><span class="type-cursor" aria-hidden="true"></span>
+      </p>
+    </div>
+
+    <!-- Minimal Action Pair -->
+    <div
+      class="enter-fade d-3 mt-9 sm:mt-11 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 pointer-events-auto">
+      <a href="#studios"
+        class="btn-primary-sweep px-7 sm:px-9 py-3.5 sm:py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] flex items-center gap-3">
+        <span data-i18n="ctaPrimary">{{ 'স্টুডিওগুলো দেখুন' if current_lang == 'bn' else 'Explore Studios' }}</span>
+        <i data-lucide="arrow-down" class="w-4 h-4"></i>
+      </a>
+
+      <button type="button" onclick="triggerPulseShowcase()"
+        class="btn-ghost-clean px-6 sm:px-7 py-3.5 sm:py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] flex items-center gap-2.5">
+        <i data-lucide="waveform" class="w-4 h-4 text-crimson"></i>
+        <span data-i18n="ctaSecondary">{{ 'পরবর্তী দৃশ্য' if current_lang == 'bn' else 'Next Scene' }}</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- VIDEO-STYLE INTERACTIVE CHAPTER SCRUBBER & PLAYBACK BAR (CLEAN HAIRLINES) -->
+  <div class="relative z-10 enter-fade d-4 w-full border-t border-hairline bg-[var(--bg-surface)] nav-glass pointer-events-auto">
+    <div
+      class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3.5 sm:py-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+
+      <!-- 3 Synchronized Video Chapters -->
+      <div class="grid grid-cols-3 gap-4 sm:gap-8 flex-1 max-w-3xl">
+        <!-- Chapter 01 -->
+        <button type="button" onclick="selectChapter(0)"
+          class="chapter-trigger group text-left space-y-2 focus:outline-none cursor-pointer">
+          <div class="flex items-center justify-between gap-2">
+            <span
+              class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-main transition-colors truncate">
+              <span class="text-crimson font-semibold mr-1.5">01</span>
+              <span data-i18n="ch1">{{ 'পিডিএফ ও কুইজ' if current_lang == 'bn' else 'PDF & Quiz' }}</span>
+            </span>
+            <i data-lucide="file-search-2"
+              class="w-3.5 h-3.5 text-faint group-hover:text-crimson transition-colors hidden sm:block"></i>
+          </div>
+          <div class="w-full h-[2px] bg-[var(--border-hairline)] overflow-hidden">
+            <div id="progress-0" class="h-full bg-[var(--crimson)] w-0 transition-all duration-75"></div>
+          </div>
+        </button>
+
+        <!-- Chapter 02 -->
+        <button type="button" onclick="selectChapter(1)"
+          class="chapter-trigger group text-left space-y-2 focus:outline-none cursor-pointer">
+          <div class="flex items-center justify-between gap-2">
+            <span
+              class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-main transition-colors truncate">
+              <span class="text-crimson font-semibold mr-1.5">02</span>
+              <span data-i18n="ch2">{{ 'ভর্তি সহায়তা' if current_lang == 'bn' else 'Admissions' }}</span>
+            </span>
+            <i data-lucide="messages-square"
+              class="w-3.5 h-3.5 text-faint group-hover:text-crimson transition-colors hidden sm:block"></i>
+          </div>
+          <div class="w-full h-[2px] bg-[var(--border-hairline)] overflow-hidden">
+            <div id="progress-1" class="h-full bg-[var(--crimson)] w-0 transition-all duration-75"></div>
+          </div>
+        </button>
+
+        <!-- Chapter 03 -->
+        <button type="button" onclick="selectChapter(2)"
+          class="chapter-trigger group text-left space-y-2 focus:outline-none cursor-pointer">
+          <div class="flex items-center justify-between gap-2">
+            <span
+              class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-main transition-colors truncate">
+              <span class="text-crimson font-semibold mr-1.5">03</span>
+              <span data-i18n="ch3">{{ 'স্কলারশিপ' if current_lang == 'bn' else 'Scholarships' }}</span>
+            </span>
+            <i data-lucide="orbit"
+              class="w-3.5 h-3.5 text-faint group-hover:text-crimson transition-colors hidden sm:block"></i>
+          </div>
+          <div class="w-full h-[2px] bg-[var(--border-hairline)] overflow-hidden">
+            <div id="progress-2" class="h-full bg-[var(--crimson)] w-0 transition-all duration-75"></div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Video Playback Toggle & Sculpting Hint -->
+      <div
+        class="flex items-center justify-between md:justify-end gap-5 pt-2 md:pt-0 border-t md:border-t-0 border-hairline">
+        <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-faint">
+          <i data-lucide="move" class="w-3.5 h-3.5 text-crimson"></i>
+          <span data-i18n="interactHint">Move & click canvas to sculpt</span>
+        </div>
+
+        <button type="button" id="play-pause-btn" onclick="togglePlayback()"
+          class="w-9 h-9 rounded-full border border-hairline hover:border-[var(--crimson)] flex items-center justify-center text-main hover:text-crimson transition-colors shrink-0 cursor-pointer"
+          title="Play or Pause Hero Reel" aria-label="Play or Pause Hero Reel">
+          <i id="play-pause-icon" data-lucide="pause" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- =======================================================================
+     GALAXY BACKGROUND SHOWCASE CONTAINER (3D SPIRAL GALAXY + GLASSMORPHISM)
+     ======================================================================= -->
+<div id="galaxy-section-wrapper" class="relative w-full overflow-hidden">
+
+  <!-- Atmospheric Faded Veil & Edge Mask -->
+  <div class="faded-glow-veil" aria-hidden="true"></div>
+  <div class="faded-edge-mask" aria-hidden="true"></div>
+
+  <!-- SECTION 2: DEDICATED STUDIOS SHOWCASE (AWARD-WINNING GLASSMORPHISM) -->
+  <section id="studios" class="relative z-10 py-24 sm:py-32 px-4 sm:px-6 lg:px-10">
+    <div class="max-w-7xl mx-auto space-y-24 relative z-10">
+
+      <!-- Section Heading -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end reveal">
+        <div class="lg:col-span-7 space-y-3">
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
+            <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
+            <span>Autonomous Systems Architecture</span>
+          </div>
+          <h2
+            class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
+            <span>Three Dedicated Studios.</span>
+            <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">Independent
+              Workspaces.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-5">
+          <p class="text-sm sm:text-base text-muted leading-relaxed">
+            Each track operates as a self-contained intelligence workspace featuring dedicated data pipelines,
+            verifiable citation safeguards, multi-turn conversational context, and deterministic rule engines.
+          </p>
+        </div>
+      </div>
+
+      <!-- STUDIO 1: DOCUMENT STUDIO (TRACK 1) -->
+      <div class="glass-panel p-6 sm:p-10 lg:p-12 reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
+          <!-- Left: In-depth System Specification -->
+          <div class="lg:col-span-6 space-y-6">
+            <div
+              class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-hairline bg-crimson-soft text-crimson font-mono text-[11px] font-bold uppercase tracking-wider">
+              <i data-lucide="file-search-2" class="w-4 h-4"></i>
+              <span>Track 01 • Studio Workspace</span>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-athens text-2xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
+                Document Studio</h3>
+              <p class="font-editorial italic text-xl sm:text-2xl text-muted font-normal">
+                High-Precision Study Notes Search & Adaptive MCQ Generator
+              </p>
+            </div>
+
+            <p class="text-sm text-muted leading-relaxed">
+              Upload complex lecture notes or academic syllabi in PDF format. Oiraboot indexes every page with
+              character-exact coordinates, enabling deep natural language queries in both English and Bengali. Answers
+              are guaranteed with verbatim excerpt citations and page badges. Generate 5–15 question MCQ assessments on
+              demand, complete with instant in-place grading and verifiable proof tags.
+            </p>
+
+            <!-- System Feature Checklist -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-main">
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="shield-check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Strict character-exact page citations</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Refusal guardrail for out-of-scope queries</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="sliders" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Configurable MCQ engine (5–15 questions)</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="download" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Verbatim proof tag per question & CSV export</span>
+              </div>
+            </div>
+
+            <!-- Launch CTA Button -->
+            <div class="pt-4">
+              <a href="/documents"
+                class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] inline-flex items-center gap-3">
+                <span>Open Document Studio</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Animated Glass Interactive Preview -->
+          <div class="lg:col-span-6">
+            <div class="glass-subcard p-6 sm:p-7 rounded-2xl space-y-4">
+
+              <!-- Document Meta Bar -->
+              <div class="flex items-center justify-between pb-3.5 border-b border-hairline">
+                <span class="font-mono text-xs font-semibold text-main flex items-center gap-2">
+                  <i data-lucide="file-text" class="w-4 h-4 text-crimson"></i>
+                  <span>CS301_AI_Algorithms_Notes.pdf</span>
+                </span>
+                <span
+                  class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 text-[10px] font-mono font-bold flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>INDEXED (4 PAGES)</span>
+                </span>
+              </div>
+
+              <!-- Interactive Simulated Query Box -->
+              <div class="space-y-3 text-xs">
+                <div class="surface-subtle p-3.5 rounded-xl border border-hairline">
+                  <p class="font-mono text-[10px] text-muted mb-1 flex items-center gap-1.5 uppercase tracking-wider">
+                    <i data-lucide="help-circle" class="w-3 h-3 text-crimson"></i>
+                    <span>Student Query</span>
+                  </p>
+                  <p class="font-medium text-main text-xs sm:text-sm">
+                    What is Retrieval-Augmented Generation (RAG)?
+                  </p>
+                </div>
+
+                <!-- Verified Citation Proof Card -->
+                <div class="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/[0.04] space-y-2.5">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-mono text-[10px] text-emerald-600 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                      <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                      <span>Verbatim Citation Proof</span>
+                    </span>
+                    <span
+                      class="px-2 py-0.5 rounded bg-[var(--bg-page)] border border-hairline font-mono text-[10px] text-main font-semibold">
+                      Page 1 • Paragraph 3
+                    </span>
+                  </div>
+                  <p class="text-xs text-muted leading-relaxed italic border-l-2 border-emerald-500 pl-3 py-0.5">
+                    "Retrieval-Augmented Generation (RAG) is an architectural framework that enhances Large Language
+                    Models by retrieving relevant document snippets..."
+                  </p>
+                </div>
+              </div>
+
+              <!-- Interactive Mini-Quiz Selector Demo -->
+              <div class="pt-3 border-t border-hairline space-y-2.5">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-mono text-[11px] text-muted font-medium">MCQ Assessment Engine:</span>
+                  <span class="font-mono text-[11px] text-crimson font-bold">100% Citation Grounding</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" onclick="setPreviewQuizDifficulty(5, 'Easy', this)"
+                    class="preview-quiz-btn px-3 py-2 rounded-lg border border-crimson/30 bg-crimson-soft text-center font-mono text-[11px] text-crimson font-bold transition-all cursor-pointer">
+                    5 Qs (Easy)
+                  </button>
+                  <button type="button" onclick="setPreviewQuizDifficulty(10, 'Medium', this)"
+                    class="preview-quiz-btn px-3 py-2 rounded-lg border border-hairline surface-subtle text-center font-mono text-[11px] text-muted font-medium transition-all cursor-pointer">
+                    10 Qs (Medium)
+                  </button>
+                  <button type="button" onclick="setPreviewQuizDifficulty(15, 'Hard', this)"
+                    class="preview-quiz-btn px-3 py-2 rounded-lg border border-hairline surface-subtle text-center font-mono text-[11px] text-muted font-medium transition-all cursor-pointer">
+                    15 Qs (Hard)
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STUDIO 2: ADMISSIONS DESK (TRACK 2) -->
+      <div class="glass-panel p-6 sm:p-10 lg:p-12 reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
+          <!-- Left: Simulated Multi-Turn Conversation & Circular Progress Ring -->
+          <div class="lg:col-span-6 order-2 lg:order-1">
+            <div class="glass-subcard p-6 sm:p-7 rounded-2xl space-y-4">
+
+              <div class="flex items-center justify-between pb-3.5 border-b border-hairline">
+                <span class="font-mono text-xs font-semibold text-main flex items-center gap-2">
+                  <i data-lucide="messages-square" class="w-4 h-4 text-crimson"></i>
+                  <span>Institutional Admissions Concierge</span>
+                </span>
+                <span
+                  class="px-2.5 py-1 rounded-full bg-crimson-soft text-crimson border border-crimson/30 text-[10px] font-mono font-bold flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
+                  <span>CONTEXT ACTIVE</span>
+                </span>
+              </div>
+
+              <!-- Multi-Turn Memory Simulation -->
+              <div class="space-y-3 text-xs">
+                <div class="surface-subtle p-3 rounded-xl border border-hairline">
+                  <p class="font-mono text-[10px] text-muted mb-0.5">STUDENT</p>
+                  <p class="font-medium text-main">What is the total tuition fee for B.Sc. in CSE?</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl border border-hairline bg-[var(--bg-surface)] space-y-1">
+                  <p class="font-mono text-[10px] text-crimson font-bold">ADVISOR (OFFICIAL FEE SCHEDULE)</p>
+                  <p class="text-main leading-relaxed">
+                    For B.Sc. in CSE, estimated total tuition and fees are BDT 4,48,000 for 150 credits across 12
+                    trimesters.
+                  </p>
+                </div>
+
+                <div class="surface-subtle p-3 rounded-xl border border-hairline">
+                  <p class="font-mono text-[10px] text-muted mb-0.5">FOLLOW-UP (PRONOUN RESOLUTION)</p>
+                  <p class="font-medium text-main">And for BBA?</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl border border-hairline bg-[var(--bg-surface)] space-y-1">
+                  <p class="font-mono text-[10px] text-crimson font-bold">ADVISOR (RESOLVES CONTEXT)</p>
+                  <p class="text-main leading-relaxed">
+                    For BBA, total estimated tuition and fees are BDT 3,92,000 across 126 credits.
+                  </p>
+                </div>
+              </div>
+
+              <!-- 6-Step Checklist Progress Ring Widget -->
+              <div class="pt-3.5 border-t border-hairline flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <svg class="w-10 h-10 -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-hairline stroke-current" stroke-width="3.5" fill="none"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+                    <path class="text-crimson stroke-current" stroke-dasharray="67, 100" stroke-linecap="round"
+                      stroke-width="3.5" fill="none"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+                  </svg>
+                  <div>
+                    <p class="font-mono text-xs font-bold text-main">67% Completed</p>
+                    <p class="text-[11px] text-muted">4 of 6 milestones achieved</p>
+                  </div>
+                </div>
+                <span class="px-3 py-1 rounded-full surface-subtle text-[11px] font-mono text-main font-semibold">
+                  Live Checklist
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right: In-depth Specification -->
+          <div class="lg:col-span-6 space-y-6 order-1 lg:order-2">
+            <div
+              class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-hairline bg-crimson-soft text-crimson font-mono text-[11px] font-bold uppercase tracking-wider">
+              <i data-lucide="messages-square" class="w-4 h-4"></i>
+              <span>Track 02 • Studio Workspace</span>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-athens text-2xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
+                Admissions Desk</h3>
+              <p class="font-editorial italic text-xl sm:text-2xl text-muted font-normal">
+                Context-Aware Advisory Concierge & Live Milestones
+              </p>
+            </div>
+
+            <p class="text-sm text-muted leading-relaxed">
+              Navigating university enrollment requires nuanced guidance. The Admissions Desk acts as an institutional
+              concierge grounded directly in official fee schedules, credit loads, and program requirements. It retains
+              multi-turn memory to answer follow-up queries naturally, asks clarifying questions when prompts are
+              incomplete, and continuously maintains a 6-step admissions checklist with circular progress tracking.
+            </p>
+
+            <!-- System Feature Checklist -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-main">
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="brain" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Multi-turn conversational memory for follow-ups</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="calculator" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Strict numerical validation of official fees</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="help-circle" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Clarifying questions for ambiguous requests</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="check-circle" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Live 6-step admissions checklist with SVG ring</span>
+              </div>
+            </div>
+
+            <!-- Launch CTA Button -->
+            <div class="pt-4">
+              <a href="/admissions"
+                class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] inline-flex items-center gap-3">
+                <span>Open Admissions Desk</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STUDIO 3: SCHOLARSHIP ATLAS (TRACK 3) -->
+      <div class="glass-panel p-6 sm:p-10 lg:p-12 reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
+          <!-- Left: In-depth Specification -->
+          <div class="lg:col-span-6 space-y-6">
+            <div
+              class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-hairline bg-crimson-soft text-crimson font-mono text-[11px] font-bold uppercase tracking-wider">
+              <i data-lucide="award" class="w-4 h-4"></i>
+              <span>Track 03 • Studio Workspace</span>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-athens text-2xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
+                Scholarship Atlas</h3>
+              <p class="font-editorial italic text-xl sm:text-2xl text-muted font-normal">
+                Merit Grant Discovery & Almost-Eligible Gap Analysis
+              </p>
+            </div>
+
+            <p class="text-sm text-muted leading-relaxed">
+              Institutional scholarship programs are ingested straight from official CSV data. Filter in real time using
+              the interactive CGPA slider, pick your degree program, and toggle financial need criteria to instantly
+              discover every award you qualify for. Each match receives a tailored AI fit rationale. Near-misses are
+              automatically evaluated in the Almost-Eligible Gap Radar to identify exact criteria deficits.
+            </p>
+
+            <!-- System Feature Checklist -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-main">
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Deterministic CGPA, department & need matching</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Personalized AI fit rationales dynamically synthesized</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="target" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Almost-Eligible Gap Radar with missing requirement delta</span>
+              </div>
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="table" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+                <span>Card Grid vs Dense Data Table with CSV export</span>
+              </div>
+            </div>
+
+            <!-- Launch CTA Button -->
+            <div class="pt-4">
+              <a href="/scholarships"
+                class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] inline-flex items-center gap-3">
+                <span>Open Scholarship Atlas</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Interactive CGPA & Gap Radar Simulator -->
+          <div class="lg:col-span-6">
+            <div class="glass-subcard p-6 sm:p-7 rounded-2xl space-y-4">
+
+              <!-- Interactive CGPA Simulator Header -->
+              <div class="space-y-2 pb-3.5 border-b border-hairline">
+                <div class="flex items-center justify-between text-xs font-mono">
+                  <span class="text-main font-semibold flex items-center gap-2">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-crimson"></i>
+                    <span>CGPA Simulator: <span id="preview-cgpa-val"
+                        class="text-crimson font-bold text-sm">3.75</span></span>
+                  </span>
+                  <span id="preview-match-badge"
+                    class="px-2.5 py-0.5 rounded-full bg-crimson text-white text-[10px] font-bold">
+                    5 MATCHED
+                  </span>
+                </div>
+                <input type="range" min="3.00" max="4.00" step="0.05" value="3.75"
+                  oninput="togglePreviewCgpa(parseFloat(this.value))" class="w-full accent-crimson cursor-pointer" />
+              </div>
+
+              <!-- Matched Scholarship Card -->
+              <div class="p-4 rounded-xl border border-hairline bg-[var(--bg-surface)] space-y-2.5 shadow-sm">
+                <div class="flex items-start justify-between gap-3">
+                  <h4 id="preview-match-title" class="font-bold text-sm text-main">Bangladesh STEM Innovators Fellowship
+                  </h4>
+                  <span id="preview-match-val" class="font-mono text-xs font-bold text-crimson shrink-0">BDT
+                    95,000</span>
+                </div>
+                <p id="preview-match-rationale" class="text-xs text-muted leading-relaxed">
+                  <strong class="text-crimson">Why you fit:</strong> Your CGPA exceeds the required 3.60 minimum, and
+                  your department (CSE) directly matches eligible engineering programs.
+                </p>
+                <div
+                  class="flex items-center justify-between pt-2 border-t border-hairline font-mono text-[10px] text-faint">
+                  <span>Deadline: Dec 28, 2026</span>
+                  <span class="text-emerald-600 font-semibold flex items-center gap-1">
+                    <i data-lucide="check" class="w-3 h-3"></i> 100% Fit Match
+                  </span>
+                </div>
+              </div>
+
+              <!-- Gap Radar Diagnostic Chip -->
+              <div
+                class="p-3.5 rounded-xl border border-crimson/30 bg-crimson-soft flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="target" class="w-4 h-4 text-crimson"></i>
+                  <span class="font-mono text-[11px] text-crimson font-bold">Gap Radar: 1 Near Match</span>
+                </div>
+                <span id="preview-radar-msg" class="font-mono text-[10px] text-main font-medium">Chancellor Merit:
+                  Missing 0.10 CGPA</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =======================================================================
+     SECTION 3: ARCHITECTURE & ZERO-HALLUCINATION COMMITMENT
+     ======================================================================= -->
+  <section class="relative z-10 py-20 px-4 sm:px-6 lg:px-10 border-t border-hairline overflow-hidden">
+    <div class="max-w-7xl mx-auto space-y-12">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-8 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.28em] text-crimson font-bold">
+            Institutional Guarantee
+          </p>
+          <h2 class="font-athens text-3xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title">
+            Zero-Hallucination Engineering
+          </h2>
+          <p class="text-xs sm:text-sm text-muted leading-relaxed max-w-2xl">
+            Unlike generic conversational chatbots that speculate, Oiraboot cross-verifies every query against
+            authoritative primary source documents. If an answer cannot be grounded with certainty, the system strictly
+            outputs a refusal or official desk referral.
+          </p>
+        </div>
+        <div class="lg:col-span-4 flex justify-start lg:justify-end">
+          <a href="/about"
+            class="btn-primary-sweep px-8 py-4 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2.5">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>Architecture Whitepaper</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 Sleek Frosted Glass Pillars -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="glass-subcard p-6 rounded-2xl space-y-3 border border-hairline">
+          <div
+            class="w-10 h-10 rounded-xl bg-crimson-soft border border-crimson/30 text-crimson flex items-center justify-center">
+            <i data-lucide="file-check-2" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-athens font-bold text-base text-main">100% Grounded Quotes</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Every statement generated in Document Studio is bound to character-level page coordinates. Non-PDF questions
+            trigger an immediate grounded refusal.
+          </p>
+        </div>
+
+        <div class="glass-subcard p-6 rounded-2xl space-y-3 border border-hairline">
+          <div
+            class="w-10 h-10 rounded-xl bg-crimson-soft border border-crimson/30 text-crimson flex items-center justify-center">
+            <i data-lucide="binary" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-athens font-bold text-base text-main">Deterministic Rule Math</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Fee calculations and scholarship eligibility thresholds execute on deterministic server logic—never left to
+            probabilistic LLM arithmetic.
+          </p>
+        </div>
+
+        <div class="glass-subcard p-6 rounded-2xl space-y-3 border border-hairline">
+          <div
+            class="w-10 h-10 rounded-xl bg-crimson-soft border border-crimson/30 text-crimson flex items-center justify-center">
+            <i data-lucide="languages" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-athens font-bold text-base text-main">Bilingual Language Parity</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Complete structural parity across English and Bengali—including typewriter messaging, PDF query resolution,
+            and admissions guidance.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================================
+     GENERATIVE 3D LINE-ART & COSMIC VIDEO SCRIPT
+     ========================================================================= -->
+<script>
+  const CHAPTER_DURATION_MS = 8500;
+
+  const SCENES = [
+    {
+      id: 'knowledge',
+      kicker: { en: '01 — Document Intelligence', bn: '০১ — ডকুমেন্ট ইন্টেলিজেন্স' },
+      typewriter: {
+        en: 'Turn long study PDFs into verified answers with exact page citations and instant quizzes.',
+        bn: 'দীর্ঘ লেকচার পিডিএফ থেকে পেজ নম্বরসহ নির্ভুল উত্তর এবং মুহূর্তেই কুইজ তৈরি করুন।',
+      },
+    },
+    {
+      id: 'dialogue',
+      kicker: { en: '02 — Admissions Dialogue', bn: '০২ — ভর্তি সহায়ক সংলাপ' },
+      typewriter: {
+        en: 'Explore departments, tuition fees, eligibility, and admission steps through natural conversation.',
+        bn: 'বিভাগ, টিউশন ফি, ভর্তির যোগ্যতা ও ধাপগুলো জানুন সহজ ও ধারাবাহিক কথোপকথনে।',
+      },
+    },
+    {
+      id: 'horizon',
+      kicker: { en: '03 — Scholarship Horizon', bn: '০৩ — স্কলারশিপ হরাইজন' },
+      typewriter: {
+        en: 'Match your CGPA and academic profile to eligible scholarships with clear guidance.',
+        bn: 'আপনার সিজিপিএ ও প্রোফাইল অনুযায়ী উপযুক্ত বৃত্তি ও আবেদনের দিকনির্দেশনা খুঁজুন।',
+      },
+    },
+  ];
+
+  const HERO_I18N = {
+    en: {
+      heroLine1: 'INTELLIGENCE',
+      heroLine2: 'BUILT FOR',
+      heroLine3: 'Clarity',
+      ctaPrimary: 'Explore Studios',
+      ctaSecondary: 'Next Scene',
+      ch1: 'PDF & Quiz',
+      ch2: 'Admissions',
+      ch3: 'Scholarships',
+      interactHint: 'Move & click canvas to sculpt',
+    },
+    bn: {
+      heroLine1: 'একাডেমিক',
+      heroLine2: 'নির্ভুল',
+      heroLine3: 'প্ল্যাটফর্ম',
+      ctaPrimary: 'স্টুডিওগুলো দেখুন',
+      ctaSecondary: 'পরবর্তী দৃশ্য',
+      ch1: 'পিডিএফ ও কুইজ',
+      ch2: 'ভর্তি সহায়তা',
+      ch3: 'স্কলারশিপ',
+      interactHint: 'ভিজ্যুয়াল নিয়ন্ত্রণে কার্সর নাড়ুন বা ক্লিক করুন',
+    },
+  };
+
+  let heroCurrentLang = document.documentElement.getAttribute('lang') || 'en';
+  let currentScene = 0;
+  let isPlaying = true;
+  let sceneElapsed = 0;
+  let lastFrameTs = performance.now();
+
+  let twText = '';
+  let twIndex = 0;
+  let twTimer = null;
+
+  function startSceneTypewriter(sceneIdx) {
+    if (twTimer) clearTimeout(twTimer);
+    const out = document.getElementById('typewriter-text');
+    const kicker = document.getElementById('scene-kicker');
+    if (!out || !kicker) return;
+
+    kicker.textContent = SCENES[sceneIdx].kicker[heroCurrentLang] || SCENES[sceneIdx].kicker.en;
+    twText = SCENES[sceneIdx].typewriter[heroCurrentLang] || SCENES[sceneIdx].typewriter.en;
+    twIndex = 0;
+    out.textContent = '';
+
+    function step() {
+      twIndex++;
+      out.textContent = twText.slice(0, twIndex);
+      if (twIndex < twText.length) {
+        twTimer = setTimeout(step, 24);
+      }
+    }
+    step();
+  }
+
+  function selectChapter(idx) {
+    currentScene = idx % SCENES.length;
+    sceneElapsed = 0;
+    triggerShockwave(window.innerWidth * 0.5, window.innerHeight * 0.45);
+    startSceneTypewriter(currentScene);
+    updateProgressBars();
+  }
+
+  function togglePlayback() {
+    isPlaying = !isPlaying;
+    const icon = document.getElementById('play-pause-icon');
+    if (icon) {
+      icon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+      lucide.createIcons();
+    }
+  }
+
+  function triggerPulseShowcase() {
+    selectChapter((currentScene + 1) % SCENES.length);
+  }
+
+  function updateProgressBars() {
+    for (let i = 0; i < SCENES.length; i++) {
+      const bar = document.getElementById(`progress-${i}`);
+      if (!bar) continue;
+      if (i < currentScene) {
+        bar.style.width = '100%';
+      } else if (i === currentScene) {
+        bar.style.width = `${Math.min(100, (sceneElapsed / CHAPTER_DURATION_MS) * 100)}%`;
+      } else {
+        bar.style.width = '0%';
+      }
+    }
+  }
+
+  /* 3D Generative Canvas Sculpting Engine */
+  const canvas = document.getElementById('hero-video-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let heroWidth = window.innerWidth;
+  let heroHeight = window.innerHeight;
+  let heroDpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  const heroPointer = {
+    x: heroWidth * 0.5,
+    y: heroHeight * 0.45,
+    nx: 0,
+    ny: 0,
+    smoothNx: 0,
+    smoothNy: 0,
+    active: false,
+    velocity: 0,
+  };
+
+  const shockwaves = [];
+  function triggerShockwave(x, y) {
+    shockwaves.push({ x, y, radius: 10, maxRadius: Math.max(heroWidth, heroHeight) * 0.65, alpha: 0.75 });
+  }
+
+  const RIBBON_COUNT = 18;
+  const SEGMENTS = 50;
+  const ribbons = [];
+
+  for (let r = 0; r < RIBBON_COUNT; r++) {
+    const isCrimson = r === 4 || r === 8 || r === 9 || r === 14;
+    const pts = [];
+    for (let s = 0; s < SEGMENTS; s++) {
+      pts.push({ x: 0, y: 0, z: 0 });
+    }
+    ribbons.push({
+      index: r,
+      norm: r / (RIBBON_COUNT - 1) - 0.5,
+      isCrimson,
+      phase: r * 0.42,
+      points: pts,
+    });
+  }
+
+  const PARTICLE_COUNT = 220;
+  const particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: (Math.random() - 0.5) * 900,
+      y: (Math.random() - 0.5) * 600,
+      z: (Math.random() - 0.5) * 500,
+      seedA: Math.random() * Math.PI * 2,
+      seedB: Math.random(),
+      seedC: (Math.random() - 0.5) * 2,
+      isCrimson: i % 5 === 0,
+      size: 0.9 + Math.random() * 1.9,
+    });
+  }
+
+  function resizeHeroCanvas() {
+    heroWidth = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+    heroHeight = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
+    heroDpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(heroWidth * heroDpr);
+    canvas.height = Math.floor(heroHeight * heroDpr);
+    canvas.style.width = `${heroWidth}px`;
+    canvas.style.height = `${heroHeight}px`;
+    ctx.setTransform(heroDpr, 0, 0, heroDpr, 0, 0);
+  }
+
+  function computeRibbonTarget(ribbon, segIdx, time, sceneIdx) {
+    const u = segIdx / (SEGMENTS - 1) - 0.5;
+    const v = ribbon.norm;
+    const spreadX = Math.min(heroWidth * 0.95, 1180);
+    const spreadY = Math.min(heroHeight * 0.62, 520);
+
+    if (sceneIdx === 0) {
+      const arch = Math.cos(u * Math.PI) * 75;
+      const pageCurve = Math.sin(u * Math.PI * 2 + time * 0.65 + v * 2.4) * 34;
+      const fold = Math.abs(u) * 140 * Math.sign(v || 1) * 0.25;
+      const tx = u * spreadX * 0.92;
+      const ty = v * spreadY * 0.88 + pageCurve + fold - arch * v * 0.8;
+      const tz = Math.sin(v * Math.PI * 2 + time * 0.45) * 160 + arch * 1.4;
+      return { x: tx, y: ty, z: tz };
+    }
+
+    if (sceneIdx === 1) {
+      const env = Math.pow(Math.cos(u * Math.PI), 1.35);
+      const freqA = u * 9.5 - time * 1.55 + ribbon.phase;
+      const freqB = u * 16.0 + time * 1.15 - v * 4.0;
+      const wave = (Math.sin(freqA) * 98 + Math.cos(freqB) * 36) * env;
+      const interactiveAmp = 1 + Math.abs(heroPointer.smoothNy) * 0.45 + heroPointer.velocity * 0.25;
+      const tx = u * spreadX * 1.04;
+      const ty = wave * interactiveAmp * (0.45 + (1 - Math.abs(v) * 1.4)) + v * 155 * (1 - env * 0.4);
+      const tz = Math.cos(freqA) * 120 * env + v * 140;
+      return { x: tx, y: ty, z: tz };
+    }
+
+    const armIndex = ribbon.index % 4;
+    const armOffset = (armIndex / 4) * Math.PI * 2;
+    const tNorm = segIdx / (SEGMENTS - 1);
+    const maxR = Math.min(heroWidth, heroHeight) * 0.56;
+    const radius = 48 + Math.pow(tNorm, 1.08) * maxR;
+    const theta = armOffset + tNorm * 5.2 - time * 0.42 + v * 1.85;
+    const tilt = 0.58 + Math.sin(time * 0.25) * 0.08;
+    const tx = Math.cos(theta) * radius * 1.28;
+    const ty = Math.sin(theta) * radius * tilt + Math.sin(tNorm * 6 + time) * 24 * v;
+    const tz = Math.sin(theta) * radius * 0.65 + v * 120;
+    return { x: tx, y: ty, z: tz };
+  }
+
+  function computeParticleTarget(p, time, sceneIdx) {
+    if (sceneIdx === 0) {
+      const angle = p.seedA + time * (0.16 + p.seedB * 0.14);
+      const radius = 140 + p.seedB * Math.min(heroWidth, heroHeight) * 0.46;
+      const bandY = p.seedC * Math.min(heroHeight * 0.34, 240);
+      return {
+        x: Math.cos(angle) * radius * 1.35,
+        y: bandY + Math.sin(angle * 2 + time) * 28,
+        z: Math.sin(angle) * radius * 0.7,
+      };
+    }
+    if (sceneIdx === 1) {
+      const u = p.seedB - 0.5;
+      const env = Math.cos(u * Math.PI);
+      const waveY = Math.sin(u * 10 - time * 1.5 + p.seedA) * 135 * env;
+      return {
+        x: u * Math.min(heroWidth * 1.05, 1280),
+        y: waveY + p.seedC * 125,
+        z: Math.cos(u * 8 + time) * 180 + p.seedC * 90,
+      };
+    }
+    const arm = Math.floor(p.seedB * 3);
+    const r = 55 + Math.pow(p.seedB, 0.85) * Math.min(heroWidth, heroHeight) * 0.6;
+    const angle = (arm * Math.PI * 2) / 3 + (r * 0.011) - time * 0.32 + p.seedC * 0.65;
+    return {
+      x: Math.cos(angle) * r * 1.32,
+      y: Math.sin(angle) * r * 0.56 + p.seedC * 42,
+      z: Math.sin(angle) * r * 0.68,
+    };
+  }
+
+  function project3D(x, y, z) {
+    const rotY = heroPointer.smoothNx * 0.32;
+    const rotX = -heroPointer.smoothNy * 0.24;
+
+    const cosY = Math.cos(rotY);
+    const sinY = Math.sin(rotY);
+    const x1 = x * cosY - z * sinY;
+    const z1 = x * sinY + z * cosY;
+
+    const cosX = Math.cos(rotX);
+    const sinX = Math.sin(rotX);
+    const y2 = y * cosX - z1 * sinX;
+    const z2 = y * sinX + z1 * cosX;
+
+    const fov = 760;
+    const depth = fov + z2 + 240;
+    const scale = fov / Math.max(120, depth);
+
+    return {
+      sx: heroWidth * 0.5 + x1 * scale,
+      sy: heroHeight * 0.48 + y2 * scale,
+      scale,
+      depth: z2,
+    };
+  }
+
+  function renderHeroFrame(now) {
+    requestAnimationFrame(renderHeroFrame);
+
+    // Culling: If hero section is completely scrolled offscreen, skip heavy 2D drawing
+    const heroPlate = document.getElementById('hero-plate');
+    if (heroPlate) {
+      const rect = heroPlate.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+        return;
+      }
+    }
+
+    const dt = Math.min(50, now - lastFrameTs);
+    lastFrameTs = now;
+    const time = now * 0.001;
+
+    if (isPlaying) {
+      sceneElapsed += dt;
+      if (sceneElapsed >= CHAPTER_DURATION_MS) {
+        currentScene = (currentScene + 1) % SCENES.length;
+        sceneElapsed = 0;
+        startSceneTypewriter(currentScene);
+      }
+      updateProgressBars();
+    }
+
+    heroPointer.smoothNx += (heroPointer.nx - heroPointer.smoothNx) * 0.055;
+    heroPointer.smoothNy += (heroPointer.ny - heroPointer.smoothNy) * 0.055;
+    heroPointer.velocity *= 0.92;
+
+    ctx.clearRect(0, 0, heroWidth, heroHeight);
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const inkRGB = isDark ? '250, 249, 246' : '11, 11, 13';
+    const crimsonRGB = isDark ? '225, 29, 58' : '196, 14, 41';
+
+    // Astrolabe Background Ring
+    const ringRadius = Math.min(heroWidth, heroHeight) * (currentScene === 2 ? 0.38 : 0.31);
+    ctx.save();
+    ctx.translate(heroWidth * 0.5 + heroPointer.smoothNx * 18, heroHeight * 0.48 + heroPointer.smoothNy * 14);
+    ctx.strokeStyle = `rgba(${inkRGB}, ${isDark ? 0.065 : 0.055})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(0, 0, ringRadius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.rotate(time * 0.14);
+    ctx.strokeStyle = `rgba(${crimsonRGB}, ${isDark ? 0.32 : 0.25})`;
+    ctx.beginPath();
+    ctx.arc(0, 0, ringRadius, -0.35, 0.35);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, 0, ringRadius, Math.PI - 0.35, Math.PI + 0.35);
+    ctx.stroke();
+    ctx.restore();
+
+    // 1. Ribbon Splines
+    const lerpRate = 0.052;
+    for (let r = 0; r < RIBBON_COUNT; r++) {
+      const ribbon = ribbons[r];
+      ctx.beginPath();
+
+      let prevSx = 0;
+      let prevSy = 0;
+
+      for (let s = 0; s < SEGMENTS; s++) {
+        const pt = ribbon.points[s];
+        const target = computeRibbonTarget(ribbon, s, time, currentScene);
+
+        pt.x += (target.x - pt.x) * lerpRate;
+        pt.y += (target.y - pt.y) * lerpRate;
+        pt.z += (target.z - pt.z) * lerpRate;
+
+        const proj = project3D(pt.x, pt.y, pt.z);
+        let sx = proj.sx;
+        let sy = proj.sy;
+
+        if (heroPointer.active) {
+          const dx = sx - heroPointer.x;
+          const dy = sy - heroPointer.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const influence = 190;
+          if (dist < influence && dist > 0.1) {
+            const force = Math.pow(1 - dist / influence, 2) * 34;
+            sx += (dx / dist) * force;
+            sy += (dy / dist) * force;
+          }
+        }
+
+        for (let w = 0; w < shockwaves.length; w++) {
+          const sw = shockwaves[w];
+          const dx = sx - sw.x;
+          const dy = sy - sw.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const band = Math.abs(dist - sw.radius);
+          if (band < 48 && dist > 1) {
+            const push = (1 - band / 48) * 26 * sw.alpha;
+            sx += (dx / dist) * push;
+            sy += (dy / dist) * push;
+          }
+        }
+
+        if (s === 0) {
+          ctx.moveTo(sx, sy);
+        } else {
+          const midX = (prevSx + sx) * 0.5;
+          const midY = (prevSy + sy) * 0.5;
+          ctx.quadraticCurveTo(prevSx, prevSy, midX, midY);
+        }
+        prevSx = sx;
+        prevSy = sy;
+      }
+
+      if (ribbon.isCrimson) {
+        ctx.strokeStyle = `rgba(${crimsonRGB}, ${isDark ? 0.56 : 0.44})`;
+        ctx.lineWidth = 1.45;
+      } else {
+        const depthFade = 0.075 + (1 - Math.abs(ribbon.norm) * 1.4) * (isDark ? 0.14 : 0.11);
+        ctx.strokeStyle = `rgba(${inkRGB}, ${Math.max(0.04, depthFade)})`;
+        ctx.lineWidth = 0.9;
+      }
+      ctx.stroke();
+    }
+
+    // 2. Depth Particles
+    const projectedNodes = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = particles[i];
+      const target = computeParticleTarget(p, time, currentScene);
+      p.x += (target.x - p.x) * 0.045;
+      p.y += (target.y - p.y) * 0.045;
+      p.z += (target.z - p.z) * 0.045;
+
+      const proj = project3D(p.x, p.y, p.z);
+      const alpha = Math.max(0.08, Math.min(0.85, (proj.scale - 0.35) * 0.85));
+      const r = Math.max(0.6, p.size * proj.scale);
+
+      ctx.fillStyle = p.isCrimson
+        ? `rgba(${crimsonRGB}, ${alpha * (isDark ? 0.95 : 0.78)})`
+        : `rgba(${inkRGB}, ${alpha * (isDark ? 0.52 : 0.36)})`;
+      ctx.beginPath();
+      ctx.arc(proj.sx, proj.sy, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (i < 35) {
+        projectedNodes.push({ sx: proj.sx, sy: proj.sy, isCrimson: p.isCrimson });
+      }
+    }
+
+    // Filaments
+    ctx.lineWidth = 0.65;
+    for (let i = 0; i < projectedNodes.length; i++) {
+      const a = projectedNodes[i];
+      if (heroPointer.active) {
+        const pd = Math.hypot(a.sx - heroPointer.x, a.sy - heroPointer.y);
+        if (pd < 150) {
+          ctx.strokeStyle = `rgba(${crimsonRGB}, ${(1 - pd / 150) * 0.35})`;
+          ctx.beginPath();
+          ctx.moveTo(a.sx, a.sy);
+          ctx.lineTo(heroPointer.x, heroPointer.y);
+          ctx.stroke();
+        }
+      }
+      for (let j = i + 1; j < projectedNodes.length; j++) {
+        const b = projectedNodes[j];
+        const d = Math.hypot(a.sx - b.sx, a.sy - b.sy);
+        if (d < 92) {
+          const lineAlpha = (1 - d / 92) * (isDark ? 0.14 : 0.1);
+          ctx.strokeStyle = (a.isCrimson || b.isCrimson)
+            ? `rgba(${crimsonRGB}, ${lineAlpha * 1.5})`
+            : `rgba(${inkRGB}, ${lineAlpha})`;
+          ctx.beginPath();
+          ctx.moveTo(a.sx, a.sy);
+          ctx.lineTo(b.sx, b.sy);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Shockwaves
+    for (let w = shockwaves.length - 1; w >= 0; w--) {
+      const sw = shockwaves[w];
+      sw.radius += 11;
+      sw.alpha *= 0.955;
+      ctx.strokeStyle = `rgba(${crimsonRGB}, ${sw.alpha * 0.45})`;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+      ctx.stroke();
+      if (sw.radius > sw.maxRadius || sw.alpha < 0.02) {
+        shockwaves.splice(w, 1);
+      }
+    }
+  }
+
+  function initHeroVideoInteractions() {
+    window.addEventListener('mousemove', (e) => {
+      const dx = e.clientX - heroPointer.x;
+      const dy = e.clientY - heroPointer.y;
+      heroPointer.velocity = Math.min(2.5, Math.hypot(dx, dy) * 0.04);
+      heroPointer.x = e.clientX;
+      heroPointer.y = e.clientY;
+      heroPointer.nx = (e.clientX / heroWidth) * 2 - 1;
+      heroPointer.ny = (e.clientY / heroHeight) * 2 - 1;
+      heroPointer.active = true;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      heroPointer.active = false;
+    });
+
+    canvas.addEventListener('click', (e) => {
+      triggerShockwave(e.clientX, e.clientY);
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        const t = e.touches[0];
+        heroPointer.x = t.clientX;
+        heroPointer.y = t.clientY;
+        heroPointer.nx = (t.clientX / heroWidth) * 2 - 1;
+        heroPointer.ny = (t.clientY / heroHeight) * 2 - 1;
+        heroPointer.active = true;
+        triggerShockwave(t.clientX, t.clientY);
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const t = e.touches[0];
+        heroPointer.x = t.clientX;
+        heroPointer.y = t.clientY;
+        heroPointer.nx = (t.clientX / heroWidth) * 2 - 1;
+        heroPointer.ny = (t.clientY / heroHeight) * 2 - 1;
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('touchend', () => {
+      heroPointer.active = false;
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && !e.target.closest('button, a, input, select')) {
+        e.preventDefault();
+        togglePlayback();
+      } else if (e.code === 'ArrowRight' && !e.target.closest('input, select')) {
+        selectChapter((currentScene + 1) % SCENES.length);
+      } else if (e.code === 'ArrowLeft' && !e.target.closest('input, select')) {
+        selectChapter((currentScene + SCENES.length - 1) % SCENES.length);
+      }
+    });
+
+    window.addEventListener('resize', resizeHeroCanvas);
+  }
+
+  // Pre-seed ribbon points
+  for (let r = 0; r < RIBBON_COUNT; r++) {
+    for (let s = 0; s < SEGMENTS; s++) {
+      const initPt = computeRibbonTarget(ribbons[r], s, 0, 0);
+      ribbons[r].points[s].x = initPt.x;
+      ribbons[r].points[s].y = initPt.y;
+      ribbons[r].points[s].z = initPt.z;
+    }
+  }
+
+  // Interactive Mini-Quiz Selector on Homepage Preview
+  function setPreviewQuizDifficulty(count, diff, btn) {
+    document.querySelectorAll('.preview-quiz-btn').forEach(b => {
+      b.className = 'preview-quiz-btn px-3 py-2 rounded-lg border border-hairline surface-subtle text-center font-mono text-[11px] text-muted font-medium transition-all cursor-pointer';
+    });
+    btn.className = 'preview-quiz-btn px-3 py-2 rounded-lg border border-crimson/30 bg-crimson-soft text-center font-mono text-[11px] text-crimson font-bold transition-all cursor-pointer';
+  }
+
+  // Interactive CGPA Slider Demo on Homepage Preview
+  function togglePreviewCgpa(cgpa) {
+    const valEl = document.getElementById('preview-cgpa-val');
+    const badgeEl = document.getElementById('preview-match-badge');
+    const titleEl = document.getElementById('preview-match-title');
+    const rewardEl = document.getElementById('preview-match-val');
+    const rationaleEl = document.getElementById('preview-match-rationale');
+    const radarEl = document.getElementById('preview-radar-msg');
+
+    if (valEl) valEl.textContent = cgpa.toFixed(2);
+    if (cgpa >= 3.85) {
+      if (badgeEl) badgeEl.textContent = '7 MATCHED (100% WAIVER)';
+      if (titleEl) titleEl.textContent = 'Chancellor Presidential Merit Grant';
+      if (rewardEl) rewardEl.textContent = '100% Tuition Waiver';
+      if (rationaleEl) rationaleEl.innerHTML = '<strong class="text-crimson">Why you fit:</strong> Your exceptional CGPA of ' + cgpa.toFixed(2) + ' qualifies for the highest institutional academic distinction.';
+      if (radarEl) radarEl.textContent = 'Eligible for all top-tier institutional fellowships!';
+    } else if (cgpa >= 3.50) {
+      if (badgeEl) badgeEl.textContent = '5 MATCHED';
+      if (titleEl) titleEl.textContent = 'Bangladesh STEM Innovators Fellowship';
+      if (rewardEl) rewardEl.textContent = 'BDT 95,000';
+      if (rationaleEl) rationaleEl.innerHTML = '<strong class="text-crimson">Why you fit:</strong> Your CGPA of ' + cgpa.toFixed(2) + ' exceeds the required 3.60 minimum, and your department (CSE) directly matches eligible engineering programs.';
+      const delta = (3.85 - cgpa).toFixed(2);
+      if (radarEl) radarEl.textContent = 'Chancellor Merit: Missing ' + delta + ' CGPA (Required: 3.85)';
+    } else {
+      if (badgeEl) badgeEl.textContent = '3 MATCHED';
+      if (titleEl) titleEl.textContent = 'Dean General Academic Bursary';
+      if (rewardEl) rewardEl.textContent = 'BDT 45,000';
+      if (rationaleEl) rationaleEl.innerHTML = '<strong class="text-crimson">Why you fit:</strong> Your academic record qualifies for standard departmental tuition support.';
+      const delta = (3.60 - cgpa).toFixed(2);
+      if (radarEl) radarEl.textContent = 'STEM Fellowship: Missing ' + delta + ' CGPA (Required: 3.60)';
+    }
+  }
+
+  function initHeroSafe() {
+    try {
+      resizeHeroCanvas();
+      initHeroVideoInteractions();
+      startSceneTypewriter(0);
+      requestAnimationFrame(renderHeroFrame);
+      document.body.classList.add('hero-ready');
+
+      if (typeof dismissPreloader === 'function') {
+        setTimeout(dismissPreloader, 350);
+      }
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    } catch (e) {
+      console.warn('Hero initialization notice:', e);
+      document.body.classList.add('hero-ready');
+      if (typeof dismissPreloader === 'function') dismissPreloader();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroSafe);
+  } else {
+    initHeroSafe();
+  }
+</script>
+{% endblock %}

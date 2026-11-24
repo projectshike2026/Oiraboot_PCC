@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang }}" class="scroll-smooth" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+  <title>{% block title %}Oiraboot (ঐরাবত) — Academic Intelligence Suite{% endblock %}</title>
+
+  <!-- Classical Monumental Typography + Precision UI + Bangla Support -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PDF.js for Client-Side Page Extraction fallback -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            athens: ['Cinzel', 'Hind Siliguri', 'serif'],
+            editorial: ['Cormorant Garamond', 'Hind Siliguri', 'serif'],
+            sans: ['Plus Jakarta Sans', 'Hind Siliguri', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  <script>
+    // Immediate theme hydration to prevent flash
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const urlTheme = params.get('theme');
+      const savedTheme = urlTheme || localStorage.getItem('oiraboot_theme') || 'light';
+      if (urlTheme) localStorage.setItem('oiraboot_theme', urlTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+
+    function syncThemeUI(theme) {
+      const current = theme || document.documentElement.getAttribute('data-theme') || 'light';
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (current === 'dark') {
+        if (icon) icon.setAttribute('data-lucide', 'sun');
+        if (label) label.textContent = 'White Mode';
+      } else {
+        if (icon) icon.setAttribute('data-lucide', 'moon');
+        if (label) label.textContent = 'Black Mode';
+      }
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const nextTheme = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('oiraboot_theme', nextTheme);
+      syncThemeUI(nextTheme);
+      if (typeof updateGalaxyTheme === 'function') {
+        updateGalaxyTheme(nextTheme);
+      }
+    }
+
+    function toggleLanguage() {
+      const currentLang = document.documentElement.getAttribute('lang') || 'en';
+      const nextLang = currentLang === 'en' ? 'bn' : 'en';
+      document.cookie = `lang=${nextLang}; path=/; max-age=31536000; SameSite=Lax`;
+      window.location.href = `/lang/${nextLang}`;
+    }
+
+    // Guaranteed Preloader Dismissal (never gets stuck)
+    function dismissPreloader() {
+      const p = document.getElementById('preloader');
+      if (p && !p.classList.contains('hidden-curtain')) {
+        p.classList.add('hidden-curtain');
+        setTimeout(() => { p.style.display = 'none'; }, 650);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('oiraboot_theme') || 'light';
+      syncThemeUI(savedTheme);
+      setTimeout(dismissPreloader, 400);
+    });
+    window.addEventListener('load', () => {
+      const savedTheme = localStorage.getItem('oiraboot_theme') || 'light';
+      syncThemeUI(savedTheme);
+      setTimeout(dismissPreloader, 200);
+    });
+    // Hard safety guarantee: dismiss regardless within 850ms so user never gets stuck!
+    setTimeout(dismissPreloader, 850);
+  </script>
+</head>
+
+<body class="min-h-screen selection:bg-[#C40E29] selection:text-white">
+
+  <!-- Fine Cinema Grain & Precision Desktop Cursor -->
+  <div class="cinema-grain" aria-hidden="true"></div>
+  <div id="art-cursor" aria-hidden="true"></div>
+
+  <!-- Pure Volumetric Galaxy Fog Engine (Entire UI Except Hero • Dark Mode Only) -->
+  <div id="galaxy-fog-wrapper" class="fixed inset-0 pointer-events-none z-0 transition-opacity duration-700" style="display: none; opacity: 0;">
+    <canvas id="galaxy-fog-canvas" class="w-full h-full block" aria-label="Autonomous Volumetric Galaxy Fog Background"></canvas>
+  </div>
+
+  <!-- Monumental Preloader Curtain — ONLY Glowing Bengali Logo, Zero Extra Text -->
+  <div id="preloader" role="status" aria-label="Loading Oiraboot"
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-[#050507] transition-all duration-700">
+    <div class="flex flex-col items-center justify-center p-6 text-center select-none">
+      <img src="/static/img/oiraboot_secondary_bengali_white_512.png" alt="ঐরাবত"
+        class="oiraboot-bangla-glow w-44 sm:w-56 md:w-64 h-auto object-contain select-none pointer-events-none" />
+    </div>
+  </div>
+
+  <!-- Floating Minimal Architectural Header -->
+  <header class="fixed top-3 inset-x-0 z-40 px-4 sm:px-6 lg:px-10 no-print">
+    <nav
+      class="max-w-7xl mx-auto nav-glass rounded-2xl px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-4 shadow-sm">
+      <!-- Official Oiraboot Brand Plate -->
+      <a href="/" class="flex items-center gap-3.5 group shrink-0" title="Oiraboot Academic Intelligence Suite">
+        <div
+          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0B0B0D] text-white flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105 shadow-sm p-1.5 border border-hairline">
+          <img src="/static/img/oiraboot_logo_tight_white.png" alt="Oiraboot" class="w-full h-full object-contain" />
+          <span
+            class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
+        </div>
+        <div class="leading-tight">
+          <div class="font-athens font-bold text-sm sm:text-base tracking-[0.09em] text-main flex items-center gap-1.5">
+            <span>OIRABOOT</span>
+            <span class="text-crimson font-serif font-normal">ঐরাবত</span>
+          </div>
+          <p class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-faint hidden sm:block">
+            Academic Intelligence Suite
+          </p>
+        </div>
+      </a>
+
+      <!-- Center: Dedicated Studios (ONLY 3 Links: Documents, Admissions, Scholarships) -->
+      <div class="flex items-center gap-1 sm:gap-2 md:gap-4">
+        <a href="/documents"
+          class="px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-colors {{ 'text-crimson font-bold' if active_nav == 'documents' else 'text-muted hover:text-crimson hover:text-main' }}">
+          {{ 'ডকুমেন্টস' if current_lang == 'bn' else 'Documents' }}
+        </a>
+        <a href="/admissions"
+          class="px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-colors {{ 'text-crimson font-bold' if active_nav == 'admissions' else 'text-muted hover:text-crimson hover:text-main' }}">
+          {{ 'ভর্তি' if current_lang == 'bn' else 'Admissions' }}
+        </a>
+        <a href="/scholarships"
+          class="px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-colors {{ 'text-crimson font-bold' if active_nav == 'scholarships' else 'text-muted hover:text-crimson hover:text-main' }}">
+          {{ 'বৃত্তি' if current_lang == 'bn' else 'Scholarships' }}
+        </a>
+      </div>
+
+      <!-- Right: Pure Minimal Clean Pills (Language + Black/White Mode) -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="lang-toggle" onclick="toggleLanguage()"
+          class="px-3.5 py-1.5 rounded-full border border-hairline hover:border-crimson text-xs font-mono font-medium text-main transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+          title="Switch English / বাংলা">
+          <i data-lucide="languages" class="w-3.5 h-3.5 text-crimson"></i>
+          <span id="lang-label">{{ 'EN' if current_lang == 'bn' else 'বাংলা' }}</span>
+        </button>
+
+        <button id="theme-toggle" onclick="toggleTheme()"
+          class="px-3.5 py-1.5 rounded-full border border-hairline hover:border-crimson text-xs font-mono font-medium text-main transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+          title="Toggle Black / White Mode">
+          <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5 text-crimson"></i>
+          <span id="theme-label" class="hidden sm:inline">Black Mode</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Stage -->
+  <main class="relative z-10">
+    {% block content %}{% endblock %}
+
+    <!-- Classical Institutional Footer -->
+    <footer class="mt-20 border-t border-hairline bg-[var(--bg-surface)] no-print">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+          <div class="md:col-span-5 space-y-4">
+            <div class="flex items-center gap-3.5">
+              <div
+                class="w-10 h-10 rounded-xl bg-[#0B0B0D] text-white flex items-center justify-center relative shadow-sm p-1.5 border border-hairline">
+                <img src="/static/img/oiraboot_logo_tight_white.png" alt="Oiraboot"
+                  class="w-full h-full object-contain" />
+                <span
+                  class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
+              </div>
+              <div class="leading-tight">
+                <div class="font-athens font-bold text-base tracking-[0.09em] text-main flex items-center gap-1.5">
+                  <span>OIRABOOT</span>
+                  <span class="text-crimson font-serif font-normal">ঐরাবত</span>
+                </div>
+                <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint">
+                  Academic Intelligence Suite
+                </p>
+              </div>
+            </div>
+            <p class="text-xs text-muted leading-relaxed max-w-md">
+              A unified academic intelligence suite engineered by Oiraboot — bringing verified study notes search,
+              seamless admissions counseling, and transparent scholarship discovery to students with strict
+              zero-hallucination guarantees.
+            </p>
+          </div>
+
+          <div class="md:col-span-4 space-y-3 text-xs text-muted">
+            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint">Headquarters & Desk</p>
+            <p class="flex items-start gap-2.5 text-main">
+              <i data-lucide="map-pin" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+              <span>7-14, Nikunja Housing Society, South Khulshi, Chattogram, Bangladesh - 4000</span>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <i data-lucide="globe" class="w-4 h-4 text-crimson shrink-0"></i>
+              <span>www.oiraboot.edu.bd</span>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <i data-lucide="mail" class="w-4 h-4 text-crimson shrink-0"></i>
+              <span>info@oiraboot.edu.bd</span>
+            </p>
+          </div>
+
+          <div class="md:col-span-3 space-y-2.5 text-xs">
+            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint mb-3">Dedicated Studios</p>
+            <a href="/documents"
+              class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Document Studio
+            </a>
+            <a href="/admissions"
+              class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Admissions Desk
+            </a>
+            <a href="/scholarships"
+              class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Scholarship Atlas
+            </a>
+            <a href="/about"
+              class="w-full text-left text-muted hover:text-crimson flex items-center gap-2 transition-colors font-medium pt-1">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-crimson"></i> Architecture & Verification
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="mt-10 pt-6 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-faint">
+          <span>OIRABOOT (ঐরাবত) • ACADEMIC INTELLIGENCE SUITE 2026</span>
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-crimson"></span>
+            <span>White / Black & Crimson Edition</span>
+          </span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal Overlay -->
+  <div id="custom-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm no-print">
+    <div class="surface-card rounded-2xl max-w-3xl w-full max-h-[82vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-hairline flex items-center justify-between bg-[var(--bg-subtle)]">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="file-code-2" class="w-5 h-5 text-crimson"></i>
+          <h3 id="modal-title" class="font-athens text-base font-bold text-main">Inspector</h3>
+        </div>
+        <button onclick="closeCustomModal()"
+          class="p-2 rounded-xl hover:bg-crimson-soft text-muted hover:text-crimson transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="modal-body" class="p-6 overflow-y-auto text-xs font-mono text-main space-y-4 leading-relaxed"></div>
+    </div>
+  </div>
+
+  <!-- Floating Toast Stack -->
+  <div id="toast-container"
+    class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0 no-print">
+  </div>
+
+  <!-- Core Application Scripts -->
+  <script src="/static/js/app.js"></script>
+  <!-- Autonomous Volumetric Galaxy Fog & Physical Lighting Engine -->
+  <script src="/static/js/aeternum_cosmos.js"></script>
+</body>
+
+</html>

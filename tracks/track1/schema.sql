@@ -1,0 +1,58 @@
+CREATE TABLE IF NOT EXISTS documents(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sid TEXT NOT NULL,
+  filename TEXT NOT NULL,
+  stored_name TEXT NOT NULL,
+  page_count INTEGER NOT NULL,
+  char_count INTEGER NOT NULL,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS pages(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  doc_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  page_no INTEGER NOT NULL,
+  text TEXT NOT NULL,
+  UNIQUE(doc_id, page_no)
+);
+
+CREATE TABLE IF NOT EXISTS chunks(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  doc_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  chunk_id TEXT NOT NULL UNIQUE,
+  page_no INTEGER NOT NULL,
+  idx INTEGER NOT NULL,
+  text TEXT NOT NULL,
+  tokens TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS messages(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sid TEXT NOT NULL,
+  scope TEXT NOT NULL,
+  role TEXT NOT NULL CHECK(role IN ('user','assistant')),
+  content TEXT NOT NULL,
+  found INTEGER,
+  sources_json TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS quizzes(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sid TEXT NOT NULL,
+  scope TEXT NOT NULL,
+  n INTEGER NOT NULL,
+  difficulty TEXT NOT NULL,
+  language TEXT NOT NULL,
+  questions_json TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS attempts(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  quiz_id INTEGER NOT NULL REFERENCES quizzes(id) ON DELETE CASCADE,
+  answers_json TEXT NOT NULL,
+  score INTEGER NOT NULL,
+  total INTEGER NOT NULL,
+  created_at TEXT NOT NULL
+);

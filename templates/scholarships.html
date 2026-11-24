@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Scholarship Atlas (বৃত্তি অ্যাটলাস) — Oiraboot (ঐরাবত){% endblock %}
+
+{% block content %}
+<div class="pt-28 pb-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto space-y-16">
+
+  <!-- =========================================================================
+       SECTION 1: SCHOLARSHIP ATLAS OVERVIEW, DEEP DETAILS & "TRY NOW" CALL-TO-ACTION
+       ========================================================================= -->
+  <section class="space-y-8">
+    <!-- Breadcrumb & Telemetry -->
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-hairline">
+      <div class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
+        <a href="/" class="hover:text-crimson transition-colors flex items-center gap-1.5">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Overview</span>
+        </a>
+        <span class="text-faint">/</span>
+        <span class="text-crimson font-semibold">Track 3 • Financial Aid Atlas</span>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <span class="px-3 py-1.5 rounded-full surface-subtle border border-hairline font-mono text-[11px] font-semibold text-main flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Deterministic Grant Matching Active</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Editorial Hero Plate -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div class="lg:col-span-8 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
+          <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
+          <span>Deterministic Eligibility Engine & Gap Radar</span>
+        </div>
+
+        <h1 class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
+          <span>Scholarship Atlas.</span>
+          <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">
+            বৃত্তি অ্যাটলাস — Academic Financial Navigator.
+          </span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-muted leading-relaxed font-sans max-w-3xl">
+          Discover, evaluate, and qualify for university tuition waivers, governmental grants, and merit fellowships. The Scholarship Atlas cross-references your current CGPA, enrolled department, and financial background against institutional criteria. For matched grants, it generates tailored fit rationales; for near-miss awards, it displays actionable gap radar analytics detailing the exact GPA delta required.
+        </p>
+
+        <!-- Primary Action Row -->
+        <div class="pt-3 flex flex-wrap items-center gap-4">
+          <a
+            href="#scholarships-workspace"
+            onclick="openScholarshipsWorkspace(event)"
+            class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-bold text-xs sm:text-[13px] uppercase tracking-[0.2em] inline-flex items-center gap-3 shadow-lg shadow-crimson/20 cursor-pointer"
+          >
+            <span class="w-2 h-2 rounded-full bg-crimson animate-ping"></span>
+            <span>Try Now — Match Awards ↓</span>
+            <i data-lucide="arrow-down" class="w-4 h-4 text-crimson"></i>
+          </a>
+
+          <button
+            type="button"
+            onclick="downloadScholarshipReport()"
+            class="px-6 py-4 rounded-full surface-subtle border border-hairline hover:border-crimson text-xs font-semibold text-main transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <i data-lucide="download" class="w-4 h-4 text-crimson"></i>
+            <span>Export Official CSV Dataset</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Matching Rules -->
+      <div class="lg:col-span-4 surface-card rounded-2xl p-6 space-y-4 border border-hairline">
+        <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Evaluation Rules</p>
+        <div class="space-y-3.5">
+          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
+            <i data-lucide="target" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-main block font-semibold">Deterministic Thresholds</strong>
+              <span class="text-muted leading-normal">CGPA floors, departmental restrictions, and need criteria strictly verified.</span>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
+            <i data-lucide="radar" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-main block font-semibold">Near-Miss Gap Radar</strong>
+              <span class="text-muted leading-normal">Calculates the precise distance (e.g. +0.15 CGPA) needed to unlock higher-tier waivers.</span>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
+            <i data-lucide="sparkles" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-main block font-semibold">Tailored AI Fit Explanations</strong>
+              <span class="text-muted leading-normal">Synthesizes specific justification points on why your academic record matches each grant.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Core Capability Pillars -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
+        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+          <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-athens text-base font-bold text-main">Dynamic CGPA Simulation</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Slide your current or projected CGPA across 2.00 to 4.00 to immediately see matching waiver percentages and total award values.
+        </p>
+      </div>
+
+      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
+        <div class="w-10 h-10 rounded-xl surface-subtle text-main flex items-center justify-center">
+          <i data-lucide="file-spreadsheet" class="w-5 h-5 text-crimson"></i>
+        </div>
+        <h3 class="font-athens text-base font-bold text-main">Custom CSV Integration</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Upload custom institutional scholarship datasets in CSV format or download structured evaluation reports with a single click.
+        </p>
+      </div>
+
+      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
+        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+          <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-athens text-base font-bold text-main">Dual Grid & Table Views</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Toggle seamlessly between editorial scholarship cards and structured tabular data sorted by award amount or application deadline.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 2: LIVE SCHOLARSHIP WORKSPACE (LAUNCHED VIA "TRY NOW")
+       ========================================================================= -->
+  <section id="scholarships-workspace" class="scroll-mt-24 space-y-6 pt-8 border-t border-hairline">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson font-semibold">Active Workspace</p>
+        <h2 class="font-athens text-xl sm:text-2xl font-bold text-main mt-0.5">Live Award Matching Engine</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="font-mono text-[11px] text-muted">Active Dataset:</span>
+        <span id="csv-count-label" class="px-2.5 py-1 rounded-lg bg-[var(--bg-subtle)] border border-hairline font-mono text-[11px] font-semibold text-main">
+          9 Institutional Records
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Left Sidebar: Applicant Profile Parameters & CSV Data Source -->
+      <div class="lg:col-span-4 space-y-5">
+        <div class="surface-card rounded-2xl p-6 space-y-5 border border-hairline shadow-sm">
+          <div class="flex items-center justify-between pb-3 border-b border-hairline">
+            <div>
+              <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Applicant Profile</p>
+              <h3 class="font-athens text-base font-bold text-main mt-0.5">Eligibility Parameters</h3>
+            </div>
+            <div class="w-9 h-9 rounded-xl surface-subtle flex items-center justify-center text-crimson">
+              <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <form id="scholarship-form" onsubmit="runScholarshipMatcher(event)" class="space-y-5">
+            <!-- CGPA Slider -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label for="student-cgpa" class="font-mono text-[11px] uppercase tracking-wider text-muted">Current CGPA</label>
+                <span id="cgpa-value-badge" class="px-2.5 py-1 rounded-lg bg-crimson text-white font-mono text-sm font-bold">3.75</span>
+              </div>
+              <input id="student-cgpa" type="range" min="2.00" max="4.00" step="0.05" value="3.75" oninput="updateCgpaBadge(this.value)" class="crimson-slider w-full cursor-pointer" />
+              <div class="flex justify-between font-mono text-[10px] text-faint mt-1.5">
+                <span>2.00</span><span>3.00</span><span>3.50</span><span>4.00</span>
+              </div>
+            </div>
+
+            <!-- Department Select -->
+            <div>
+              <label for="student-dept" class="block font-mono text-[11px] uppercase tracking-wider text-muted mb-2">Department</label>
+              <select id="student-dept" class="field-input w-full px-4 py-3 rounded-xl text-sm font-medium">
+                <option value="CSE" selected>Computer Science & Engineering (CSE)</option>
+                <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+                <option value="BBA">Business Administration (BBA)</option>
+                <option value="Textile">Textile Engineering</option>
+                <option value="Civil">Civil Engineering</option>
+                <option value="English">English Literature</option>
+                <option value="LLB">Law (LLB)</option>
+              </select>
+            </div>
+
+            <!-- Financial Support Toggle -->
+            <div class="p-4 rounded-xl surface-subtle flex items-center justify-between gap-3 border border-hairline">
+              <div>
+                <p class="text-xs font-bold text-main">Financial Support Required</p>
+                <p class="text-[11px] text-muted">Include need-based & hardship awards</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="student-need" checked class="sr-only peer" />
+                <div class="w-11 h-6 bg-[var(--border-strong)] rounded-full peer peer-checked:bg-crimson after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div>
+              </label>
+            </div>
+
+            <button type="submit" id="find-scholarships-btn" class="btn-primary w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-[0.14em] flex items-center justify-center gap-2 cursor-pointer">
+              <i data-lucide="search-check" class="w-4 h-4"></i>
+              <span>Evaluate & Match Awards</span>
+            </button>
+          </form>
+
+          <!-- CSV Dataset Controls -->
+          <div class="pt-4 border-t border-hairline space-y-2.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-mono text-[10px] uppercase tracking-wider text-faint">Dataset Source</span>
+              <span class="font-mono text-[11px] font-semibold text-crimson">9 Records (CSV)</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <label for="csv-upload-input" class="cursor-pointer py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs font-semibold text-main flex items-center justify-center gap-1.5 transition-all">
+                <input type="file" id="csv-upload-input" accept=".csv" class="hidden" onchange="handleCsvUpload(event)" />
+                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-crimson"></i>
+                <span>Load CSV</span>
+              </label>
+              <button onclick="downloadScholarshipReport()" class="py-2.5 px-3 rounded-xl bg-crimson-soft border border-crimson text-xs font-semibold text-crimson hover:bg-crimson hover:text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Main Stage: Results & Near-Match Gap Radar -->
+      <div class="lg:col-span-8 space-y-6">
+        <!-- Toolbar -->
+        <div class="surface-card rounded-2xl px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-hairline">
+          <div class="flex items-center gap-2.5">
+            <span id="matched-count-pill" class="px-3 py-1.5 rounded-lg bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-mono text-xs font-bold">
+              0 Eligible
+            </span>
+            <span id="almost-count-pill" class="px-3 py-1.5 rounded-lg bg-crimson-soft border border-crimson font-mono text-xs font-semibold text-crimson">
+              0 Near Match
+            </span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <div class="flex items-center gap-1 p-1 rounded-xl surface-subtle">
+              <button id="sort-amount-btn" onclick="setScholarshipSort('amount')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="banknote" class="w-3.5 h-3.5 text-crimson"></i>
+                <span>Amount</span>
+              </button>
+              <button id="sort-deadline-btn" onclick="setScholarshipSort('deadline')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-muted hover:text-main transition-all flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="calendar-clock" class="w-3.5 h-3.5"></i>
+                <span>Deadline</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-1 p-1 rounded-xl surface-subtle">
+              <button id="view-cards-btn" onclick="setScholarshipView('cards')" class="p-2 rounded-lg bg-[var(--bg-surface)] text-crimson shadow-sm cursor-pointer" title="Card Grid">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+              </button>
+              <button id="view-table-btn" onclick="setScholarshipView('table')" class="p-2 rounded-lg text-muted hover:text-main cursor-pointer" title="Data Table">
+                <i data-lucide="table-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eligible Output Container -->
+        <div id="scholarship-results-container" class="space-y-4"></div>
+
+        <!-- Almost-Qualified Gap Radar -->
+        <div id="almost-qualified-section" class="surface-card rounded-2xl p-6 border-l-[3px] border-l-[var(--crimson)] border border-hairline space-y-4 hidden">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+              <i data-lucide="target" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4 class="font-athens text-base font-bold text-main">Almost Eligible — Requirement Gap</h4>
+              <p class="text-xs text-muted">Awards you narrowly miss and the exact requirement needed to qualify</p>
+            </div>
+          </div>
+          <div id="almost-qualified-list" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function openScholarshipsWorkspace(e) {
+    if (e) e.preventDefault();
+    const ws = document.getElementById('scholarships-workspace');
+    if (ws) {
+      ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => {
+        const slider = document.getElementById('student-cgpa');
+        if (slider) {
+          slider.focus();
+        }
+      }, 500);
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+class AppError(Exception):
+    def __init__(self, code: str, message: str, status_code: int = 400):
+        super().__init__(message)
+        self.code = code
+        self.message = message
+        self.status_code = status_code
+
+    def to_dict(self):
+        return {
+            "error": {
+                "code": self.code,
+                "message": self.message
+            }
+        }

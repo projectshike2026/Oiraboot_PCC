@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+
+{% block title %}Document Studio (নোট স্টুডিও) — Oiraboot (ঐরাবত){% endblock %}
+
+{% block content %}
+<div class="pt-28 pb-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto space-y-16">
+
+  <!-- =========================================================================
+       SECTION 1: STUDIO OVERVIEW, DEEP DETAILS & "TRY NOW" CALL-TO-ACTION
+       ========================================================================= -->
+  <section class="space-y-8">
+    <!-- Breadcrumb & Track Telemetry -->
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-hairline">
+      <div class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
+        <a href="/" class="hover:text-crimson transition-colors flex items-center gap-1.5">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Overview</span>
+        </a>
+        <span class="text-faint">/</span>
+        <span class="text-crimson font-semibold">Track 1 • Cognitive Retrieval</span>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <span class="px-3 py-1.5 rounded-full surface-subtle border border-hairline font-mono text-[11px] font-semibold text-main flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Zero-Hallucination Guardrail Active</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Editorial Hero Plate -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div class="lg:col-span-8 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-crimson/30 bg-crimson-soft text-crimson font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.24em]">
+          <span class="w-1.5 h-1.5 rounded-full bg-crimson"></span>
+          <span>Autonomous Retrieval-Augmented Generation</span>
+        </div>
+
+        <h1 class="font-athens text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.03em] text-main leading-[1.08] light-reactive-title">
+          <span>Document Studio.</span>
+          <span class="font-editorial italic font-normal text-crimson block mt-1 text-[1.12em]">
+            নোট স্টুডিও — Cognitive Study Partner.
+          </span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-muted leading-relaxed font-sans max-w-3xl">
+          Transform static academic textbooks, research papers, and course syllabi into an interactive, verifiable intelligence workspace. Upload lecture PDFs with character-exact coordinate indexing. Query complex topics in natural English or Bengali with guaranteed verbatim page citations, and generate tailored 5 to 15 question multiple-choice assessments with automated grading and conceptual rationale proofs.
+        </p>
+
+        <!-- Primary Action Row -->
+        <div class="pt-3 flex flex-wrap items-center gap-4">
+          <a
+            href="#studio-workspace"
+            onclick="openStudioWorkspace(event)"
+            class="btn-primary-sweep px-8 py-4 rounded-full font-sans font-bold text-xs sm:text-[13px] uppercase tracking-[0.2em] inline-flex items-center gap-3 shadow-lg shadow-crimson/20 cursor-pointer"
+          >
+            <span class="w-2 h-2 rounded-full bg-crimson animate-ping"></span>
+            <span>Try Now — Open Studio ↓</span>
+            <i data-lucide="arrow-down" class="w-4 h-4 text-crimson"></i>
+          </a>
+
+          <button
+            type="button"
+            onclick="openDocumentInspector()"
+            class="px-6 py-4 rounded-full surface-subtle border border-hairline hover:border-crimson text-xs font-semibold text-main transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <i data-lucide="book-open" class="w-4 h-4 text-crimson"></i>
+            <span>Inspect Default Notes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Sidebar -->
+      <div class="lg:col-span-4 surface-card rounded-2xl p-6 space-y-4 border border-hairline">
+        <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Architectural Safeguards</p>
+        <div class="space-y-3.5">
+          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
+            <i data-lucide="quote" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-main block font-semibold">Verbatim Citations Only</strong>
+              <span class="text-muted leading-normal">Every response outputs exact source text with page numbers. Zero speculation.</span>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
+            <i data-lucide="languages" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-main block font-semibold">Bilingual Intelligence</strong>
+              <span class="text-muted leading-normal">Full parity across English and Bengali tokenization and queries.</span>
+            </div>
+          </div>
+          <div class="p-3.5 rounded-xl surface-subtle flex items-start gap-3">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-main block font-semibold">Refusal Enforcement</strong>
+              <span class="text-muted leading-normal">Prompts outside the indexed documents receive a strict refusal notice.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Core Capability Pillars -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
+        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+          <i data-lucide="file-search-2" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-athens text-base font-bold text-main">Character-Exact Grounding</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Oiraboot uses exact coordinate extraction to pin each answer to the source page and paragraph, providing an auditable proof badge.
+        </p>
+      </div>
+
+      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
+        <div class="w-10 h-10 rounded-xl surface-subtle text-main flex items-center justify-center">
+          <i data-lucide="folder-archive" class="w-5 h-5 text-crimson"></i>
+        </div>
+        <h3 class="font-athens text-base font-bold text-main">Multi-Document Vault</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Upload and index multiple lecture PDFs, lab manuals, or course notes simultaneously with sub-second retrieval across all files.
+        </p>
+      </div>
+
+      <div class="surface-card rounded-2xl p-6 space-y-3 border border-hairline hover:border-crimson/40 transition-colors">
+        <div class="w-10 h-10 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+          <i data-lucide="list-checks" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-athens text-base font-bold text-main">Adaptive Quiz Engine</h3>
+        <p class="text-xs text-muted leading-relaxed">
+          Generate 5 to 15 question interactive assessments on demand with automated scoring, class grade badges, and rationale proofs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 2: LIVE INTERACTIVE STUDIO WORKSPACE (LAUNCHED VIA "TRY NOW")
+       ========================================================================= -->
+  <section id="studio-workspace" class="scroll-mt-24 space-y-6 pt-8 border-t border-hairline">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson font-semibold">Active Workspace</p>
+        <h2 class="font-athens text-xl sm:text-2xl font-bold text-main mt-0.5">Live Document Intelligence Studio</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="font-mono text-[11px] text-muted">Preloaded Pack:</span>
+        <span class="px-2.5 py-1 rounded-lg bg-[var(--bg-subtle)] border border-hairline font-mono text-[11px] font-semibold text-main">
+          CS301_AI_and_RAG_Notes.pdf
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Workspace Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Left Column: Document Archive Vault & Uploader -->
+      <div class="lg:col-span-4 space-y-5">
+        <div class="surface-card rounded-2xl p-6 space-y-5">
+          <div class="flex items-center justify-between pb-3 border-b border-hairline">
+            <div>
+              <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Library Vault</p>
+              <h3 class="font-athens text-base font-bold text-main mt-0.5">Active Documents</h3>
+            </div>
+            <span id="pdf-count-badge" class="px-2.5 py-1 rounded-lg bg-crimson-soft border border-crimson font-mono text-[11px] font-semibold text-crimson">
+              1 Active
+            </span>
+          </div>
+
+          <!-- Multi-PDF Dropzone -->
+          <label for="pdf-upload-input" class="block cursor-pointer rounded-xl border border-dashed border-[var(--border-strong)] hover:border-crimson bg-[var(--bg-subtle)] transition-all p-5 text-center group">
+            <input type="file" id="pdf-upload-input" accept="application/pdf" multiple class="hidden" onchange="handlePdfUpload(event)" />
+            <div class="w-10 h-10 mx-auto rounded-xl bg-[var(--bg-surface)] border border-hairline flex items-center justify-center text-crimson group-hover:scale-105 transition-transform mb-3">
+              <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+            </div>
+            <p class="text-xs font-bold text-main uppercase tracking-wider">Upload Text PDF(s)</p>
+            <p class="text-[11px] text-muted mt-1">Supports multiple PDFs with real page indexing</p>
+          </label>
+
+          <!-- Loaded PDF List -->
+          <div id="pdf-list" class="space-y-2.5 max-h-52 overflow-y-auto pr-1"></div>
+
+          <!-- Multi-Doc Toggle & Reset Controls -->
+          <div class="pt-3 border-t border-hairline flex items-center gap-2">
+            <button onclick="openDocumentInspector()" class="flex-1 py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs font-semibold text-main flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-crimson"></i>
+              <span>Inspect Pages</span>
+            </button>
+            <button onclick="resetSamplePdf()" class="py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs text-muted hover:text-crimson transition-all cursor-pointer" title="Restore Default Notes">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Curated Verification Prompts -->
+        <div class="surface-card rounded-2xl p-5 space-y-3">
+          <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint flex items-center gap-1.5">
+            <i data-lucide="compass" class="w-3.5 h-3.5 text-crimson"></i>
+            <span>Verification Prompts</span>
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="askPdfSuggestion('What is Retrieval-Augmented Generation and why is it used?')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all cursor-pointer">
+              What is RAG & why is it used?
+            </button>
+            <button onclick="askPdfSuggestion('Explain the attention mechanism formula in Transformers.')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all cursor-pointer">
+              Transformer attention formula
+            </button>
+            <button onclick="askPdfSuggestion('Who won the 2022 FIFA World Cup?')" class="text-left px-3 py-2 rounded-lg bg-crimson-soft border border-crimson text-xs font-medium text-crimson transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+              <span>Test Out-of-Document Refusal</span>
+            </button>
+            <button onclick="askPdfSuggestion('ওভারফিটিং (Overfitting) কী এবং কীভাবে কমানো যায়?')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all cursor-pointer">
+              Bangla: ওভারফিটিং কী?
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Cited Q&A + Quiz Builder Stage -->
+      <div class="lg:col-span-8 surface-card rounded-2xl overflow-hidden flex flex-col border border-hairline shadow-sm">
+        <!-- Top Workspace Mode Switcher Bar -->
+        <div class="px-6 py-4 border-b border-hairline bg-[var(--bg-subtle)] flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-surface)] border border-hairline">
+            <button id="m1-mode-chat" onclick="switchM1Mode('chat')" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-2 cursor-pointer">
+              <i data-lucide="message-square-text" class="w-3.5 h-3.5 text-crimson"></i>
+              <span>Document Q&A</span>
+            </button>
+            <button id="m1-mode-quiz" onclick="switchM1Mode('quiz')" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-muted hover:text-main transition-all flex items-center gap-2 cursor-pointer">
+              <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+              <span>Quiz Engine</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-muted">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-crimson"></i>
+            <span>Strict Page Citations</span>
+          </div>
+        </div>
+
+        <!-- SUB-VIEW A: DOCUMENT Q&A -->
+        <div id="m1-chat-view" class="flex flex-col">
+          <!-- Messages Area (Fixed, Ergonomic Height with Guaranteed Visible Input Bar) -->
+          <div id="pdf-chat-messages" class="p-6 space-y-4 overflow-y-auto h-[380px] sm:h-[420px]">
+            <div class="flex items-start gap-3.5 msg-animate">
+              <div class="w-9 h-9 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center shrink-0">
+                <i data-lucide="book-marked" class="w-4 h-4 text-crimson"></i>
+              </div>
+              <div class="surface-subtle rounded-2xl rounded-tl-sm p-4 max-w-2xl border border-hairline">
+                <p class="text-sm text-main leading-relaxed">
+                  Welcome to <strong>Document Studio</strong>. A 4-page lecture pack (<em>CS301: Foundations of AI & RAG Systems</em>) is loaded and ready, or upload your own text-based PDFs. Every response displays exact source quotes with page numbers and strictly refuses topics outside your documents.
+                </p>
+                <div class="mt-3 pt-2.5 border-t border-hairline flex flex-wrap items-center gap-2 text-[11px] text-muted">
+                  <span class="font-mono uppercase text-faint">Try asking:</span>
+                  <button onclick="askPdfSuggestion('What is Retrieval-Augmented Generation and why is it used?')" class="text-crimson hover:underline font-medium">What is RAG?</button>
+                  <span>•</span>
+                  <button onclick="askPdfSuggestion('Explain the attention mechanism formula in Transformers.')" class="text-crimson hover:underline font-medium">Attention Formula</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sticky Input Bar (Always in View) -->
+          <form onsubmit="handlePdfChatSubmit(event)" class="p-4 border-t border-hairline bg-[var(--bg-subtle)] flex items-center gap-3">
+            <input
+              id="pdf-chat-input"
+              type="text"
+              placeholder="Ask a question grounded strictly in your uploaded PDFs (English or Bangla)..."
+              class="field-input flex-1 px-4 py-3.5 rounded-xl text-sm transition-all"
+            />
+            <button type="submit" class="btn-crimson px-5 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 cursor-pointer">
+              <span>Query</span>
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- SUB-VIEW B: INTERACTIVE QUIZ ENGINE -->
+        <div id="m1-quiz-view" class="hidden flex-col p-6 space-y-6 overflow-y-auto max-h-[560px]">
+          <div class="p-5 rounded-xl surface-subtle flex flex-wrap items-end justify-between gap-4 border border-hairline">
+            <div class="flex flex-wrap items-center gap-4">
+              <div>
+                <label class="block font-mono text-[10px] uppercase tracking-widest text-faint mb-1.5">Questions</label>
+                <select id="quiz-count" class="field-input px-3.5 py-2.5 rounded-xl text-xs font-semibold">
+                  <option value="5" selected>5 Questions</option>
+                  <option value="7">7 Questions</option>
+                  <option value="10">10 Questions</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-mono text-[10px] uppercase tracking-widest text-faint mb-1.5">Difficulty</label>
+                <select id="quiz-difficulty" class="field-input px-3.5 py-2.5 rounded-xl text-xs font-semibold">
+                  <option value="easy">Foundational (Easy)</option>
+                  <option value="medium" selected>Intermediate (Medium)</option>
+                  <option value="hard">Advanced (Hard)</option>
+                </select>
+              </div>
+            </div>
+
+            <button id="generate-quiz-btn" onclick="generatePdfQuiz()" class="btn-crimson px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer">
+              <i data-lucide="file-check-2" class="w-4 h-4"></i>
+              <span>Generate Quiz</span>
+            </button>
+          </div>
+
+          <div id="quiz-container" class="flex flex-col items-center justify-center text-center py-10 space-y-4">
+            <div class="w-14 h-14 rounded-2xl surface-subtle flex items-center justify-center text-crimson">
+              <i data-lucide="clipboard-list" class="w-7 h-7"></i>
+            </div>
+            <div class="max-w-md">
+              <h4 class="font-athens text-lg font-bold text-main">Ready for Self-Assessment</h4>
+              <p class="text-xs text-muted mt-1.5 leading-relaxed">
+                Select question count and difficulty, then click <strong class="text-crimson">Generate Quiz</strong> to build an interactive multiple-choice assessment backed by exact PDF source proofs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function openStudioWorkspace(e) {
+    if (e) e.preventDefault();
+    const ws = document.getElementById('studio-workspace');
+    if (ws) {
+      ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => {
+        const inp = document.getElementById('pdf-chat-input');
+        if (inp) {
+          inp.focus();
+          inp.classList.add('ring-2', 'ring-[var(--crimson)]');
+          setTimeout(() => inp.classList.remove('ring-2', 'ring-[var(--crimson)]'), 1200);
+        }
+      }, 500);
+    }
+  }
+</script>
+{% endblock %}
