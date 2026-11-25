@@ -817,7 +817,7 @@ function appendAdmissionMessage(role, html, suggestions = [], kind = 'answer', e
 
   if (role === 'user') {
     div.innerHTML = `
-      <div class="px-4 py-2.5 rounded-2xl rounded-tr-sm bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-medium text-sm max-w-[82%] shadow-xs leading-relaxed">
+      <div class="px-4 py-2.5 rounded-2xl rounded-tr-sm bg-emerald-900 dark:bg-emerald-600 text-white font-medium text-sm max-w-[82%] shadow-xs leading-relaxed">
         ${html}
       </div>
     `;
