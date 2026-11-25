@@ -11,10 +11,13 @@ class KnowledgeBase:
         self.raw_text: str = ""
         self.sections: List[Dict[str, Any]] = []
         self.contacts: Dict[str, str] = {
-            "phone": "+880 1851-120791",
-            "email": "admission@oiraboot.edu.bd",
-            "address": "7-14, Nikunja Housing Society, South Khulshi, Chattogram - 4000",
-            "website": "www.oiraboot.edu.bd"
+            "university": "Bayview International University",
+            "short_name": "BIU",
+            "phone": "01700-000000",
+            "email": "admission@biu.example",
+            "address": "Admission Office, Bayview International University, Chattogram",
+            "hours": "Sunday to Thursday, 9:00 AM to 5:00 PM",
+            "website": "www.biu.example"
         }
         self.numbers_in_kb: set[str] = set()
         self.load()
@@ -30,13 +33,21 @@ class KnowledgeBase:
             return
 
         # Extract contacts if present in text
-        phone_match = re.search(r'(\+?880[\s\-]?\d{4}[\s\-]?\d{6}|\+?880[\s\-]?\d{2}[\s\-]?\d{7})', self.raw_text)
+        phone_match = re.search(r'(?:Phone|Hotline|Tel):\s*([0-9\-\+\s]+)', self.raw_text, re.IGNORECASE)
         if phone_match:
             self.contacts["phone"] = phone_match.group(1).strip()
+        else:
+            phone_match = re.search(r'(\+?880[\s\-]?\d{4}[\s\-]?\d{6}|\+?880[\s\-]?\d{2}[\s\-]?\d{7}|\b01\d{3}[-\s]?\d{6}\b)', self.raw_text)
+            if phone_match:
+                self.contacts["phone"] = phone_match.group(1).strip()
 
-        email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', self.raw_text)
+        email_match = re.search(r'Email:\s*([\w\.-]+@[\w\.-]+)', self.raw_text, re.IGNORECASE)
         if email_match:
-            self.contacts["email"] = email_match.group(0).strip()
+            self.contacts["email"] = email_match.group(1).strip()
+        else:
+            email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', self.raw_text)
+            if email_match:
+                self.contacts["email"] = email_match.group(0).strip()
 
         # Cache all distinct numbers (integer, float, comma-separated) found in the KB for numeric grounding
         raw_nums = re.findall(r'\b\d{1,3}(?:,\d{2,3})*(?:\.\d+)?\b|\b\d+\b', self.raw_text)

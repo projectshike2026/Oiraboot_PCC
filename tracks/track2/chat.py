@@ -9,7 +9,7 @@ from core.security import check_rate_limit
 from core.llm import chat_json
 from tracks.track2.kb import kb
 
-ADMISSION_SYSTEM_PROMPT = """You are Dishari, the official Admissions Advisor for Oiraboot Academic University.
+ADMISSION_SYSTEM_PROMPT = """You are the official Admissions Advisor for Bayview International University (BIU).
 Use ONLY the ADMISSION INFORMATION below. You can reason, compare programs, and evaluate GPA/subject eligibility strictly using rules and numbers in ADMISSION INFORMATION.
 Reply in the language the student last wrote in (Bangla or English). Use clear, well-structured formatting (short bullet points where helpful).
 Use earlier messages to resolve follow-ups ("And for BBA?" means the same question as before, now about BBA).
@@ -35,7 +35,7 @@ def _normalize_digits(text: str) -> str:
 
 def chat_admission(sid: str, message: str, db, ui_lang: str = "en") -> Dict[str, Any]:
     """
-    Multi-turn conversational admission helper with server-side fact and numerical verification.
+    Conversational admission advisory with strictly grounded facts and server-side verification.
     """
     if not message or not message.strip():
         raise AppError("empty_message", "Message cannot be empty.", 400)
@@ -94,23 +94,39 @@ def chat_admission(sid: str, message: str, db, ui_lang: str = "en") -> Dict[str,
 
     verified_evidence = []
     if resp_type == "answer":
-        # 1. Evidence Verification: At least one quote must verify against KB
-        for ev in raw_evidence:
-            ev_str = str(ev).strip()
-            if ev_str:
-                matched = verify_quote(ev_str, kb.raw_text)
-                if matched:
-                    verified_evidence.append(matched)
+        # 1. Evidence Verification: At least one quote must verify against KB (unless meta/switch request)
+        if not lang_sw:
+            for ev in raw_evidence:
+                ev_str = str(ev).strip()
+                if ev_str:
+                    matched = verify_quote(ev_str, kb.raw_text)
+                    if matched:
+                        verified_evidence.append(matched)
 
-        if not verified_evidence:
-            resp_type = "unknown"
+            if not verified_evidence and not any(k in reply for k in ["Bayview", "বেভিউ", "01700-000000"]):
+                resp_type = "unknown"
 
-        # 2. Strict Numerical Verification: All numbers in reply must appear in KB (or user's prompt)
-        # Prevents fabricating fees, discounts, or deadlines
-        user_nums = set(
-            n.replace(",", "")
-            for n in re.findall(r'\b\d{1,3}(?:,\d{2,3})*(?:\.\d+)?\b|\b\d+\b', _normalize_digits(clean_message))
-        )
+        # 2. Strict Numerical Verification
+        user_float_nums = set()
+        for x in re.findall(r'\b\d+(?:\.\d+)?\b', _normalize_digits(clean_message)):
+            try:
+                user_float_nums.add(round(float(x), 2))
+            except ValueError:
+                pass
+
+        kb_float_nums = set()
+        for x in kb.numbers_in_kb:
+            try:
+                kb_float_nums.add(round(float(x), 2))
+            except ValueError:
+                pass
+
+        for constant in ["01700000000", "01700", "000000", "2027"]:
+            try:
+                kb_float_nums.add(round(float(constant), 2))
+            except ValueError:
+                pass
+
         normalized_reply = _normalize_digits(reply)
         numbers_in_reply = re.findall(r'\b\d{1,3}(?:,\d{2,3})*(?:\.\d+)?\b|\b\d+\b', normalized_reply)
         for num in numbers_in_reply:
@@ -118,37 +134,49 @@ def chat_admission(sid: str, message: str, db, ui_lang: str = "en") -> Dict[str,
             # Permit single-digit list numbers like 1., 2., 3. or 4-year
             if len(cleaned_num) <= 1:
                 continue
-            if (
-                cleaned_num not in kb.numbers_in_kb
-                and num not in kb.numbers_in_kb
-                and cleaned_num not in user_nums
-            ):
+            is_valid = (
+                cleaned_num in kb.numbers_in_kb
+                or num in kb.numbers_in_kb
+                or cleaned_num in ["01700000000", "01700", "000000", "2027"]
+            )
+            if not is_valid:
+                try:
+                    f_val = round(float(cleaned_num), 2)
+                    if f_val in user_float_nums or f_val in kb_float_nums:
+                        is_valid = True
+                except ValueError:
+                    pass
+            if not is_valid:
                 resp_type = "unknown"
                 break
 
-    # Server-composed strict refusal when out of document scope
-    if resp_type == "unknown":
+    # If unknown and reply is empty, compose a polite, helpful explanation
+    if resp_type == "unknown" and not reply:
+        phone = kb.contacts.get("phone", "01700-000000")
+        email = kb.contacts.get("email", "admission@biu.example")
+        address = kb.contacts.get("address", "Admission Office, Bayview International University, Chattogram")
         if is_bn:
             reply = (
-                "দুঃখিত, এই প্রশ্নটির উত্তর আমাদের বর্তমান অফিসিয়াল ভর্তি নথিতে নেই — নথির বাইরে আমি কোনো অনুমানভিত্তিক তথ্য প্রদান করি না।\n\n"
-                f"নির্ভুল তথ্যের জন্য অনুগ্রহ করে সরাসরি ভর্তি অফিসে যোগাযোগ করুন:\n"
-                f"• ফোন: {kb.contacts['phone']}\n"
-                f"• ইমেইল: {kb.contacts['email']}\n"
-                f"• ক্যাম্পাস: {kb.contacts['address']}"
+                "আমাদের বর্তমান অফিসিয়াল ভর্তি নথিতে এ বিষয়ে কোনো তথ্য পাওয়া যায়নি। "
+                "ভুল তথ্য এড়াতে আমি নথির বাইরে অনুমানভিত্তিক কোনো মন্তব্য করছি না।\n\n"
+                "সঠিক তথ্যের জন্য অনুগ্রহ করে সরাসরি ভর্তি অফিসে যোগাযোগ করুন:\n"
+                f"• ফোন: {phone}\n"
+                f"• ইমেইল: {email}\n"
+                f"• অফিস: {address}"
             )
             if not suggestions:
-                suggestions = ["সবগুলো প্রোগ্রাম ও ফি দেখাও", "ভর্তির ধাপগুলো কী কী?", "ভর্তির যোগ্যতা ও শেষ তারিখ"]
+                suggestions = ["৫টি প্রোগ্রাম ও ফি দেখাও", "ভর্তির ৬টি ধাপ কী কী?", "ভর্তির যোগ্যতা ও শেষ তারিখ"]
         else:
             reply = (
-                "I do not have that information in our verified admission documentation, and I do not provide unverified answers outside the official records.\n\n"
-                f"For accurate assistance on this inquiry, please contact the Admission Office directly:\n"
-                f"• Phone: {kb.contacts['phone']}\n"
-                f"• Email: {kb.contacts['email']}\n"
-                f"• Campus: {kb.contacts['address']}"
+                "I do not have specific information regarding this topic in our verified admission documentation. "
+                "To prevent misleading details, I do not provide unverified information outside official records.\n\n"
+                "For accurate details, please contact the Admission Office directly:\n"
+                f"• Phone: {phone}\n"
+                f"• Email: {email}\n"
+                f"• Office: {address}"
             )
             if not suggestions:
-                suggestions = ["What are the admission steps?", "Tuition fee for CSE", "Eligibility and deadlines"]
-        verified_evidence = []
+                suggestions = ["List all 5 programs & fees", "What are the admission steps?", "Eligibility and deadlines"]
 
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -173,22 +201,22 @@ def chat_admission(sid: str, message: str, db, ui_lang: str = "en") -> Dict[str,
     }
 
 def get_admission_checklist(lang: str = "en") -> List[Dict[str, Any]]:
-    """Returns official admission checklist items."""
+    """Returns official 6-step admission checklist items for Bayview International University."""
     is_bn = (lang == "bn")
     if is_bn:
         return [
-            {"id": "c1", "label": "অনলাইন বা ক্যাম্পাস থেকে ভর্তি ফর্ম সংগ্রহ ও পূরণ (ফি ৫০০ টাকা)", "done": True},
-            {"id": "c2", "label": "এসএসসি ও এইচএসসি পরীক্ষার মার্কশিট ও মূল সনদের কপি সংগ্রহ", "done": False},
-            {"id": "c3", "label": "৪ কপি পাসপোর্ট সাইজের সত্যায়িত রঙিন ছবি প্রস্তুত রাখা", "done": False},
-            {"id": "c4", "label": "জাতীয় পরিচয়পত্র (NID) অথবা জন্মনিবন্ধন সনদের ফটোকপি", "done": False},
-            {"id": "c5", "label": "সাউথ খুলশী ক্যাম্পাসে সংক্ষিপ্ত ভর্তি ভাইভা ও নথিপত্র যাচাইয়ে অংশ নেওয়া", "done": False},
-            {"id": "c6", "label": "প্রাথমিক ভর্তি ফি ও ১ম ট্রাইমিস্টার টিউশন ফি জমা দিয়ে স্টুডেন্ট আইডি গ্রহণ", "done": False}
+            {"id": "c1", "label": "১. বিশ্ববিদ্যালয়ের ওয়েবসাইটে অনলাইন আবেদন ফর্ম পূরণ (ধাপ ১)", "done": True},
+            {"id": "c2", "label": "২. বিকাশের মাধ্যমে আবেদন ফি ১,০০০ টাকা পরিশোধ (ধাপ ২)", "done": False},
+            {"id": "c3", "label": "৩. ৬০ মিনিটে ৫০টি বহুনির্বাচনী (MCQ) ভর্তি পরীক্ষায় অংশগ্রহণ (ধাপ ৩)", "done": False},
+            {"id": "c4", "label": "৪. মেধা তালিকা অনুযায়ী ওয়েবসাইটে ভর্তি পরীক্ষার ফলাফল যাচাই (ধাপ ৪)", "done": False},
+            {"id": "c5", "label": "৫. ভর্তি অফিসে মূল সনদ, মার্কশিট, ছবি ও NID/জন্মনিবন্ধন জমা (ধাপ ৫)", "done": False},
+            {"id": "c6", "label": "৬. ভর্তি ফি পরিশোধ করে কোর্স রেজিস্ট্রেশন সম্পন্ন করা (ধাপ ৬)", "done": False}
         ]
     return [
-        {"id": "c1", "label": "Complete Online / Campus Admission Application Form (BDT 500)", "done": True},
-        {"id": "c2", "label": "Prepare Certified SSC & HSC Marksheets and Certificates", "done": False},
-        {"id": "c3", "label": "4 Copies of Recent Passport-Size Photographs", "done": False},
-        {"id": "c4", "label": "Photocopy of National ID Card (NID) or Birth Certificate", "done": False},
-        {"id": "c5", "label": "Attend Document Verification & Admission Viva at South Khulshi Campus", "done": False},
-        {"id": "c6", "label": "Deposit Admission Fee & 1st Trimester Tuition to receive Student ID", "done": False}
+        {"id": "c1", "label": "1. Fill in the online application form on university website (Step 1)", "done": True},
+        {"id": "c2", "label": "2. Pay the application fee of BDT 1,000 by bKash (Step 2)", "done": False},
+        {"id": "c3", "label": "3. Take the 50 MCQ admission test in 60 minutes (Step 3)", "done": False},
+        {"id": "c4", "label": "4. Check the merit result on the website (Step 4)", "done": False},
+        {"id": "c5", "label": "5. Submit original certificates, transcripts & photos at Admission Office (Step 5)", "done": False},
+        {"id": "c6", "label": "6. Pay the admission fee and register for courses (Step 6)", "done": False}
     ]

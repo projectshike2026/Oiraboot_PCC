@@ -20,21 +20,20 @@ def test_track3_matching_and_gap_radar(test_client):
         db.execute("DELETE FROM reasons")
         db.commit()
         scholarships = load_scholarships_into_db(db)
-        assert len(scholarships) >= 7
+        assert len(scholarships) >= 100
 
         # Student with CGPA 3.75 in CSE requiring financial need
         matched, almost = match_scholarships(scholarships, cgpa=3.75, department="CSE", needs_support=True)
         assert len(matched) >= 3
-        
-        # Check chancellor award (min 3.85): student has 3.75, so it should be in ALMOST
-        chancellor_almost = [s for s in almost if "Chancellor" in s["name"]]
-        assert len(chancellor_almost) == 1
-        assert "3.85" in chancellor_almost[0]["missing"][0]
 
-        # Student without financial need should not match hardship awards
+        # Check Merit Excellence Award (min 3.8): student has 3.75, so it should be in ALMOST
+        merit_almost = [s for s in almost if "Merit Excellence" in s["name"]]
+        assert len(merit_almost) == 1
+        assert "3.8" in merit_almost[0]["missing"][0]
+
+        # Student without financial need should not match need-based awards
         matched_no_need, _ = match_scholarships(scholarships, cgpa=3.75, department="CSE", needs_support=False)
-        hardship = [s for s in matched_no_need if "Hardship" in s["name"]]
-        assert len(hardship) == 0
+        assert all(not s.get("need_based", False) for s in matched_no_need)
 
         # Template reasons generation
         reasons = generate_batch_reasons(matched, cgpa=3.75, department="CSE", needs_support=True, db=db)

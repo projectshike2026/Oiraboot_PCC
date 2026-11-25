@@ -770,22 +770,7 @@ function formatAdmissionReplyHtml(rawText) {
 }
 
 function getKindBadgeHtml(kind) {
-  if (kind === 'unknown') {
-    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20">
-      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-      Not Listed in Guide
-    </span>`;
-  }
-  if (kind === 'clarify') {
-    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
-      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Please Clarify
-    </span>`;
-  }
-  return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
-    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    Verified Answer
-  </span>`;
+  return '';
 }
 
 async function initAdmissionChat() {
@@ -800,8 +785,8 @@ async function initAdmissionChat() {
 
     if (history.length === 0) {
       const welcomeHtml = `
-        <p class="leading-relaxed">Welcome to the <strong class="font-semibold text-zinc-900 dark:text-zinc-50">Oiraboot Admissions Concierge</strong>. I provide clear, helpful answers directly from our Official Admission Guide.</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ask about programs, tuition fees, GPA eligibility checks, waivers, deadlines, or enrollment steps in English or বাংলা.</p>
+        <p class="leading-relaxed">Welcome to the <strong class="font-semibold text-zinc-900 dark:text-zinc-50">Bayview Admissions Desk</strong>. I provide clear, helpful guidance directly from our Official Admission Guide.</p>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ask about programs, tuition fees, GPA eligibility, waivers, key dates, or admission steps in English or বাংলা.</p>
       `;
       appendAdmissionMessage('assistant', welcomeHtml, [
         'List all programs & fees',
@@ -820,7 +805,7 @@ async function initAdmissionChat() {
       });
     }
   } catch (_) {
-    appendAdmissionMessage('assistant', '<p>Welcome to the <strong>Oiraboot Admissions Concierge</strong>. Ask anything regarding official admissions.</p>', [], 'answer', []);
+    appendAdmissionMessage('assistant', '<p>Welcome to the <strong>Bayview Admissions Desk</strong>. Ask anything regarding official admissions.</p>', [], 'answer', []);
   }
 }
 

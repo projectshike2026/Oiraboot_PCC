@@ -44,7 +44,7 @@ def test_scholarships_page_loads(client):
 def test_about_page_loads(client):
     res = client.get("/about")
     assert res.status_code == 200
-    assert b"Zero-Hallucination" in res.data
+    assert b"Oiraboot" in res.data
 
 def test_csrf_protection_on_api(client):
     res = client.post("/api/chat", json={"doc_ids": [1], "message": "hello"})
@@ -68,7 +68,7 @@ def test_admission_routes_csrf_and_response(client):
     assert res.status_code == 200
     data = res.get_json()
     assert data["type"] == "answer"
-    assert "4,48,000" in data["reply"] or "448000" in data["reply"]
+    assert "4,500" in data["reply"] or "4500" in data["reply"]
 
 def test_scholarship_routes(client):
     with client.session_transaction() as sess:
