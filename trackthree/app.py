@@ -93,12 +93,12 @@ def ai_advise():
     is_bangla = (client_lang == "bn")
 
     system_prompt = (
-        "You are a Senior Academic Scholarship Counselor at Port City International University (PCIU). "
+        "You are a Senior Academic Scholarship Counselor at Bayview International University (Oiraboot). "
         "You MUST write your entire response in natural, fluent Bengali (বাংলা). "
         "Write a concise 2-paragraph strategic recommendation advising the student on which scholarships to prioritize, "
         "how to maximize their odds, and key application steps in Bengali (বাংলা)."
         if is_bangla else
-        "You are a Senior Academic Scholarship Counselor at Port City International University (PCIU). "
+        "You are a Senior Academic Scholarship Counselor at Bayview International University (Oiraboot). "
         "Write a concise 2-paragraph strategic recommendation advising the student on which scholarships to prioritize, "
         "how to maximize their odds, and key application steps in English."
     )
@@ -116,6 +116,90 @@ Provide your strategic advisory recommendation:"""
         return jsonify({"success": True, "advice": advice})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
+
+
+@app.route("/api/scholarship_chat", methods=["POST"])
+def scholarship_chat():
+    """
+    AI Scholarship Chat: student describes situation → grounded scholarship recommendations.
+    Supports Extra Think (dual-pass Gemini + Groq cross-verification).
+    """
+    data = request.get_json() or {}
+    message = (data.get("message") or "").strip()
+    if not message:
+        return jsonify({"success": False, "error": "Message cannot be empty"}), 400
+
+    try:
+        cgpa = float(data.get("cgpa", 0)) if data.get("cgpa") else None
+    except (TypeError, ValueError):
+        cgpa = None
+
+    dept = data.get("department", "All") or "All"
+    need = bool(data.get("need_based", False))
+    gender = data.get("gender", "All") or "All"
+    client_lang = data.get("lang", "en")
+    extra_think = bool(data.get("extra_think", False))
+    history = data.get("history", [])  # [{role: "user"|"assistant", content: "..."}]
+    is_bangla = (client_lang == "bn")
+
+    # Build grounded scholarship context from catalog
+    # Pull top scholarships matching the profile (or all if no CGPA given)
+    if cgpa and cgpa > 0:
+        result = scholarship_engine.evaluate_profile(cgpa, dept, need, gender)
+        # eligible/near_miss are dicts with 'record' key
+        eligible_records = [item["record"] for item in result["eligible"][:30]]
+        near_miss_records = [item["record"] for item in result["near_miss"][:10]]
+        all_for_context = eligible_records + near_miss_records
+    else:
+        # No CGPA filter yet — provide full catalog sample for general questions
+        all_for_context = scholarship_engine.records[:40]
+
+    # Build compact grounded context string
+    ctx_lines = []
+    for s in all_for_context[:35]:
+        name = s.get("name", "")
+        provider = s.get("provider", "")
+        amount = s.get("amount_bdt", 0)
+        min_cgpa = s.get("min_cgpa", 0)
+        depts = s.get("department_raw", "All")
+        deadline = s.get("deadline", "")
+        need_b = "Yes" if s.get("need_based") else "No"
+        gender_b = s.get("gender", "All")
+        desc = s.get("description", "")[:120]
+        ctx_lines.append(
+            f"• {name} | Provider: {provider} | Amount: BDT {amount:,} | "
+            f"Min CGPA: {min_cgpa} | Dept: {depts} | Deadline: {deadline} | "
+            f"Need-Based: {need_b} | Gender: {gender_b} | {desc}"
+        )
+
+    scholarship_context = "\n".join(ctx_lines)
+
+    try:
+        if extra_think:
+            answer, verification_note = ai.scholarship_chat_extensive(
+                scholarship_context=scholarship_context,
+                message=message,
+                history=history,
+                is_bangla=is_bangla,
+            )
+        else:
+            answer = ai.scholarship_chat_single(
+                scholarship_context=scholarship_context,
+                message=message,
+                history=history,
+                is_bangla=is_bangla,
+            )
+            verification_note = ""
+
+        return jsonify({
+            "success": True,
+            "answer": answer,
+            "verification_note": verification_note,
+            "extra_think": extra_think,
+            "matched_count": len(all_for_context),
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/api/export_scholarships", methods=["POST"])

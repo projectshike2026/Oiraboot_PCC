@@ -1,5 +1,5 @@
 /**
- * PCIU Computer Club — Track 3: Scholarship Finder Atlas
+ * Oiraboot — Track 3: Scholarship Atlas & AI Advisor
  * Client Application Logic
  */
 
@@ -26,6 +26,12 @@ const SCHOLARSHIP_I18N = {
     export: "Download CSV Report",
     aiAdviseBtn: "Gemini AI Strategy Advisor",
     aiModalTitle: "Gemini AI Scholarship Strategy",
+    aiChatBtn: "AI Scholarship Advisor",
+    aiChatTitle: "Oiraboot Scholarship Advisor",
+    aiChatSubtitle: "Powered by verified catalog • 136 scholarships",
+    aiChatPlaceholder: "My CGPA is 3.6, CSE dept, I need financial support...",
+    extraThink: "Extra Think",
+    filterResults: "Filter Results",
     thAward: "Scholarship Award",
     thProvider: "Provider",
     thDept: "Department",
@@ -65,6 +71,12 @@ const SCHOLARSHIP_I18N = {
     export: "CSV ডাউনলোড",
     aiAdviseBtn: "জেমিনাই এআই স্ট্র্যাটেজি",
     aiModalTitle: "জেমিনাই এআই স্কলারশিপ পরামর্শ",
+    aiChatBtn: "এআই স্কলারশিপ উপদেষ্টা",
+    aiChatTitle: "ওইরাবুট স্কলারশিপ উপদেষ্টা",
+    aiChatSubtitle: "যাচাইকৃত ক্যাটালগ থেকে • ১৩৬টি বৃত্তি",
+    aiChatPlaceholder: "আমার CGPA ৩.৬, CSE বিভাগ, আর্থিক সহায়তা দরকার...",
+    extraThink: "গভীর বিশ্লেষণ",
+    filterResults: "ফলাফল ফিল্টার",
     thAward: "বৃত্তির নাম",
     thProvider: "প্রদানকারী",
     thDept: "বিভাগ",
@@ -92,6 +104,8 @@ const SCHOLARSHIP_I18N = {
 
 document.addEventListener('DOMContentLoaded', () => {
   triggerScholarshipMatch();
+  // AI chat init is called at the bottom of the file
+  initScholarshipChat();
 });
 
 function toggleLanguage() {
@@ -511,3 +525,225 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+
+/* ================================================================== */
+/* AI SCHOLARSHIP CHAT — CLIENT LOGIC                                  */
+/* ================================================================== */
+
+let scholarshipChatHistory = [];   // [{role:"user"|"assistant", content:"..."}]
+let extraThinkEnabled = false;
+let chatPanelOpen = true;
+let chatIsBusy = false;
+
+/* Called once on DOMContentLoaded */
+function initScholarshipChat() {
+  const welcomeEn = `<strong>Welcome! I'm your Oiraboot Scholarship Advisor.</strong><br>
+Tell me about your CGPA, department, and financial situation. I'll recommend the best-matched scholarships from our verified catalog of 136 awards.<br><br>
+<em>Try: "My CGPA is 3.6, I'm in CSE and I need financial aid."</em>`;
+  const welcomeBn = `<strong>স্বাগতম! আমি আপনার ওইরাবুট স্কলারশিপ উপদেষ্টা।</strong><br>
+আপনার CGPA, বিভাগ ও আর্থিক অবস্থা জানান। আমি যাচাইকৃত ১৩৬টি বৃত্তির মধ্য থেকে আপনার জন্য সেরাগুলো সুপারিশ করব।`;
+  appendScholarshipMessage('assistant', currentLang === 'bn' ? welcomeBn : welcomeEn);
+}
+
+function openScholarshipChat() {
+  if (!chatPanelOpen) toggleChatPanel();
+  const input = document.getElementById('scholarship-chat-input');
+  if (input) input.focus();
+}
+
+function toggleChatPanel() {
+  chatPanelOpen = !chatPanelOpen;
+  const panel = document.getElementById('ai-chat-panel');
+  const collapsedBar = document.getElementById('chat-collapsed-bar');
+  const icon = document.getElementById('chat-collapse-icon');
+
+  if (chatPanelOpen) {
+    panel.style.display = 'flex';
+    if (collapsedBar) collapsedBar.classList.add('hidden');
+    if (icon) icon.setAttribute('data-lucide', 'chevron-up');
+  } else {
+    panel.style.display = 'none';
+    if (collapsedBar) collapsedBar.classList.remove('hidden');
+    if (icon) icon.setAttribute('data-lucide', 'chevron-down');
+  }
+  lucide.createIcons();
+}
+
+async function handleScholarshipChatSubmit(e) {
+  e.preventDefault();
+  if (chatIsBusy) return;
+
+  const input = document.getElementById('scholarship-chat-input');
+  const message = (input.value || '').trim();
+  if (!message) return;
+
+  input.value = '';
+  input.disabled = true;
+  chatIsBusy = true;
+  document.getElementById('chat-send-btn').disabled = true;
+
+  // Hide quick prompts after first message
+  const qp = document.getElementById('chat-quick-prompts');
+  if (qp && scholarshipChatHistory.length > 0) qp.style.display = 'none';
+
+  // Show user bubble
+  appendScholarshipMessage('user', escapeHtml(message));
+
+  // Add to history
+  scholarshipChatHistory.push({ role: 'user', content: message });
+
+  // Show thinking shimmer
+  const thinkingId = showThinkingShimmer();
+
+  // Pull current profile from sidebar for grounded context
+  const cgpa = document.getElementById('cgpa-input')?.value || '';
+  const dept = document.getElementById('dept-select')?.value || 'All';
+  const need = document.getElementById('need-checkbox')?.checked || false;
+  const gender = document.getElementById('gender-select')?.value || 'All';
+
+  try {
+    const res = await fetch('/api/scholarship_chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message,
+        cgpa: cgpa ? parseFloat(cgpa) : null,
+        department: dept,
+        need_based: need,
+        gender,
+        lang: currentLang,
+        extra_think: extraThinkEnabled,
+        history: scholarshipChatHistory.slice(-10),
+      }),
+    });
+
+    removeThinkingShimmer(thinkingId);
+
+    const data = await res.json();
+
+    if (data.success) {
+      const answer = data.answer || 'No response received.';
+      const verNote = data.verification_note || '';
+      scholarshipChatHistory.push({ role: 'assistant', content: answer });
+      appendScholarshipMessage('assistant', formatAIResponse(answer), verNote);
+    } else {
+      appendScholarshipMessage('assistant', `<span style="color:var(--crimson);">Error: ${escapeHtml(data.error || 'Server error.')}</span>`);
+    }
+  } catch (err) {
+    removeThinkingShimmer(thinkingId);
+    appendScholarshipMessage('assistant', `<span style="color:var(--crimson);">Connection error: ${escapeHtml(err.message)}</span>`);
+  } finally {
+    input.disabled = false;
+    chatIsBusy = false;
+    document.getElementById('chat-send-btn').disabled = false;
+    input.focus();
+  }
+}
+
+function appendScholarshipMessage(role, htmlContent, verificationNote = '') {
+  const feed = document.getElementById('scholarship-chat-messages');
+  if (!feed) return;
+
+  const isUser = role === 'user';
+  const avatarClass = isUser ? 'user-av' : 'ai-av';
+  const avatarIcon = isUser
+    ? '<i data-lucide="user" style="width:12px;height:12px;"></i>'
+    : '<i data-lucide="bot" style="width:12px;height:12px;"></i>';
+  const bubbleClass = isUser ? 'user-bubble' : 'ai-bubble';
+  const rowClass = isUser ? 'user-row' : '';
+
+  const noteHtml = verificationNote
+    ? `<div class="sc-verify-note"><i data-lucide="shield-check" style="width:11px;height:11px;"></i>${escapeHtml(verificationNote)}</div>`
+    : '';
+
+  const msgEl = document.createElement('div');
+  msgEl.className = `sc-msg-row ${rowClass}`;
+  msgEl.innerHTML = `
+    <div class="sc-msg-avatar ${avatarClass}">${avatarIcon}</div>
+    <div class="sc-msg-bubble ${bubbleClass}">
+      ${htmlContent}
+      ${noteHtml}
+    </div>`;
+
+  feed.appendChild(msgEl);
+  feed.scrollTop = feed.scrollHeight;
+  lucide.createIcons();
+}
+
+function showThinkingShimmer() {
+  const feed = document.getElementById('scholarship-chat-messages');
+  if (!feed) return null;
+
+  const label = extraThinkEnabled
+    ? (currentLang === 'bn' ? 'দুটি এআই বিশ্লেষণ চলছে...' : 'Cross-verifying with dual AI passes...')
+    : (currentLang === 'bn' ? '১৩৬টি বৃত্তি বিশ্লেষণ করা হচ্ছে...' : 'Analyzing against 136 scholarships...');
+
+  const shimmer = document.createElement('div');
+  const id = 'thinking-' + Date.now();
+  shimmer.id = id;
+  shimmer.className = 'sc-msg-row';
+  shimmer.innerHTML = `
+    <div class="sc-msg-avatar ai-av"><i data-lucide="bot" style="width:12px;height:12px;"></i></div>
+    <div class="sc-thinking">
+      <div class="sc-thinking-dots"><span></span><span></span><span></span></div>
+      <span>${escapeHtml(label)}</span>
+    </div>`;
+  feed.appendChild(shimmer);
+  feed.scrollTop = feed.scrollHeight;
+  lucide.createIcons();
+  return id;
+}
+
+function removeThinkingShimmer(id) {
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function formatAIResponse(text) {
+  if (!text) return '';
+  // Convert numbered lists (1. 2. 3.) and bullet points into clean HTML
+  let html = escapeHtml(text);
+  // Bold: **text** or *text*
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Line breaks
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  return `<p>${html}</p>`;
+}
+
+function sendScholarshipQuick(text) {
+  const input = document.getElementById('scholarship-chat-input');
+  if (!input) return;
+  input.value = text;
+  handleScholarshipChatSubmit(new Event('submit'));
+}
+
+function toggleExtraThink() {
+  extraThinkEnabled = !extraThinkEnabled;
+  const btn = document.getElementById('extra-think-btn');
+  if (!btn) return;
+  btn.setAttribute('aria-pressed', String(extraThinkEnabled));
+  if (extraThinkEnabled) {
+    btn.style.borderColor = '#7c3aed';
+    btn.style.background = '#7c3aed';
+    btn.style.color = '#fff';
+  } else {
+    btn.style.borderColor = '';
+    btn.style.background = '';
+    btn.style.color = '';
+  }
+}
+
+async function clearScholarshipChat() {
+  scholarshipChatHistory = [];
+  const feed = document.getElementById('scholarship-chat-messages');
+  if (feed) feed.innerHTML = '';
+  const qp = document.getElementById('chat-quick-prompts');
+  if (qp) qp.style.display = '';
+  initScholarshipChat();
+}
+
+// (init called by DOMContentLoaded above)

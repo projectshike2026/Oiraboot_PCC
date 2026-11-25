@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}PCIU Computer Club — Scholarship Atlas (Track 3){% endblock %}
+{% block title %}Oiraboot — Scholarship Atlas (Track 3){% endblock %}
 
 {% block content %}
 <div class="workspace-grid">
 
-  <!-- LEFT COLUMN: STUDENT PROFILE & MATCHING CRITERIA (PRD REQUIREMENT 1) -->
+  <!-- LEFT COLUMN: STUDENT PROFILE & MATCHING CRITERIA -->
   <aside class="sidebar-card">
     <div class="sidebar-header">
       <div class="section-tag">
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <!-- Student Information Form (Must-Have 1) -->
+    <!-- Student Information Form -->
     <form id="profile-form" onsubmit="handleProfileSubmit(event)" class="profile-form">
       <!-- 1. CGPA Input & Precision Slider -->
       <div class="form-group">
@@ -70,16 +70,16 @@
       <div class="form-group">
         <label for="dept-select" class="control-label" data-i18n="deptLabel">Department</label>
         <select id="dept-select" class="select-input w-full" onchange="triggerScholarshipMatch()">
-          <option value="CSE" selected>Computer Science & Engineering (CSE)</option>
-          <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+          <option value="CSE" selected>Computer Science &amp; Engineering (CSE)</option>
+          <option value="EEE">Electrical &amp; Electronic Engineering (EEE)</option>
           <option value="CE">Civil Engineering (CE)</option>
           <option value="BBA">Business Administration (BBA)</option>
-          <option value="English">English Literature & Language</option>
+          <option value="English">English Literature &amp; Language</option>
           <option value="All">All Departments / Open</option>
         </select>
       </div>
 
-      <!-- 3. Financial Support Needed (Must-Have 1) -->
+      <!-- 3. Financial Support Needed -->
       <div class="form-group">
         <label class="checkbox-container">
           <input type="checkbox" id="need-checkbox" onchange="triggerScholarshipMatch()" />
@@ -91,7 +91,7 @@
         </label>
       </div>
 
-      <!-- 4. Gender (Optional criteria filter) -->
+      <!-- 4. Gender filter -->
       <div class="form-group">
         <label for="gender-select" class="control-label" data-i18n="genderLabel">Applicant Gender</label>
         <select id="gender-select" class="select-input w-full" onchange="triggerScholarshipMatch()">
@@ -107,18 +107,18 @@
         <span data-i18n="findAwards">Evaluate Matching Scholarships</span>
       </button>
 
-      <!-- Gemini AI Strategic Advisor Button -->
-      <button type="button" class="btn-secondary w-full" onclick="getGeminiAdvice()" style="border-color:var(--crimson); color:var(--crimson);">
-        <i data-lucide="bot" class="icon-sm text-crimson"></i>
-        <span data-i18n="aiAdviseBtn">Gemini AI Strategy Advisor</span>
+      <!-- AI Chat Button -->
+      <button type="button" class="btn-secondary w-full" onclick="openScholarshipChat()" style="border-color:var(--crimson); color:var(--crimson); margin-top:0.5rem;">
+        <i data-lucide="message-circle" class="icon-sm text-crimson"></i>
+        <span data-i18n="aiChatBtn">AI Scholarship Advisor</span>
       </button>
     </form>
 
     <!-- Track 1 Quick Link -->
     <div class="track-switch-card">
       <div class="track-switch-meta">
-        <span class="font-bold text-xs" data-i18n="needTrack1">Need Document Q&A?</span>
-        <p class="text-faint text-xs" data-i18n="track1Desc">PDF Study Notes Chat & Instant Quiz</p>
+        <span class="font-bold text-xs" data-i18n="needTrack1">Need Document Q&amp;A?</span>
+        <p class="text-faint text-xs" data-i18n="track1Desc">PDF Study Notes Chat &amp; Instant Quiz</p>
       </div>
       <a href="/track1" class="btn-secondary track-switch-link">
         <span data-i18n="openTrack1">Track 1</span>
@@ -128,12 +128,82 @@
   </aside>
 
   <!-- RIGHT COLUMN: SCHOLARSHIP DISCOVERY ATLAS -->
-  <section class="main-studio-card">
+  <section class="main-studio-card" style="display:flex; flex-direction:column; gap:0; padding:0; overflow:hidden;">
 
-    <!-- Discovery Toolbar (Bonus: Sort by deadline/amount & Search) -->
-    <div class="scholarship-toolbar">
+    <!-- ===== AI CHAT PANEL ===== -->
+    <div class="ai-chat-panel" id="ai-chat-panel">
+      <!-- Chat Header -->
+      <div class="ai-chat-header">
+        <div class="ai-chat-header-left">
+          <div class="ai-chat-avatar">
+            <i data-lucide="bot" class="icon-sm"></i>
+          </div>
+          <div>
+            <div class="ai-chat-title" data-i18n="aiChatTitle">Oiraboot Scholarship Advisor</div>
+            <div class="ai-chat-subtitle" data-i18n="aiChatSubtitle">Powered by verified catalog • 136 scholarships</div>
+          </div>
+        </div>
+        <div class="ai-chat-header-right">
+          <!-- Extra Think Toggle -->
+          <button id="extra-think-btn" type="button" class="extra-think-btn" aria-pressed="false" onclick="toggleExtraThink()" title="Activate dual AI cross-verification">
+            <i data-lucide="shield-check" class="icon-xs"></i>
+            <span data-i18n="extraThink">Extra Think</span>
+          </button>
+          <!-- Clear Chat -->
+          <button type="button" class="ai-chat-clear-btn" onclick="clearScholarshipChat()" title="Clear conversation">
+            <i data-lucide="trash-2" class="icon-xs"></i>
+          </button>
+          <!-- Collapse -->
+          <button type="button" class="ai-chat-clear-btn" onclick="toggleChatPanel()" title="Collapse chat" id="chat-collapse-btn">
+            <i data-lucide="chevron-up" class="icon-xs" id="chat-collapse-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Messages Area -->
+      <div id="scholarship-chat-messages" class="ai-chat-messages">
+        <!-- Welcome bubble injected by JS -->
+      </div>
+
+      <!-- Quick Prompts -->
+      <div class="ai-chat-quick-prompts" id="chat-quick-prompts">
+        <button class="chat-quick-pill" onclick="sendScholarshipQuick('I am a CSE student with CGPA 3.5, what scholarships am I eligible for?')">CSE • 3.5 CGPA</button>
+        <button class="chat-quick-pill" onclick="sendScholarshipQuick('I need financial support. My CGPA is 3.2 in BBA. Any need-based scholarships?')">Need-Based Aid</button>
+        <button class="chat-quick-pill" onclick="sendScholarshipQuick('I am a female student in EEE with CGPA 3.7. Show me all options.')">Women in Tech</button>
+        <button class="chat-quick-pill" onclick="sendScholarshipQuick('What is the highest scholarship amount available?')">Top Awards</button>
+      </div>
+
+      <!-- Chat Input -->
+      <form id="scholarship-chat-form" class="ai-chat-input-row" onsubmit="handleScholarshipChatSubmit(event)">
+        <input
+          type="text"
+          id="scholarship-chat-input"
+          class="ai-chat-input"
+          placeholder="Describe your CGPA, department, financial situation..."
+          data-i18n-placeholder="aiChatPlaceholder"
+          autocomplete="off"
+        />
+        <button type="submit" class="ai-chat-send-btn" id="chat-send-btn">
+          <i data-lucide="send" class="icon-sm"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Panel toggle bar when collapsed -->
+    <div class="chat-collapsed-bar hidden" id="chat-collapsed-bar" onclick="toggleChatPanel()">
+      <i data-lucide="message-circle" class="icon-xs text-crimson"></i>
+      <span data-i18n="aiChatTitle">Oiraboot Scholarship Advisor</span>
+      <i data-lucide="chevron-down" class="icon-xs text-faint"></i>
+    </div>
+
+    <!-- Divider -->
+    <div class="chat-filter-divider">
+      <span class="divider-label" data-i18n="filterResults">Filter Results</span>
+    </div>
+
+    <!-- Discovery Toolbar -->
+    <div class="scholarship-toolbar" style="padding: 0.75rem 1.25rem;">
       <div class="toolbar-left">
-        <!-- Tabs: Eligible vs Almost Eligible (Bonus: Near Miss) -->
         <div class="pill-tabs">
           <button class="pill-tab active" id="tab-matched-btn" onclick="switchMatchTab('matched')">
             <i data-lucide="check-circle-2" class="icon-xs"></i>
@@ -149,7 +219,6 @@
       </div>
 
       <div class="toolbar-right">
-        <!-- Search Keyword Filter -->
         <div class="search-box">
           <i data-lucide="search" class="icon-xs text-faint"></i>
           <input
@@ -161,14 +230,12 @@
           />
         </div>
 
-        <!-- Sort By Dropdown (Bonus: Sort results by deadline or amount) -->
         <select id="sort-select" class="select-input" onchange="applyClientFilter()">
           <option value="amount_desc" selected>Highest Amount (BDT)</option>
           <option value="deadline_asc">Nearest Deadline</option>
           <option value="cgpa_asc">Minimum CGPA</option>
         </select>
 
-        <!-- View Layout Toggle: Card List vs Table (Must-Have 5) -->
         <div class="view-layout-toggle">
           <button class="layout-btn active" id="layout-cards-btn" onclick="setLayout('cards')" title="Card Grid View">
             <i data-lucide="grid" class="icon-sm"></i>
@@ -178,7 +245,6 @@
           </button>
         </div>
 
-        <!-- Download CSV Button (Bonus: Download results) -->
         <button class="btn-download" onclick="exportScholarships()" title="Download CSV Report">
           <i data-lucide="download" class="icon-xs"></i>
           <span data-i18n="export">Download CSV</span>
@@ -187,12 +253,12 @@
     </div>
 
     <!-- Active Content Stage -->
-    <div class="scholarship-stage" id="scholarship-stage">
+    <div class="scholarship-stage" id="scholarship-stage" style="flex:1; overflow-y:auto;">
 
-      <!-- CARDS VIEW CONTAINER (Must-Have 5) -->
+      <!-- CARDS VIEW -->
       <div id="cards-view" class="scholarship-cards-grid"></div>
 
-      <!-- TABLE VIEW CONTAINER (Must-Have 5) -->
+      <!-- TABLE VIEW -->
       <div id="table-view" class="scholarship-table-wrapper hidden">
         <table class="styled-table">
           <thead>
@@ -228,7 +294,7 @@
 
 </div>
 
-<!-- APPLICATION CHECKLIST & AI MODAL (Bonus: A short "how to apply" checklist for each scholarship) -->
+<!-- APPLICATION CHECKLIST MODAL -->
 <div id="checklist-modal" class="modal-overlay hidden" onclick="closeChecklistModal(event)">
   <div class="modal-card" onclick="event.stopPropagation()">
     <div class="modal-header">
