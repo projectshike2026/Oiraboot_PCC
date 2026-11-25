@@ -744,9 +744,49 @@ async function submitPdfQuiz() {
 }
 
 /* =========================================================================
-   6. MODULE 2: ADMISSIONS DESK (MULTI-TURN CONCIERGE & CHECKLIST)
+   6. MODULE 2: ADMISSIONS DESK (INTERACTIVE EDUCATIONAL CHATBOT & CHECKLIST)
    ========================================================================= */
 let admissionChecklistItems = [];
+
+function formatAdmissionReplyHtml(rawText) {
+  if (!rawText) return '';
+  const escaped = escapeHtml(rawText);
+  const lines = escaped.split(/\r?\n/);
+  const rendered = lines.map(line => {
+    const trimmed = line.trim();
+    const withBold = trimmed.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-zinc-900 dark:text-zinc-50">$1</strong>');
+    if (trimmed.startsWith('- ')) {
+      return `<div class="flex items-start gap-2 pl-1 my-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-2"></span><span>${withBold.slice(2)}</span></div>`;
+    }
+    const numMatch = trimmed.match(/^(\d+)\.\s+(.*)$/);
+    if (numMatch) {
+      const contentBold = numMatch[2].replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-zinc-900 dark:text-zinc-50">$1</strong>');
+      return `<div class="flex items-start gap-2 pl-1 my-1"><span class="text-[11px] font-mono font-bold text-crimson dark:text-[#91DDFB] shrink-0 mt-0.5">${numMatch[1]}.</span><span>${contentBold}</span></div>`;
+    }
+    if (!trimmed) return '<div class="h-1.5"></div>';
+    return `<p class="leading-relaxed">${withBold}</p>`;
+  });
+  return rendered.join('');
+}
+
+function getKindBadgeHtml(kind) {
+  if (kind === 'unknown') {
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20">
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      Not in Admission Doc
+    </span>`;
+  }
+  if (kind === 'clarify') {
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Clarification Needed
+    </span>`;
+  }
+  return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    Verified from Admission Doc
+  </span>`;
+}
 
 async function initAdmissionChat() {
   const box = document.getElementById('admission-chat-messages');
@@ -759,65 +799,95 @@ async function initAdmissionChat() {
     const history = data.messages || [];
 
     if (history.length === 0) {
-      appendAdmissionMessage('assistant', 'Welcome to the <strong>Oiraboot Admissions Desk</strong>. Ask about undergraduate programs, tuition fees, eligibility criteria, key dates, or enrollment steps in English or Bangla — follow-up questions are remembered automatically.');
+      const welcomeHtml = `
+        <p class="leading-relaxed">Welcome to the <strong class="font-semibold text-zinc-900 dark:text-zinc-50">Oiraboot Admissions Concierge</strong>. I provide reasoned, structured guidance grounded strictly in our Official Admission Guide.</p>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ask about fees, GPA eligibility checks, waivers, deadlines, or enrollment steps in English or বাংলা — questions outside the document are declined without guessing.</p>
+      `;
+      appendAdmissionMessage('assistant', welcomeHtml, [
+        'List all programs & fees',
+        'What is the tuition fee for CSE?',
+        'Eligibility & GPA requirements',
+        'What are the admission steps?'
+      ], 'answer', []);
     } else {
       history.forEach(m => {
-        let content = escapeHtml(m.content).replace(/\n/g, '<br>');
-        if (m.evidence && m.evidence.length > 0) {
-          content += `<div class="p-3 rounded-xl bg-[var(--bg-surface)] border border-hairline border-l-[3px] border-l-[var(--crimson)] text-xs mt-2"><span class="font-mono text-crimson font-bold uppercase">Official Grounding:</span> "${escapeHtml(m.evidence[0])}"</div>`;
+        if (m.role === 'user') {
+          appendAdmissionMessage('user', escapeHtml(m.content));
+        } else {
+          const contentHtml = formatAdmissionReplyHtml(m.content);
+          appendAdmissionMessage('assistant', contentHtml, m.suggestions || [], m.kind || 'answer', m.evidence || []);
         }
-        appendAdmissionMessage(m.role, content, m.suggestions || []);
       });
     }
   } catch (_) {
-    appendAdmissionMessage('assistant', 'Welcome to the <strong>Oiraboot Admissions Desk</strong>. Ask anything regarding admissions.');
+    appendAdmissionMessage('assistant', '<p>Welcome to the <strong>Oiraboot Admissions Concierge</strong>. Ask anything regarding official admissions.</p>', [], 'answer', []);
   }
 }
 
-function appendAdmissionMessage(role, html, suggestions = []) {
+function appendAdmissionMessage(role, html, suggestions = [], kind = 'answer', evidence = []) {
   const box = document.getElementById('admission-chat-messages');
-  if (!box) return;
+  if (!box) return null;
   const div = document.createElement('div');
-  div.className = `flex items-start gap-3.5 msg-animate ${role === 'user' ? 'justify-end' : ''}`;
+  div.className = `flex items-start gap-3 msg-animate ${role === 'user' ? 'justify-end' : ''}`;
+
   if (role === 'user') {
     div.innerHTML = `
-      <div class="px-4 py-3 rounded-2xl rounded-tr-sm bg-crimson text-white font-medium text-sm max-w-lg">
+      <div class="px-4 py-2.5 rounded-2xl rounded-tr-sm bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-medium text-sm max-w-[82%] shadow-xs leading-relaxed">
         ${html}
       </div>
     `;
   } else {
+    let evidenceHtml = '';
+    if (evidence && evidence.length > 0) {
+      evidenceHtml = `
+        <div class="mt-2.5 p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/50 border-l-[3px] border-l-emerald-600 dark:border-l-emerald-400 text-xs space-y-1">
+          <div class="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>Official Document Proof</span>
+          </div>
+          <p class="italic text-zinc-600 dark:text-zinc-300 leading-snug">"${escapeHtml(evidence[0])}"</p>
+        </div>
+      `;
+    }
+
     let suggHtml = '';
     if (suggestions && suggestions.length > 0) {
       suggHtml = `
-        <div class="flex flex-wrap gap-1.5 pt-2">
+        <div class="flex flex-wrap gap-1.5 pt-2 border-t border-zinc-200/60 dark:border-zinc-800/80">
           ${suggestions.map(s => `
-            <button onclick="sendAdmissionQuick('${escapeHtml(s).replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg surface-subtle hover:border-crimson text-[11px] text-main font-medium transition-all">
-              ${escapeHtml(s)}
+            <button type="button" onclick="sendAdmissionQuick('${escapeHtml(s).replace(/'/g, "\\'")}')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-emerald-50 dark:bg-zinc-800/90 dark:hover:bg-emerald-950/50 border border-zinc-200/80 dark:border-zinc-700 hover:border-emerald-500/40 text-[11px] text-zinc-700 dark:text-zinc-200 font-medium transition-all cursor-pointer">
+              <svg class="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <span>${escapeHtml(s)}</span>
             </button>
           `).join('')}
         </div>
       `;
     }
 
+    const badgeHtml = kind && kind !== 'typing' ? `<div class="mb-1.5">${getKindBadgeHtml(kind)}</div>` : '';
+
     div.innerHTML = `
-      <div class="w-9 h-9 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center shrink-0">
-        <i data-lucide="landmark" class="w-4 h-4 text-crimson"></i>
+      <div class="w-8 h-8 rounded-xl bg-emerald-900 dark:bg-emerald-500/15 text-white dark:text-emerald-300 border border-emerald-700/30 flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
       </div>
-      <div class="surface-subtle rounded-2xl rounded-tl-sm p-4 max-w-2xl text-sm text-main leading-relaxed space-y-2">
-        <div>${html}</div>
+      <div class="rounded-2xl rounded-tl-sm bg-white dark:bg-[#11161C] border border-zinc-200/85 dark:border-zinc-800 px-4 py-3.5 max-w-[88%] text-sm text-zinc-700 dark:text-zinc-200 shadow-2xs space-y-2">
+        ${badgeHtml}
+        <div class="space-y-1">${html}</div>
+        ${evidenceHtml}
         ${suggHtml}
       </div>
     `;
   }
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
-  lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   return div;
 }
 
 async function handleAdmissionSubmit(e) {
   if (e) e.preventDefault();
   const input = document.getElementById('admission-chat-input');
+  if (!input) return;
   const text = input.value.trim();
   if (!text) return;
 
@@ -825,11 +895,11 @@ async function handleAdmissionSubmit(e) {
   appendAdmissionMessage('user', escapeHtml(text));
 
   const typingEl = appendAdmissionMessage('assistant', `
-    <div class="flex items-center gap-2.5 text-muted text-xs font-mono">
+    <div class="flex items-center gap-2.5 text-zinc-500 dark:text-zinc-400 text-xs font-mono py-0.5">
       <div class="flex items-center gap-1"><span class="pulse-bar"></span><span class="pulse-bar"></span><span class="pulse-bar"></span></div>
-      <span>Consulting official admission records...</span>
+      <span>Verifying official admission records...</span>
     </div>
-  `);
+  `, [], 'typing', []);
 
   try {
     const res = await apiFetch('/api/admission/chat', {
@@ -838,21 +908,19 @@ async function handleAdmissionSubmit(e) {
       body: JSON.stringify({ message: text })
     });
     const data = await res.json();
-    typingEl.remove();
+    if (typingEl) typingEl.remove();
 
-    let replyHtml = escapeHtml(data.reply).replace(/\n/g, '<br>');
-    if (data.evidence && data.evidence.length > 0) {
-      replyHtml += `
-        <div class="p-3 rounded-xl bg-[var(--bg-surface)] border border-hairline border-l-[3px] border-l-[var(--crimson)] text-xs mt-2 space-y-1">
-          <span class="font-mono text-crimson font-bold uppercase">Grounding Proof:</span>
-          <p class="italic text-muted">"${escapeHtml(data.evidence[0])}"</p>
-        </div>
-      `;
+    if (!res.ok) {
+      const errMsg = (data && data.error && data.error.message) ? data.error.message : 'Unable to process inquiry right now.';
+      appendAdmissionMessage('assistant', `<p>${escapeHtml(errMsg)}</p>`, [], 'unknown', []);
+      return;
     }
-    appendAdmissionMessage('assistant', replyHtml, data.suggestions || []);
+
+    const replyHtml = formatAdmissionReplyHtml(data.reply);
+    appendAdmissionMessage('assistant', replyHtml, data.suggestions || [], data.type || 'answer', data.evidence || []);
   } catch (_) {
-    typingEl.remove();
-    appendAdmissionMessage('assistant', 'The Admissions Desk is momentarily busy. Please try again.');
+    if (typingEl) typingEl.remove();
+    appendAdmissionMessage('assistant', '<p>The Admissions Concierge encountered a connection issue. Please try again.</p>', [], 'unknown', []);
   }
 }
 
@@ -865,14 +933,19 @@ function sendAdmissionQuick(text) {
 }
 
 async function clearAdmissionChat() {
-  await apiFetch('/api/admission/history', { method: 'DELETE' });
-  initAdmissionChat();
-  showToast('Session Reset', 'Cleared admission conversation history.');
+  try {
+    await apiFetch('/api/admission/history', { method: 'DELETE' });
+    await initAdmissionChat();
+    showToast('Session Reset', 'Cleared admission conversation history.');
+  } catch (_) {
+    showToast('Notice', 'Could not reset conversation.', true);
+  }
 }
 
 async function fetchAdmissionChecklist() {
   try {
-    const res = await apiFetch(`/api/admission/checklist?lang=${currentLang}`);
+    const lang = document.documentElement.getAttribute('lang') || localStorage.getItem('oiraboot_lang') || 'en';
+    const res = await apiFetch(`/api/admission/checklist?lang=${lang}`);
     const data = await res.json();
     admissionChecklistItems = data.items || [];
     renderAdmissionChecklist();
@@ -886,17 +959,20 @@ function renderAdmissionChecklist() {
   const pct = Math.round((doneCount / Math.max(1, admissionChecklistItems.length)) * 100);
   const ring = document.getElementById('checklist-progress-ring');
   const pctLabel = document.getElementById('checklist-percent');
-  const circumference = 113.1;
+  const badgeLabel = document.getElementById('chatbot-checklist-badge');
+  const circumference = 119.38;
   if (ring) ring.style.strokeDashoffset = circumference - (pct / 100) * circumference;
   if (pctLabel) pctLabel.textContent = pct + '%';
+  if (badgeLabel) badgeLabel.textContent = `${doneCount}/${admissionChecklistItems.length}`;
 
   box.innerHTML = admissionChecklistItems.map(item => `
-    <button onclick="toggleChecklistItem('${item.id}')" class="w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 ${item.done ? 'bg-crimson-soft border-crimson text-main' : 'surface-subtle text-muted hover:border-crimson'}">
-      <i data-lucide="${item.done ? 'check-square' : 'square'}" class="w-4 h-4 shrink-0 mt-0.5 ${item.done ? 'text-crimson' : 'text-faint'}"></i>
-      <span class="text-xs font-medium leading-snug ${item.done ? 'line-through opacity-75' : ''}">${escapeHtml(item.label)}</span>
+    <button type="button" onclick="toggleChecklistItem('${item.id}')" class="w-full text-left p-2.5 rounded-xl border transition-all flex items-start gap-2.5 cursor-pointer ${item.done ? 'bg-emerald-50/80 dark:bg-emerald-950/30 border-emerald-500/40 text-zinc-900 dark:text-zinc-100' : 'bg-white/80 dark:bg-zinc-900/60 border-zinc-200/80 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40'}">
+      <svg class="w-4 h-4 shrink-0 mt-0.5 ${item.done ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-400'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        ${item.done ? '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' : '<rect x="3" y="3" width="18" height="18" rx="2"/>'}
+      </svg>
+      <span class="text-[11px] font-medium leading-snug ${item.done ? 'line-through opacity-75' : ''}">${escapeHtml(item.label)}</span>
     </button>
   `).join('');
-  lucide.createIcons();
 }
 
 function toggleChecklistItem(id) {

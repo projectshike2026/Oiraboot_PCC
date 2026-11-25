@@ -23,7 +23,7 @@ def _parse_tolerant_json(raw: str) -> Dict[str, Any]:
     
     return json.loads(cleaned)
 
-def _mock_llm_response(system: str, user: str) -> Dict[str, Any]:
+def _mock_llm_response(system: str, user: str, history: Optional[List[Dict[str, str]]] = None) -> Dict[str, Any]:
     """
     Deterministic grounded mock LLM generator for offline mode and tests.
     Produces strictly grounded responses based on provided excerpts.
@@ -127,51 +127,12 @@ def _mock_llm_response(system: str, user: str) -> Dict[str, Any]:
 
         return {"questions": questions}
 
-    # 3. Track 2 Admissions Chat
-    if "Dishari" in system or "ADMISSION INFORMATION" in user or "type:" in system:
-        user_lower = user.lower()
-        if any(unfound in user_lower for unfound in ["pool", "swimming", "hostel fee for london", "visa to canada", "mars"]):
-            return {
-                "type": "unknown",
-                "reply": "",
-                "evidence": [],
-                "suggestions": ["What are the admission steps?", "What is the tuition fee for CSE?", "Eligibility requirements"]
-            }
-
-        depts_list = ["cse", "bba", "eee", "textile", "civil", "english", "llb", "law"]
-        has_dept = any(d in user_lower for d in depts_list)
-
-        # Clarifying question for vague queries lacking department specification
-        if any(vague in user_lower for vague in ["tell me about fees", "what is the fee", "fees", "fee", "ফি কত"]) and not has_dept:
-            return {
-                "type": "clarify",
-                "reply": "Which department would you like the tuition fee for? (e.g., CSE, BBA, EEE, Textile, Civil, English, or Law)",
-                "evidence": [],
-                "suggestions": ["Tuition fee for CSE", "BBA fees", "Textile Engineering tuition"]
-            }
-
-        # Check for departments
-        if "cse" in user_lower:
-            return {
-                "type": "answer",
-                "reply": "For B.Sc. in Computer Science & Engineering (CSE), total estimated tuition is BDT 4,48,000 for 150 credits, with an admission fee of BDT 15,000.",
-                "evidence": ["Total Estimated Tuition & Fees: BDT 4,48,000"],
-                "suggestions": ["And for BBA?", "Eligibility for CSE", "Admission steps"]
-            }
-        elif "bba" in user_lower:
-            return {
-                "type": "answer",
-                "reply": "For Bachelor of Business Administration (BBA), total tuition is BDT 3,92,000 for 126 credits, with an admission fee of BDT 15,000.",
-                "evidence": ["Total Estimated Tuition & Fees: BDT 3,92,000"],
-                "suggestions": ["And for EEE?", "Eligibility for BBA", "Last date of application"]
-            }
-        else:
-            return {
-                "type": "answer",
-                "reply": "Oiraboot offers 4-year undergraduate programs with admissions currently open. Form fee is BDT 500, and minimum GPA is 2.50 in SSC & HSC.",
-                "evidence": ["Application Form Fee: BDT 500"],
-                "suggestions": ["What is the fee for CSE?", "Important dates", "Admission steps"]
-            }
+    # 3. Track 2 Admissions Chat (Strictly Doc-Grounded Reasoner)
+    if "Dishari" in system or "ADMISSION INFORMATION" in user or "ADMISSION INFORMATION" in system:
+        from tracks.track2.reasoner import reason_admission_query
+        q_text = user.split("STUDENT QUESTION:")[-1].strip() if "STUDENT QUESTION:" in user else user
+        ui_lang = "bn" if "PREFER_LANG: bn" in system else "en"
+        return reason_admission_query(q_text, history or [], ui_lang=ui_lang)
 
     # 4. Track 3 Scholarship Reasons
     if "scholarships fit them" in system or "SCHOLARSHIPS:" in user:
@@ -207,7 +168,7 @@ def chat_json(
     Executes an OpenAI-compatible JSON completion request with retry and graceful mock fallback.
     """
     if Config.MOCK_LLM or not Config.LLM_API_KEY:
-        return _mock_llm_response(system, user)
+        return _mock_llm_response(system, user, history=history)
 
     messages = [{"role": "system", "content": system}]
     if history:
@@ -260,6 +221,6 @@ def chat_json(
 
     # If real LLM fails, degrade gracefully to mock provider rather than crashing!
     try:
-        return _mock_llm_response(system, user)
+        return _mock_llm_response(system, user, history=history)
     except Exception:
         raise AppError("llm_unavailable", "The AI service is momentarily busy. Please try again.", 503)

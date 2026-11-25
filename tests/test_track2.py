@@ -48,3 +48,44 @@ def test_track2_checklist(test_client):
     assert len(bn_items) >= 5
     assert "Online" in en_items[0]["label"]
     assert "ফর্ম" in bn_items[0]["label"]
+
+def test_track2_reasoning_bilingual_and_refusal(test_client):
+    app = test_client.application
+    with app.app_context():
+        db = get_db()
+        sid = "test-admission-reasoning-session"
+
+        # 1. All 7 programs accurate fees (e.g. EEE, English, LLB)
+        r_eee = chat_admission(sid, "What is the fee for EEE?", db)
+        assert r_eee["type"] == "answer"
+        assert "4,35,000" in r_eee["reply"]
+
+        r_eng = chat_admission(sid, "What is the cheapest program?", db)
+        assert r_eng["type"] == "answer"
+        assert "2,85,000" in r_eng["reply"]
+        assert "English" in r_eng["reply"]
+
+        # 2. GPA & background reasoning
+        r_elig_ok = chat_admission(sid, "With SSC 3.2 and HSC 2.8, am I eligible for CSE?", db)
+        assert r_elig_ok["type"] == "answer"
+        assert "Eligible" in r_elig_ok["reply"]
+
+        r_elig_fail = chat_admission(sid, "I am from Commerce background, can I apply for CSE?", db)
+        assert r_elig_fail["type"] == "answer"
+        assert "Science" in r_elig_fail["reply"]
+
+        # 3. Bengali query with Bengali digits & strict grounding
+        r_bn = chat_admission(sid, "সিএসই বিভাগের টিউশন ফি কত?", db, ui_lang="bn")
+        assert r_bn["type"] == "answer"
+        assert "4,48,000" in r_bn["reply"]
+
+        # 4. Out-of-document strict refusal (Pharmacy, Hostel, Vice Chancellor)
+        for bad_q in ["What is the fee for Pharmacy?", "Do you have hostel fees?", "Who is the vice chancellor?"]:
+            r_refuse = chat_admission(sid, bad_q, db)
+            assert r_refuse["type"] == "unknown"
+            assert "not" in r_refuse["reply"].lower() or "নেই" in r_refuse["reply"]
+
+        # 5. Bengali out-of-document refusal
+        r_refuse_bn = chat_admission(sid, "হোস্টেল ফি কত?", db, ui_lang="bn")
+        assert r_refuse_bn["type"] == "unknown"
+        assert "নথিতে নেই" in r_refuse_bn["reply"]
