@@ -21,7 +21,7 @@
           Unlike generic conversational wrappers that make plausible-sounding guesses, every response generated in the <strong>Oiraboot Academic Intelligence Suite</strong> undergoes server-side verification before reaching the user:
         </p>
         <ul class="list-disc pl-5 space-y-1.5 text-xs text-main">
-          <li><strong>Document Studio (Track 1):</strong> Answers require verbatim character-for-character citation spans. The server validates each chunk against the source PDF text using exact matching and high-ratio fuzzy string comparison (SequenceMatcher &ge; 0.85). If zero citations verify, the engine strictly outputs <strong class="text-crimson">"Not found in the document"</strong>.</li>
+          <li><strong>AI Engine (Track 1):</strong> Answers require verbatim character-for-character citation spans. The server validates each chunk against the source PDF text using exact matching and high-ratio fuzzy string comparison (SequenceMatcher &ge; 0.85). If zero citations verify, the engine strictly outputs <strong class="text-crimson">"Not found in the document"</strong>.</li>
           <li><strong>Admissions Desk (Track 2):</strong> Every fact is verified against official institutional records (<code class="bg-[var(--bg-subtle)] px-1.5 py-0.5 rounded">data/admission.txt</code>). All numerical quantities (tuition fees, credit counts, dates, minimum GPAs) are verified against the document's cached number set. If ungrounded or absent, the model strictly reverts to official admission office referral contacts.</li>
           <li><strong>Scholarship Atlas (Track 3):</strong> Eligibility matching is verified directly in code against live CSV records. AI-generated fit summaries fall back to strict template rationales whenever the model is unavailable.</li>
         </ul>
@@ -53,7 +53,7 @@
           <span>4. Modular Studio Ecosystem</span>
         </h2>
         <p>
-          Oiraboot separates concerns into dedicated workspaces: <strong>Document Studio</strong> (`/documents`), <strong>Admissions Desk</strong> (`/admissions`), and <strong>Scholarship Atlas</strong> (`/scholarships`), unified under an Overview Portal (`/`).
+          Oiraboot separates concerns into dedicated workspaces: <strong>AI Engine</strong> (`/documents`), <strong>Admissions Desk</strong> (`/admissions`), and <strong>Scholarship Atlas</strong> (`/scholarships`), unified under an Overview Portal (`/`).
         </p>
       </section>
     </div>

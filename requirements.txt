@@ -1,7 +1,13 @@
 Flask>=3.0.0
-PyMuPDF>=1.23.0
+PyMuPDF>=1.24.0
+pypdf>=4.0.0
+rank-bm25>=0.2.2
+numpy>=1.26.0
+google-genai>=0.1.0
+groq>=0.11.0
 requests>=2.31.0
 python-dotenv>=1.0.0
+Werkzeug>=3.0.0
 pytest>=8.0.0
 gunicorn>=21.2.0; sys_platform != "win32"
 waitress>=3.0.0; sys_platform == "win32"

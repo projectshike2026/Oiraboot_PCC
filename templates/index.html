@@ -112,7 +112,7 @@
       <!-- Minimal 3-Column Studio Overview Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <!-- 01. Document Studio -->
+        <!-- 01. AI Engine -->
         <article class="group rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-surface-light/90 dark:bg-surface-dark/80 backdrop-blur-md p-6 sm:p-7 flex flex-col justify-between gap-6 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/40 dark:hover:border-cyan-400/40 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.06)] dark:shadow-[0_12px_36px_-14px_rgba(0,0,0,0.65)]">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
@@ -126,7 +126,7 @@
 
             <div>
               <h3 class="font-athens text-xl font-bold text-main" data-i18n="t1Title">
-                {{ 'ডকুমেন্ট স্টুডিও' if current_lang == 'bn' else 'Document Studio' }}
+                {{ 'এআই ইঞ্জিন' if current_lang == 'bn' else 'AI Engine' }}
               </h3>
               <p class="font-editorial italic text-sm text-crimson mt-0.5" data-i18n="t1Sub">
                 {{ 'নোট অনুসন্ধান ও অ্যাডাপ্টিভ কুইজ' if current_lang == 'bn' else 'Study Notes Search & Adaptive Quiz' }}
@@ -155,7 +155,7 @@
 
           <a href="/documents"
             class="w-full py-2.5 px-4 rounded-xl border border-zinc-200/90 dark:border-zinc-800 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-white text-xs font-semibold tracking-wide flex items-center justify-between transition-colors">
-            <span data-i18n="openStudio">{{ 'ডকুমেন্ট স্টুডিও খুলুন' if current_lang == 'bn' else 'Open Document Studio' }}</span>
+            <span data-i18n="openStudio">{{ 'এআই ইঞ্জিন খুলুন' if current_lang == 'bn' else 'Open AI Engine' }}</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"></i>
           </a>
         </article>
@@ -298,7 +298,7 @@
           </div>
           <h3 class="font-athens font-bold text-base text-main" data-i18n="p1Title">{{ '১০০% যাচাইকৃত উদ্ধৃতি' if current_lang == 'bn' else '100% Verified Quotes' }}</h3>
           <p class="text-xs text-muted leading-relaxed" data-i18n="p1Desc">
-            {{ 'ডকুমেন্ট স্টুডিওর প্রতিটি উত্তর মূল পিডিএফের পৃষ্ঠা অবস্থানের সাথে যুক্ত।' if current_lang == 'bn' else 'Every statement in Document Studio is linked to its exact document page.' }}
+            {{ 'এআই ইঞ্জিনের প্রতিটি উত্তর মূল পিডিএফের পৃষ্ঠা অবস্থানের সাথে যুক্ত।' if current_lang == 'bn' else 'Every statement in AI Engine is linked to its exact document page.' }}
           </p>
         </div>
 
@@ -339,7 +339,7 @@
   const SCENES = [
     {
       id: 'knowledge',
-      kicker: { en: '01 — Document Intelligence', bn: '০১ — ডকুমেন্ট ইন্টেলিজেন্স' },
+      kicker: { en: '01 — AI Engine', bn: '০১ — এআই ইঞ্জিন' },
       typewriter: {
         en: 'Turn long study PDFs into verified answers with exact page citations and instant quizzes.',
         bn: 'দীর্ঘ লেকচার পিডিএফ থেকে পেজ নম্বরসহ নির্ভুল উত্তর এবং মুহূর্তেই কুইজ তৈরি করুন।',

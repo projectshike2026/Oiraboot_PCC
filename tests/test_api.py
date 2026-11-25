@@ -26,8 +26,9 @@ def test_homepage_loads(client):
 def test_documents_page_loads(client):
     res = client.get("/documents")
     assert res.status_code == 200
-    assert b"Document Studio" in res.data
+    assert b"AI Engine" in res.data
     assert b"Oiraboot" in res.data
+    assert b"OONORI" in res.data
 
 def test_admissions_page_loads(client):
     res = client.get("/admissions")

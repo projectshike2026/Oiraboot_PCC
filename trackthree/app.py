@@ -11,6 +11,7 @@ from ai_service import AIService
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config.SECRET_KEY
+app.config["SESSION_COOKIE_NAME"] = "trackthree_session"
 app.config["UPLOAD_FOLDER"] = str(config.UPLOAD_FOLDER)
 app.config["MAX_CONTENT_LENGTH"] = config.MAX_CONTENT_LENGTH
 
@@ -472,8 +473,8 @@ def download_quiz():
 
     lines = [
         "=" * 64,
-        "PORT CITY INTERNATIONAL UNIVERSITY — PCIU COMPUTER CLUB",
-        "Track 1: Document Intelligence & RAG — Quiz Assessment Report",
+        "OIRABOOT — OFFICIAL OONORI SYSTEM",
+        "AI Engine: Assessment Report",
         "=" * 64,
         f"Final Score: {score} ({percentage}%)",
         f"Generated At: Track 1 AI Academic Platform",

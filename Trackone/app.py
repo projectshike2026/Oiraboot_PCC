@@ -38,7 +38,8 @@ from seed_data import (
 )
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "trackone-pciu-secret-key-2026")
+app.secret_key = os.getenv("SECRET_KEY", "trackone-oiraboot-oonori-secret-2026")
+app.config["SESSION_COOKIE_NAME"] = "trackone_session"
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
 SESSIONS_FOLDER = os.path.join(UPLOAD_FOLDER, ".sessions")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)

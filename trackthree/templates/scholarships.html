@@ -117,11 +117,11 @@
     <!-- Track 1 Quick Link -->
     <div class="track-switch-card">
       <div class="track-switch-meta">
-        <span class="font-bold text-xs" data-i18n="needTrack1">Need Document Q&amp;A?</span>
+        <span class="font-bold text-xs" data-i18n="needTrack1">Need AI Engine Q&amp;A?</span>
         <p class="text-faint text-xs" data-i18n="track1Desc">PDF Study Notes Chat &amp; Instant Quiz</p>
       </div>
-      <a href="/track1" class="btn-secondary track-switch-link">
-        <span data-i18n="openTrack1">Track 1</span>
+      <a href="/track1" onclick="if(window.location.pathname.startsWith('/track3-atlas')){event.preventDefault();window.location.href='/track1-studio/';}" class="btn-secondary track-switch-link">
+        <span data-i18n="openTrack1">AI Engine</span>
         <i data-lucide="arrow-right" class="icon-xs"></i>
       </a>
     </div>

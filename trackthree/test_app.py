@@ -14,9 +14,9 @@ class TrackOneTestSuite(unittest.TestCase):
         res = self.client.get("/")
         self.assertEqual(res.status_code, 200)
         html = res.data.decode("utf-8")
-        self.assertIn("PCIU", html)
-        self.assertIn("DOCUMENT VAULT", html)
-        self.assertIn("Generate & Take Quiz", html)
+        self.assertIn("Oiraboot", html)
+        self.assertIn("Oiraboot Scholarship Advisor", html)
+        self.assertIn("OONORI", html)
 
     def test_02_documents_api(self):
         """Test documents summary API."""
@@ -142,7 +142,8 @@ class TrackOneTestSuite(unittest.TestCase):
             ]
         })
         self.assertEqual(res.status_code, 200)
-        self.assertIn("Track 1: Document Intelligence & RAG", res.data.decode("utf-8"))
+        self.assertIn("OIRABOOT — OFFICIAL OONORI SYSTEM", res.data.decode("utf-8"))
+        self.assertIn("AI Engine: Assessment Report", res.data.decode("utf-8"))
         print("[Test Download Report] Report successfully downloaded.")
 
 

@@ -100,13 +100,13 @@ let currentLang = document.documentElement.getAttribute('lang') || 'en';
 
 const TYPEWRITER_SLIDES = {
   en: [
-    { tag: 'Document Studio', text: 'Query lecture notes with exact page citations and generate graded self-test quizzes in seconds.' },
+    { tag: 'AI Engine', text: 'Query lecture notes with exact page citations and generate graded self-test quizzes in seconds.' },
     { tag: 'Admissions Desk', text: 'Engage with a friendly student concierge for instant answers on tuition fees, eligibility, and deadlines.' },
     { tag: 'Scholarship Atlas', text: 'Match your CGPA and department against active grants with tailored fit explanations and gap analysis.' },
     { tag: 'Verified Accuracy', text: 'Every response is verified against official university records and documents.' }
   ],
   bn: [
-    { tag: 'ডকুমেন্ট স্টুডিও', text: 'লেকচার নোট থেকে পৃষ্ঠা নম্বরসহ নির্ভুল তথ্য খুঁজুন এবং তাৎক্ষণিক এমসিকিউ কুইজে নিজের প্রস্তুতি যাচাই করুন।' },
+    { tag: 'এআই ইঞ্জিন', text: 'লেকচার নোট থেকে পৃষ্ঠা নম্বরসহ নির্ভুল তথ্য খুঁজুন এবং তাৎক্ষণিক এমসিকিউ কুইজে নিজের প্রস্তুতি যাচাই করুন।' },
     { tag: 'ভর্তি ডেস্ক', text: 'বিশ্ববিদ্যালয় ভর্তির টিউশন ফি, যোগ্যতা ও তারিখ সংক্রান্ত যেকোনো প্রশ্নের উত্তর পান সহজ কথোপকথনে।' },
     { tag: 'স্কলারশিপ অ্যাটলাস', text: 'আপনার সিজিপিএ ও বিভাগের সাথে মানানসই সকল বৃত্তির সুযোগ এবং আবেদন নির্দেশিকা জানুন।' },
     { tag: 'যাচাইকৃত তথ্য', text: 'প্রতিটি উত্তর অফিসিয়াল নথি দ্বারা যাচাইকৃত—মনগড়া কোনো তথ্য নেই।' }

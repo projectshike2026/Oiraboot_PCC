@@ -352,7 +352,7 @@ class ScholarshipEngine:
                 steps_str
             ])
 
-        meta = f"# PCIU Scholarship Atlas Report | Profile: CGPA={cgpa:.2f}, Dept={department}, FinancialNeed={'Yes' if need else 'No'}"
+        meta = f"# Oiraboot Scholarship Atlas Report | Profile: CGPA={cgpa:.2f}, Dept={department}, FinancialNeed={'Yes' if need else 'No'}"
         header_line = ",".join(escape(h) for h in headers)
         data_lines = [",".join(escape(cell) for cell in r) for r in rows]
         return "\n".join([meta, header_line] + data_lines)

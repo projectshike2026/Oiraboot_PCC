@@ -1,5 +1,5 @@
 /**
- * PCIU Computer Club — Track 1: Document Intelligence & Semantic Search
+ * Oiraboot — Official OONORI System (AI Engine & RAG)
  * Client Application Logic
  */
 

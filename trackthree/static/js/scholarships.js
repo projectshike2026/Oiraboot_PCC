@@ -51,8 +51,8 @@ const SCHOLARSHIP_I18N = {
     deadline: "Deadline",
     potentialTotal: "Total Funding Pool",
     maxAward: "Max Award",
-    openTrack1: "Open Document Studio (Track 1)",
-    needTrack1: "Need Document Q&A?",
+    openTrack1: "Open AI Engine (Track 1)",
+    needTrack1: "Need AI Engine Q&A?",
     track1Desc: "PDF Study Notes Chat & Instant Quiz",
   },
   bn: {
@@ -96,8 +96,8 @@ const SCHOLARSHIP_I18N = {
     deadline: "শেষ তারিখ",
     potentialTotal: "মোট অনুদান তহবিল",
     maxAward: "সর্বোচ্চ অনুদান",
-    openTrack1: "ডকুমেন্ট স্টুডিও ওপেন করুন (ট্র্যাক ১)",
-    needTrack1: "নথি প্রশ্নোত্তর প্রয়োজন?",
+    openTrack1: "এআই ইঞ্জিন ওপেন করুন (ট্র্যাক ১)",
+    needTrack1: "এআই ইঞ্জিন প্রশ্নোত্তর প্রয়োজন?",
     track1Desc: "পিডিএফ স্টাডি নোট চ্যাট ও স্বয়ংক্রিয় কুইজ",
   }
 };
@@ -507,7 +507,7 @@ async function exportScholarships() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `pciu_scholarships_${dept}_cgpa${cgpa}.csv`;
+    a.download = `oiraboot_scholarships_${dept}_cgpa${cgpa}.csv`;
     document.body.appendChild(a);
     a.click();
     a.remove();

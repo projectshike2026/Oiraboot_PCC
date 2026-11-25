@@ -2221,3 +2221,61 @@ body {
 .sc-msg-bubble p:last-child {
   margin-bottom: 0;
 }
+
+
+/* ================================================================== */
+/* BRAND LOGO (LIGHT / DARK) & MINIMAL OONORI FOOTER                   */
+/* ================================================================== */
+
+.brand-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.brand-logo-img:hover {
+  transform: scale(1.03);
+}
+
+.brand-logo-dark {
+  display: none;
+}
+
+[data-theme="dark"] .brand-logo-light {
+  display: none;
+}
+
+[data-theme="dark"] .brand-logo-dark {
+  display: block;
+}
+
+.oonori-footer {
+  border-top: 1px solid var(--border-hairline);
+  background: var(--bg-surface);
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.oonori-footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.oonori-footer-inner strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.oonori-footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+}
