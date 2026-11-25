@@ -6,6 +6,9 @@ __pycache__/
 # Caches and environments
 .pytest_cache/
 .env
+**/.env
+**/.sessions/
+**/.aistudio/
 venv/
 env/
 .venv/
@@ -15,6 +18,9 @@ instance/
 *.db
 *.sqlite
 *.sqlite3
+**/uploads/*
+!**/uploads/CS301_AI_and_RAG_Notes.pdf
+!**/uploads/problem-statement-e3fb21da4b4a.pdf
 
 # Confidential / Internal planning / Scratch files
 PRD*.md

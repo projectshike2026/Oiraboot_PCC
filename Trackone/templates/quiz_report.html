@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assessment Result Report - Document Intelligence Studio</title>
+  <style>
+    @page {
+      margin: 20mm;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.5;
+      padding: 30px;
+      max-width: 860px;
+      margin: 0 auto;
+      background: #f8fafc;
+    }
+    .report-card {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    .header {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .title h1 {
+      margin: 0 0 6px 0;
+      font-size: 24px;
+      color: #0f172a;
+    }
+    .title p {
+      margin: 0;
+      color: #64748b;
+      font-size: 14px;
+    }
+    .score-box {
+      text-align: right;
+    }
+    .score-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .meta-bar {
+      display: flex;
+      gap: 20px;
+      background: #f1f5f9;
+      padding: 12px 18px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      font-size: 13px;
+      color: #475569;
+    }
+    .q-card {
+      margin-bottom: 24px;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+    .q-card.correct {
+      border-left: 4px solid #10b981;
+    }
+    .q-card.incorrect {
+      border-left: 4px solid #ef4444;
+    }
+    .q-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #1e293b;
+    }
+    .q-options {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    .q-opt {
+      padding: 4px 0;
+      font-size: 14px;
+    }
+    .q-opt.user-pick {
+      font-weight: 600;
+    }
+    .q-opt.is-correct {
+      color: #047857;
+    }
+    .q-opt.is-wrong {
+      color: #b91c1c;
+      text-decoration: line-through;
+    }
+    .proof-box {
+      margin-top: 12px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #334155;
+    }
+    .proof-header {
+      font-weight: 600;
+      color: #2563eb;
+      margin-bottom: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .proof-quote {
+      font-style: italic;
+    }
+    .print-actions {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .report-card { box-shadow: none; border: none; padding: 0; }
+      .print-actions { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="report-card">
+    <div class="header">
+      <div class="title">
+        <h1>Document Intelligence Quiz Report</h1>
+        <p>PCIU Computer Club Beginner AI Hackathon • Track 1 (Document Chat &amp; Quiz)</p>
+      </div>
+      <div class="score-box">
+        <div class="score-badge">{{ score }} / {{ total }} ({{ percentage }}%)</div>
+      </div>
+    </div>
+
+    <div class="meta-bar">
+      <div><strong>Completed:</strong> {{ timestamp }}</div>
+      <div><strong>Questions:</strong> {{ total }}</div>
+      <div><strong>Correct Answers:</strong> {{ score }}</div>
+      <div><strong>Grounding:</strong> Strict PDF Verification</div>
+    </div>
+
+    <div class="questions-container">
+      {% for q in questions %}
+      <div class="q-card {% if q.isCorrect %}correct{% else %}incorrect{% endif %}">
+        <div class="q-title">Q{{ loop.index }}. {{ q.question }} <span style="font-size:12px; font-weight:normal; color:#64748b; margin-left:8px;">[{{ q.type|upper if q.type else 'MCQ' }}]</span></div>
+        
+        {% if q.type == 'matching' and q.pairs %}
+        <div style="margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="background: #f1f5f9; text-align: left;">
+                <th style="padding: 6px 12px; border-bottom: 1px solid #e2e8f0;">Column A (Concept)</th>
+                <th style="padding: 6px 12px; border-bottom: 1px solid #e2e8f0;">Correct Match (Column B)</th>
+                <th style="padding: 6px 12px; border-bottom: 1px solid #e2e8f0;">Your Match</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in q.pairs %}
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 6px 12px; font-weight: 600;">{{ p.left }}</td>
+                <td style="padding: 6px 12px; color: #047857;">{{ p.right }}</td>
+                <td style="padding: 6px 12px;">{{ q.userMatches[loop.index0] if q.userMatches and q.userMatches[loop.index0] else p.right }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% elif q.type == 'true_false' %}
+        <div class="q-options">
+          <div class="q-opt {% if q.userAnswer == q.isTrue %}is-correct{% else %}is-wrong{% endif %}">
+            Statement: <em>"{{ q.statement or q.question }}"</em><br>
+            <strong>Correct Answer:</strong> {{ "True (সত্য)" if q.isTrue else "False (মিথ্যা)" }} &nbsp;|&nbsp;
+            <strong>Your Answer:</strong> {{ "True (সত্য)" if q.userAnswer else "False (মিথ্যা)" }}
+          </div>
+        </div>
+        {% else %}
+        <div class="q-options">
+          {% for opt in q.options %}
+          <div class="q-opt 
+            {% if loop.index0 == q.userIndex %}user-pick{% endif %}
+            {% if loop.index0 == q.correctIndex %}is-correct{% elif loop.index0 == q.userIndex and not q.isCorrect %}is-wrong{% endif %}
+          ">
+            {{ ['A', 'B', 'C', 'D'][loop.index0] }}. {{ opt }}
+            {% if loop.index0 == q.correctIndex %}
+              &nbsp;<strong>[✓ Correct Answer]</strong>
+            {% elif loop.index0 == q.userIndex and not q.isCorrect %}
+              &nbsp;<strong>[✗ Your Selection]</strong>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="proof-box">
+          <div class="proof-header">📄 Citation: {{ q.sourceDoc }} • Page {{ q.pageNumber }}</div>
+          <div class="proof-quote">"{{ q.explanationQuote }}"</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="print-actions">
+      <button class="btn" onclick="window.print()">Print or Save as PDF</button>
+    </div>
+  </div>
+</body>
+</html>

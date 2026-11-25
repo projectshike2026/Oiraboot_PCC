@@ -42,11 +42,11 @@
         Transform static lecture notes, textbooks, and course syllabi into an interactive intelligence workspace. Query topics in natural English or Bengali with guaranteed verbatim page citations, and generate tailored 5 to 15 question assessments with automated scoring and rationale proofs.
       </p>
 
-      <!-- Engaging "Try Now" Action Bar (Single primary CTA only — Inspect Default Notes removed as requested) -->
+      <!-- Engaging "Try Now" Action Bar (Directly launches Track 1 Document Intelligence Studio) -->
       <div class="pt-2 flex flex-wrap items-center gap-4">
-        <button
+        <a
           id="tryNowBtn"
-          type="button"
+          href="/trackone"
           onclick="openDocumentWorkspace(event)"
           class="relative inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden cursor-pointer"
         >
@@ -70,7 +70,7 @@
           <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
-        </button>
+        </a>
       </div>
     </div>
 
@@ -687,19 +687,9 @@
 
 <script>
   function openDocumentWorkspace(e) {
+    if (e && (e.ctrlKey || e.metaKey || e.shiftKey)) return;
     if (e) e.preventDefault();
-    const ws = document.getElementById('workspace');
-    if (ws) {
-      ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => {
-        const inp = document.getElementById('pdf-chat-input');
-        if (inp) {
-          inp.focus();
-          inp.classList.add('ring-2', 'ring-crimson', 'dark:ring-cyan-400', 'ring-offset-2', 'dark:ring-offset-zinc-950');
-          setTimeout(() => inp.classList.remove('ring-2', 'ring-crimson', 'dark:ring-cyan-400', 'ring-offset-2', 'dark:ring-offset-zinc-950'), 1500);
-        }
-      }, 450);
-    }
+    window.location.href = '/trackone';
   }
 </script>
 {% endblock %}

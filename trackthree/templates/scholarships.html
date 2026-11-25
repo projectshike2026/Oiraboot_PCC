@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}PCIU Computer Club — Scholarship Atlas (Track 3){% endblock %}
+
+{% block content %}
+<div class="workspace-grid">
+
+  <!-- LEFT COLUMN: STUDENT PROFILE & MATCHING CRITERIA (PRD REQUIREMENT 1) -->
+  <aside class="sidebar-card">
+    <div class="sidebar-header">
+      <div class="section-tag">
+        <i data-lucide="user-check" class="icon-sm text-crimson"></i>
+        <span data-i18n="studentProfile">STUDENT PROFILE</span>
+      </div>
+      <div class="stats-badge" id="catalog-count-badge">
+        <span>136</span> <span data-i18n="inCatalog">in Catalog</span>
+      </div>
+    </div>
+
+    <!-- 1-Click Profile Presets -->
+    <div class="presets-section">
+      <div class="presets-label">
+        <i data-lucide="zap" class="icon-xs text-crimson"></i>
+        <span data-i18n="quickPresets">QUICK PRESETS</span>
+      </div>
+      <div class="preset-buttons">
+        <button type="button" class="preset-pill active" onclick="applyPreset(3.85, 'CSE', false, 'All', this)">
+          Arif • CSE 3.85
+        </button>
+        <button type="button" class="preset-pill" onclick="applyPreset(3.40, 'EEE', true, 'Female', this)">
+          Nusrat • EEE 3.40 (Need)
+        </button>
+        <button type="button" class="preset-pill" onclick="applyPreset(3.10, 'BBA', false, 'All', this)">
+          Tanvir • BBA 3.10
+        </button>
+      </div>
+    </div>
+
+    <!-- Student Information Form (Must-Have 1) -->
+    <form id="profile-form" onsubmit="handleProfileSubmit(event)" class="profile-form">
+      <!-- 1. CGPA Input & Precision Slider -->
+      <div class="form-group">
+        <div class="form-label-row">
+          <label for="cgpa-input" class="control-label" data-i18n="cgpaLabel">Cumulative GPA (CGPA)</label>
+          <span id="cgpa-display" class="cgpa-badge">3.85</span>
+        </div>
+        <input
+          type="range"
+          id="cgpa-slider"
+          min="2.00"
+          max="4.00"
+          step="0.05"
+          value="3.85"
+          class="cgpa-range-slider"
+          oninput="onCgpaSliderChange(this.value)"
+        />
+        <input
+          type="number"
+          id="cgpa-input"
+          min="2.00"
+          max="4.00"
+          step="0.01"
+          value="3.85"
+          class="field-input"
+          oninput="onCgpaInputChange(this.value)"
+        />
+      </div>
+
+      <!-- 2. Department Selection -->
+      <div class="form-group">
+        <label for="dept-select" class="control-label" data-i18n="deptLabel">Department</label>
+        <select id="dept-select" class="select-input w-full" onchange="triggerScholarshipMatch()">
+          <option value="CSE" selected>Computer Science & Engineering (CSE)</option>
+          <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+          <option value="CE">Civil Engineering (CE)</option>
+          <option value="BBA">Business Administration (BBA)</option>
+          <option value="English">English Literature & Language</option>
+          <option value="All">All Departments / Open</option>
+        </select>
+      </div>
+
+      <!-- 3. Financial Support Needed (Must-Have 1) -->
+      <div class="form-group">
+        <label class="checkbox-container">
+          <input type="checkbox" id="need-checkbox" onchange="triggerScholarshipMatch()" />
+          <span class="custom-checkbox"></span>
+          <div class="checkbox-label-text">
+            <span class="font-bold" data-i18n="needLabel">Demonstrated Financial Need</span>
+            <p class="text-faint text-xs" data-i18n="needSub">Check if applying for need-based tuition waivers</p>
+          </div>
+        </label>
+      </div>
+
+      <!-- 4. Gender (Optional criteria filter) -->
+      <div class="form-group">
+        <label for="gender-select" class="control-label" data-i18n="genderLabel">Applicant Gender</label>
+        <select id="gender-select" class="select-input w-full" onchange="triggerScholarshipMatch()">
+          <option value="All" selected>Open to All (Any Gender)</option>
+          <option value="Female">Female (Unlocks Women in Tech awards)</option>
+          <option value="Male">Male</option>
+        </select>
+      </div>
+
+      <!-- Action Button -->
+      <button type="submit" id="match-btn" class="btn-primary w-full">
+        <i data-lucide="sparkles" class="icon-sm"></i>
+        <span data-i18n="findAwards">Evaluate Matching Scholarships</span>
+      </button>
+
+      <!-- Gemini AI Strategic Advisor Button -->
+      <button type="button" class="btn-secondary w-full" onclick="getGeminiAdvice()" style="border-color:var(--crimson); color:var(--crimson);">
+        <i data-lucide="bot" class="icon-sm text-crimson"></i>
+        <span data-i18n="aiAdviseBtn">Gemini AI Strategy Advisor</span>
+      </button>
+    </form>
+
+    <!-- Track 1 Quick Link -->
+    <div class="track-switch-card">
+      <div class="track-switch-meta">
+        <span class="font-bold text-xs" data-i18n="needTrack1">Need Document Q&A?</span>
+        <p class="text-faint text-xs" data-i18n="track1Desc">PDF Study Notes Chat & Instant Quiz</p>
+      </div>
+      <a href="/track1" class="btn-secondary track-switch-link">
+        <span data-i18n="openTrack1">Track 1</span>
+        <i data-lucide="arrow-right" class="icon-xs"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: SCHOLARSHIP DISCOVERY ATLAS -->
+  <section class="main-studio-card">
+
+    <!-- Discovery Toolbar (Bonus: Sort by deadline/amount & Search) -->
+    <div class="scholarship-toolbar">
+      <div class="toolbar-left">
+        <!-- Tabs: Eligible vs Almost Eligible (Bonus: Near Miss) -->
+        <div class="pill-tabs">
+          <button class="pill-tab active" id="tab-matched-btn" onclick="switchMatchTab('matched')">
+            <i data-lucide="check-circle-2" class="icon-xs"></i>
+            <span data-i18n="eligibleMatches">Eligible Awards</span>
+            <span class="badge-count" id="count-matched-badge">0</span>
+          </button>
+          <button class="pill-tab" id="tab-almost-btn" onclick="switchMatchTab('almost')">
+            <i data-lucide="radar" class="icon-xs"></i>
+            <span data-i18n="nearMiss">Almost Eligible</span>
+            <span class="badge-count amber" id="count-almost-badge">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar-right">
+        <!-- Search Keyword Filter -->
+        <div class="search-box">
+          <i data-lucide="search" class="icon-xs text-faint"></i>
+          <input
+            type="text"
+            id="search-filter"
+            placeholder="Search provider, name..."
+            data-i18n-placeholder="searchPlaceholder"
+            oninput="applyClientFilter()"
+          />
+        </div>
+
+        <!-- Sort By Dropdown (Bonus: Sort results by deadline or amount) -->
+        <select id="sort-select" class="select-input" onchange="applyClientFilter()">
+          <option value="amount_desc" selected>Highest Amount (BDT)</option>
+          <option value="deadline_asc">Nearest Deadline</option>
+          <option value="cgpa_asc">Minimum CGPA</option>
+        </select>
+
+        <!-- View Layout Toggle: Card List vs Table (Must-Have 5) -->
+        <div class="view-layout-toggle">
+          <button class="layout-btn active" id="layout-cards-btn" onclick="setLayout('cards')" title="Card Grid View">
+            <i data-lucide="grid" class="icon-sm"></i>
+          </button>
+          <button class="layout-btn" id="layout-table-btn" onclick="setLayout('table')" title="Dense Table View">
+            <i data-lucide="table" class="icon-sm"></i>
+          </button>
+        </div>
+
+        <!-- Download CSV Button (Bonus: Download results) -->
+        <button class="btn-download" onclick="exportScholarships()" title="Download CSV Report">
+          <i data-lucide="download" class="icon-xs"></i>
+          <span data-i18n="export">Download CSV</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Content Stage -->
+    <div class="scholarship-stage" id="scholarship-stage">
+
+      <!-- CARDS VIEW CONTAINER (Must-Have 5) -->
+      <div id="cards-view" class="scholarship-cards-grid"></div>
+
+      <!-- TABLE VIEW CONTAINER (Must-Have 5) -->
+      <div id="table-view" class="scholarship-table-wrapper hidden">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th data-i18n="thAward">Scholarship Award</th>
+              <th data-i18n="thProvider">Provider</th>
+              <th data-i18n="thDept">Department</th>
+              <th data-i18n="thCgpa">Min CGPA</th>
+              <th data-i18n="thAmount">Amount</th>
+              <th data-i18n="thDeadline">Deadline</th>
+              <th data-i18n="thFitReason">AI Fit Rationale</th>
+              <th data-i18n="thAction">Checklist</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id="empty-results" class="quiz-empty-state hidden">
+        <div class="empty-icon-circle">
+          <i data-lucide="inbox" class="icon-xl text-crimson"></i>
+        </div>
+        <h3 class="empty-heading" data-i18n="noMatchHeading">No Direct Matches Found</h3>
+        <p class="empty-desc" data-i18n="noMatchDesc">
+          Try adjusting your CGPA or department in the sidebar, or check the <strong>"Almost Eligible"</strong> tab for opportunities you nearly qualify for.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- APPLICATION CHECKLIST & AI MODAL (Bonus: A short "how to apply" checklist for each scholarship) -->
+<div id="checklist-modal" class="modal-overlay hidden" onclick="closeChecklistModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="font-mono text-xs text-crimson font-bold" data-i18n="checklistTag">APPLICATION CHECKLIST</span>
+        <h3 id="modal-award-title" class="font-athens text-lg font-bold text-main mt-0.5">Scholarship Title</h3>
+      </div>
+      <button class="btn-icon" onclick="toggleModal(false)">
+        <i data-lucide="x" class="icon-sm"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="modal-checklist-items" class="checklist-items"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="toggleModal(false)">
+        <span data-i18n="done">Close</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/scholarships.js') }}"></script>
+{% endblock %}

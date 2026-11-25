@@ -1,0 +1,3051 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCIU Computer Club — Academic Intelligence Suite</title>
+
+  <!-- Classical Athens Monumental Typography + Precision UI + Bangla Support -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons (Strict Icon-Only Architecture — Zero Emojis) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js for Subtle Architectural Geometric Sculpture -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- PDF.js for Real Client-Side Multi-PDF Page & Text Extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            athens: ['Cinzel', 'Hind Siliguri', 'serif'],
+            editorial: ['Cormorant Garamond', 'Hind Siliguri', 'serif'],
+            sans: ['Plus Jakarta Sans', 'Hind Siliguri', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* =========================================================================
+       CLASSICAL EDITORIAL DESIGN TOKENS — WHITE, BLACK & CRIMSON RED
+       Seamless Light (Marble White) & Dark (Obsidian Black) Architecture
+       ========================================================================= */
+    :root,
+    [data-theme="light"] {
+      --bg-page: #FAF9F6;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F2EFE9;
+      --bg-elevated: rgba(255, 255, 255, 0.88);
+      --bg-inverse: #0B0B0D;
+      --text-inverse: #FAF9F6;
+      --text-main: #0B0B0D;
+      --text-muted: #4A4A52;
+      --text-faint: #7A7A85;
+      --border-hairline: rgba(11, 11, 13, 0.11);
+      --border-strong: rgba(11, 11, 13, 0.24);
+      --crimson: #C8102E;
+      --crimson-hover: #9E0B23;
+      --crimson-soft: rgba(200, 16, 46, 0.07);
+      --crimson-border: rgba(200, 16, 46, 0.28);
+      --grid-line: rgba(11, 11, 13, 0.045);
+      --shadow-card: 0 24px 60px -28px rgba(11, 11, 13, 0.16);
+      --shadow-hover: 0 32px 72px -24px rgba(11, 11, 13, 0.22);
+      --input-bg: #FAF9F6;
+      --select-bg: #FFFFFF;
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #08080A;
+      --bg-surface: #111114;
+      --bg-subtle: #18181D;
+      --bg-elevated: rgba(17, 17, 20, 0.88);
+      --bg-inverse: #FAF9F6;
+      --text-inverse: #08080A;
+      --text-main: #FAF9F6;
+      --text-muted: #A6A6B0;
+      --text-faint: #71717A;
+      --border-hairline: rgba(250, 249, 246, 0.11);
+      --border-strong: rgba(250, 249, 246, 0.24);
+      --crimson: #DC2626;
+      --crimson-hover: #EF4444;
+      --crimson-soft: rgba(220, 38, 38, 0.13);
+      --crimson-border: rgba(220, 38, 38, 0.36);
+      --grid-line: rgba(250, 249, 246, 0.04);
+      --shadow-card: 0 26px 64px -26px rgba(0, 0, 0, 0.8);
+      --shadow-hover: 0 34px 76px -22px rgba(0, 0, 0, 0.92);
+      --input-bg: #0C0C0F;
+      --select-bg: #141418;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Subtle Classical Architectural Blueprint Grid */
+    .architectural-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 84px 84px;
+      mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, #000 45%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, #000 45%, transparent 100%);
+    }
+
+    /* Fixed Minimalist 3D Architectural Canvas */
+    #webgl-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Theme-Aware Surface Utilities */
+    .surface-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      box-shadow: var(--shadow-card);
+      transition: background-color 0.4s ease, border-color 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+    }
+
+    .surface-elevated {
+      background-color: var(--bg-elevated);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .surface-subtle {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .text-main { color: var(--text-main); }
+    .text-muted { color: var(--text-muted); }
+    .text-faint { color: var(--text-faint); }
+    .text-crimson { color: var(--crimson); }
+    .bg-crimson { background-color: var(--crimson); }
+    .bg-crimson-soft { background-color: var(--crimson-soft); }
+    .border-hairline { border-color: var(--border-hairline); }
+    .border-crimson { border-color: var(--crimson-border); }
+
+    /* Interactive Editorial Card Hover */
+    .editorial-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editorial-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--crimson);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .editorial-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .editorial-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Primary & Secondary Architectural Buttons */
+    .btn-primary {
+      background-color: var(--bg-inverse);
+      color: var(--text-inverse);
+      border: 1px solid var(--bg-inverse);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--crimson);
+      border-color: var(--crimson);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    .btn-crimson {
+      background-color: var(--crimson);
+      color: #FFFFFF;
+      border: 1px solid var(--crimson);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn-crimson:hover {
+      background-color: var(--crimson-hover);
+      border-color: var(--crimson-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-strong);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--crimson);
+      color: var(--crimson);
+      background-color: var(--crimson-soft);
+    }
+
+    /* Form Controls */
+    .field-input {
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-hairline);
+      transition: border-color 0.25s ease, background-color 0.35s ease;
+    }
+
+    .field-input:focus {
+      outline: none;
+      border-color: var(--crimson);
+    }
+
+    .field-input::placeholder {
+      color: var(--text-faint);
+    }
+
+    select.field-input {
+      background-color: var(--select-bg);
+    }
+
+    /* Classical Preloader Curtain */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: #08080A;
+      color: #FAF9F6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1), transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    #preloader.hidden-curtain {
+      opacity: 0;
+      transform: translateY(-24px);
+      pointer-events: none;
+    }
+
+    @keyframes redRuleLoad {
+      0% { transform: scaleX(0); transform-origin: left; }
+      50% { transform: scaleX(1); transform-origin: left; }
+      51% { transform: scaleX(1); transform-origin: right; }
+      100% { transform: scaleX(0); transform-origin: right; }
+    }
+
+    .preloader-rule {
+      animation: redRuleLoad 1.35s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    /* Typewriter Blinking Cursor */
+    @keyframes cursorBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .type-cursor {
+      display: inline-block;
+      width: 2.5px;
+      height: 1.15em;
+      background-color: var(--crimson);
+      vertical-align: -0.18em;
+      margin-left: 3px;
+      animation: cursorBlink 0.9s step-end infinite;
+    }
+
+    /* Kinetic Editorial Marquee */
+    @keyframes marqueeMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeMove 36s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Scroll Reveal Motion */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    /* Message & Panel Entrance */
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-animate {
+      animation: riseIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .panel-active {
+      animation: riseIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Minimalist Animated Pulse Bars */
+    @keyframes pulseBar {
+      0%, 100% { transform: scaleY(0.35); opacity: 0.4; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+
+    .pulse-bar {
+      width: 2.5px;
+      height: 13px;
+      background-color: var(--crimson);
+      border-radius: 99px;
+      animation: pulseBar 0.85s ease-in-out infinite;
+    }
+    .pulse-bar:nth-child(2) { animation-delay: 0.15s; }
+    .pulse-bar:nth-child(3) { animation-delay: 0.3s; }
+
+    /* Precision Range Slider */
+    input[type="range"].crimson-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--border-strong);
+      outline: none;
+    }
+
+    input[type="range"].crimson-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--crimson);
+      border: 3px solid var(--bg-surface);
+      box-shadow: 0 0 0 1px var(--crimson);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    input[type="range"].crimson-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.18);
+    }
+
+    /* Refined Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--crimson);
+    }
+
+    /* Subtle Column Ornament Line */
+    .athens-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .athens-rule::after {
+      content: '';
+      height: 1px;
+      flex: 1;
+      background: var(--border-hairline);
+    }
+  </style>
+</head>
+<body class="min-h-screen selection:bg-[#C8102E] selection:text-white">
+
+  <!-- Architectural Hairline Grid & Minimalist 3D Classical Geometry -->
+  <div class="architectural-grid" aria-hidden="true"></div>
+  <canvas id="webgl-canvas" aria-hidden="true"></canvas>
+
+  <!-- =========================================================================
+       MONUMENTAL PRELOADER CURTAIN
+       ========================================================================= -->
+  <div id="preloader" role="status" aria-label="Initializing PCIU Computer Club Suite">
+    <div class="flex flex-col items-center gap-6 px-6 text-center">
+      <!-- Bespoke PCIU Computer Club Classical Emblem -->
+      <div class="w-16 h-16 rounded-2xl border border-white/15 bg-white/[0.03] flex items-center justify-center">
+        <svg viewBox="0 0 64 64" class="w-10 h-10" fill="none">
+          <circle cx="32" cy="32" r="27" stroke="#FAF9F6" stroke-opacity="0.28" stroke-width="1.5" />
+          <path d="M18 46H46M22 42V24M32 42V24M42 42V24M18 24L32 14L46 24H18Z" stroke="#FAF9F6" stroke-width="2" stroke-linejoin="round" />
+          <circle cx="32" cy="19.5" r="2.2" fill="#C8102E" />
+        </svg>
+      </div>
+      <div>
+        <p class="font-mono text-[10px] uppercase tracking-[0.38em] text-[#C8102E]">Port City International University</p>
+        <h2 class="font-athens text-xl sm:text-2xl font-bold tracking-[0.14em] text-white mt-1.5 uppercase">
+          PCIU Computer Club
+        </h2>
+      </div>
+      <div class="w-44 h-[2px] bg-white/15 overflow-hidden rounded-full">
+        <div class="preloader-rule w-full h-full bg-[#C8102E]"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       ARCHITECTURAL FLOATING HEADER (LOGO, PRODUCT NAVIGATION, THEME & LANG)
+       ========================================================================= -->
+  <header class="fixed top-4 inset-x-0 z-40 px-4 sm:px-6 lg:px-10">
+    <nav class="max-w-7xl mx-auto surface-elevated rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between gap-4 shadow-sm">
+      <!-- Official Club Logo & Product Name -->
+      <a href="#hero" class="flex items-center gap-3.5 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
+          <!-- Custom PCIU Computer Club Crest (Parthenon Pillar + Binary Accent) -->
+          <svg viewBox="0 0 48 48" class="w-6 h-6" fill="none">
+            <path d="M12 36H36M16 33V20M24 33V20M32 33V20M12 20L24 11L36 20H12Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" />
+            <circle cx="24" cy="16" r="2" fill="#C8102E" />
+          </svg>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
+        </div>
+        <div class="leading-tight">
+          <div class="font-athens font-bold text-sm sm:text-base tracking-[0.09em] text-main flex items-center gap-1.5">
+            <span>PCIU</span>
+            <span class="text-crimson">COMPUTER CLUB</span>
+          </div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint hidden sm:block">
+            Academic Suite • Chattogram
+          </p>
+        </div>
+      </a>
+
+      <!-- Product Module Links (No Hackathon Jargon) -->
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="#capabilities" data-i18n="navPlatform" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-muted hover:text-main transition-colors">
+          Overview
+        </a>
+        <a href="#workspace" onclick="switchModule(1)" data-i18n="navMod1" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-muted hover:text-main transition-colors">
+          Document Studio
+        </a>
+        <a href="#workspace" onclick="switchModule(2)" data-i18n="navMod2" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-muted hover:text-main transition-colors">
+          Admissions Desk
+        </a>
+        <a href="#workspace" onclick="switchModule(3)" data-i18n="navMod3" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-muted hover:text-main transition-colors">
+          Scholarship Atlas
+        </a>
+      </div>
+
+      <!-- Right Controls: Language + Light/Dark Theme Switch + Launch -->
+      <div class="flex items-center gap-2">
+        <!-- Bilingual Switcher -->
+        <button id="lang-toggle" onclick="toggleLanguage()" class="px-3 py-2 rounded-xl surface-subtle text-xs font-mono font-semibold text-main hover:border-crimson transition-all flex items-center gap-1.5" title="Switch English / Bangla">
+          <i data-lucide="languages" class="w-3.5 h-3.5 text-crimson"></i>
+          <span id="lang-label">EN</span>
+        </button>
+
+        <!-- Light / Black Mode Switcher -->
+        <button id="theme-toggle" onclick="toggleTheme()" class="px-3 py-2 rounded-xl surface-subtle text-xs font-mono font-semibold text-main hover:border-crimson transition-all flex items-center gap-1.5" title="Toggle White / Black Mode">
+          <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5 text-crimson"></i>
+          <span id="theme-label" class="hidden sm:inline">Black Mode</span>
+        </button>
+
+        <!-- Launch Workspace CTA -->
+        <a href="#workspace" class="btn-crimson px-4 py-2 rounded-xl font-semibold text-xs tracking-wide flex items-center gap-1.5">
+          <span data-i18n="navLaunch">Open Suite</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- =========================================================================
+       MAIN EDITORIAL EXPERIENCE
+       ========================================================================= -->
+  <main class="relative z-10">
+
+    <!-- =======================================================================
+         SECTION 1: MONUMENTAL HERO WITH LIVE TYPEWRITER CAPABILITY STREAM
+         ======================================================================= -->
+    <section id="hero" class="relative min-h-screen flex flex-col justify-center pt-32 pb-16 px-4 sm:px-6 lg:px-10">
+      <div class="max-w-7xl mx-auto w-full">
+
+        <!-- Classical Edition Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-hairline reveal visible">
+          <div class="flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-crimson"></span>
+            <span class="font-mono text-[11px] uppercase tracking-[0.26em] text-muted" data-i18n="heroBadge">
+              Port City International University • Official Student Platform
+            </span>
+          </div>
+          <div class="flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-faint">
+            <span>South Khulshi, Chattogram</span>
+            <span class="text-crimson">/</span>
+            <span>EN & বাংলা</span>
+          </div>
+        </div>
+
+        <!-- Asymmetric Editorial Hero Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+          <div class="lg:col-span-8 space-y-8">
+            <!-- Monumental Athens Display Headline -->
+            <div class="space-y-3 reveal visible">
+              <p class="font-mono text-xs uppercase tracking-[0.32em] text-crimson font-semibold" data-i18n="heroEyebrow">
+                PCIU Computer Club Presents
+              </p>
+              <h1 class="font-athens text-4xl sm:text-6xl lg:text-[4.55rem] font-bold leading-[1.06] tracking-[0.03em] text-main">
+                <span data-i18n="heroTitle1">Precision</span>
+                <span class="block mt-1">
+                  <span data-i18n="heroTitle2">Academic</span>
+                  <span class="font-editorial italic font-semibold text-crimson ml-2 sm:ml-4 text-[1.12em] tracking-normal" data-i18n="heroTitle3">Intelligence</span>
+                </span>
+              </h1>
+            </div>
+
+            <!-- TYPEWRITER LIVE CAPABILITY STAGE -->
+            <div class="surface-card rounded-2xl p-5 sm:p-6 border-l-[3px] border-l-[var(--crimson)] reveal visible reveal-delay-1">
+              <div class="flex items-center justify-between gap-4 mb-3">
+                <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-faint">
+                  <i data-lucide="terminal" class="w-3.5 h-3.5 text-crimson"></i>
+                  <span id="typewriter-tag">Document Studio</span>
+                </div>
+                <span id="typewriter-counter" class="font-mono text-[11px] font-semibold text-crimson">01 / 04</span>
+              </div>
+
+              <!-- Dynamic Typewritten Text Area -->
+              <div class="min-h-[3.6rem] sm:min-h-[3.2rem] flex items-center">
+                <p class="font-editorial text-xl sm:text-2xl lg:text-[1.68rem] font-medium leading-snug text-main">
+                  <span id="typewriter-output"></span><span class="type-cursor" aria-hidden="true"></span>
+                </p>
+              </div>
+
+              <!-- Subtle 4-Step Progress Track -->
+              <div class="grid grid-cols-4 gap-2 mt-4 pt-3 border-t border-hairline">
+                <div id="tw-dot-0" class="h-[2px] bg-crimson transition-all duration-300"></div>
+                <div id="tw-dot-1" class="h-[2px] bg-[var(--border-hairline)] transition-all duration-300"></div>
+                <div id="tw-dot-2" class="h-[2px] bg-[var(--border-hairline)] transition-all duration-300"></div>
+                <div id="tw-dot-3" class="h-[2px] bg-[var(--border-hairline)] transition-all duration-300"></div>
+              </div>
+            </div>
+
+            <!-- Action Row -->
+            <div class="flex flex-wrap items-center gap-4 pt-1 reveal visible reveal-delay-2">
+              <a href="#workspace" class="btn-primary px-7 py-4 rounded-xl font-semibold text-xs sm:text-sm uppercase tracking-[0.14em] flex items-center gap-3">
+                <span data-i18n="heroCtaPrimary">Launch Interactive Workspace</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+              <a href="#capabilities" class="btn-outline px-7 py-4 rounded-xl font-semibold text-xs sm:text-sm uppercase tracking-[0.14em] flex items-center gap-3">
+                <i data-lucide="compass" class="w-4 h-4"></i>
+                <span data-i18n="heroCtaSecondary">Explore Capabilities</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Architectural Index Card (Clean Product Launcher) -->
+          <div class="lg:col-span-4 reveal visible reveal-delay-2">
+            <div class="surface-card rounded-2xl p-6 space-y-5">
+              <div class="flex items-center justify-between pb-4 border-b border-hairline">
+                <div>
+                  <p class="font-mono text-[10px] uppercase tracking-[0.26em] text-crimson font-semibold">Unified Platform</p>
+                  <h3 class="font-athens text-base font-bold tracking-wider text-main mt-0.5 uppercase">Core Modules</h3>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+                  <i data-lucide="layers" class="w-4 h-4"></i>
+                </div>
+              </div>
+
+              <!-- Module Quick Jump List -->
+              <div class="divide-y divide-[var(--border-hairline)]">
+                <button onclick="jumpToModule(1)" class="w-full py-3.5 text-left flex items-center justify-between gap-3 group">
+                  <div class="flex items-center gap-3.5">
+                    <span class="font-athens text-xs font-bold text-crimson w-6">I.</span>
+                    <div>
+                      <p class="text-sm font-bold text-main group-hover:text-crimson transition-colors">Document Studio</p>
+                      <p class="text-xs text-muted">PDF citations & instant quiz engine</p>
+                    </div>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-faint group-hover:text-crimson group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                </button>
+
+                <button onclick="jumpToModule(2)" class="w-full py-3.5 text-left flex items-center justify-between gap-3 group">
+                  <div class="flex items-center gap-3.5">
+                    <span class="font-athens text-xs font-bold text-crimson w-6">II.</span>
+                    <div>
+                      <p class="text-sm font-bold text-main group-hover:text-crimson transition-colors">Admissions Desk</p>
+                      <p class="text-xs text-muted">Contextual guidance & checklist</p>
+                    </div>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-faint group-hover:text-crimson group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                </button>
+
+                <button onclick="jumpToModule(3)" class="w-full py-3.5 text-left flex items-center justify-between gap-3 group">
+                  <div class="flex items-center gap-3.5">
+                    <span class="font-athens text-xs font-bold text-crimson w-6">III.</span>
+                    <div>
+                      <p class="text-sm font-bold text-main group-hover:text-crimson transition-colors">Scholarship Atlas</p>
+                      <p class="text-xs text-muted">Eligibility matching & gap analysis</p>
+                    </div>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-faint group-hover:text-crimson group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                </button>
+              </div>
+
+              <!-- Verification Footnote -->
+              <div class="pt-3 border-t border-hairline flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-faint">
+                <span class="flex items-center gap-1.5">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-crimson"></i>
+                  <span>Source Verified</span>
+                </span>
+                <span>Zero Fabrication</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kinetic Architectural Ticker -->
+      <div class="mt-20 border-y border-hairline bg-[var(--bg-surface)] py-3.5 overflow-hidden">
+        <div class="marquee-track items-center gap-10 font-mono text-[11px] uppercase tracking-[0.26em] text-muted">
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Document Intelligence & Page-Cited Study Notes</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Multi-Turn University Admissions Concierge</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Merit & Need-Based Scholarship Matching</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Port City International University • PCIU Computer Club</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Fluent Bilingual English & Bangla Interface</span>
+          <!-- Seamless Loop Duplicate -->
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Document Intelligence & Page-Cited Study Notes</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Multi-Turn University Admissions Concierge</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Merit & Need-Based Scholarship Matching</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Port City International University • PCIU Computer Club</span>
+          <span class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-crimson rounded-full"></span> Fluent Bilingual English & Bangla Interface</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         SECTION 2: PRODUCT ARCHITECTURE OVERVIEW (3 INTEGRATED PILLARS)
+         ======================================================================= -->
+    <section id="capabilities" class="py-24 px-4 sm:px-6 lg:px-10">
+      <div class="max-w-7xl mx-auto">
+        <!-- Editorial Header -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-14 reveal">
+          <div class="lg:col-span-7">
+            <p class="font-mono text-[11px] uppercase tracking-[0.28em] text-crimson font-semibold mb-3" data-i18n="capEyebrow">
+              Platform Architecture
+            </p>
+            <h2 class="font-athens text-3xl sm:text-5xl font-bold tracking-[0.03em] text-main leading-tight">
+              <span data-i18n="capHeading1">Three Pillars of</span>
+              <span class="font-editorial italic font-semibold text-crimson ml-2 tracking-normal" data-i18n="capHeading2">Campus Clarity.</span>
+            </h2>
+          </div>
+          <div class="lg:col-span-5">
+            <p class="text-sm text-muted leading-relaxed" data-i18n="capDesc">
+              Designed as one cohesive institutional product — eliminating fragmented notes, unclear admission procedures, and missed funding opportunities through strict source-grounded intelligence.
+            </p>
+          </div>
+        </div>
+
+        <!-- Three Classical Editorial Pillar Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- PILLAR I: DOCUMENT STUDIO -->
+          <article class="surface-card editorial-card rounded-2xl p-7 flex flex-col justify-between reveal">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="font-athens text-sm font-bold tracking-[0.18em] text-crimson">PILLAR I</span>
+                <div class="w-10 h-10 rounded-xl surface-subtle flex items-center justify-center text-main">
+                  <i data-lucide="file-search-2" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <h3 class="font-athens text-xl font-bold tracking-wide text-main">Document Studio</h3>
+              <p class="font-editorial italic text-base text-muted mt-1">Study Notes Search & Self-Assessment</p>
+
+              <p class="mt-4 text-xs text-muted leading-relaxed">
+                Upload single or multiple text-based PDFs to query strictly within your notes. Every answer presents exact excerpts and page numbers, declines out-of-scope questions, and generates graded multiple-choice assessments.
+              </p>
+
+              <div class="mt-6 pt-5 border-t border-hairline space-y-2.5 text-xs text-main">
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Multi-PDF extraction with page-level citations</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Strict out-of-document refusal guardrail</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Configurable MCQ builder (5–10 items & difficulty)</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Source proof per answer & downloadable reports</span></div>
+              </div>
+            </div>
+
+            <button onclick="jumpToModule(1)" class="mt-8 w-full py-3.5 rounded-xl btn-outline font-semibold text-xs uppercase tracking-[0.16em] flex items-center justify-center gap-2">
+              <span>Open Document Studio</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </article>
+
+          <!-- PILLAR II: ADMISSIONS DESK -->
+          <article class="surface-card editorial-card rounded-2xl p-7 flex flex-col justify-between reveal reveal-delay-1">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="font-athens text-sm font-bold tracking-[0.18em] text-crimson">PILLAR II</span>
+                <div class="w-10 h-10 rounded-xl surface-subtle flex items-center justify-center text-main">
+                  <i data-lucide="messages-square" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <h3 class="font-athens text-xl font-bold tracking-wide text-main">Admissions Desk</h3>
+              <p class="font-editorial italic text-base text-muted mt-1">Conversational Enrollment Concierge</p>
+
+              <p class="mt-4 text-xs text-muted leading-relaxed">
+                A calm, knowledgeable university counselor grounded exclusively in official PCIU department fees, eligibility rules, and dates — supporting natural follow-ups, clarifying questions, and a live applicant checklist.
+              </p>
+
+              <div class="mt-6 pt-5 border-t border-hairline space-y-2.5 text-xs text-main">
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Conversational memory for natural follow-up questions</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Clarifying prompts when user intent is ambiguous</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Honest Admission Office referral for unavailable data</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Bilingual EN/Bangla dialogue & progress checklist</span></div>
+              </div>
+            </div>
+
+            <button onclick="jumpToModule(2)" class="mt-8 w-full py-3.5 rounded-xl btn-outline font-semibold text-xs uppercase tracking-[0.16em] flex items-center justify-center gap-2">
+              <span>Open Admissions Desk</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </article>
+
+          <!-- PILLAR III: SCHOLARSHIP ATLAS -->
+          <article class="surface-card editorial-card rounded-2xl p-7 flex flex-col justify-between reveal reveal-delay-2">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="font-athens text-sm font-bold tracking-[0.18em] text-crimson">PILLAR III</span>
+                <div class="w-10 h-10 rounded-xl surface-subtle flex items-center justify-center text-main">
+                  <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <h3 class="font-athens text-xl font-bold tracking-wide text-main">Scholarship Atlas</h3>
+              <p class="font-editorial italic text-base text-muted mt-1">Merit & Financial Aid Discovery</p>
+
+              <p class="mt-4 text-xs text-muted leading-relaxed">
+                Enter CGPA, department, and financial need to match against live CSV funding records. Receive tailored eligibility rationales, sort by award or deadline, review application checklists, and spot near-matches.
+              </p>
+
+              <div class="mt-6 pt-5 border-t border-hairline space-y-2.5 text-xs text-main">
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Instant CSV catalog ingestion & eligibility verification</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Personalized fit rationale for every eligible award</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Almost-Eligible Gap Radar with exact missing delta</span></div>
+                <div class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i><span>Card & Table views, apply steps, and CSV export</span></div>
+              </div>
+            </div>
+
+            <button onclick="jumpToModule(3)" class="mt-8 w-full py-3.5 rounded-xl btn-outline font-semibold text-xs uppercase tracking-[0.16em] flex items-center justify-center gap-2">
+              <span>Open Scholarship Atlas</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         SECTION 3: UNIFIED INTERACTIVE PRODUCT WORKSPACE
+         ======================================================================= -->
+    <section id="workspace" class="py-20 px-4 sm:px-6 lg:px-10">
+      <div class="max-w-7xl mx-auto">
+
+        <!-- Workspace Header & Product Module Switcher -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10 reveal">
+          <div>
+            <p class="font-mono text-[11px] uppercase tracking-[0.28em] text-crimson font-semibold mb-2" data-i18n="wsEyebrow">
+              Interactive Suite
+            </p>
+            <h2 class="font-athens text-3xl sm:text-5xl font-bold tracking-[0.03em] text-main">
+              <span data-i18n="wsHeading1">Live</span>
+              <span class="font-editorial italic font-semibold text-crimson ml-2 tracking-normal" data-i18n="wsHeading2">Workspace</span>
+            </h2>
+          </div>
+
+          <!-- Refined Architectural Segmented Switcher -->
+          <div class="surface-card p-1.5 rounded-2xl inline-grid grid-cols-3 gap-1.5 w-full lg:w-auto">
+            <button id="mod-btn-1" onclick="switchModule(1)" class="px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 bg-[var(--bg-inverse)] text-[var(--text-inverse)]">
+              <i data-lucide="file-text" class="w-4 h-4 shrink-0 text-crimson"></i>
+              <span class="truncate">Documents</span>
+            </button>
+            <button id="mod-btn-2" onclick="switchModule(2)" class="px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 text-muted hover:text-main">
+              <i data-lucide="landmark" class="w-4 h-4 shrink-0"></i>
+              <span class="truncate">Admissions</span>
+            </button>
+            <button id="mod-btn-3" onclick="switchModule(3)" class="px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 text-muted hover:text-main">
+              <i data-lucide="award" class="w-4 h-4 shrink-0"></i>
+              <span class="truncate">Scholarships</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             MODULE 1: DOCUMENT STUDIO (MULTI-PDF CITATION CHAT + QUIZ ENGINE)
+             ===================================================================== -->
+        <div id="module-panel-1" class="panel-active">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Column: Document Archive & Uploader -->
+            <div class="lg:col-span-4 space-y-5">
+              <div class="surface-card rounded-2xl p-6 space-y-5">
+                <div class="flex items-center justify-between pb-3 border-b border-hairline">
+                  <div>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Library Vault</p>
+                    <h3 class="font-athens text-base font-bold text-main mt-0.5" data-i18n="m1VaultTitle">Active Documents</h3>
+                  </div>
+                  <span id="pdf-count-badge" class="px-2.5 py-1 rounded-lg bg-crimson-soft border border-crimson font-mono text-[11px] font-semibold text-crimson">
+                    1 Active
+                  </span>
+                </div>
+
+                <!-- Real Multi-PDF Dropzone -->
+                <label for="pdf-upload-input" class="block cursor-pointer rounded-xl border border-dashed border-[var(--border-strong)] hover:border-crimson bg-[var(--bg-subtle)] transition-all p-5 text-center group">
+                  <input type="file" id="pdf-upload-input" accept="application/pdf" multiple class="hidden" onchange="handlePdfUpload(event)" />
+                  <div class="w-10 h-10 mx-auto rounded-xl bg-[var(--bg-surface)] border border-hairline flex items-center justify-center text-crimson group-hover:scale-105 transition-transform mb-3">
+                    <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                  </div>
+                  <p class="text-xs font-bold text-main uppercase tracking-wider" data-i18n="m1UploadTitle">Upload Text PDF(s)</p>
+                  <p class="text-[11px] text-muted mt-1" data-i18n="m1UploadSub">Supports multiple PDFs with real page indexing</p>
+                </label>
+
+                <!-- Loaded PDF List -->
+                <div id="pdf-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
+
+                <!-- Inspect & Reset Controls -->
+                <div class="pt-3 border-t border-hairline flex items-center gap-2">
+                  <button onclick="openDocumentInspector()" class="flex-1 py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs font-semibold text-main flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5 text-crimson"></i>
+                    <span>Inspect Pages</span>
+                  </button>
+                  <button onclick="resetSamplePdf()" class="py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs text-muted hover:text-crimson transition-all" title="Restore Sample Notes">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Curated Verification Prompts -->
+              <div class="surface-card rounded-2xl p-5 space-y-3">
+                <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint flex items-center gap-1.5">
+                  <i data-lucide="compass" class="w-3.5 h-3.5 text-crimson"></i>
+                  <span>Sample Queries</span>
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <button onclick="askPdfSuggestion('What is Retrieval-Augmented Generation and why is it used?')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all">
+                    What is RAG & why is it used?
+                  </button>
+                  <button onclick="askPdfSuggestion('Explain the attention mechanism formula in Transformers.')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all">
+                    Transformer attention formula
+                  </button>
+                  <button onclick="askPdfSuggestion('Who won the 2022 FIFA World Cup?')" class="text-left px-3 py-2 rounded-lg bg-crimson-soft border border-crimson text-xs font-medium text-crimson transition-all flex items-center gap-1.5">
+                    <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+                    <span>Test Out-of-Document Refusal</span>
+                  </button>
+                  <button onclick="askPdfSuggestion('ওভারফিটিং (Overfitting) কী এবং কীভাবে কমানো যায়?')" class="text-left px-3 py-2 rounded-lg surface-subtle hover:border-crimson text-xs text-main transition-all">
+                    Bangla: ওভারফিটিং কী?
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Cited Q&A + Quiz Builder -->
+            <div class="lg:col-span-8 surface-card rounded-2xl overflow-hidden flex flex-col min-h-[630px]">
+              <!-- Top Workspace Bar -->
+              <div class="px-6 py-4 border-b border-hairline bg-[var(--bg-subtle)] flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-surface)] border border-hairline">
+                  <button id="m1-mode-chat" onclick="switchM1Mode('chat')" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-2">
+                    <i data-lucide="message-square-text" class="w-3.5 h-3.5 text-crimson"></i>
+                    <span>Document Q&A</span>
+                  </button>
+                  <button id="m1-mode-quiz" onclick="switchM1Mode('quiz')" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-muted hover:text-main transition-all flex items-center gap-2">
+                    <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+                    <span>Quiz Engine</span>
+                  </button>
+                </div>
+
+                <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-muted">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-crimson"></i>
+                  <span>Strict Page Citations</span>
+                </div>
+              </div>
+
+              <!-- SUB-VIEW A: DOCUMENT Q&A -->
+              <div id="m1-chat-view" class="flex-1 flex flex-col">
+                <div id="pdf-chat-messages" class="flex-1 p-6 space-y-5 overflow-y-auto max-h-[460px]">
+                  <div class="flex items-start gap-3.5 msg-animate">
+                    <div class="w-9 h-9 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center shrink-0">
+                      <i data-lucide="book-marked" class="w-4 h-4 text-crimson"></i>
+                    </div>
+                    <div class="surface-subtle rounded-2xl rounded-tl-sm p-4 max-w-2xl">
+                      <p class="text-sm text-main leading-relaxed">
+                        Welcome to <strong>Document Studio</strong>. A 4-page lecture pack (<em>CS301: Foundations of AI & RAG Systems</em>) is indexed and ready, or upload your own text-based PDFs. Every response displays exact source quotes with page numbers and strictly refuses topics outside your documents.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Input Bar -->
+                <form onsubmit="handlePdfChatSubmit(event)" class="p-4 border-t border-hairline bg-[var(--bg-subtle)] flex items-center gap-3">
+                  <input id="pdf-chat-input" type="text" placeholder="Ask a question grounded strictly in your uploaded PDFs (English or Bangla)..." class="field-input flex-1 px-4 py-3.5 rounded-xl text-sm" />
+                  <button type="submit" class="btn-crimson px-5 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0">
+                    <span>Query</span>
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                  </button>
+                </form>
+              </div>
+
+              <!-- SUB-VIEW B: INTERACTIVE QUIZ ENGINE -->
+              <div id="m1-quiz-view" class="hidden flex-1 flex flex-col p-6 space-y-6 overflow-y-auto max-h-[560px]">
+                <div class="p-5 rounded-xl surface-subtle flex flex-wrap items-end justify-between gap-4">
+                  <div class="flex flex-wrap items-center gap-4">
+                    <div>
+                      <label class="block font-mono text-[10px] uppercase tracking-widest text-faint mb-1.5">Questions</label>
+                      <select id="quiz-count" class="field-input px-3.5 py-2.5 rounded-xl text-xs font-semibold">
+                        <option value="5" selected>5 Questions</option>
+                        <option value="7">7 Questions</option>
+                        <option value="10">10 Questions</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block font-mono text-[10px] uppercase tracking-widest text-faint mb-1.5">Difficulty</label>
+                      <select id="quiz-difficulty" class="field-input px-3.5 py-2.5 rounded-xl text-xs font-semibold">
+                        <option value="Foundational">Foundational</option>
+                        <option value="Intermediate" selected>Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <button id="generate-quiz-btn" onclick="generatePdfQuiz()" class="btn-crimson px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                    <i data-lucide="file-check-2" class="w-4 h-4"></i>
+                    <span>Generate Quiz</span>
+                  </button>
+                </div>
+
+                <div id="quiz-container" class="flex-1 flex flex-col items-center justify-center text-center py-10 space-y-4">
+                  <div class="w-14 h-14 rounded-2xl surface-subtle flex items-center justify-center text-crimson">
+                    <i data-lucide="clipboard-list" class="w-7 h-7"></i>
+                  </div>
+                  <div class="max-w-md">
+                    <h4 class="font-athens text-lg font-bold text-main">Ready for Self-Assessment</h4>
+                    <p class="text-xs text-muted mt-1.5 leading-relaxed">
+                      Select your question count and difficulty, then click <strong class="text-crimson">Generate Quiz</strong> to build an interactive multiple-choice examination backed by exact PDF source proofs.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             MODULE 2: ADMISSIONS DESK (CONVERSATIONAL CONCIERGE & CHECKLIST)
+             ===================================================================== -->
+        <div id="module-panel-2" class="hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Main Stage: Admissions Chat -->
+            <div class="lg:col-span-8 surface-card rounded-2xl overflow-hidden flex flex-col min-h-[630px]">
+              <!-- Header -->
+              <div class="px-6 py-4 border-b border-hairline bg-[var(--bg-subtle)] flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3.5">
+                  <div class="relative w-10 h-10 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center">
+                    <i data-lucide="landmark" class="w-5 h-5 text-crimson"></i>
+                    <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-crimson border-2 border-[var(--bg-surface)]"></span>
+                  </div>
+                  <div>
+                    <h3 class="font-athens text-sm sm:text-base font-bold text-main tracking-wide">PCIU Admissions Advisor</h3>
+                    <p class="font-mono text-[10px] uppercase tracking-widest text-muted">
+                      Context Memory Active • English & বাংলা
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button onclick="openAdmissionDataModal()" class="px-3.5 py-2 rounded-xl bg-[var(--bg-surface)] border border-hairline hover:border-crimson text-xs font-semibold text-main flex items-center gap-1.5 transition-all">
+                    <i data-lucide="database" class="w-3.5 h-3.5 text-crimson"></i>
+                    <span>Official Records</span>
+                  </button>
+                  <button onclick="clearAdmissionChat()" class="px-3.5 py-2 rounded-xl bg-crimson-soft border border-crimson text-xs font-semibold text-crimson hover:bg-crimson hover:text-white flex items-center gap-1.5 transition-all">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <span>Clear Chat</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Quick Question Strip -->
+              <div class="px-6 py-3 border-b border-hairline bg-[var(--bg-surface)] flex items-center gap-2 overflow-x-auto">
+                <span class="font-mono text-[10px] uppercase tracking-widest text-faint shrink-0 mr-1">Prompts:</span>
+                <button onclick="sendAdmissionQuick('What are the admission steps?')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-main transition-all">
+                  Admission steps
+                </button>
+                <button onclick="sendAdmissionQuick('What is the tuition fee for CSE?')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-main transition-all">
+                  CSE Tuition Fees
+                </button>
+                <button onclick="sendAdmissionQuick('And for BBA?')" class="shrink-0 px-3 py-1.5 rounded-lg bg-crimson-soft border border-crimson text-xs font-medium text-crimson transition-all flex items-center gap-1">
+                  <i data-lucide="corner-down-right" class="w-3 h-3"></i>
+                  <span>Follow-up: And for BBA?</span>
+                </button>
+                <button onclick="sendAdmissionQuick('ভর্তির যোগ্যতা ও শেষ তারিখ কবে?')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-main transition-all">
+                  Bangla: যোগ্যতা ও তারিখ
+                </button>
+                <button onclick="sendAdmissionQuick('Tell me about fees')" class="shrink-0 px-3 py-1.5 rounded-lg surface-subtle hover:border-crimson text-xs font-medium text-muted transition-all">
+                  Clarifying Prompt Test
+                </button>
+              </div>
+
+              <!-- Messages -->
+              <div id="admission-chat-messages" class="flex-1 p-6 space-y-5 overflow-y-auto max-h-[420px]"></div>
+
+              <!-- Input Bar -->
+              <form onsubmit="handleAdmissionSubmit(event)" class="p-4 border-t border-hairline bg-[var(--bg-subtle)] flex items-center gap-3">
+                <input id="admission-chat-input" type="text" placeholder="Ask about departments, tuition fees, eligibility, deadlines, or follow up..." class="field-input flex-1 px-4 py-3.5 rounded-xl text-sm" />
+                <button type="submit" class="btn-primary px-5 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0">
+                  <span>Send</span>
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+              </form>
+            </div>
+
+            <!-- Right Sidebar: Interactive Applicant Checklist + Direct Office Contact -->
+            <div class="lg:col-span-4 space-y-5">
+              <div class="surface-card rounded-2xl p-6 space-y-5">
+                <div class="flex items-center justify-between pb-3 border-b border-hairline">
+                  <div>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Enrollment Progress</p>
+                    <h3 class="font-athens text-base font-bold text-main mt-0.5">Admission Checklist</h3>
+                  </div>
+                  <div class="relative w-12 h-12 flex items-center justify-center">
+                    <svg class="w-12 h-12 -rotate-90" viewBox="0 0 44 44">
+                      <circle cx="22" cy="22" r="18" fill="none" stroke="var(--border-hairline)" stroke-width="3.5" />
+                      <circle id="checklist-progress-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--crimson)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" class="transition-all duration-500" />
+                    </svg>
+                    <span id="checklist-percent" class="absolute font-mono text-[10px] font-bold text-main">0%</span>
+                  </div>
+                </div>
+
+                <div id="admission-checklist" class="space-y-2.5"></div>
+              </div>
+
+              <!-- Official Admission Office Card -->
+              <div class="surface-card rounded-2xl p-5 space-y-3 border-l-[3px] border-l-[var(--crimson)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-main">PCIU Admission Office</p>
+                    <p class="text-[11px] text-muted">Direct Institutional Desk</p>
+                  </div>
+                </div>
+                <div class="space-y-1.5 text-xs text-muted font-mono">
+                  <p class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-crimson"></i> 7-14 Nikunja Housing, South Khulshi</p>
+                  <p class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5 text-crimson"></i> +880 1851-120791</p>
+                  <p class="flex items-center gap-2"><i data-lucide="mail" class="w-3.5 h-3.5 text-crimson"></i> admission@portcity.edu.bd</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             MODULE 3: SCHOLARSHIP ATLAS (CSV MATCHER, RATIONALES & GAP RADAR)
+             ===================================================================== -->
+        <div id="module-panel-3" class="hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Sidebar: Applicant Profile & CSV Import -->
+            <div class="lg:col-span-4 space-y-5">
+              <div class="surface-card rounded-2xl p-6 space-y-5">
+                <div class="flex items-center justify-between pb-3 border-b border-hairline">
+                  <div>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Applicant Profile</p>
+                    <h3 class="font-athens text-base font-bold text-main mt-0.5">Eligibility Parameters</h3>
+                  </div>
+                  <div class="w-9 h-9 rounded-xl surface-subtle flex items-center justify-center text-crimson">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+                  </div>
+                </div>
+
+                <form id="scholarship-form" onsubmit="runScholarshipMatcher(event)" class="space-y-5">
+                  <!-- CGPA Slider -->
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <label for="student-cgpa" class="font-mono text-[11px] uppercase tracking-wider text-muted">Current CGPA</label>
+                      <span id="cgpa-value-badge" class="px-2.5 py-1 rounded-lg bg-crimson text-white font-mono text-sm font-bold">3.75</span>
+                    </div>
+                    <input id="student-cgpa" type="range" min="2.00" max="4.00" step="0.05" value="3.75" oninput="updateCgpaBadge(this.value)" class="crimson-slider w-full" />
+                    <div class="flex justify-between font-mono text-[10px] text-faint mt-1.5">
+                      <span>2.00</span><span>3.00</span><span>3.50</span><span>4.00</span>
+                    </div>
+                  </div>
+
+                  <!-- Department Select -->
+                  <div>
+                    <label for="student-dept" class="block font-mono text-[11px] uppercase tracking-wider text-muted mb-2">Department</label>
+                    <select id="student-dept" class="field-input w-full px-4 py-3 rounded-xl text-sm font-medium">
+                      <option value="CSE" selected>Computer Science & Engineering (CSE)</option>
+                      <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+                      <option value="BBA">Business Administration (BBA)</option>
+                      <option value="Textile">Textile Engineering</option>
+                      <option value="Civil">Civil Engineering</option>
+                      <option value="English">English Literature</option>
+                      <option value="LLB">Law (LLB)</option>
+                    </select>
+                  </div>
+
+                  <!-- Financial Support Toggle -->
+                  <div class="p-4 rounded-xl surface-subtle flex items-center justify-between gap-3">
+                    <div>
+                      <p class="text-xs font-bold text-main">Financial Support Required</p>
+                      <p class="text-[11px] text-muted">Include need-based & hardship awards</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" id="student-need" checked class="sr-only peer" />
+                      <div class="w-11 h-6 bg-[var(--border-strong)] rounded-full peer peer-checked:bg-crimson after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div>
+                    </label>
+                  </div>
+
+                  <button type="submit" id="find-scholarships-btn" class="btn-primary w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-[0.14em] flex items-center justify-center gap-2">
+                    <i data-lucide="search-check" class="w-4 h-4"></i>
+                    <span>Evaluate & Match Awards</span>
+                  </button>
+                </form>
+
+                <!-- CSV Controls -->
+                <div class="pt-4 border-t border-hairline space-y-2.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="font-mono text-[10px] uppercase tracking-wider text-faint">Dataset Source</span>
+                    <span id="csv-count-label" class="font-mono text-[11px] font-semibold text-crimson">9 Records (CSV)</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <label for="csv-upload-input" class="cursor-pointer py-2.5 px-3 rounded-xl surface-subtle hover:border-crimson text-xs font-semibold text-main flex items-center justify-center gap-1.5 transition-all">
+                      <input type="file" id="csv-upload-input" accept=".csv" class="hidden" onchange="handleCsvUpload(event)" />
+                      <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-crimson"></i>
+                      <span>Load CSV</span>
+                    </label>
+                    <button onclick="downloadScholarshipReport()" class="py-2.5 px-3 rounded-xl bg-crimson-soft border border-crimson text-xs font-semibold text-crimson hover:bg-crimson hover:text-white flex items-center justify-center gap-1.5 transition-all">
+                      <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                      <span>Export CSV</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Main Stage: Results & Near-Match Gap Radar -->
+            <div class="lg:col-span-8 space-y-6">
+              <!-- Toolbar -->
+              <div class="surface-card rounded-2xl px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2.5">
+                  <span id="matched-count-pill" class="px-3 py-1.5 rounded-lg bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-mono text-xs font-bold">
+                    0 Eligible
+                  </span>
+                  <span id="almost-count-pill" class="px-3 py-1.5 rounded-lg bg-crimson-soft border border-crimson font-mono text-xs font-semibold text-crimson">
+                    0 Near Match
+                  </span>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <div class="flex items-center gap-1 p-1 rounded-xl surface-subtle">
+                    <button id="sort-amount-btn" onclick="setScholarshipSort('amount')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-1.5">
+                      <i data-lucide="banknote" class="w-3.5 h-3.5 text-crimson"></i>
+                      <span>Amount</span>
+                    </button>
+                    <button id="sort-deadline-btn" onclick="setScholarshipSort('deadline')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-muted hover:text-main transition-all flex items-center gap-1.5">
+                      <i data-lucide="calendar-clock" class="w-3.5 h-3.5"></i>
+                      <span>Deadline</span>
+                    </button>
+                  </div>
+
+                  <div class="flex items-center gap-1 p-1 rounded-xl surface-subtle">
+                    <button id="view-cards-btn" onclick="setScholarshipView('cards')" class="p-2 rounded-lg bg-[var(--bg-surface)] text-crimson shadow-sm" title="Card Grid">
+                      <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                    </button>
+                    <button id="view-table-btn" onclick="setScholarshipView('table')" class="p-2 rounded-lg text-muted hover:text-main" title="Data Table">
+                      <i data-lucide="table-2" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Eligible Output Container -->
+              <div id="scholarship-results-container" class="space-y-4"></div>
+
+              <!-- Almost-Qualified Gap Radar -->
+              <div id="almost-qualified-section" class="surface-card rounded-2xl p-6 border-l-[3px] border-l-[var(--crimson)] space-y-4 hidden">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-crimson-soft text-crimson flex items-center justify-center">
+                    <i data-lucide="target" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-athens text-base font-bold text-main">Almost Eligible — Requirement Gap</h4>
+                    <p class="text-xs text-muted">Awards you narrowly miss and the exact requirement needed to qualify</p>
+                  </div>
+                </div>
+                <div id="almost-qualified-list" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         SECTION 4: CLASSICAL INSTITUTIONAL FOOTER
+         ======================================================================= -->
+    <footer class="mt-20 border-t border-hairline bg-[var(--bg-surface)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+          <!-- Brand Identity -->
+          <div class="md:col-span-5 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center">
+                <svg viewBox="0 0 48 48" class="w-6 h-6" fill="none">
+                  <path d="M12 36H36M16 33V20M24 33V20M32 33V20M12 20L24 11L36 20H12Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" />
+                  <circle cx="24" cy="16" r="2" fill="#C8102E" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-athens text-base font-bold tracking-wider text-main">PCIU COMPUTER CLUB</h3>
+                <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson font-semibold">Port City International University</p>
+              </div>
+            </div>
+            <p class="text-xs text-muted leading-relaxed max-w-md">
+              A unified academic intelligence platform engineered by PCIU Computer Club — bringing verified study notes search, seamless admissions counseling, and transparent scholarship discovery to students across Chattogram.
+            </p>
+          </div>
+
+          <!-- Official Coordinates -->
+          <div class="md:col-span-4 space-y-3 text-xs text-muted">
+            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint">Campus Address</p>
+            <p class="flex items-start gap-2.5 text-main">
+              <i data-lucide="map-pin" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+              <span>7-14, Nikunja Housing Society, South Khulshi, Chattogram, Bangladesh - 4000</span>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <i data-lucide="globe" class="w-4 h-4 text-crimson shrink-0"></i>
+              <span>www.pciucomputerclub.com</span>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <i data-lucide="mail" class="w-4 h-4 text-crimson shrink-0"></i>
+              <span>pciucomputerclub@gmail.com</span>
+            </p>
+          </div>
+
+          <!-- Suite Navigation -->
+          <div class="md:col-span-3 space-y-2.5 text-xs">
+            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-faint mb-3">Platform Modules</p>
+            <button onclick="jumpToModule(1)" class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Document Studio
+            </button>
+            <button onclick="jumpToModule(2)" class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Admissions Desk
+            </button>
+            <button onclick="jumpToModule(3)" class="w-full text-left text-main hover:text-crimson flex items-center gap-2 transition-colors font-medium">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-crimson"></i> Scholarship Atlas
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-faint">
+          <span>PCIU COMPUTER CLUB • ACADEMIC INTELLIGENCE SUITE</span>
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-crimson"></span>
+            <span>White / Black & Crimson Edition</span>
+          </span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- =========================================================================
+       MODAL OVERLAY (DOCUMENT PAGES & OFFICIAL ADMISSION DATA)
+       ========================================================================= -->
+  <div id="custom-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="surface-card rounded-2xl max-w-3xl w-full max-h-[82vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-hairline flex items-center justify-between bg-[var(--bg-subtle)]">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="file-code-2" class="w-5 h-5 text-crimson"></i>
+          <h3 id="modal-title" class="font-athens text-base font-bold text-main">Inspector</h3>
+        </div>
+        <button onclick="closeCustomModal()" class="p-2 rounded-xl hover:bg-crimson-soft text-muted hover:text-crimson transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="modal-body" class="p-6 overflow-y-auto text-xs font-mono text-main space-y-4 leading-relaxed"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       FLOATING TOAST STACK (ZERO ALERT())
+       ========================================================================= -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- =========================================================================
+       CORE APPLICATION ENGINE
+       ========================================================================= -->
+  <script>
+    /* =========================================================================
+       0. GLOBAL CONFIG & HELPERS
+       ========================================================================= */
+    const apiKey = ""; // Provided automatically in runtime
+    const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    let currentLang = 'en';
+    let currentTheme = 'light'; // 'light' (White/Black/Red) or 'dark' (Black/White/Red)
+    let activeModule = 1;
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function showToast(title, message, isAlert = false) {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      el.className = `pointer-events-auto surface-card rounded-xl p-4 border-l-[3px] ${isAlert ? 'border-l-[var(--crimson)]' : 'border-l-[var(--bg-inverse)]'} msg-animate flex items-start gap-3`;
+      el.innerHTML = `
+        <i data-lucide="${isAlert ? 'alert-circle' : 'check-circle-2'}" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-bold text-main">${escapeHtml(title)}</p>
+          <p class="text-[11px] text-muted mt-0.5 leading-snug">${escapeHtml(message)}</p>
+        </div>
+      `;
+      container.appendChild(el);
+      lucide.createIcons();
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(8px)';
+        el.style.transition = 'all 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }, 3400);
+    }
+
+    function openCustomModal(title, htmlContent) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').innerHTML = htmlContent;
+      const modal = document.getElementById('custom-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeCustomModal() {
+      const modal = document.getElementById('custom-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function callGeminiAPI({ systemPrompt, userPrompt, contentsOverride = null, responseSchema = null }) {
+      const payload = {
+        contents: contentsOverride || [{ role: 'user', parts: [{ text: userPrompt }] }],
+        systemInstruction: systemPrompt ? { parts: [{ text: systemPrompt }] } : undefined,
+      };
+      if (responseSchema) {
+        payload.generationConfig = {
+          responseMimeType: 'application/json',
+          responseSchema,
+        };
+      }
+
+      const delays = [1000, 2000, 4000];
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const res = await fetch(GEMINI_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            if (attempt < delays.length && (res.status === 429 || res.status >= 500)) {
+              await new Promise(r => setTimeout(r, delays[attempt]));
+              continue;
+            }
+            return null;
+          }
+          const data = await res.json();
+          return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+        } catch (_) {
+          if (attempt < delays.length) {
+            await new Promise(r => setTimeout(r, delays[attempt]));
+            continue;
+          }
+          return null;
+        }
+      }
+      return null;
+    }
+
+    /* =========================================================================
+       1. LIGHT (WHITE/BLACK/RED) & BLACK/DARK MODE CONTROLLER
+       ========================================================================= */
+    function toggleTheme() {
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+
+      const label = document.getElementById('theme-label');
+      const iconEl = document.getElementById('theme-icon');
+      if (currentTheme === 'dark') {
+        label.textContent = 'White Mode';
+        iconEl.setAttribute('data-lucide', 'sun');
+      } else {
+        label.textContent = 'Black Mode';
+        iconEl.setAttribute('data-lucide', 'moon');
+      }
+      updateThreeTheme();
+      lucide.createIcons();
+    }
+
+    /* =========================================================================
+       2. HERO TYPEWRITER CAPABILITY ENGINE (ENGLISH & BANGLA)
+       ========================================================================= */
+    const TYPEWRITER_SLIDES = {
+      en: [
+        { tag: 'Document Studio', text: 'Query lecture PDFs with exact page citations and generate graded self-test quizzes in seconds.' },
+        { tag: 'Admissions Desk', text: 'Navigate university departments, tuition structures, eligibility rules, and deadlines in one dialogue.' },
+        { tag: 'Scholarship Atlas', text: 'Match your academic profile against live funding catalogs with transparent eligibility explanations.' },
+        { tag: 'Bilingual Architecture', text: 'Engineered for campus clarity — switch effortlessly between English and Bangla across every module.' },
+      ],
+      bn: [
+        { tag: 'ডকুমেন্ট স্টুডিও', text: 'আপলোডকৃত পিডিএফ নোট থেকে পেজ নম্বরসহ সঠিক উত্তর খুঁজুন এবং মুহূর্তেই কুইজ তৈরি করুন।' },
+        { tag: 'ভর্তি সহায়ক ডেস্ক', text: 'বিভাগ, টিউশন ফি, ভর্তির যোগ্যতা এবং গুরুত্বপূর্ণ তারিখ জানুন সহজ ও ধারাবাহিক কথোপকথনে।' },
+        { tag: 'স্কলারশিপ অ্যাটলাস', text: 'আপনার সিজিপিএ ও বিভাগ অনুযায়ী উপযুক্ত বৃত্তি খুঁজুন এবং আবেদনের সম্পূর্ণ ধাপ দেখুন।' },
+        { tag: 'দ্বিভাষিক অভিজ্ঞতা', text: 'পিসিআইইউ শিক্ষার্থীদের জন্য নির্মিত — বাংলা ও ইংরেজি উভয় ভাষায় নির্ভুল ও পেশাদার সেবা।' },
+      ],
+    };
+
+    let twSlideIndex = 0;
+    let twCharIndex = 0;
+    let twDeleting = false;
+    let twTimer = null;
+
+    function updateTypewriterIndicators(idx) {
+      const slides = TYPEWRITER_SLIDES[currentLang];
+      const tagEl = document.getElementById('typewriter-tag');
+      const countEl = document.getElementById('typewriter-counter');
+      if (tagEl) tagEl.textContent = slides[idx].tag;
+      if (countEl) countEl.textContent = `0${idx + 1} / 0${slides.length}`;
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`tw-dot-${i}`);
+        if (dot) {
+          dot.style.backgroundColor = i === idx ? 'var(--crimson)' : 'var(--border-hairline)';
+        }
+      }
+    }
+
+    function runTypewriterTick() {
+      const out = document.getElementById('typewriter-output');
+      if (!out) return;
+
+      const slides = TYPEWRITER_SLIDES[currentLang];
+      const currentText = slides[twSlideIndex].text;
+      updateTypewriterIndicators(twSlideIndex);
+
+      if (!twDeleting) {
+        twCharIndex++;
+        out.textContent = currentText.slice(0, twCharIndex);
+        if (twCharIndex >= currentText.length) {
+          twDeleting = true;
+          twTimer = setTimeout(runTypewriterTick, 2400);
+          return;
+        }
+        twTimer = setTimeout(runTypewriterTick, 32);
+      } else {
+        twCharIndex--;
+        out.textContent = currentText.slice(0, twCharIndex);
+        if (twCharIndex <= 0) {
+          twDeleting = false;
+          twSlideIndex = (twSlideIndex + 1) % slides.length;
+          twTimer = setTimeout(runTypewriterTick, 320);
+          return;
+        }
+        twTimer = setTimeout(runTypewriterTick, 16);
+      }
+    }
+
+    function restartTypewriter() {
+      if (twTimer) clearTimeout(twTimer);
+      twSlideIndex = 0;
+      twCharIndex = 0;
+      twDeleting = false;
+      runTypewriterTick();
+    }
+
+    /* =========================================================================
+       3. BILINGUAL INTERFACE TRANSLATOR (EN / BANGLA)
+       ========================================================================= */
+    const I18N = {
+      en: {
+        navPlatform: 'Overview',
+        navMod1: 'Document Studio',
+        navMod2: 'Admissions Desk',
+        navMod3: 'Scholarship Atlas',
+        navLaunch: 'Open Suite',
+        heroBadge: 'Port City International University • Official Student Platform',
+        heroEyebrow: 'PCIU Computer Club Presents',
+        heroTitle1: 'Precision',
+        heroTitle2: 'Academic',
+        heroTitle3: 'Intelligence',
+        heroCtaPrimary: 'Launch Interactive Workspace',
+        heroCtaSecondary: 'Explore Capabilities',
+        capEyebrow: 'Platform Architecture',
+        capHeading1: 'Three Pillars of',
+        capHeading2: 'Campus Clarity.',
+        capDesc: 'Designed as one cohesive institutional product — eliminating fragmented notes, unclear admission procedures, and missed funding opportunities through strict source-grounded intelligence.',
+        wsEyebrow: 'Interactive Suite',
+        wsHeading1: 'Live',
+        wsHeading2: 'Workspace',
+        m1VaultTitle: 'Active Documents',
+        m1UploadTitle: 'Upload Text PDF(s)',
+        m1UploadSub: 'Supports multiple PDFs with real page indexing',
+      },
+      bn: {
+        navPlatform: 'পরিচিতি',
+        navMod1: 'ডকুমেন্ট স্টুডিও',
+        navMod2: 'ভর্তি ডেস্ক',
+        navMod3: 'স্কলারশিপ অ্যাটলাস',
+        navLaunch: 'স্টুডিও খুলুন',
+        heroBadge: 'পোর্ট সিটি ইন্টারন্যাশনাল ইউনিভার্সিটি • অফিশিয়াল স্টুডেন্ট প্ল্যাটফর্ম',
+        heroEyebrow: 'পিসিআইইউ কম্পিউটার ক্লাবের উপস্থাপনা',
+        heroTitle1: 'নির্ভুল',
+        heroTitle2: 'একাডেমিক',
+        heroTitle3: 'প্ল্যাটফর্ম',
+        heroCtaPrimary: 'ইন্টারঅ্যাক্টিভ ওয়ার্কস্পেস চালু করুন',
+        heroCtaSecondary: 'সকল ফিচার দেখুন',
+        capEyebrow: 'প্ল্যাটফর্ম আর্কিটেকচার',
+        capHeading1: 'ক্যাম্পাস সহায়তার',
+        capHeading2: 'তিনটি স্তম্ভ।',
+        capDesc: 'শিক্ষার্থীদের জন্য নির্মিত একটি সমন্বিত প্রোডাক্ট — যেখানে লেকচার নোট বিশ্লেষণ, ভর্তি নির্দেশিকা এবং বৃত্তি অনুসন্ধান এক জায়গায় পাওয়া যায়।',
+        wsEyebrow: 'ইন্টারঅ্যাক্টিভ স্যুট',
+        wsHeading1: 'লাইভ',
+        wsHeading2: 'ওয়ার্কস্পেস',
+        m1VaultTitle: 'আপলোডকৃত ডকুমেন্ট',
+        m1UploadTitle: 'টেক্সট পিডিএফ আপলোড করুন',
+        m1UploadSub: 'একাধিক পিডিএফ ও পেজ নম্বর সমর্থিত',
+      },
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'bn' : 'en';
+      document.getElementById('lang-label').textContent = currentLang === 'en' ? 'EN' : 'বাংলা';
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (I18N[currentLang][key]) el.textContent = I18N[currentLang][key];
+      });
+      restartTypewriter();
+      renderScholarshipResults();
+      showToast(
+        currentLang === 'bn' ? 'বাংলা সংস্করণ সক্রিয়' : 'English Edition Active',
+        currentLang === 'bn' ? 'সকল মডিউল এখন বাংলা ও ইংরেজি উভয় ভাষায় কাজ করবে।' : 'All workspace modules are synchronized to English & Bangla.'
+      );
+    }
+
+    /* =========================================================================
+       4. SUBTLE ARCHITECTURAL 3D GEOMETRY (THREE.JS — WHITE/BLACK/RED)
+       ========================================================================= */
+    let threeScene, threeCamera, threeRenderer, polyOuter, polyInner, crimsonRing;
+    let mouseX = 0, mouseY = 0;
+
+    function initThreeScene() {
+      const canvas = document.getElementById('webgl-canvas');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 1000);
+      threeCamera.position.z = 24;
+
+      threeRenderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Classical Platonic Dodecahedron Wireframe (Architectural Marble/Graphite Feel)
+      const outerGeo = new THREE.DodecahedronGeometry(7.2, 0);
+      const outerEdges = new THREE.EdgesGeometry(outerGeo);
+      const outerMat = new THREE.LineBasicMaterial({ color: 0x0b0b0d, transparent: true, opacity: 0.08 });
+      polyOuter = new THREE.LineSegments(outerEdges, outerMat);
+      polyOuter.position.set(8.5, 1.2, -4);
+      threeScene.add(polyOuter);
+
+      // Inner Octahedron Accent
+      const innerGeo = new THREE.OctahedronGeometry(3.8, 0);
+      const innerEdges = new THREE.EdgesGeometry(innerGeo);
+      const innerMat = new THREE.LineBasicMaterial({ color: 0xc8102e, transparent: true, opacity: 0.16 });
+      polyInner = new THREE.LineSegments(innerEdges, innerMat);
+      polyInner.position.set(8.5, 1.2, -4);
+      threeScene.add(polyInner);
+
+      // Delicate Crimson Orbital Meridian Ring
+      const ringGeo = new THREE.RingGeometry(9.4, 9.46, 96);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0xc8102e, side: THREE.DoubleSide, transparent: true, opacity: 0.14 });
+      crimsonRing = new THREE.Mesh(ringGeo, ringMat);
+      crimsonRing.position.set(8.5, 1.2, -4);
+      crimsonRing.rotation.x = Math.PI / 2.6;
+      threeScene.add(crimsonRing);
+
+      window.addEventListener('resize', () => {
+        if (!threeCamera || !threeRenderer) return;
+        threeCamera.aspect = window.innerWidth / window.innerHeight;
+        threeCamera.updateProjectionMatrix();
+        threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function updateThreeTheme() {
+      if (!polyOuter || !polyInner) return;
+      if (currentTheme === 'dark') {
+        polyOuter.material.color.setHex(0xfaf9f6);
+        polyOuter.material.opacity = 0.09;
+        polyInner.material.color.setHex(0xdc2626);
+        polyInner.material.opacity = 0.24;
+      } else {
+        polyOuter.material.color.setHex(0x0b0b0d);
+        polyOuter.material.opacity = 0.08;
+        polyInner.material.color.setHex(0xc8102e);
+        polyInner.material.opacity = 0.16;
+      }
+    }
+
+    function animateThree() {
+      requestAnimationFrame(animateThree);
+      if (!threeRenderer || !threeScene || !threeCamera) return;
+      const t = performance.now() * 0.00022;
+      if (polyOuter) {
+        polyOuter.rotation.x = t * 0.6 + mouseY * 0.14;
+        polyOuter.rotation.y = t * 0.8 + mouseX * 0.18;
+      }
+      if (polyInner) {
+        polyInner.rotation.x = -t * 0.9 - mouseY * 0.1;
+        polyInner.rotation.y = -t * 1.1 + mouseX * 0.12;
+      }
+      if (crimsonRing) {
+        crimsonRing.rotation.z = t * 0.4;
+        crimsonRing.rotation.y = mouseX * 0.12;
+      }
+      threeRenderer.render(threeScene, threeCamera);
+    }
+
+    /* =========================================================================
+       5. PRODUCT MODULE SWITCHER
+       ========================================================================= */
+    function switchModule(num) {
+      activeModule = num;
+      [1, 2, 3].forEach(n => {
+        const panel = document.getElementById(`module-panel-${n}`);
+        const btn = document.getElementById(`mod-btn-${n}`);
+        const icon = btn.querySelector('svg, i');
+        if (n === num) {
+          panel.classList.remove('hidden');
+          panel.classList.add('panel-active');
+          btn.className = 'px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 bg-[var(--bg-inverse)] text-[var(--text-inverse)]';
+          if (icon) icon.classList.add('text-crimson');
+        } else {
+          panel.classList.add('hidden');
+          panel.classList.remove('panel-active');
+          btn.className = 'px-4 sm:px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 text-muted hover:text-main';
+          if (icon) icon.classList.remove('text-crimson');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    function jumpToModule(num) {
+      switchModule(num);
+      document.getElementById('workspace').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* =========================================================================
+       6. MODULE 1: DOCUMENT STUDIO (MULTI-PDF CITATION CHAT + QUIZ ENGINE)
+       ========================================================================= */
+    const DEFAULT_SAMPLE_PDF = {
+      id: 'sample-cs301',
+      name: 'CS301_AI_and_RAG_Notes.pdf',
+      pages: [
+        {
+          pageNumber: 1,
+          text: 'CS301 Lecture Notes: Foundations of Artificial Intelligence and Retrieval-Augmented Generation (RAG). Retrieval-Augmented Generation (RAG) is a hybrid architecture that combines an information retrieval system with a Large Language Model (LLM). RAG is used to reduce hallucinations, ground AI responses in verifiable private or up-to-date documents, and provide traceable citations without retraining the base neural network.',
+        },
+        {
+          pageNumber: 2,
+          text: 'Transformer Architecture & Self-Attention. Introduced in 2017, the Transformer architecture replaces recurrent layers with parallelizable self-attention mechanisms. The Scaled Dot-Product Attention formula is Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V, where Q represents Queries, K represents Keys, V represents Values, and d_k is the dimension of the key vectors used for numerical stability.',
+        },
+        {
+          pageNumber: 3,
+          text: 'Generalization, Bias-Variance Tradeoff, and Overfitting. Overfitting occurs when a machine learning model memorizes noise and specific patterns in the training data, resulting in very low training error but poor performance on unseen test data. Common techniques to reduce overfitting include L1/L2 regularization, Dropout layers, early stopping, cross-validation, and data augmentation.',
+        },
+        {
+          pageNumber: 4,
+          text: 'Evaluation Metrics for Classification Systems. Accuracy measures the ratio of correctly predicted observations to total observations, but can be misleading on imbalanced datasets. Precision is TP / (TP + FP), measuring exactness. Recall is TP / (TP + FN), measuring completeness. The F1-Score is the harmonic mean of Precision and Recall: F1 = 2 * (Precision * Recall) / (Precision + Recall).',
+        },
+      ],
+    };
+
+    let pdfDocuments = [structuredClone(DEFAULT_SAMPLE_PDF)];
+    let activeQuiz = [];
+    let userQuizAnswers = {};
+    let quizSubmitted = false;
+
+    function renderPdfList() {
+      const list = document.getElementById('pdf-list');
+      const badge = document.getElementById('pdf-count-badge');
+      badge.textContent = `${pdfDocuments.length} Active`;
+
+      list.innerHTML = pdfDocuments.map(doc => `
+        <div class="p-3 rounded-xl surface-subtle flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-[var(--bg-surface)] border border-hairline text-crimson flex items-center justify-center shrink-0">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-bold text-main truncate">${escapeHtml(doc.name)}</p>
+              <p class="font-mono text-[10px] text-faint">${doc.pages.length} Pages • Indexed</p>
+            </div>
+          </div>
+          ${pdfDocuments.length > 1 ? `
+            <button onclick="removePdfDoc('${doc.id}')" class="p-1.5 rounded-lg text-faint hover:text-crimson transition-colors" title="Remove PDF">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          ` : `<span class="font-mono text-[10px] font-semibold text-crimson px-2 py-0.5 rounded bg-crimson-soft">Ready</span>`}
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function removePdfDoc(id) {
+      pdfDocuments = pdfDocuments.filter(d => d.id !== id);
+      renderPdfList();
+      showToast('Document Removed', 'Updated active document archive.');
+    }
+
+    function resetSamplePdf() {
+      pdfDocuments = [structuredClone(DEFAULT_SAMPLE_PDF)];
+      renderPdfList();
+      showToast('Sample Restored', 'Loaded CS301_AI_and_RAG_Notes.pdf (4 pages).');
+    }
+
+    async function handlePdfUpload(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+
+      for (const file of files) {
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          const pages = [];
+          for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const content = await page.getTextContent();
+            const text = content.items.map(item => item.str).join(' ').replace(/\s+/g, ' ').trim();
+            if (text.length > 0) pages.push({ pageNumber: p, text });
+          }
+          if (pages.length === 0) {
+            showToast('Unreadable PDF Layer', `${file.name} has no selectable text layer.`, true);
+            continue;
+          }
+          pdfDocuments.push({
+            id: 'pdf-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+            name: file.name,
+            pages,
+          });
+          showToast('Document Indexed', `${file.name} (${pages.length} pages) added to library.`);
+        } catch (_) {
+          showToast('Upload Error', `Could not parse ${file.name}. Ensure it is a text-based PDF.`, true);
+        }
+      }
+      event.target.value = '';
+      renderPdfList();
+    }
+
+    function openDocumentInspector() {
+      const html = pdfDocuments.map(doc => `
+        <div class="space-y-2 pb-4 border-b border-hairline last:border-0">
+          <p class="text-crimson font-bold text-sm flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4"></i> ${escapeHtml(doc.name)}
+          </p>
+          ${doc.pages.map(p => `
+            <div class="p-3.5 rounded-xl surface-subtle">
+              <span class="inline-block px-2 py-0.5 rounded bg-crimson-soft text-crimson font-mono text-[10px] font-bold mb-1.5">Page ${p.pageNumber}</span>
+              <p class="text-main font-sans text-xs leading-relaxed">${escapeHtml(p.text)}</p>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+      openCustomModal('Indexed Document Archive', html);
+    }
+
+    function switchM1Mode(mode) {
+      const chatView = document.getElementById('m1-chat-view');
+      const quizView = document.getElementById('m1-quiz-view');
+      const chatBtn = document.getElementById('m1-mode-chat');
+      const quizBtn = document.getElementById('m1-mode-quiz');
+
+      if (mode === 'chat') {
+        chatView.classList.remove('hidden');
+        quizView.classList.add('hidden');
+        chatBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-2';
+        quizBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-muted hover:text-main transition-all flex items-center gap-2';
+      } else {
+        chatView.classList.add('hidden');
+        quizView.classList.remove('hidden');
+        quizBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-2';
+        chatBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-muted hover:text-main transition-all flex items-center gap-2';
+      }
+      lucide.createIcons();
+    }
+
+    function askPdfSuggestion(text) {
+      switchM1Mode('chat');
+      document.getElementById('pdf-chat-input').value = text;
+      handlePdfChatSubmit(new Event('submit'));
+    }
+
+    function retrieveBestPdfChunk(query) {
+      const lowerQ = query.toLowerCase();
+      const banglaMap = {
+        'ওভারফিটিং': 'overfitting regularization dropout training error',
+        'র‍্যাগ': 'rag retrieval augmented generation hallucination',
+        'অ্যাটেনশন': 'attention transformer softmax query key value',
+        'ট্রান্সফরমার': 'transformer attention mechanism',
+        'প্রিসিশন': 'precision recall f1 accuracy classification',
+        'রিকল': 'recall precision f1',
+        'অ্যাকুরেসি': 'accuracy imbalanced dataset',
+      };
+      let expanded = lowerQ;
+      for (const [bn, en] of Object.entries(banglaMap)) {
+        if (lowerQ.includes(bn)) expanded += ' ' + en;
+      }
+
+      const stopWords = new Set(['what', 'is', 'the', 'and', 'for', 'how', 'does', 'why', 'are', 'in', 'of', 'to', 'a', 'an', 'explain', 'tell', 'me', 'about', 'can', 'you', 'who', 'when', 'where', 'কী', 'এবং', 'কীভাবে', 'কেন', 'এর']);
+      const tokens = expanded.replace(/[^\w\s\u0980-\u09FF]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
+
+      let best = null;
+      let bestScore = 0;
+
+      for (const doc of pdfDocuments) {
+        for (const page of doc.pages) {
+          const textLower = page.text.toLowerCase();
+          let score = 0;
+          for (const tok of tokens) {
+            if (textLower.includes(tok)) score += tok.length > 5 ? 3 : 1.5;
+          }
+          if (score > bestScore) {
+            bestScore = score;
+            best = { docName: doc.name, pageNumber: page.pageNumber, excerpt: page.text, score };
+          }
+        }
+      }
+      return bestScore >= 2.5 ? best : null;
+    }
+
+    function appendPdfMessage(role, htmlContent) {
+      const box = document.getElementById('pdf-chat-messages');
+      const wrapper = document.createElement('div');
+      wrapper.className = `flex items-start gap-3.5 msg-animate ${role === 'user' ? 'justify-end' : ''}`;
+      if (role === 'user') {
+        wrapper.innerHTML = `
+          <div class="px-4 py-3 rounded-2xl rounded-tr-sm bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-medium text-sm max-w-xl">
+            ${htmlContent}
+          </div>
+        `;
+      } else {
+        wrapper.innerHTML = `
+          <div class="w-9 h-9 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center shrink-0">
+            <i data-lucide="book-marked" class="w-4 h-4 text-crimson"></i>
+          </div>
+          <div class="surface-subtle rounded-2xl rounded-tl-sm p-4 max-w-2xl space-y-3">
+            ${htmlContent}
+          </div>
+        `;
+      }
+      box.appendChild(wrapper);
+      box.scrollTop = box.scrollHeight;
+      lucide.createIcons();
+      return wrapper;
+    }
+
+    async function handlePdfChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('pdf-chat-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      input.value = '';
+      appendPdfMessage('user', escapeHtml(query));
+
+      const loadingEl = appendPdfMessage('assistant', `
+        <div class="flex items-center gap-2.5 text-muted text-xs font-mono">
+          <div class="flex items-center gap-1"><span class="pulse-bar"></span><span class="pulse-bar"></span><span class="pulse-bar"></span></div>
+          <span>Searching indexed pages & verifying citations...</span>
+        </div>
+      `);
+
+      const corpusContext = pdfDocuments.map(doc =>
+        doc.pages.map(p => `[FILE: ${doc.name} | PAGE: ${p.pageNumber}]\n${p.text}`).join('\n\n')
+      ).join('\n\n---\n\n');
+
+      const schema = {
+        type: 'OBJECT',
+        properties: {
+          found: { type: 'BOOLEAN' },
+          answer: { type: 'STRING' },
+          sourceDoc: { type: 'STRING' },
+          pageNumber: { type: 'INTEGER' },
+          excerpt: { type: 'STRING' },
+        },
+        required: ['found', 'answer', 'sourceDoc', 'pageNumber', 'excerpt'],
+      };
+
+      let parsed = null;
+      const aiText = await callGeminiAPI({
+        systemPrompt: `You are a strict Document Assistant. Answer ONLY using the provided PDF pages. Do NOT use external facts. If not present, set found=false and answer="Not found in the document". Match user language (English or Bangla). Return JSON: found, answer, sourceDoc, pageNumber, excerpt.`,
+        userPrompt: `DOCUMENTS:\n${corpusContext.slice(0, 18000)}\n\nQUESTION: ${query}`,
+        responseSchema: schema,
+      });
+
+      if (aiText) {
+        try { parsed = JSON.parse(aiText); } catch (_) { parsed = null; }
+      }
+
+      if (!parsed) {
+        const hit = retrieveBestPdfChunk(query);
+        const isBangla = /[\u0980-\u09FF]/.test(query) || currentLang === 'bn';
+        if (!hit) {
+          parsed = {
+            found: false,
+            answer: isBangla
+              ? 'Not found in the document (এই প্রশ্নের উত্তর আপলোডকৃত ডকুমেন্টে পাওয়া যায়নি)।'
+              : 'Not found in the document.',
+            sourceDoc: '',
+            pageNumber: 0,
+            excerpt: '',
+          };
+        } else {
+          let synthAnswer = hit.excerpt;
+          if (isBangla && hit.pageNumber === 3 && hit.docName === DEFAULT_SAMPLE_PDF.name) {
+            synthAnswer = 'ওভারফিটিং (Overfitting) তখন ঘটে যখন কোনো মেশিন লার্নিং মডেল ট্রেনিং ডেটার নয়েজ মুখস্থ করে ফেলে—ফলে ট্রেনিং এরর কম হলেও অদেখা টেস্ট ডেটায় পারফরম্যান্স খারাপ হয়। এটি কমানোর উপায়: L1/L2 রেগুলারাইজেশন, ড্রপআউট লেয়ার, আর্লি স্টপিং, ক্রস-ভ্যালিডেশন ও ডেটা অগমেন্টেশন।';
+          }
+          parsed = {
+            found: true,
+            answer: synthAnswer,
+            sourceDoc: hit.docName,
+            pageNumber: hit.pageNumber,
+            excerpt: hit.excerpt.slice(0, 240) + (hit.excerpt.length > 240 ? '...' : ''),
+          };
+        }
+      }
+
+      loadingEl.remove();
+
+      if (!parsed.found) {
+        appendPdfMessage('assistant', `
+          <div class="flex items-start gap-2.5">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+            <div>
+              <p class="text-sm font-bold text-main">Not found in the document</p>
+              <p class="text-xs text-muted mt-1">Source verification prevented ungrounded speculation. This subject does not appear in your uploaded document archive.</p>
+            </div>
+          </div>
+        `);
+      } else {
+        appendPdfMessage('assistant', `
+          <p class="text-sm text-main leading-relaxed">${escapeHtml(parsed.answer)}</p>
+          <div class="p-3.5 rounded-xl bg-[var(--bg-surface)] border border-hairline border-l-[3px] border-l-[var(--crimson)] space-y-1.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="font-mono text-[10px] uppercase tracking-wider text-crimson font-bold flex items-center gap-1.5">
+                <i data-lucide="quote" class="w-3 h-3"></i> Verified Excerpt
+              </span>
+              <span class="px-2 py-0.5 rounded bg-crimson-soft text-crimson font-mono text-[10px] font-semibold">
+                Page ${parsed.pageNumber} • ${escapeHtml(parsed.sourceDoc)}
+              </span>
+            </div>
+            <p class="text-[11px] text-muted italic leading-relaxed">"${escapeHtml(parsed.excerpt)}"</p>
+          </div>
+        `);
+      }
+    }
+
+    async function generatePdfQuiz() {
+      const count = parseInt(document.getElementById('quiz-count').value, 10) || 5;
+      const difficulty = document.getElementById('quiz-difficulty').value || 'Intermediate';
+      const container = document.getElementById('quiz-container');
+      const btn = document.getElementById('generate-quiz-btn');
+
+      btn.disabled = true;
+      btn.classList.add('opacity-60');
+      container.innerHTML = `
+        <div class="py-16 flex flex-col items-center gap-4">
+          <div class="flex items-center gap-1.5"><span class="pulse-bar"></span><span class="pulse-bar"></span><span class="pulse-bar"></span></div>
+          <p class="font-mono text-xs uppercase tracking-widest text-muted">Constructing ${count} ${difficulty} Questions from Source PDF...</p>
+        </div>
+      `;
+
+      const corpusContext = pdfDocuments.map(doc =>
+        doc.pages.map(p => `[FILE: ${doc.name} | PAGE: ${p.pageNumber}]\n${p.text}`).join('\n\n')
+      ).join('\n\n');
+
+      const schema = {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            question: { type: 'STRING' },
+            options: { type: 'ARRAY', items: { type: 'STRING' } },
+            correctIndex: { type: 'INTEGER' },
+            pageNumber: { type: 'INTEGER' },
+            sourceDoc: { type: 'STRING' },
+            explanationQuote: { type: 'STRING' },
+          },
+          required: ['question', 'options', 'correctIndex', 'pageNumber', 'sourceDoc', 'explanationQuote'],
+        },
+      };
+
+      const aiQuizText = await callGeminiAPI({
+        systemPrompt: `Create exactly ${count} multiple-choice questions at "${difficulty}" difficulty strictly from the provided PDF text. Language: ${currentLang === 'bn' ? 'Bangla' : 'English'}. Each question must have 4 options, 1 correctIndex (0-3), pageNumber, sourceDoc, and explanationQuote.`,
+        userPrompt: corpusContext.slice(0, 16000),
+        responseSchema: schema,
+      });
+
+      let generated = null;
+      if (aiQuizText) {
+        try {
+          const parsed = JSON.parse(aiQuizText);
+          if (Array.isArray(parsed) && parsed.length >= 5) generated = parsed;
+        } catch (_) { generated = null; }
+      }
+      if (!generated) generated = buildLocalFallbackQuiz(count);
+
+      activeQuiz = generated;
+      userQuizAnswers = {};
+      quizSubmitted = false;
+      btn.disabled = false;
+      btn.classList.remove('opacity-60');
+      renderQuizInterface();
+    }
+
+    function buildLocalFallbackQuiz(count) {
+      const isBn = currentLang === 'bn';
+      const docName = pdfDocuments[0]?.name || 'CS301_AI_and_RAG_Notes.pdf';
+      const bank = isBn ? [
+        {
+          question: 'রিট্রিভাল-অগমেন্টেড জেনারেশন (RAG) মূলত কোন দুটি সিস্টেমের সমন্বয়ে তৈরি?',
+          options: ['ইনফরমেশন রিট্রিভাল সিস্টেম ও লার্জ ল্যাঙ্গুয়েজ মডেল', 'শুধুমাত্র ইমেজ কম্প্রেসর ও ডেটাবেস', 'অপারেটিং সিস্টেম ও কম্পাইলার', 'হার্ডওয়্যার সেন্সর ও রাউটার'],
+          correctIndex: 0, pageNumber: 1, sourceDoc: docName,
+          explanationQuote: 'Retrieval-Augmented Generation (RAG) combines an information retrieval system with a Large Language Model (LLM).'
+        },
+        {
+          question: 'Scaled Dot-Product Attention ফর্মুলায় d_k কী নির্দেশ করে?',
+          options: ['ডকুমেন্টের মোট পৃষ্ঠা সংখ্যা', 'কী (Key) ভেক্টরের ডাইমেনশন', 'শেখার হার', 'ড্রপআউট অনুপাত'],
+          correctIndex: 1, pageNumber: 2, sourceDoc: docName,
+          explanationQuote: 'd_k is the dimension of the key vectors used for numerical stability.'
+        },
+        {
+          question: 'ওভারফিটিং (Overfitting) ঘটলে মডেলের ফলাফল কেমন হয়?',
+          options: ['ট্রেনিং ও টেস্ট উভয় ক্ষেত্রেই এরর বেশি', 'ট্রেনিং এরর কম কিন্তু অদেখা টেস্ট ডেটায় পারফরম্যান্স খারাপ', 'টেস্ট ডেটায় শতভাগ সঠিক ফলাফল', 'মডেল কখনোই ট্রেন হয় না'],
+          correctIndex: 1, pageNumber: 3, sourceDoc: docName,
+          explanationQuote: 'Overfitting results in very low training error but poor performance on unseen test data.'
+        },
+        {
+          question: 'নিচের কোনটি ওভারফিটিং কমানোর পদ্ধতি নয়?',
+          options: ['L1/L2 রেগুলারাইজেশন', 'ড্রপআউট লেয়ার', 'ডেটা অগমেন্টেশন', 'টেস্ট ডেটা মুছে ফেলা'],
+          correctIndex: 3, pageNumber: 3, sourceDoc: docName,
+          explanationQuote: 'Common techniques to reduce overfitting include L1/L2 regularization, Dropout layers, early stopping, cross-validation, and data augmentation.'
+        },
+        {
+          question: 'F1-Score কীভাবে নির্ণয় করা হয়?',
+          options: ['Precision ও Recall-এর হারমোনিক মিন', 'শুধু Accuracy-এর বর্গমূল', 'TP এবং TN-এর যোগফল', 'মোট ডেটার অর্ধেক'],
+          correctIndex: 0, pageNumber: 4, sourceDoc: docName,
+          explanationQuote: 'The F1-Score is the harmonic mean of Precision and Recall.'
+        },
+        {
+          question: 'ইমব্যালেন্সড ডেটাসেটে কোন মেট্রিকটি বিভ্রান্তিকর হতে পারে?',
+          options: ['Precision', 'Recall', 'Accuracy', 'F1-Score'],
+          correctIndex: 2, pageNumber: 4, sourceDoc: docName,
+          explanationQuote: 'Accuracy can be misleading on imbalanced datasets.'
+        },
+        {
+          question: 'ট্রান্সফরমার আর্কিটেকচার প্রথম কত সালে প্রবর্তিত হয়?',
+          options: ['২০১২', '২০১৭', '২০২১', '২০২৪'],
+          correctIndex: 1, pageNumber: 2, sourceDoc: docName,
+          explanationQuote: 'Introduced in 2017, the Transformer architecture replaces recurrent layers with parallelizable self-attention mechanisms.'
+        },
+      ] : [
+        {
+          question: 'What primary advantage does Retrieval-Augmented Generation (RAG) provide?',
+          options: [
+            'Grounds responses in verifiable documents and reduces hallucinations without retraining',
+            'Eliminates the need for any user prompts',
+            'Compresses PDF files into audio streams',
+            'Replaces all neural networks with static SQL tables'
+          ],
+          correctIndex: 0, pageNumber: 1, sourceDoc: docName,
+          explanationQuote: 'RAG is used to reduce hallucinations, ground AI responses in verifiable private or up-to-date documents, and provide traceable citations without retraining.'
+        },
+        {
+          question: 'In Scaled Dot-Product Attention, why is the dot product divided by sqrt(d_k)?',
+          options: [
+            'To increase vocabulary size dynamically',
+            'To maintain numerical stability based on key vector dimensionality',
+            'To convert text tokens into RGB pixel values',
+            'To remove positional encodings from the sequence'
+          ],
+          correctIndex: 1, pageNumber: 2, sourceDoc: docName,
+          explanationQuote: 'Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V, where d_k is the dimension of the key vectors used for numerical stability.'
+        },
+        {
+          question: 'Which symptom best characterizes Overfitting in a machine learning model?',
+          options: [
+            'High error on both training and validation splits',
+            'Very low training error paired with poor generalization on unseen test data',
+            'Equal accuracy across all unseen domains',
+            'Zero memory footprint during inference'
+          ],
+          correctIndex: 1, pageNumber: 3, sourceDoc: docName,
+          explanationQuote: 'Overfitting occurs when a model memorizes noise in training data, resulting in very low training error but poor performance on unseen test data.'
+        },
+        {
+          question: 'Which techniques are listed in the document to reduce Overfitting?',
+          options: [
+            'Removing labels and disabling validation',
+            'L1/L2 regularization, Dropout layers, early stopping, cross-validation, and data augmentation',
+            'Increasing polynomial degree indefinitely',
+            'Training exclusively on a single data point'
+          ],
+          correctIndex: 1, pageNumber: 3, sourceDoc: docName,
+          explanationQuote: 'Common techniques to reduce overfitting include L1/L2 regularization, Dropout layers, early stopping, cross-validation, and data augmentation.'
+        },
+        {
+          question: 'How is the F1-Score mathematically defined for classification systems?',
+          options: [
+            'Arithmetic average of Accuracy and Error',
+            'Harmonic mean of Precision and Recall',
+            'Difference between True Positives and False Negatives',
+            'Ratio of True Negatives to Total Samples'
+          ],
+          correctIndex: 1, pageNumber: 4, sourceDoc: docName,
+          explanationQuote: 'The F1-Score is the harmonic mean of Precision and Recall: F1 = 2 * (Precision * Recall) / (Precision + Recall).'
+        },
+        {
+          question: 'Why might standard Accuracy be unreliable when evaluating a classifier?',
+          options: [
+            'It requires GPU acceleration to compute',
+            'It can be misleading on imbalanced datasets',
+            'It only works for unsupervised clustering',
+            'It cannot exceed 0.50 on binary tasks'
+          ],
+          correctIndex: 1, pageNumber: 4, sourceDoc: docName,
+          explanationQuote: 'Accuracy can be misleading on imbalanced datasets.'
+        },
+        {
+          question: 'What did the 2017 Transformer architecture replace to enable parallel sequence processing?',
+          options: [
+            'Convolutional image filters',
+            'Recurrent layers via self-attention mechanisms',
+            'Decision tree leaf nodes',
+            'K-Means centroid initializers'
+          ],
+          correctIndex: 1, pageNumber: 2, sourceDoc: docName,
+          explanationQuote: 'Introduced in 2017, the Transformer architecture replaces recurrent layers with parallelizable self-attention mechanisms.'
+        },
+        {
+          question: 'In classification evaluation, what does Precision (TP / (TP + FP)) measure?',
+          options: [
+            'Completeness of positive detection',
+            'Exactness of positive predictions',
+            'Total inference latency',
+            'Dataset balance ratio'
+          ],
+          correctIndex: 1, pageNumber: 4, sourceDoc: docName,
+          explanationQuote: 'Precision is TP / (TP + FP), measuring exactness.'
+        },
+        {
+          question: 'What are the three matrix projections used in Scaled Dot-Product Attention?',
+          options: [
+            'Input, Hidden, and Output gates',
+            'Queries (Q), Keys (K), and Values (V)',
+            'Bias, Variance, and Noise vectors',
+            'Precision, Recall, and F1 tensors'
+          ],
+          correctIndex: 1, pageNumber: 2, sourceDoc: docName,
+          explanationQuote: 'Q represents Queries, K represents Keys, V represents Values.'
+        },
+        {
+          question: 'How does Recall evaluate a classification system?',
+          options: [
+            'TP / (TP + FN), measuring completeness',
+            'FP / (FP + TN), measuring false alarm rate',
+            'TN / Total, measuring specificity',
+            '1 - Accuracy'
+          ],
+          correctIndex: 0, pageNumber: 4, sourceDoc: docName,
+          explanationQuote: 'Recall is TP / (TP + FN), measuring completeness.'
+        },
+      ];
+      return bank.slice(0, Math.min(count, bank.length));
+    }
+
+    function renderQuizInterface() {
+      const container = document.getElementById('quiz-container');
+      container.className = 'flex-1 w-full text-left space-y-5';
+
+      let scoreBanner = '';
+      if (quizSubmitted) {
+        const correctCount = activeQuiz.reduce((acc, q, idx) => acc + (userQuizAnswers[idx] === q.correctIndex ? 1 : 0), 0);
+        const pct = Math.round((correctCount / activeQuiz.length) * 100);
+        scoreBanner = `
+          <div class="p-5 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex flex-wrap items-center justify-between gap-4 msg-animate">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-xl bg-crimson text-white flex items-center justify-center">
+                <span class="font-athens text-lg font-bold">${pct}%</span>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-widest opacity-70">Assessment Complete</p>
+                <h4 class="font-athens text-lg font-bold">Score: ${correctCount} / ${activeQuiz.length} Correct</h4>
+                <p class="text-xs opacity-80 mt-0.5">Review exact PDF proof citations under each question below.</p>
+              </div>
+            </div>
+            <button onclick="downloadQuizReport()" class="px-4 py-2.5 rounded-xl bg-crimson text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 hover:opacity-90 transition-all">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>Export Report</span>
+            </button>
+          </div>
+        `;
+      }
+
+      const questionsHtml = activeQuiz.map((q, qIdx) => {
+        const chosen = userQuizAnswers[qIdx];
+        return `
+          <div class="p-5 rounded-xl surface-subtle space-y-3.5">
+            <div class="flex items-start justify-between gap-3">
+              <p class="text-sm font-bold text-main leading-snug">
+                <span class="font-athens text-crimson mr-2">${qIdx + 1}.</span>${escapeHtml(q.question)}
+              </p>
+              <span class="shrink-0 px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-hairline font-mono text-[10px] text-faint">Page ${q.pageNumber}</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              ${q.options.map((opt, oIdx) => {
+                let style = 'bg-[var(--bg-surface)] border-hairline text-main hover:border-crimson';
+                let icon = 'circle';
+                if (!quizSubmitted && chosen === oIdx) {
+                  style = 'bg-[var(--bg-inverse)] border-[var(--bg-inverse)] text-[var(--text-inverse)]';
+                  icon = 'check-circle-2';
+                } else if (quizSubmitted) {
+                  if (oIdx === q.correctIndex) {
+                    style = 'bg-[var(--bg-inverse)] border-[var(--bg-inverse)] text-[var(--text-inverse)]';
+                    icon = 'check-circle-2';
+                  } else if (chosen === oIdx && chosen !== q.correctIndex) {
+                    style = 'bg-crimson-soft border-crimson text-crimson';
+                    icon = 'x-circle';
+                  }
+                }
+                return `
+                  <button ${quizSubmitted ? 'disabled' : ''} onclick="selectQuizOption(${qIdx}, ${oIdx})" class="text-left p-3 rounded-xl border text-xs font-medium transition-all flex items-start gap-2.5 ${style}">
+                    <i data-lucide="${icon}" class="w-4 h-4 shrink-0 mt-0.5"></i>
+                    <span>${escapeHtml(opt)}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+            ${quizSubmitted ? `
+              <div class="p-3 rounded-xl bg-[var(--bg-surface)] border border-hairline border-l-[3px] border-l-[var(--crimson)] text-[11px] text-muted">
+                <span class="font-mono text-crimson font-bold uppercase mr-1.5">Source Proof (Page ${q.pageNumber} • ${escapeHtml(q.sourceDoc)}):</span>
+                <span class="italic">"${escapeHtml(q.explanationQuote)}"</span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      const submitBar = !quizSubmitted ? `
+        <div class="flex items-center justify-between pt-2">
+          <span class="font-mono text-xs text-muted">${Object.keys(userQuizAnswers).length} of ${activeQuiz.length} answered</span>
+          <button onclick="submitPdfQuiz()" class="btn-crimson px-7 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+            <i data-lucide="check-check" class="w-4 h-4"></i>
+            <span>Grade & Reveal Proof</span>
+          </button>
+        </div>
+      ` : '';
+
+      container.innerHTML = scoreBanner + questionsHtml + submitBar;
+      lucide.createIcons();
+    }
+
+    function selectQuizOption(qIdx, oIdx) {
+      userQuizAnswers[qIdx] = oIdx;
+      renderQuizInterface();
+    }
+
+    function submitPdfQuiz() {
+      if (Object.keys(userQuizAnswers).length < activeQuiz.length) {
+        showToast('Incomplete Quiz', 'Please select an answer for every question first.', true);
+        return;
+      }
+      quizSubmitted = true;
+      renderQuizInterface();
+      showToast('Assessment Graded', 'Score and verified page citations are ready.');
+    }
+
+    function downloadQuizReport() {
+      const correctCount = activeQuiz.reduce((acc, q, idx) => acc + (userQuizAnswers[idx] === q.correctIndex ? 1 : 0), 0);
+      let report = `PCIU COMPUTER CLUB — DOCUMENT STUDIO QUIZ REPORT\n`;
+      report += `Score: ${correctCount}/${activeQuiz.length} (${Math.round((correctCount / activeQuiz.length) * 100)}%)\n`;
+      report += `Generated: ${new Date().toLocaleString()}\n`;
+      report += `======================================================\n\n`;
+      activeQuiz.forEach((q, idx) => {
+        report += `Q${idx + 1}: ${q.question}\n`;
+        report += `Your Answer: ${q.options[userQuizAnswers[idx]] || 'Unanswered'}\n`;
+        report += `Correct Answer: ${q.options[q.correctIndex]}\n`;
+        report += `Source Proof (Page ${q.pageNumber} - ${q.sourceDoc}): "${q.explanationQuote}"\n\n`;
+      });
+      triggerTextDownload(report, 'PCIU_Quiz_Assessment_Report.txt', 'text/plain');
+      showToast('Report Exported', 'Saved PCIU_Quiz_Assessment_Report.txt');
+    }
+
+    /* =========================================================================
+       7. MODULE 2: ADMISSIONS DESK (MULTI-TURN MEMORY & CHECKLIST)
+       ========================================================================= */
+    const ADMISSION_KB_TEXT = `PORT CITY INTERNATIONAL UNIVERSITY (PCIU) — OFFICIAL ADMISSION GUIDE
+Campus: 7-14, Nikunja Housing Society, South Khulshi, Chattogram - 4000
+Hotline: +880 1851-120791 | Email: admission@portcity.edu.bd
+
+DEPARTMENTS & TUITION FEES (4-Year Undergraduate):
+1. B.Sc. in Computer Science & Engineering (CSE) — 150 Credits | Total Fee: BDT 4,48,000 | Admission Fee: BDT 15,000 | Per Credit: BDT 2,500
+2. B.Sc. in Electrical & Electronic Engineering (EEE) — 152 Credits | Total Fee: BDT 4,35,000 | Admission Fee: BDT 15,000
+3. Bachelor of Business Administration (BBA) — 126 Credits | Total Fee: BDT 3,92,000 | Admission Fee: BDT 15,000
+4. B.Sc. in Textile Engineering — 160 Credits | Total Fee: BDT 4,20,000 | Admission Fee: BDT 15,000
+5. B.Sc. in Civil Engineering — 160 Credits | Total Fee: BDT 4,30,000 | Admission Fee: BDT 15,000
+6. B.A. (Hons) in English — 120 Credits | Total Fee: BDT 2,85,000 | Admission Fee: BDT 12,000
+7. LL.B. (Hons) in Law — 132 Credits | Total Fee: BDT 3,40,000 | Admission Fee: BDT 15,000
+
+ELIGIBILITY REQUIREMENTS:
+- Minimum GPA 2.50 in both SSC and HSC (or equivalent O/A Levels), OR combined GPA 6.00 with at least 2.00 in either exam.
+- For CSE, EEE, Civil, and Textile Engineering: Science background with Mathematics & Physics in HSC is required.
+- For BBA, English, and LL.B.: Students from Science, Business Studies, or Humanities are eligible.
+
+ADMISSION STEPS:
+Step 1: Collect or submit the Online Admission Form (Form fee: BDT 500).
+Step 2: Attach 4 passport-size photos, SSC & HSC transcripts/certificates, and NID/Birth Certificate copy.
+Step 3: Appear for the brief Admission Assessment / Viva at the South Khulshi Campus.
+Step 4: Deposit Admission Fee + First Trimester Tuition to receive your official Student ID.
+
+KEY DATES (Upcoming Trimester):
+- Application Window Opens: December 01
+- Last Date of Application: January 20
+- Admission Viva & Orientation: January 25
+- Classes Commence: February 01
+
+WAIVERS:
+- Golden GPA 5.00 in both SSC & HSC: Up to 100% Tuition Waiver on initial entry.
+- Female Students & Siblings: Special 10%–20% waiver available.`;
+
+    let admissionHistory = [];
+    let lastTopic = null;
+
+    const ADMISSION_CHECKLIST_ITEMS = [
+      { id: 'c1', label: 'Complete Online / Campus Admission Form (BDT 500)', done: true },
+      { id: 'c2', label: 'Prepare SSC & HSC Marksheets & Certificates', done: false },
+      { id: 'c3', label: '4 Copies of Passport-Size Photographs', done: false },
+      { id: 'c4', label: 'Photocopy of NID or Birth Registration', done: false },
+      { id: 'c5', label: 'Attend Admission Viva / Verification Desk', done: false },
+      { id: 'c6', label: 'Complete Initial Admission Fee Payment', done: false },
+    ];
+
+    function renderAdmissionChecklist() {
+      const box = document.getElementById('admission-checklist');
+      const doneCount = ADMISSION_CHECKLIST_ITEMS.filter(i => i.done).length;
+      const pct = Math.round((doneCount / ADMISSION_CHECKLIST_ITEMS.length) * 100);
+      const ring = document.getElementById('checklist-progress-ring');
+      const pctLabel = document.getElementById('checklist-percent');
+      const circumference = 113.1;
+      ring.style.strokeDashoffset = circumference - (pct / 100) * circumference;
+      pctLabel.textContent = pct + '%';
+
+      box.innerHTML = ADMISSION_CHECKLIST_ITEMS.map(item => `
+        <button onclick="toggleChecklistItem('${item.id}')" class="w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 ${item.done ? 'bg-crimson-soft border-crimson text-main' : 'surface-subtle text-muted hover:border-crimson'}">
+          <i data-lucide="${item.done ? 'check-square' : 'square'}" class="w-4 h-4 shrink-0 mt-0.5 ${item.done ? 'text-crimson' : 'text-faint'}"></i>
+          <span class="text-xs font-medium leading-snug ${item.done ? 'line-through opacity-75' : ''}">${escapeHtml(item.label)}</span>
+        </button>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function toggleChecklistItem(id) {
+      const target = ADMISSION_CHECKLIST_ITEMS.find(i => i.id === id);
+      if (target) target.done = !target.done;
+      renderAdmissionChecklist();
+    }
+
+    function openAdmissionDataModal() {
+      openCustomModal('Official PCIU Admission Records', `<pre class="whitespace-pre-wrap font-mono text-xs text-main leading-relaxed">${escapeHtml(ADMISSION_KB_TEXT)}</pre>`);
+    }
+
+    function initAdmissionChat() {
+      admissionHistory = [];
+      lastTopic = null;
+      const box = document.getElementById('admission-chat-messages');
+      box.innerHTML = '';
+      appendAdmissionMessage('assistant', 'Welcome to the <strong>PCIU Admissions Desk</strong>. Ask about undergraduate programs, tuition fees, eligibility criteria, key dates, or enrollment steps in English or Bangla — follow-up questions are remembered automatically.');
+    }
+
+    function clearAdmissionChat() {
+      initAdmissionChat();
+      showToast('Session Reset', 'Cleared admission conversation history.');
+    }
+
+    function sendAdmissionQuick(text) {
+      document.getElementById('admission-chat-input').value = text;
+      handleAdmissionSubmit(new Event('submit'));
+    }
+
+    function appendAdmissionMessage(role, html) {
+      const box = document.getElementById('admission-chat-messages');
+      const div = document.createElement('div');
+      div.className = `flex items-start gap-3.5 msg-animate ${role === 'user' ? 'justify-end' : ''}`;
+      if (role === 'user') {
+        div.innerHTML = `
+          <div class="px-4 py-3 rounded-2xl rounded-tr-sm bg-crimson text-white font-medium text-sm max-w-lg">
+            ${html}
+          </div>
+        `;
+      } else {
+        div.innerHTML = `
+          <div class="w-9 h-9 rounded-xl bg-[var(--bg-inverse)] text-[var(--text-inverse)] flex items-center justify-center shrink-0">
+            <i data-lucide="landmark" class="w-4 h-4 text-crimson"></i>
+          </div>
+          <div class="surface-subtle rounded-2xl rounded-tl-sm p-4 max-w-2xl text-sm text-main leading-relaxed space-y-2">
+            ${html}
+          </div>
+        `;
+      }
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+      lucide.createIcons();
+      return div;
+    }
+
+    function localAdmissionBrain(userText) {
+      const q = userText.toLowerCase();
+      const isBn = /[\u0980-\u09FF]/.test(userText) || currentLang === 'bn';
+
+      if (q.includes('fee') || q.includes('tuition') || q.includes('cost') || q.includes('ফি') || q.includes('খরচ')) lastTopic = 'fee';
+      else if (q.includes('eligib') || q.includes('gpa') || q.includes('যোগ্যতা')) lastTopic = 'eligibility';
+      else if (q.includes('step') || q.includes('apply') || q.includes('ধাপ') || q.includes('প্রক্রিয়া')) lastTopic = 'steps';
+      else if (q.includes('date') || q.includes('deadline') || q.includes('তারিখ')) lastTopic = 'dates';
+
+      const depts = {
+        cse: { name: 'B.Sc. in CSE', fee: 'BDT 4,48,000 (150 Credits, Admission Fee BDT 15,000)', elig: 'SSC & HSC Science background (Math & Physics) with min GPA 2.50 each (or combined 6.00).' },
+        bba: { name: 'BBA', fee: 'BDT 3,92,000 (126 Credits, Admission Fee BDT 15,000)', elig: 'Open to Science, Business Studies, or Humanities with min GPA 2.50 in SSC & HSC.' },
+        eee: { name: 'B.Sc. in EEE', fee: 'BDT 4,35,000 (152 Credits, Admission Fee BDT 15,000)', elig: 'SSC & HSC Science background (Math & Physics) with min GPA 2.50 each.' },
+        textile: { name: 'B.Sc. in Textile Engineering', fee: 'BDT 4,20,000 (160 Credits, Admission Fee BDT 15,000)', elig: 'Science background with Math & Physics, min GPA 2.50 each.' },
+        civil: { name: 'B.Sc. in Civil Engineering', fee: 'BDT 4,30,000 (160 Credits, Admission Fee BDT 15,000)', elig: 'Science background with Math & Physics, min GPA 2.50 each.' },
+        english: { name: 'B.A. (Hons) in English', fee: 'BDT 2,85,000 (120 Credits, Admission Fee BDT 12,000)', elig: 'Any background with min GPA 2.50 in SSC & HSC.' },
+        llb: { name: 'LL.B. (Hons) in Law', fee: 'BDT 3,40,000 (132 Credits, Admission Fee BDT 15,000)', elig: 'Any background with min GPA 2.50 in SSC & HSC.' },
+        law: { name: 'LL.B. (Hons) in Law', fee: 'BDT 3,40,000 (132 Credits, Admission Fee BDT 15,000)', elig: 'Any background with min GPA 2.50 in SSC & HSC.' },
+      };
+
+      const matchedDeptKey = Object.keys(depts).find(k => q.includes(k));
+      if (matchedDeptKey) {
+        const d = depts[matchedDeptKey];
+        if (lastTopic === 'eligibility') {
+          return isBn
+            ? `<strong>${d.name}</strong>-এর ভর্তির যোগ্যতা: ${d.elig}`
+            : `For <strong>${d.name}</strong>, eligibility requires: ${d.elig} Would you also like the tuition breakdown?`;
+        }
+        lastTopic = 'fee';
+        return isBn
+          ? `<strong>${d.name}</strong> প্রোগ্রামের মোট টিউশন ফি: <strong>${d.fee}</strong>। যোগ্যতা: ${d.elig}`
+          : `For <strong>${d.name}</strong>, the total program tuition is <strong>${d.fee}</strong>. Ask about another department anytime to compare.`;
+      }
+
+      if ((q === 'tell me about fees' || q === 'fees' || q === 'what is the fee?' || q === 'ফি কত?') && !matchedDeptKey) {
+        lastTopic = 'fee';
+        return isBn
+          ? 'আপনি কোন বিভাগের টিউশন ফি জানতে চান? (যেমন: <strong>CSE, BBA, EEE, Textile, English</strong> নাকি <strong>Law</strong>?)'
+          : 'Certainly — which department would you like the tuition fee for? We have records for <strong>CSE, BBA, EEE, Textile, Civil, English,</strong> and <strong>LL.B.</strong>';
+      }
+
+      if (q.includes('step') || q.includes('how to apply') || q.includes('ধাপ')) {
+        return isBn
+          ? '<strong>ভর্তির ৪টি ধাপ:</strong><br>১. অনলাইন বা ক্যাম্পাস থেকে ভর্তি ফর্ম পূরণ (ফি ৫০০ টাকা)।<br>২. ৪ কপি পাসপোর্ট ছবি, SSC/HSC ট্রান্সক্রিপ্ট ও NID/জন্মনিবন্ধন জমা।<br>৩. সাউথ খুলশী ক্যাম্পাসে সংক্ষিপ্ত ভর্তি ভাইভা।<br>৪. ভর্তি ফি জমা দিয়ে স্টুডেন্ট আইডি সংগ্রহ।'
+          : '<strong>4 Enrollment Steps:</strong><br>1. Submit the Admission Form (Fee: BDT 500).<br>2. Attach 4 passport photos, SSC & HSC transcripts, and NID/Birth Certificate.<br>3. Complete the short Admission Viva at South Khulshi Campus.<br>4. Deposit Admission Fee + 1st Trimester Tuition to receive your Student ID.';
+      }
+
+      if (q.includes('date') || q.includes('deadline') || q.includes('তারিখ') || q.includes('যোগ্যতা') || q.includes('eligib')) {
+        return isBn
+          ? '<strong>ভর্তির যোগ্যতা ও গুরুত্বপূর্ণ তারিখ:</strong><br>• যোগ্যতা: SSC ও HSC উভয় পরীক্ষায় ন্যূনতম GPA 2.50 (অথবা সম্মিলিত 6.00)। ইঞ্জিনিয়ারিংয়ের জন্য বিজ্ঞান বিভাগ আবশ্যক।<br>• আবেদনের শেষ তারিখ: <strong>২০ জানুয়ারি</strong> | ওরিয়েন্টেশন: ২৫ জানুয়ারি | ক্লাস শুরু: ১ ফেব্রুয়ারি।'
+          : '<strong>Eligibility & Schedule:</strong><br>• Minimum GPA 2.50 in SSC & HSC (or combined 6.00 with min 2.00 each). Engineering requires Science (Math & Physics).<br>• Application Deadline: <strong>January 20</strong> | Orientation: January 25 | Classes Begin: February 01.';
+      }
+
+      if (q.includes('department') || q.includes('subject') || q.includes('বিভাগ')) {
+        return 'PCIU offers <strong>CSE, EEE, BBA, Textile Engineering, Civil Engineering, English,</strong> and <strong>LL.B. (Law)</strong>. Which program would you like to review?';
+      }
+
+      if (q.includes('waiver') || q.includes('discount') || q.includes('ছাড়')) {
+        return 'Golden GPA 5.00 in both SSC & HSC qualifies for up to <strong>100% initial tuition waiver</strong>. Female students and siblings are eligible for 10%–20% waivers.';
+      }
+
+      return isBn
+        ? 'দুঃখিত, এই নির্দিষ্ট তথ্যটি আমাদের বর্তমান ভর্তি নথিতে নেই। নির্ভুল তথ্যের জন্য অনুগ্রহ করে <strong>PCIU অ্যাডমিশন অফিসে</strong> (+880 1851-120791 বা admission@portcity.edu.bd) যোগাযোগ করুন।'
+        : 'That specific detail is not listed in our verified admission records. Please contact the <strong>PCIU Admission Office</strong> directly at <strong>+880 1851-120791</strong> or <strong>admission@portcity.edu.bd</strong> for confirmation.';
+    }
+
+    async function handleAdmissionSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('admission-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      appendAdmissionMessage('user', escapeHtml(text));
+      admissionHistory.push({ role: 'user', parts: [{ text }] });
+
+      const typingEl = appendAdmissionMessage('assistant', `
+        <div class="flex items-center gap-2.5 text-muted text-xs font-mono">
+          <div class="flex items-center gap-1"><span class="pulse-bar"></span><span class="pulse-bar"></span><span class="pulse-bar"></span></div>
+          <span>Consulting official admission records...</span>
+        </div>
+      `);
+
+      const systemPrompt = `You are a professional, warm university admission advisor for Port City International University (PCIU).
+STRICT RULES:
+1. Answer ONLY using the official admission records below. Never fabricate facts.
+2. Remember earlier messages so follow-up questions (e.g., "And for BBA?") work seamlessly.
+3. If a question is ambiguous (e.g., asking for fees without specifying a department), ask a polite clarifying question.
+4. If the info is unavailable, politely state so and direct the student to the PCIU Admission Office (+880 1851-120791 / admission@portcity.edu.bd).
+5. Match the user's language (English or Bangla). Use zero emojis.
+OFFICIAL DATA:\n${ADMISSION_KB_TEXT}`;
+
+      const aiReply = await callGeminiAPI({
+        systemPrompt,
+        contentsOverride: admissionHistory.slice(-10),
+      });
+
+      typingEl.remove();
+      const finalReply = aiReply ? escapeHtml(aiReply).replace(/\n/g, '<br>') : localAdmissionBrain(text);
+      admissionHistory.push({ role: 'model', parts: [{ text: aiReply || finalReply }] });
+      appendAdmissionMessage('assistant', finalReply);
+    }
+
+    /* =========================================================================
+       8. MODULE 3: SCHOLARSHIP ATLAS (CSV MATCHER & NEAR-ELIGIBLE RADAR)
+       ========================================================================= */
+    let scholarshipCatalog = [
+      {
+        id: 'sch-1',
+        name: 'PCIU Chancellor Merit Excellence Award',
+        provider: 'Port City International University',
+        minCgpa: 3.85,
+        departments: ['ALL'],
+        needRequired: false,
+        amountBDT: 120000,
+        deadline: '2026-12-15',
+        checklist: ['Download Chancellor Merit Form from Portal', 'Attach Official Transcript (CGPA 3.85+)', 'Obtain Department Chairman Endorsement', 'Submit to Registrar Desk before Dec 15'],
+      },
+      {
+        id: 'sch-2',
+        name: 'Bangladesh STEM Innovators Fellowship',
+        provider: 'National ICT & Engineering Trust',
+        minCgpa: 3.60,
+        departments: ['CSE', 'EEE', 'Textile', 'Civil'],
+        needRequired: false,
+        amountBDT: 95000,
+        deadline: '2026-12-28',
+        checklist: ['Prepare 1-page STEM Project Portfolio', 'Verify University Enrollment Certificate', 'Submit Online Application Portal', 'Complete 10-minute Technical Screening'],
+      },
+      {
+        id: 'sch-3',
+        name: 'Chattogram Rising Scholars Need-Cum-Merit Grant',
+        provider: 'South Khulshi Academic Foundation',
+        minCgpa: 3.30,
+        departments: ['ALL'],
+        needRequired: true,
+        amountBDT: 75000,
+        deadline: '2026-12-10',
+        checklist: ['Submit Guardian Income Statement / Verification', 'Attach Latest Trimester Grade Sheet', 'Write 200-word Statement of Purpose', 'Schedule Brief Financial Aid Interview'],
+      },
+      {
+        id: 'sch-4',
+        name: 'Future Software & Systems Engineering Bursary',
+        provider: 'PCIU Computer Club Alumni Network',
+        minCgpa: 3.50,
+        departments: ['CSE', 'EEE'],
+        needRequired: false,
+        amountBDT: 60000,
+        deadline: '2027-01-12',
+        checklist: ['Link GitHub or Engineering Project Profile', 'Attach Current CGPA Transcript', 'Submit 1 Faculty Recommendation Letter'],
+      },
+      {
+        id: 'sch-5',
+        name: 'Business & Leadership Visionary Scholarship',
+        provider: 'Chattogram Chamber Youth Initiative',
+        minCgpa: 3.40,
+        departments: ['BBA', 'English', 'LLB'],
+        needRequired: false,
+        amountBDT: 80000,
+        deadline: '2027-01-05',
+        checklist: ['Submit Leadership & Club Activity Resume', 'Attach Academic Transcript', 'Upload 300-word Economic Impact Essay'],
+      },
+      {
+        id: 'sch-6',
+        name: 'Equal Access Hardship Tuition Relief',
+        provider: 'University Student Welfare Fund',
+        minCgpa: 2.75,
+        departments: ['ALL'],
+        needRequired: true,
+        amountBDT: 50000,
+        deadline: '2026-12-05',
+        checklist: ['Fill Welfare Assistance Declaration', 'Attach Previous Semester Attendance Record (80%+)', 'Submit to Student Affairs Office'],
+      },
+      {
+        id: 'sch-7',
+        name: 'Dean’s Honors Tuition Waiver Tier-1',
+        provider: 'Faculty of Science & Engineering',
+        minCgpa: 3.90,
+        departments: ['CSE', 'EEE', 'Civil', 'Textile'],
+        needRequired: false,
+        amountBDT: 150000,
+        deadline: '2027-01-20',
+        checklist: ['Verify Zero Retake/Drop Academic Standing', 'Submit Automated Waiver Renewal Request', 'Confirm Credit Load (Min 12 Credits)'],
+      },
+      {
+        id: 'sch-8',
+        name: 'Textile & Sustainable Apparel Research Grant',
+        provider: 'BGMEA Academic Innovation Wing',
+        minCgpa: 3.25,
+        departments: ['Textile'],
+        needRequired: false,
+        amountBDT: 85000,
+        deadline: '2026-12-22',
+        checklist: ['Submit 1-page Sustainable Textile Concept', 'Attach Academic Transcript', 'Department Advisor Sign-off'],
+      },
+      {
+        id: 'sch-9',
+        name: 'Civic Justice & Humanities Merit Stipend',
+        provider: 'Bengal Legal & Literary Society',
+        minCgpa: 3.35,
+        departments: ['LLB', 'English'],
+        needRequired: true,
+        amountBDT: 65000,
+        deadline: '2027-01-18',
+        checklist: ['Submit Writing Sample or Moot Court Certificate', 'Provide Financial Need Verification', 'Attach University Transcript'],
+      },
+    ];
+
+    let scholarshipSort = 'amount';
+    let scholarshipView = 'cards';
+    let latestMatched = [];
+    let latestAlmost = [];
+    let matchReasons = {};
+
+    function updateCgpaBadge(val) {
+      document.getElementById('cgpa-value-badge').textContent = parseFloat(val).toFixed(2);
+    }
+
+    function setScholarshipSort(mode) {
+      scholarshipSort = mode;
+      const amtBtn = document.getElementById('sort-amount-btn');
+      const dlBtn = document.getElementById('sort-deadline-btn');
+      if (mode === 'amount') {
+        amtBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-1.5';
+        dlBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-muted hover:text-main transition-all flex items-center gap-1.5';
+      } else {
+        dlBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--bg-inverse)] text-[var(--text-inverse)] transition-all flex items-center gap-1.5';
+        amtBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-muted hover:text-main transition-all flex items-center gap-1.5';
+      }
+      renderScholarshipResults();
+    }
+
+    function setScholarshipView(view) {
+      scholarshipView = view;
+      document.getElementById('view-cards-btn').className = view === 'cards' ? 'p-2 rounded-lg bg-[var(--bg-surface)] text-crimson shadow-sm' : 'p-2 rounded-lg text-muted hover:text-main';
+      document.getElementById('view-table-btn').className = view === 'table' ? 'p-2 rounded-lg bg-[var(--bg-surface)] text-crimson shadow-sm' : 'p-2 rounded-lg text-muted hover:text-main';
+      renderScholarshipResults();
+    }
+
+    function handleCsvUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const lines = e.target.result.split(/\r?\n/).filter(l => l.trim().length > 0);
+          if (lines.length < 2) throw new Error('Empty CSV');
+          const parsed = [];
+          for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(',').map(c => c.trim());
+            if (cols.length < 5) continue;
+            parsed.push({
+              id: 'csv-' + i,
+              name: cols[0] || `Award #${i}`,
+              provider: cols[1] || 'Uploaded Provider',
+              minCgpa: parseFloat(cols[2]) || 3.0,
+              departments: (cols[3] || 'ALL').split('|').map(d => d.trim().toUpperCase()),
+              needRequired: ['true', 'yes'].includes(String(cols[4]).toLowerCase()),
+              amountBDT: parseInt(cols[5], 10) || 50000,
+              deadline: cols[6] || '2027-01-30',
+              checklist: ['Prepare Academic Transcript', 'Complete Provider Form', 'Submit Before Deadline'],
+            });
+          }
+          if (parsed.length > 0) {
+            scholarshipCatalog = parsed;
+            document.getElementById('csv-count-label').textContent = `${parsed.length} Records (CSV)`;
+            showToast('CSV Loaded', `Imported ${parsed.length} scholarships from ${file.name}.`);
+            runScholarshipMatcher(new Event('submit'));
+          }
+        } catch (_) {
+          showToast('CSV Format Hint', 'Expected: Name, Provider, MinCGPA, Dept(ALL|CSE), Need(true/false), Amount, Deadline.', true);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function evaluateScholarships() {
+      const cgpa = parseFloat(document.getElementById('student-cgpa').value);
+      const dept = document.getElementById('student-dept').value;
+      const need = document.getElementById('student-need').checked;
+
+      latestMatched = [];
+      latestAlmost = [];
+
+      for (const s of scholarshipCatalog) {
+        const deptOk = s.departments.includes('ALL') || s.departments.includes(dept);
+        const cgpaOk = cgpa >= s.minCgpa;
+        const needOk = !s.needRequired || need;
+
+        if (deptOk && cgpaOk && needOk) {
+          latestMatched.push(s);
+        } else if (deptOk) {
+          const missing = [];
+          if (!cgpaOk && (s.minCgpa - cgpa) <= 0.45) {
+            missing.push(`Need +${(s.minCgpa - cgpa).toFixed(2)} CGPA (Min ${s.minCgpa.toFixed(2)})`);
+          }
+          if (!needOk) {
+            missing.push('Requires demonstrated financial need');
+          }
+          if (missing.length > 0 && (cgpaOk || (s.minCgpa - cgpa) <= 0.45)) {
+            latestAlmost.push({ ...s, missing });
+          }
+        }
+      }
+      return { cgpa, dept, need };
+    }
+
+    function buildLocalReason(s, cgpa, dept, need) {
+      const margin = (cgpa - s.minCgpa).toFixed(2);
+      if (currentLang === 'bn') {
+        return `আপনার ${cgpa.toFixed(2)} CGPA এই বৃত্তির ন্যূনতম ${s.minCgpa.toFixed(2)} মানদণ্ডের চেয়ে +${margin} বেশি এবং ${dept} বিভাগের জন্য সরাসরি উপযুক্ত${s.needRequired ? ' (আর্থিক সহায়তা কোটাসহ)' : ''}।`;
+      }
+      return `Strong profile alignment: your ${cgpa.toFixed(2)} CGPA exceeds the ${s.minCgpa.toFixed(2)} minimum by +${margin}, matches ${dept}${s.needRequired && need ? ', and supports your financial aid criteria' : ''}.`;
+    }
+
+    async function runScholarshipMatcher(e) {
+      if (e) e.preventDefault();
+      const { cgpa, dept, need } = evaluateScholarships();
+      const btn = document.getElementById('find-scholarships-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Evaluating Eligibility...</span>`;
+        lucide.createIcons();
+      }
+
+      latestMatched.forEach(s => {
+        matchReasons[s.id] = buildLocalReason(s, cgpa, dept, need);
+      });
+      renderScholarshipResults();
+
+      if (latestMatched.length > 0) {
+        const schema = {
+          type: 'ARRAY',
+          items: {
+            type: 'OBJECT',
+            properties: { id: { type: 'STRING' }, reason: { type: 'STRING' } },
+            required: ['id', 'reason'],
+          },
+        };
+        const aiText = await callGeminiAPI({
+          systemPrompt: `You are a university scholarship advisor. For each matched scholarship, write a concise 1-sentence reason why it fits the student. Language: ${currentLang === 'bn' ? 'Bangla' : 'English'}. Zero emojis.`,
+          userPrompt: `Student: CGPA=${cgpa}, Dept=${dept}, Financial Need=${need}.\nMatched: ${JSON.stringify(latestMatched.map(s => ({ id: s.id, name: s.name, minCgpa: s.minCgpa, needRequired: s.needRequired, amountBDT: s.amountBDT })))}`,
+          responseSchema: schema,
+        });
+        if (aiText) {
+          try {
+            JSON.parse(aiText).forEach(item => {
+              if (item.id && item.reason) matchReasons[item.id] = item.reason;
+            });
+            renderScholarshipResults();
+          } catch (_) { /* retain deterministic reasons */ }
+        }
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="search-check" class="w-4 h-4"></i><span>Evaluate & Match Awards</span>`;
+        lucide.createIcons();
+      }
+    }
+
+    function renderScholarshipResults() {
+      const container = document.getElementById('scholarship-results-container');
+      const almostSec = document.getElementById('almost-qualified-section');
+      const almostList = document.getElementById('almost-qualified-list');
+
+      const sorted = [...latestMatched].sort((a, b) =>
+        scholarshipSort === 'amount' ? b.amountBDT - a.amountBDT : new Date(a.deadline) - new Date(b.deadline)
+      );
+
+      document.getElementById('matched-count-pill').textContent = `${sorted.length} Eligible`;
+      document.getElementById('almost-count-pill').textContent = `${latestAlmost.length} Near Match`;
+
+      if (sorted.length === 0) {
+        container.innerHTML = `
+          <div class="surface-card rounded-2xl p-10 text-center space-y-3">
+            <div class="w-12 h-12 mx-auto rounded-xl surface-subtle flex items-center justify-center text-crimson">
+              <i data-lucide="search-x" class="w-6 h-6"></i>
+            </div>
+            <h4 class="font-athens text-lg font-bold text-main">No Direct Matches Found</h4>
+            <p class="text-xs text-muted max-w-md mx-auto">Adjust your CGPA, department, or financial support setting — or review the Near-Match Gap panel below.</p>
+          </div>
+        `;
+      } else if (scholarshipView === 'table') {
+        container.innerHTML = `
+          <div class="surface-card rounded-2xl overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-hairline bg-[var(--bg-subtle)] font-mono text-[10px] uppercase tracking-widest text-faint">
+                    <th class="py-4 px-5">Scholarship</th>
+                    <th class="py-4 px-4">Award (BDT)</th>
+                    <th class="py-4 px-4">Min CGPA</th>
+                    <th class="py-4 px-4">Deadline</th>
+                    <th class="py-4 px-5">Match Rationale</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[var(--border-hairline)] text-xs">
+                  ${sorted.map(s => `
+                    <tr class="hover:bg-[var(--bg-subtle)] transition-colors">
+                      <td class="py-4 px-5">
+                        <p class="font-bold text-main">${escapeHtml(s.name)}</p>
+                        <p class="text-[11px] text-muted">${escapeHtml(s.provider)}</p>
+                      </td>
+                      <td class="py-4 px-4 font-mono font-bold text-crimson">BDT ${s.amountBDT.toLocaleString()}</td>
+                      <td class="py-4 px-4 font-mono text-main">${s.minCgpa.toFixed(2)}</td>
+                      <td class="py-4 px-4 font-mono text-muted">${escapeHtml(s.deadline)}</td>
+                      <td class="py-4 px-5 text-muted max-w-xs leading-relaxed">${escapeHtml(matchReasons[s.id] || '')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = sorted.map(s => `
+          <div class="surface-card editorial-card rounded-2xl p-6 space-y-4 msg-animate">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-mono text-[10px] font-bold uppercase">Eligible</span>
+                  ${s.needRequired ? `<span class="px-2.5 py-0.5 rounded bg-crimson-soft border border-crimson font-mono text-[10px] font-semibold text-crimson uppercase">Need-Based</span>` : ''}
+                  <span class="font-mono text-[10px] text-faint">Min CGPA ${s.minCgpa.toFixed(2)}</span>
+                </div>
+                <h4 class="font-athens text-base sm:text-lg font-bold text-main">${escapeHtml(s.name)}</h4>
+                <p class="text-xs text-muted">${escapeHtml(s.provider)}</p>
+              </div>
+              <div class="text-right">
+                <p class="font-mono text-lg font-bold text-crimson">BDT ${s.amountBDT.toLocaleString()}</p>
+                <p class="font-mono text-[11px] text-muted flex items-center justify-end gap-1 mt-0.5">
+                  <i data-lucide="calendar" class="w-3 h-3 text-crimson"></i> Due ${escapeHtml(s.deadline)}
+                </p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl surface-subtle border-l-[3px] border-l-[var(--crimson)] flex items-start gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
+              <p class="text-xs text-main leading-relaxed">
+                <strong>Fit Summary:</strong> ${escapeHtml(matchReasons[s.id] || '')}
+              </p>
+            </div>
+
+            <details class="group">
+              <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-muted hover:text-crimson transition-colors pt-1">
+                <span class="flex items-center gap-2">
+                  <i data-lucide="list-checks" class="w-4 h-4 text-crimson"></i>
+                  <span>Application Checklist (${s.checklist.length} Steps)</span>
+                </span>
+                <i data-lucide="chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform"></i>
+              </summary>
+              <ul class="mt-3 pt-3 border-t border-hairline space-y-2 text-xs text-muted">
+                ${s.checklist.map((step, i) => `
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded bg-crimson-soft font-mono text-[10px] font-bold text-crimson flex items-center justify-center shrink-0">${i + 1}</span>
+                    <span class="text-main">${escapeHtml(step)}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </details>
+          </div>
+        `).join('');
+      }
+
+      if (latestAlmost.length > 0) {
+        almostSec.classList.remove('hidden');
+        almostList.innerHTML = latestAlmost.map(s => `
+          <div class="p-4 rounded-xl surface-subtle space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <p class="text-xs font-bold text-main">${escapeHtml(s.name)}</p>
+              <span class="font-mono text-[11px] font-bold text-crimson shrink-0">BDT ${s.amountBDT.toLocaleString()}</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${s.missing.map(m => `
+                <span class="px-2 py-1 rounded bg-crimson-soft border border-crimson font-mono text-[10px] font-semibold text-crimson flex items-center gap-1">
+                  <i data-lucide="arrow-up-circle" class="w-3 h-3"></i> ${escapeHtml(m)}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        almostSec.classList.add('hidden');
+      }
+
+      lucide.createIcons();
+    }
+
+    function downloadScholarshipReport() {
+      if (latestMatched.length === 0) {
+        showToast('No Matches to Export', 'Run the eligibility matcher first.', true);
+        return;
+      }
+      let csv = 'Scholarship Name,Provider,Amount (BDT),Min CGPA,Deadline,Fit Rationale\n';
+      latestMatched.forEach(s => {
+        const reason = (matchReasons[s.id] || '').replace(/"/g, '""');
+        csv += `"${s.name}","${s.provider}",${s.amountBDT},${s.minCgpa},"${s.deadline}","${reason}"\n`;
+      });
+      triggerTextDownload(csv, 'PCIU_Matched_Scholarships.csv', 'text/csv');
+      showToast('CSV Exported', 'Saved PCIU_Matched_Scholarships.csv');
+    }
+
+    function triggerTextDownload(content, filename, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    /* =========================================================================
+       9. MICRO-INTERACTIONS, SCROLL REVEALS & BOOTSTRAP
+       ========================================================================= */
+    function initMicroInteractions() {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      document.getElementById('custom-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'custom-modal') closeCustomModal();
+      });
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCustomModal();
+      });
+    }
+
+    window.onload = function () {
+      try {
+        lucide.createIcons();
+        initThreeScene();
+        animateThree();
+        initMicroInteractions();
+        restartTypewriter();
+
+        // Hydrate all 3 product modules
+        renderPdfList();
+        renderAdmissionChecklist();
+        initAdmissionChat();
+        runScholarshipMatcher();
+      } catch (_) {
+        // Keep UI fully interactive even if WebGL is disabled
+      } finally {
+        setTimeout(() => {
+          const preloader = document.getElementById('preloader');
+          if (preloader) preloader.classList.add('hidden-curtain');
+        }, 650);
+      }
+    };
+  </script>
+</body>
+</html>

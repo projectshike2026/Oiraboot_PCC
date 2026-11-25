@@ -1,0 +1,6 @@
+{
+  "name": "PCIU Computer Club — Academic Intelligence Suite",
+  "description": "An integrated academic intelligence platform by PCIU Computer Club featuring page-cited PDF document Q&A and quizzes, a conversational university admissions advisor, and an eligibility-matched scholarship discovery atlas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

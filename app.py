@@ -1,5 +1,9 @@
 import os
+import sys
 import time
+import socket
+import atexit
+import subprocess
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, redirect, url_for, make_response, session
 from config import Config, BASE_DIR
@@ -12,6 +16,74 @@ from tracks.track2.routes import bp as track2_bp
 from tracks.track3.routes import bp as track3_bp
 from tracks.track3.loader import load_scholarships_into_db
 from tracks.track2.kb import kb
+
+TRACK_PROCESSES = []
+
+def _is_port_listening(port: int) -> bool:
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(0.35)
+            return s.connect_ex(("127.0.0.1", port)) == 0
+    except Exception:
+        return False
+
+def _wait_for_port(port: int, max_wait: float = 3.5) -> bool:
+    start = time.time()
+    while time.time() - start < max_wait:
+        if _is_port_listening(port):
+            return True
+        time.sleep(0.15)
+    return False
+
+def ensure_track_services():
+    """Auto-spawns Trackone (port 5050) and trackthree (port 8080) background servers if not running."""
+    global TRACK_PROCESSES
+    track1_dir = BASE_DIR / "Trackone"
+    track3_dir = BASE_DIR / "trackthree"
+
+    # 1. Track 1: Document Intelligence & RAG Studio (port 5050)
+    if track1_dir.exists() and not _is_port_listening(5050):
+        try:
+            env1 = dict(os.environ, PORT="5050")
+            p1 = subprocess.Popen(
+                [sys.executable, "app.py"],
+                cwd=str(track1_dir),
+                env=env1,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
+            TRACK_PROCESSES.append(p1)
+            _wait_for_port(5050, 3.5)
+            print(f"🚀 Trackone service launched on port 5050 (PID: {p1.pid})")
+        except Exception as e:
+            print(f"Warning: Failed to auto-launch Trackone: {e}")
+
+    # 2. Track 3: Scholarship Atlas (port 8080)
+    if track3_dir.exists() and not _is_port_listening(8080):
+        try:
+            env3 = dict(os.environ, PORT="8080")
+            p3 = subprocess.Popen(
+                [sys.executable, "app.py"],
+                cwd=str(track3_dir),
+                env=env3,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
+            TRACK_PROCESSES.append(p3)
+            _wait_for_port(8080, 3.5)
+            print(f"🚀 trackthree service launched on port 8080 (PID: {p3.pid})")
+        except Exception as e:
+            print(f"Warning: Failed to auto-launch trackthree: {e}")
+
+def _cleanup_track_processes():
+    for p in TRACK_PROCESSES:
+        try:
+            if p.poll() is None:
+                p.terminate()
+        except Exception:
+            pass
+
+atexit.register(_cleanup_track_processes)
 
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -122,6 +194,20 @@ def create_app():
         resp.set_cookie("lang", lang, max_age=365*24*3600, path="/", samesite="Lax")
         return resp
 
+    @app.route("/trackone")
+    @app.route("/track1")
+    def open_trackone():
+        ensure_track_services()
+        host = request.host.split(":")[0] if request.host else "127.0.0.1"
+        return redirect(f"http://{host}:5050/")
+
+    @app.route("/trackthree")
+    @app.route("/track3")
+    def open_trackthree():
+        ensure_track_services()
+        host = request.host.split(":")[0] if request.host else "127.0.0.1"
+        return redirect(f"http://{host}:8080/")
+
     @app.route("/about")
     def about():
         return render_template("about.html", active_nav="about")
@@ -131,6 +217,7 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
+    ensure_track_services()
     port = int(os.getenv("PORT", 5000))
     debug = os.getenv("FLASK_DEBUG", "0").lower() in ("1", "true")
     print(f"Starting Oiraboot Academic Intelligence Suite on port {port}...")

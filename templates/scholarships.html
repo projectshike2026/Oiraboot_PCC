@@ -42,11 +42,11 @@
         Discover, evaluate, and qualify for university tuition waivers, governmental grants, and merit fellowships. Cross-reference your CGPA and department against official criteria, unlock instant fit rationales, and analyze near-miss gap deficits.
       </p>
 
-      <!-- Engaging "Try Now" Action Bar -->
+      <!-- Engaging "Try Now" Action Bar (Directly launches Track 3 Scholarship Atlas) -->
       <div class="pt-2 flex flex-wrap items-center gap-4">
-        <button
+        <a
           id="tryNowBtn"
-          type="button"
+          href="/trackthree"
           onclick="openScholarshipsWorkspace(event)"
           class="relative inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden cursor-pointer"
         >
@@ -70,7 +70,7 @@
           <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
-        </button>
+        </a>
 
         <button
           type="button"
@@ -441,19 +441,9 @@
 
 <script>
   function openScholarshipsWorkspace(e) {
+    if (e && (e.ctrlKey || e.metaKey || e.shiftKey)) return;
     if (e) e.preventDefault();
-    const ws = document.getElementById('workspace');
-    if (ws) {
-      ws.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => {
-        const slider = document.getElementById('student-cgpa');
-        if (slider) {
-          slider.focus();
-          slider.classList.add('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950');
-          setTimeout(() => slider.classList.remove('ring-2', 'ring-crimson', 'ring-offset-2', 'dark:ring-offset-zinc-950'), 1500);
-        }
-      }, 450);
-    }
+    window.location.href = '/trackthree';
   }
 
   function setPresetCgpa(val) {

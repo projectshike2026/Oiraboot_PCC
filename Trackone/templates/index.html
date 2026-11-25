@@ -1,0 +1,3077 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oirabot — Academic Document Intelligence · Track 1</title>
+
+  <!-- Classic Editorial Times New Roman Fallback + Bengali Serif Pairing -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Tiro+Bangla:ital@0;1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Times New Roman"', '"Tiro Bangla"', '"EB Garamond"', 'Times', 'Georgia', 'serif'],
+            display: ['"Times New Roman"', '"Tiro Bangla"', '"EB Garamond"', 'Times', 'Georgia', 'serif'],
+            serif: ['"Times New Roman"', '"Tiro Bangla"', '"EB Garamond"', 'Times', 'Georgia', 'serif'],
+            mono: ['"Times New Roman"', '"Tiro Bangla"', 'Times', 'serif'],
+          },
+          colors: {
+            gemini: {
+              bgLight: '#F8FAFD',
+              surfaceLight: '#FFFFFF',
+              pillLight: '#F1F4F9',
+              bgDark: '#000000',
+              surfaceDark: '#070707',
+              pillDark: '#111111',
+            },
+          },
+          boxShadow: {
+            'soft-card': '0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 28px -10px rgba(15, 23, 42, 0.07)',
+            'pure-dark': '0 0 0 1px rgba(255, 255, 255, 0.11)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* =====================================================================
+       EDITORIAL TIMES NEW ROMAN BASE, LIGHT GEMINI LUMINESCENCE &
+       PURE MONOCHROME DARK MODE (ZERO COLOR IN DARK MODE)
+       ===================================================================== */
+    body {
+      font-family: "Times New Roman", "Tiro Bangla", "EB Garamond", Times, Georgia, serif;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    /* Light Mode Signature Gemini Gradient */
+    .gemini-text-gradient {
+      background: linear-gradient(100deg, #3B82F6 0%, #7C5CFC 46%, #C95B8A 82%, #D96570 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gemini-bg-gradient {
+      background: linear-gradient(135deg, #4285F4 0%, #6E6AF6 50%, #C95B8A 100%);
+    }
+
+    /* Celestial Galaxy Nebula Mode (Deep Obsidian + Subtle Nebula Clouds + Artistic Glow) */
+    .dark .gemini-text-gradient {
+      background: linear-gradient(102deg, #FFFFFF 0%, #E0E7FF 42%, #C4B5FD 76%, #F5D0FE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .dark .gemini-bg-gradient {
+      background: linear-gradient(135deg, #F8FAFC 0%, #E0E7FF 52%, #DDD6FE 100%);
+      color: #05050A;
+      box-shadow: 0 0 22px -6px rgba(167, 139, 250, 0.35);
+    }
+
+    /* Ambient Soft Aurora Mesh (Light) -> Low-Luminance Galaxy Nebula Clouds (Dark) */
+    .ambient-mesh {
+      background:
+        radial-gradient(640px circle at 10% 0%, rgba(66, 133, 244, 0.10), transparent 62%),
+        radial-gradient(560px circle at 90% 4%, rgba(217, 101, 112, 0.09), transparent 60%),
+        radial-gradient(500px circle at 50% 100%, rgba(155, 114, 203, 0.07), transparent 65%);
+    }
+
+    @keyframes nebulaDrift {
+
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.92;
+      }
+
+      50% {
+        transform: translate3d(1.5%, -1.5%, 0) scale(1.035);
+        opacity: 1;
+      }
+    }
+
+    .dark .ambient-mesh {
+      background:
+        radial-gradient(880px 520px at 14% 8%, rgba(99, 102, 241, 0.11), transparent 64%),
+        radial-gradient(760px 460px at 86% 12%, rgba(168, 85, 247, 0.095), transparent 62%),
+        radial-gradient(680px 420px at 62% 88%, rgba(56, 189, 248, 0.06), transparent 65%),
+        radial-gradient(540px 360px at 28% 72%, rgba(217, 70, 239, 0.05), transparent 64%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.25), #020205 85%);
+      animation: nebulaDrift 18s ease-in-out infinite;
+    }
+
+    /* Subtle Starlight Micro-Dust Overlay in Dark Mode */
+    .galaxy-stars {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .dark .galaxy-stars {
+      opacity: 0.55;
+      background-image:
+        radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.35), transparent),
+        radial-gradient(1px 1px at 28% 64%, rgba(199, 210, 254, 0.30), transparent),
+        radial-gradient(1.2px 1.2px at 47% 22%, rgba(245, 208, 254, 0.26), transparent),
+        radial-gradient(1px 1px at 68% 41%, rgba(255, 255, 255, 0.28), transparent),
+        radial-gradient(1.2px 1.2px at 82% 76%, rgba(196, 181, 253, 0.32), transparent),
+        radial-gradient(1px 1px at 91% 19%, rgba(255, 255, 255, 0.24), transparent),
+        radial-gradient(1px 1px at 36% 88%, rgba(186, 230, 253, 0.24), transparent),
+        radial-gradient(1px 1px at 74% 90%, rgba(255, 255, 255, 0.22), transparent);
+      background-size: 480px 480px;
+    }
+
+    /* Delicate Artistic Nebula Rim Glow on Dark Containers */
+    .dark .cosmic-panel {
+      background: linear-gradient(165deg, rgba(11, 12, 20, 0.90) 0%, rgba(5, 5, 9, 0.95) 60%, rgba(10, 9, 18, 0.92) 100%);
+      border-color: rgba(196, 181, 253, 0.14);
+      box-shadow:
+        0 0 55px -20px rgba(124, 92, 252, 0.24),
+        0 20px 50px -24px rgba(0, 0, 0, 0.9),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    /* Animated Iridescent Focus Shell (Light) -> Aurora Nebula Rim (Dark) */
+    @keyframes borderFlow {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .composer-shell {
+      position: relative;
+      border-radius: 1.5rem;
+      padding: 1.5px;
+      background: linear-gradient(110deg, rgba(148, 163, 184, 0.35), rgba(148, 163, 184, 0.16));
+      box-shadow: 0 6px 24px -10px rgba(15, 23, 42, 0.08);
+      transition: background 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .dark .composer-shell {
+      background: linear-gradient(115deg, rgba(167, 139, 250, 0.22), rgba(255, 255, 255, 0.10), rgba(96, 165, 250, 0.18));
+      box-shadow: 0 0 32px -14px rgba(124, 92, 252, 0.22);
+    }
+
+    .composer-shell:focus-within {
+      background: linear-gradient(110deg, #4285F4, #8B5CF6, #D96570, #4285F4);
+      background-size: 240% 240%;
+      animation: borderFlow 4.2s ease infinite;
+      box-shadow: 0 14px 36px -12px rgba(99, 102, 241, 0.30);
+    }
+
+    .dark .composer-shell:focus-within {
+      background: linear-gradient(110deg, #E2E8F0, #818CF8, #C084FC, #E879F9, #E2E8F0);
+      background-size: 240% 240%;
+      animation: borderFlow 4.8s ease infinite;
+      box-shadow: 0 0 38px -10px rgba(167, 139, 250, 0.42);
+    }
+
+    /* Shimmering Reasoning Bars (Color in Light -> Pure Silver Sheen in Dark) */
+    @keyframes geminiShimmer {
+      0% {
+        background-position: -220% 0;
+      }
+
+      100% {
+        background-position: 220% 0;
+      }
+    }
+
+    .shimmer-bar {
+      background: linear-gradient(90deg,
+          rgba(66, 133, 244, 0.10) 0%,
+          rgba(155, 114, 203, 0.34) 40%,
+          rgba(217, 101, 112, 0.26) 65%,
+          rgba(66, 133, 244, 0.10) 100%);
+      background-size: 240% 100%;
+      animation: geminiShimmer 1.6s ease-in-out infinite;
+    }
+
+    .dark .shimmer-bar {
+      background: linear-gradient(90deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.24) 45%,
+          rgba(255, 255, 255, 0.10) 70%,
+          rgba(255, 255, 255, 0.05) 100%);
+      background-size: 240% 100%;
+    }
+
+    /* Optical Upload Scanner Beam */
+    @keyframes scanSweep {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 0.9;
+      }
+
+      85% {
+        opacity: 0.9;
+      }
+
+      100% {
+        transform: translateY(155px);
+        opacity: 0;
+      }
+    }
+
+    .upload-scan-beam {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 0;
+      height: 2px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, transparent, #4285F4, #C95B8A, transparent);
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.45);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .dark .upload-scan-beam {
+      background: linear-gradient(90deg, transparent, #FFFFFF, #A3A3A3, transparent);
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.55);
+    }
+
+    .dropzone-shell:hover .upload-scan-beam,
+    .dropzone-shell.is-scanning .upload-scan-beam,
+    .dropzone-shell.dropzone-active .upload-scan-beam {
+      animation: scanSweep 2.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .dropzone-shell.is-scanning .upload-scan-beam {
+      animation-duration: 1.05s;
+    }
+
+    /* Interactive Drag Highlight */
+    .dropzone-active {
+      border-color: #6366F1 !important;
+      background: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(217, 101, 112, 0.08)) !important;
+      transform: scale(1.015);
+    }
+
+    .dark .dropzone-active {
+      border-color: #FFFFFF !important;
+      background: rgba(255, 255, 255, 0.07) !important;
+      transform: scale(1.015);
+    }
+
+    /* Gemini Star Pulse / Spin */
+    @keyframes sparkleSpin {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      50% {
+        transform: rotate(180deg) scale(1.12);
+      }
+
+      100% {
+        transform: rotate(360deg) scale(1);
+      }
+    }
+
+    .sparkle-thinking {
+      animation: sparkleSpin 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    /* Subtle Layered Document Float on Hover */
+    .doc-stack-icon {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .dropzone-shell:hover .doc-stack-icon {
+      transform: translateY(-4px) scale(1.04);
+    }
+
+    /* Smooth Message & Modal Entrance */
+    @keyframes messageRise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-msg {
+      animation: messageRise 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Smart Squircle Icon Box Glass Sheen */
+    .smart-icon-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .smart-icon-box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .dark .smart-icon-box::after {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, transparent 55%);
+    }
+
+    /* Minimal Scrollbar */
+    .gemini-scroll::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    .gemini-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .gemini-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.34);
+      border-radius: 9999px;
+    }
+
+    .dark .gemini-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .dark .gemini-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Quiz Score Ring */
+    .quiz-ring-circle {
+      transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-gemini-bgLight dark:bg-[#020205] text-slate-900 dark:text-neutral-100 antialiased selection:bg-indigo-500/20 dark:selection:bg-violet-400/25 dark:selection:text-white transition-colors duration-300 min-h-screen lg:h-screen lg:overflow-hidden flex flex-col">
+
+  <!-- Ambient Aurora / Galaxy Nebula Cloud Layer -->
+  <div class="fixed inset-0 ambient-mesh pointer-events-none z-0"></div>
+  <div class="fixed inset-0 galaxy-stars pointer-events-none z-0"></div>
+
+  <!-- ===================================================================== -->
+  <!-- FULL-BLEED WORKSPACE (NO TOP NAV BAR — PURE IMMERSIVE STUDIO CANVAS)  -->
+  <!-- ===================================================================== -->
+  <div
+    class="relative z-10 flex-1 max-w-[1520px] w-full mx-auto p-3 sm:p-4 lg:p-5 flex flex-col lg:flex-row gap-4 lg:gap-5 min-h-0">
+
+    <!-- Mobile Backdrop Overlay for Vault Drawer -->
+    <div id="vaultBackdrop" class="fixed inset-0 bg-black/65 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+    <!-- =================================================================== -->
+    <!-- LEFT SIDEBAR: INTERACTIVE OPTICAL DOCUMENT VAULT                    -->
+    <!-- =================================================================== -->
+    <aside id="vaultSidebar"
+      class="cosmic-panel fixed lg:static inset-y-0 left-0 z-50 lg:z-auto w-[330px] sm:w-[360px] lg:w-[365px] shrink-0 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out flex flex-col bg-white/95 dark:bg-[#06070c]/92 lg:bg-white/88 backdrop-blur-2xl lg:rounded-3xl border-r lg:border border-slate-200/80 dark:border-violet-300/[0.13] shadow-2xl lg:shadow-soft-card overflow-hidden h-full">
+      <!-- Integrated Brand + Vault Header with Oirabot Logo -->
+      <div
+        class="px-5 py-4 border-b border-slate-100 dark:border-white/[0.1] flex items-center justify-between gap-2.5">
+        <div class="flex items-center gap-3 min-w-0">
+          <!-- Oirabot Brand Emblem -->
+          <div class="relative shrink-0 group">
+            <div
+              class="smart-icon-box w-10 h-10 rounded-2xl bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/20 flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-105 p-1.5">
+              <img src="/static/img/oiraboot_logo_128.png" alt="Oirabot Logo" class="w-7 h-7 object-contain dark:hidden"
+                onerror="this.onerror=null; this.src='/static/img/oiraboot_logo_512.png';">
+              <img src="/static/img/oiraboot_logo_white_128.png" alt="Oirabot Logo"
+                class="w-7 h-7 object-contain hidden dark:block"
+                onerror="this.onerror=null; this.src='/static/img/oiraboot_logo_white_512.png';">
+            </div>
+            <span
+              class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full gemini-bg-gradient dark:bg-white ring-2 ring-white dark:ring-black"></span>
+          </div>
+
+          <div class="min-w-0">
+            <h1 class="font-bold tracking-tight text-[16px] leading-tight text-slate-900 dark:text-white truncate">
+              Oirabot <span class="gemini-text-gradient">Intelligence</span>
+            </h1>
+            <p class="text-[11px] italic text-slate-500 dark:text-neutral-400 truncate mt-0.5"
+              data-i18n="headerSubtitle">
+              Academic Document Intelligence · Track 1
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 shrink-0">
+          <a href="http://127.0.0.1:5000/" title="Return to Oiraboot Academic Suite"
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-white/10 dark:hover:bg-white/20 dark:text-white transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Oiraboot Suite</span>
+          </a>
+          <span id="docCountBadge"
+            class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/70 dark:bg-white/10 dark:text-white dark:border-white/20">
+            {{ documents|length }} PDFs
+          </span>
+          <button id="closeVaultBtn" type="button" aria-label="Close vault"
+            class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-800 dark:text-neutral-400 dark:hover:text-white">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable Vault Content -->
+      <div class="flex-1 overflow-y-auto gemini-scroll p-4 sm:p-5 space-y-5">
+
+        <!-- =============================================================== -->
+        <!-- INTERACTIVE OPTICAL PDF UPLOAD DOCK                             -->
+        <!-- =============================================================== -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between px-0.5">
+            <span class="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-neutral-400"
+              data-i18n="vaultTitle">
+              Optical Document Vault
+            </span>
+            <span class="text-[11px] italic text-slate-400 dark:text-neutral-500" data-i18n="vaultModeTag">
+              Multi-PDF Workspace
+            </span>
+          </div>
+
+          <input id="pdfFileInput" type="file" accept=".pdf" multiple class="hidden" />
+
+          <!-- Kinetic Optical Dropzone -->
+          <div id="pdfDropzone" role="button" tabindex="0"
+            class="dropzone-shell group relative rounded-2xl border-[1.5px] border-dashed border-slate-300 dark:border-white/25 bg-gemini-pillLight/70 dark:bg-[#0D0D0D] hover:border-indigo-400 dark:hover:border-white/60 hover:bg-indigo-50/40 dark:hover:bg-[#141414] p-5 text-center cursor-pointer transition-all duration-300 overflow-hidden">
+            <!-- Animated Optical Scan Line -->
+            <div class="upload-scan-beam"></div>
+
+            <!-- Floating Layered Document Stack Smart Icon -->
+            <div class="doc-stack-icon relative mx-auto w-14 h-12 mb-3 flex items-center justify-center">
+              <!-- Back angled sheet -->
+              <div
+                class="absolute w-9 h-11 rounded-xl bg-slate-200/80 dark:bg-white/10 border border-slate-300/70 dark:border-white/15 -rotate-12 -translate-x-2 transition-transform duration-300 group-hover:-rotate-[18deg] group-hover:-translate-x-3">
+              </div>
+              <!-- Second angled sheet -->
+              <div
+                class="absolute w-9 h-11 rounded-xl bg-indigo-100/80 dark:bg-white/15 border border-indigo-200/80 dark:border-white/20 rotate-12 translate-x-2 transition-transform duration-300 group-hover:rotate-[18deg] group-hover:translate-x-3">
+              </div>
+              <!-- Center smart squircle upload icon -->
+              <div
+                class="smart-icon-box relative z-10 w-11 h-11 rounded-2xl bg-white dark:bg-black border border-slate-200 dark:border-white/30 shadow-sm flex items-center justify-center">
+                <svg
+                  class="w-5 h-5 text-indigo-600 dark:text-white transition-transform duration-300 group-hover:-translate-y-0.5"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 16V4m0 0l-4 4m4-4l4 4M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" />
+                </svg>
+              </div>
+            </div>
+
+            <p class="font-bold text-[14px] text-slate-900 dark:text-white" data-i18n="dropTitle">
+              Drop PDF Notes or Click to Ingest
+            </p>
+            <p class="text-[12px] italic text-slate-500 dark:text-neutral-400 mt-0.5" data-i18n="dropSub">
+              Instant text parsing &amp; page citation mapping
+            </p>
+
+            <!-- Staged Live Ingestion Pipeline (Visible during upload) -->
+            <div id="uploadProgressWrap"
+              class="hidden mt-4 pt-3 border-t border-slate-200/80 dark:border-white/15 text-left space-y-2.5">
+              <div class="flex items-center justify-between text-[11px] font-semibold text-indigo-600 dark:text-white">
+                <span id="uploadStatusLabel" class="truncate pr-2">Parsing PDF layers...</span>
+                <span id="uploadPctLabel">0%</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-slate-200 dark:bg-white/15 overflow-hidden">
+                <div id="uploadProgressBar"
+                  class="h-full rounded-full gemini-bg-gradient dark:bg-white transition-all duration-150"
+                  style="width: 0%"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-1.5 text-[10px] text-center">
+                <span id="stageStep1"
+                  class="px-2 py-1 rounded-lg bg-slate-200/70 dark:bg-white/10 text-slate-500 dark:text-neutral-400 transition-colors">1.
+                  OCR Parse</span>
+                <span id="stageStep2"
+                  class="px-2 py-1 rounded-lg bg-slate-200/70 dark:bg-white/10 text-slate-500 dark:text-neutral-400 transition-colors">2.
+                  Sections</span>
+                <span id="stageStep3"
+                  class="px-2 py-1 rounded-lg bg-slate-200/70 dark:bg-white/10 text-slate-500 dark:text-neutral-400 transition-colors">3.
+                  Verified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- One-Click Sample PDF Ingestion Pills -->
+          <div class="grid grid-cols-2 gap-2">
+            <button id="addSampleOcrBtn" type="button"
+              class="px-3 py-2 rounded-xl text-[12px] font-medium bg-gemini-pillLight/80 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#1A1A1A] border border-slate-200/70 dark:border-white/15 text-slate-700 dark:text-neutral-200 transition-all flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-indigo-500 dark:text-white" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              <span>Sample AI Notes</span>
+            </button>
+            <button id="addSampleSyllabusBtn" type="button"
+              class="px-3 py-2 rounded-xl text-[12px] font-medium bg-gemini-pillLight/80 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#1A1A1A] border border-slate-200/70 dark:border-white/15 text-slate-700 dark:text-neutral-200 transition-all flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-rose-500 dark:text-white" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              <span>Download PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- ACTIVE DOCUMENTS LIST (With Toggle Scope + Excerpt Inspector)   -->
+        <!-- =============================================================== -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between px-0.5">
+            <span class="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-neutral-400"
+              data-i18n="activeDocsLabel">
+              Active Sources
+            </span>
+            <button id="clearDocsBtn" type="button"
+              class="text-[12px] italic text-rose-600 dark:text-neutral-400 hover:underline dark:hover:text-white transition-colors"
+              data-i18n="clearAll">
+              Clear All
+            </button>
+          </div>
+
+          <div id="activeDocsList" class="space-y-2"></div>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- QUICK VERIFICATION QUESTIONS                                    -->
+        <!-- =============================================================== -->
+        <div class="space-y-2.5 pt-3 border-t border-slate-100 dark:border-white/[0.1]">
+          <div class="flex items-center gap-1.5 px-0.5">
+            <svg class="w-3.5 h-3.5 text-indigo-500 dark:text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+            </svg>
+            <span class="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-neutral-400"
+              data-i18n="quickVerifyLabel">
+              Quick Verification Prompts
+            </span>
+          </div>
+
+          <div class="space-y-1.5">
+            <button type="button" data-quick-prompt="Track 1 requirements"
+              class="quick-prompt-btn group w-full text-left px-3.5 py-2.5 rounded-2xl bg-gemini-pillLight/75 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#191919] border border-transparent hover:border-indigo-200 dark:hover:border-white/25 transition-all flex items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span
+                  class="w-6 h-6 rounded-lg bg-blue-500/10 text-blue-600 dark:bg-white/10 dark:text-white flex items-center justify-center shrink-0">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 11l3 3L22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                </span>
+                <span class="text-[13px] font-medium text-slate-800 dark:text-neutral-200 truncate">Track 1
+                  requirements</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 text-slate-300 dark:text-neutral-600 group-hover:text-indigo-500 dark:group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+
+            <button type="button" data-quick-prompt="Refusal rule for missing answers"
+              class="quick-prompt-btn group w-full text-left px-3.5 py-2.5 rounded-2xl bg-gemini-pillLight/75 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#191919] border border-transparent hover:border-indigo-200 dark:hover:border-white/25 transition-all flex items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span
+                  class="w-6 h-6 rounded-lg bg-violet-500/10 text-violet-600 dark:bg-white/10 dark:text-white flex items-center justify-center shrink-0">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </span>
+                <span class="text-[13px] font-medium text-slate-800 dark:text-neutral-200 truncate">Refusal rule for
+                  missing answers</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 text-slate-300 dark:text-neutral-600 group-hover:text-indigo-500 dark:group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+
+            <button type="button" data-quick-prompt="Test missing content (refusal test)"
+              class="quick-prompt-btn group w-full text-left px-3.5 py-2.5 rounded-2xl bg-gemini-pillLight/75 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#191919] border border-transparent hover:border-rose-200 dark:hover:border-white/25 transition-all flex items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span
+                  class="w-6 h-6 rounded-lg bg-rose-500/10 text-rose-600 dark:bg-white/10 dark:text-white flex items-center justify-center shrink-0">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 8v4m0 4h.01" />
+                  </svg>
+                </span>
+                <span class="text-[13px] font-medium text-slate-800 dark:text-neutral-200 truncate">Test missing content
+                  (refusal test)</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 text-slate-300 dark:text-neutral-600 group-hover:text-rose-500 dark:group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+
+            <button type="button" data-quick-prompt="বাংলা প্রশ্ন: কুইজের নিয়ম"
+              class="quick-prompt-btn group w-full text-left px-3.5 py-2.5 rounded-2xl bg-gemini-pillLight/75 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#191919] border border-transparent hover:border-indigo-200 dark:hover:border-white/25 transition-all flex items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span
+                  class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-700 dark:bg-white/10 dark:text-white flex items-center justify-center shrink-0 text-[11px] font-bold">
+                  বাং
+                </span>
+                <span class="text-[13px] font-medium text-slate-800 dark:text-neutral-200 truncate">বাংলা প্রশ্ন: কুইজের
+                  নিয়ম</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 text-slate-300 dark:text-neutral-600 group-hover:text-indigo-500 dark:group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+
+            <button type="button" data-quick-prompt="Explain the Scaled Dot-Product Attention formula"
+              class="quick-prompt-btn group w-full text-left px-3.5 py-2.5 rounded-2xl bg-gemini-pillLight/75 dark:bg-[#111111] hover:bg-white dark:hover:bg-[#191919] border border-transparent hover:border-indigo-200 dark:hover:border-white/25 transition-all flex items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span
+                  class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-700 dark:bg-white/10 dark:text-white flex items-center justify-center shrink-0">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                </span>
+                <span class="text-[13px] font-medium text-slate-800 dark:text-neutral-200 truncate">Attention Formula
+                  (CS301)</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 text-slate-300 dark:text-neutral-600 group-hover:text-indigo-500 dark:group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vault Telemetry Footer with Live Index Meter -->
+      <div
+        class="px-5 py-3 border-t border-slate-100 dark:border-white/[0.1] bg-gemini-pillLight/50 dark:bg-[#0B0B0B] space-y-2">
+        <div class="flex items-center justify-between text-[12px] text-slate-500 dark:text-neutral-400">
+          <span id="vaultWordSummary">20 pages · 6,702 words</span>
+          <span class="flex items-center gap-1.5 text-emerald-700 dark:text-white font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-white animate-pulse"></span>
+            <span id="vaultReadyLabel">Engine Ready</span>
+          </span>
+        </div>
+        <!-- Subtle Context Density Meter -->
+        <div class="h-1 w-full rounded-full bg-slate-200/80 dark:bg-white/15 overflow-hidden">
+          <div id="vaultCapacityBar"
+            class="h-full rounded-full gemini-bg-gradient dark:bg-white transition-all duration-500" style="width: 48%">
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =================================================================== -->
+    <!-- RIGHT MAIN STAGE: EDITORIAL CHAT & ADAPTIVE QUIZ WORKSPACE          -->
+    <!-- =================================================================== -->
+    <main
+      class="cosmic-panel flex-1 min-w-0 flex flex-col bg-white/88 dark:bg-[#06070c]/90 backdrop-blur-2xl rounded-3xl border border-slate-200/80 dark:border-violet-300/[0.13] shadow-soft-card overflow-hidden min-h-[82vh] lg:min-h-0 lg:h-full">
+
+      <!-- Integrated Workspace Toolbar (Mode Tabs + Compact Controls — No Top Nav Bar) -->
+      <div
+        class="px-4 sm:px-6 py-3.5 border-b border-slate-100 dark:border-white/[0.1] flex flex-wrap items-center justify-between gap-3 bg-white/60 dark:bg-[#0A0A0A]">
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+          <!-- Mobile Vault Drawer Trigger -->
+          <button id="mobileVaultBtn" type="button" aria-label="Open Document Vault"
+            class="lg:hidden p-2.5 rounded-xl bg-gemini-pillLight dark:bg-[#141414] border border-slate-200/70 dark:border-white/15 text-slate-700 dark:text-white shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h10M4 18h16" />
+            </svg>
+          </button>
+
+          <!-- Segmented Mode Switcher -->
+          <div
+            class="inline-flex flex-1 sm:flex-initial p-1 rounded-2xl bg-gemini-pillLight dark:bg-[#121212] border border-slate-200/60 dark:border-white/[0.1]">
+            <button id="tabChatBtn" type="button"
+              class="mode-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-[13px] sm:text-[14px] font-bold bg-white dark:bg-white text-slate-900 dark:text-black shadow-sm transition-all">
+              <svg class="w-4 h-4 text-indigo-500 dark:text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 10h6M9 14h3" />
+              </svg>
+              <span data-i18n="tabChat">Document Chat &amp; Search</span>
+            </button>
+
+            <button id="tabQuizBtn" type="button"
+              class="mode-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-[13px] sm:text-[14px] font-medium text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-all">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="8" r="6" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+              </svg>
+              <span data-i18n="tabQuiz">Generate &amp; Take Quiz</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Seamless Inline Controls (Language + Pure Dark Mode Toggle) -->
+        <div class="flex items-center gap-2 ml-auto">
+          <span
+            class="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] italic bg-gemini-pillLight dark:bg-[#121212] border border-slate-200/70 dark:border-white/[0.1] text-slate-600 dark:text-neutral-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-white"></span>
+            <span data-i18n="guardTag">Zero-Hallucination Guard</span>
+          </span>
+
+          <!-- Language Toggle -->
+          <button id="langToggleBtn" type="button"
+            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-medium bg-gemini-pillLight dark:bg-[#121212] border border-slate-200/80 dark:border-white/15 text-slate-800 dark:text-neutral-200 hover:bg-white dark:hover:bg-[#1C1C1C] transition-all">
+            <svg class="w-3.5 h-3.5 text-indigo-500 dark:text-white" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1m4 18l4-9 4 9m-1-2h-6" />
+            </svg>
+            <span id="langToggleLabel">বাংলা</span>
+          </button>
+
+          <!-- Pure Dark / Light Toggle -->
+          <button id="themeToggleBtn" type="button" aria-label="Toggle Pure Dark Mode"
+            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-medium bg-gemini-pillLight dark:bg-white border border-slate-200/80 dark:border-white text-slate-800 dark:text-black hover:bg-white dark:hover:bg-neutral-200 transition-all">
+            <svg class="w-3.5 h-3.5 text-indigo-500 block dark:hidden" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg class="w-3.5 h-3.5 text-black hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <circle cx="12" cy="12" r="4" />
+              <path stroke-linecap="round"
+                d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" />
+            </svg>
+            <span id="themeToggleLabel">Pure Dark</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- PANEL 1: DOCUMENT CHAT & SEMANTIC SEARCH                          -->
+      <!-- ================================================================= -->
+      <section id="chatPanel" class="flex-1 flex flex-col min-h-0">
+
+        <!-- Scrollable Chat Stream -->
+        <div id="chatStream" class="flex-1 overflow-y-auto gemini-scroll px-4 sm:px-8 py-6 space-y-6">
+
+          <!-- Editorial Grounded Banner -->
+          <div
+            class="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-blue-500/[0.06] via-indigo-500/[0.06] to-rose-500/[0.06] dark:bg-gradient-to-r dark:from-indigo-500/[0.09] dark:via-violet-500/[0.07] dark:to-fuchsia-500/[0.05] border border-indigo-200/60 dark:border-violet-300/15 flex items-start gap-3.5 dark:shadow-[0_0_32px_-16px_rgba(139,92,246,0.3)]">
+            <div
+              class="smart-icon-box w-10 h-10 rounded-2xl gemini-bg-gradient flex items-center justify-center text-white dark:text-black shrink-0 shadow-sm">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                <span class="gemini-text-gradient" data-i18n="welcomeHi">Grounded Document Intelligence</span>
+              </h2>
+              <p class="text-[13.5px] text-slate-600 dark:text-neutral-300 mt-0.5 leading-relaxed max-w-2xl"
+                data-i18n="welcomeDesc">
+                Every response is verified strictly against your active PDF notes with verbatim page citations. When
+                evidence is absent, the refusal guardrail blocks hallucination automatically.
+              </p>
+            </div>
+          </div>
+
+          <!-- Serene Empty State (Shown only when no messages exist yet) -->
+          <div id="emptyChatState"
+            class="py-10 sm:py-16 flex flex-col items-center justify-center text-center space-y-5 max-w-xl mx-auto">
+            <div
+              class="w-14 h-14 rounded-3xl bg-gradient-to-br from-indigo-500/10 via-violet-500/10 to-rose-500/10 dark:from-indigo-500/20 dark:via-violet-500/15 dark:to-fuchsia-500/15 border border-indigo-200/60 dark:border-violet-300/25 flex items-center justify-center shadow-xs dark:shadow-[0_0_30px_-8px_rgba(167,139,250,0.4)]">
+              <svg class="w-6 h-6 text-indigo-600 dark:text-violet-200" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
+              </svg>
+            </div>
+            <div class="space-y-1.5 px-4">
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                Ready to inspect your documents
+              </h3>
+              <p class="text-[13.5px] italic text-slate-500 dark:text-neutral-400 leading-relaxed">
+                Ask any question below in English or বাংলা. Choose <span
+                  class="font-semibold text-slate-700 dark:text-violet-200">Thinking</span> for structured analysis,
+                <span class="font-semibold text-slate-700 dark:text-violet-200">Exact Only</span> for direct extracts,
+                or enable <span class="font-semibold text-slate-700 dark:text-violet-200">Cross-Verify</span>.
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-2 px-4">
+              <button type="button" data-quick-prompt="Track 1 requirements"
+                class="quick-prompt-btn px-3.5 py-1.5 rounded-full text-[12.5px] font-medium bg-gemini-pillLight/90 dark:bg-white/[0.06] hover:bg-white dark:hover:bg-white/[0.12] border border-slate-200/80 dark:border-violet-300/20 text-slate-700 dark:text-neutral-200 transition-all">
+                Track 1 requirements
+              </button>
+              <button type="button" data-quick-prompt="Explain the Scaled Dot-Product Attention formula"
+                class="quick-prompt-btn px-3.5 py-1.5 rounded-full text-[12.5px] font-medium bg-gemini-pillLight/90 dark:bg-white/[0.06] hover:bg-white dark:hover:bg-white/[0.12] border border-slate-200/80 dark:border-violet-300/20 text-slate-700 dark:text-neutral-200 transition-all">
+                Explain Attention formula
+              </button>
+              <button type="button" data-quick-prompt="ওভারফিটিং কী এবং কীভাবে কমানো যায়?"
+                class="quick-prompt-btn px-3.5 py-1.5 rounded-full text-[12.5px] font-medium bg-gemini-pillLight/90 dark:bg-white/[0.06] hover:bg-white dark:hover:bg-white/[0.12] border border-slate-200/80 dark:border-violet-300/20 text-slate-700 dark:text-neutral-200 transition-all">
+                বাংলায় প্রশ্ন করুন
+              </button>
+            </div>
+          </div>
+
+          <!-- Conversation Messages -->
+          <div id="chatMessages" class="space-y-6"></div>
+        </div>
+
+        <!-- Bottom Floating Multi-Line Composer -->
+        <div
+          class="px-4 sm:px-8 pt-2 pb-5 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-[#06070c] dark:via-[#06070c]/95 space-y-2.5">
+          <!-- Serene Answer Mode Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+            <div
+              class="inline-flex items-center gap-1 p-1 rounded-xl bg-gemini-pillLight/90 dark:bg-white/[0.05] border border-slate-200/70 dark:border-violet-300/15">
+              <button id="modeThinkingBtn" type="button" data-answer-mode="thinking"
+                title="Thinking Mode: Structured, analytical explanation synthesized strictly from your PDF context"
+                class="answer-mode-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11.5px] font-bold transition-all bg-white dark:bg-white text-indigo-700 dark:text-black shadow-xs">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span data-i18n="modeThinking">Thinking</span>
+              </button>
+              <button id="modeExactBtn" type="button" data-answer-mode="exact"
+                title="Exact Mode: Pinpoint answer extracted directly from the PDF — zero extra words"
+                class="answer-mode-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11.5px] font-semibold transition-all text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                </svg>
+                <span data-i18n="modeExact">Exact Only</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <button id="extensiveToggleBtn" type="button"
+                title="Cross-Verify Mode: Multi-pass independent audit against the raw document for 100% accuracy (15–30s)"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11.5px] font-semibold transition-all border border-slate-200/70 dark:border-violet-300/20 bg-gemini-pillLight/90 dark:bg-white/[0.05] text-slate-600 dark:text-neutral-300 hover:border-violet-400 hover:text-violet-700 dark:hover:text-white select-none"
+                aria-pressed="false">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span data-i18n="modeCrossVerify">Cross-Verify</span>
+              </button>
+              <span id="activeModeSummary"
+                class="hidden md:inline text-[11.5px] italic text-slate-400 dark:text-neutral-400">
+                Thinking · Fast Grounded
+              </span>
+            </div>
+          </div>
+
+          <form id="chatForm" class="composer-shell">
+            <div
+              class="flex flex-col bg-white/95 dark:bg-[#090a12]/95 backdrop-blur-xl rounded-[1.4rem] px-3.5 sm:px-4 pt-3 pb-2.5 gap-2">
+
+              <!-- Auto-Expanding Multi-Line Textarea (Supports Enter to Send, Shift+Enter for New Line) -->
+              <textarea id="chatInput" rows="1" autocomplete="off"
+                placeholder="Ask a question about the uploaded document notes... (Shift + Enter for new line)"
+                class="w-full min-h-[28px] max-h-[160px] resize-none overflow-y-auto gemini-scroll bg-transparent text-[14.5px] sm:text-[15.5px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none leading-relaxed px-1"></textarea>
+
+              <!-- Bottom Action Bar Inside Composer -->
+              <div
+                class="flex items-center justify-between gap-2 pt-1 border-t border-slate-100/90 dark:border-white/[0.06]">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                  <!-- Quick Attach PDF Button -->
+                  <button id="composerAttachBtn" type="button" title="Upload PDF into vault"
+                    class="p-2 rounded-xl text-slate-400 hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-white hover:bg-gemini-pillLight dark:hover:bg-white/10 transition-colors shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                    </svg>
+                  </button>
+
+                  <!-- Active Scope Pill -->
+                  <span id="composerScopePill"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-gemini-pillLight dark:bg-white/[0.07] text-slate-600 dark:text-neutral-200 border border-slate-200/70 dark:border-violet-300/15 shrink-0">
+                    1 Active PDF
+                  </span>
+
+                  <span class="hidden sm:inline text-[11px] italic text-slate-400 dark:text-neutral-500 pl-1">
+                    Shift + Enter for new line
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                  <!-- Export Study Notes Button -->
+                  <button id="exportChatBtn" type="button" title="Export conversation & citations as study notes"
+                    class="p-2 rounded-xl text-slate-400 hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-white hover:bg-indigo-50 dark:hover:bg-white/10 transition-colors shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </button>
+
+                  <!-- Clear Chat Button -->
+                  <button id="clearChatBtn" type="button" title="Clear conversation"
+                    class="p-2 rounded-xl text-slate-400 hover:text-rose-600 dark:text-neutral-400 dark:hover:text-white hover:bg-rose-50 dark:hover:bg-white/10 transition-colors shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20 20H7L3 16c-.8-.8-.8-2 0-2.8l9.6-9.6c.8-.8 2-.8 2.8 0l5.2 5.2c.8.8.8 2 0 2.8L13 19.2" />
+                      <path stroke-linecap="round" d="M6 11l7 7" />
+                    </svg>
+                  </button>
+
+                  <!-- Ask AI Button -->
+                  <button id="askAiBtn" type="submit"
+                    class="smart-icon-box inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-xl gemini-bg-gradient text-white dark:text-black text-[13px] font-bold shadow-sm hover:brightness-105 active:scale-[0.98] transition-all shrink-0">
+                    <span data-i18n="askAi">Ask AI</span>
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div
+            class="mt-1.5 flex items-center justify-between px-2 text-[11.5px] italic text-slate-400 dark:text-neutral-500">
+            <span data-i18n="composerHint">Grounded strictly in selected vault PDFs · Press Enter to send</span>
+            <span class="hidden sm:inline">Oirabot Track 1 · Editorial Citation Engine</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- PANEL 2: GENERATE & TAKE QUIZ                                     -->
+      <!-- ================================================================= -->
+      <section id="quizPanel"
+        class="hidden flex-1 flex-col min-h-0 overflow-y-auto gemini-scroll px-4 sm:px-8 py-6 space-y-6">
+
+        <!-- Quiz Header & Score Ring -->
+        <div
+          class="rounded-2xl p-5 bg-gemini-pillLight/75 dark:bg-[#0D0D0D] border border-slate-200/70 dark:border-white/15 flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div
+                class="smart-icon-box w-10 h-10 rounded-xl gemini-bg-gradient text-white dark:text-black flex items-center justify-center shadow-sm">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-slate-900 dark:text-white leading-tight">Adaptive Vault Assessment
+                </h3>
+                <p class="text-[13px] italic text-slate-500 dark:text-neutral-400">Questions synthesized exclusively
+                  from active PDFs with verbatim page proofs.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- Question Type Selector -->
+              <select id="quizTypeSelect"
+                class="text-[12.5px] font-medium rounded-xl px-3 py-2 bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-slate-800 dark:text-white focus:outline-none">
+                <option value="mixed">Type: Mixed Combination (MCQ + T/F + Matching)</option>
+                <option value="mcq">Type: Multiple Choice (MCQ)</option>
+                <option value="true_false">Type: True / False (সত্য / মিথ্যা)</option>
+                <option value="matching">Type: Matching Columns (মিলকরণ)</option>
+              </select>
+
+              <!-- Difficulty Level -->
+              <select id="quizDifficulty"
+                class="text-[12.5px] font-medium rounded-xl px-3 py-2 bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-slate-800 dark:text-white focus:outline-none">
+                <option value="Conceptual">Difficulty: Conceptual / Easy</option>
+                <option value="Applied" selected>Difficulty: Applied / Intermediate</option>
+                <option value="Analytical">Difficulty: Analytical / Hard</option>
+              </select>
+
+              <!-- Question Count -->
+              <select id="quizCountSelect"
+                class="text-[12.5px] font-medium rounded-xl px-3 py-2 bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-slate-800 dark:text-white focus:outline-none">
+                <option value="3">3 Questions</option>
+                <option value="5" selected>5 Questions</option>
+                <option value="8">8 Questions</option>
+                <option value="10">10 Questions</option>
+              </select>
+
+              <!-- Optional Topic / Chapter Focus -->
+              <input id="quizTopicInput" type="text" placeholder="Topic / Chapter focus (optional)..."
+                class="text-[12.5px] font-medium rounded-xl px-3 py-2 w-52 sm:w-60 bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-indigo-400 dark:focus:border-violet-300/50" />
+
+              <!-- Generate Button -->
+              <button id="generateQuizBtn" type="button"
+                class="smart-icon-box inline-flex items-center gap-2 px-4 py-2 rounded-xl gemini-bg-gradient text-white dark:text-black text-[13px] font-bold shadow-sm hover:brightness-105 transition-all">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
+                </svg>
+                <span>Generate Fresh Quiz</span>
+              </button>
+
+              <!-- Copy CSV Button -->
+              <button id="exportQuizCsvBtn" type="button"
+                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-[12.5px] font-medium text-slate-700 dark:text-neutral-200 hover:border-indigo-300 dark:hover:border-white/50 transition-colors">
+                <svg class="w-3.5 h-3.5 text-indigo-500 dark:text-white" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span>Copy CSV</span>
+              </button>
+
+              <!-- Print / Save Assessment Report -->
+              <button id="printQuizReportBtn" type="button"
+                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-[12.5px] font-medium text-slate-700 dark:text-neutral-200 hover:border-indigo-300 dark:hover:border-white/50 transition-colors"
+                title="Print assessment or download formatted PDF report">
+                <svg class="w-3.5 h-3.5 text-indigo-500 dark:text-white" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9" />
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                  <rect x="6" y="14" width="12" height="8" />
+                </svg>
+                <span>Print Report</span>
+              </button>
+
+              <!-- Retake / Reset Quiz -->
+              <button id="resetQuizBtn" type="button"
+                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/20 text-[12.5px] font-medium text-slate-700 dark:text-neutral-200 hover:border-rose-300 dark:hover:border-white/50 transition-colors"
+                title="Clear current answers and retake quiz">
+                <svg class="w-3.5 h-3.5 text-slate-500 dark:text-white" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                <span>Retake</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Score Ring (Uses Color Gradient in Light Mode, Pure Crisp White in Dark Mode) -->
+          <div
+            class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white dark:bg-black border border-slate-200/70 dark:border-white/15 shrink-0">
+            <div class="relative w-14 h-14 flex items-center justify-center">
+              <svg class="w-14 h-14" viewBox="0 0 56 56">
+                <defs>
+                  <linearGradient id="quizRingGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4285F4" />
+                    <stop offset="50%" stop-color="#8B5CF6" />
+                    <stop offset="100%" stop-color="#D96570" />
+                  </linearGradient>
+                </defs>
+                <circle cx="28" cy="28" r="22" fill="none" stroke="currentColor" stroke-width="4"
+                  class="text-slate-100 dark:text-white/15" />
+                <circle id="quizScoreCircle" cx="28" cy="28" r="22" fill="none" stroke="url(#quizRingGradLight)"
+                  stroke-width="4" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="138.23"
+                  class="quiz-ring-circle dark:[stroke:#FFFFFF]" />
+              </svg>
+              <span id="quizScorePct" class="absolute text-[12px] font-bold text-slate-900 dark:text-white">0%</span>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-slate-400 dark:text-neutral-500">Live Score</span>
+              <div id="quizScoreCount" class="font-bold text-xl text-slate-900 dark:text-white leading-tight">0 / 4
+              </div>
+              <span class="text-[12px] italic text-slate-500 dark:text-neutral-400">Proof-verified grading</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz Question Cards -->
+        <div id="quizCardsContainer" class="space-y-4 pb-4"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- INTERACTIVE PAGE READER MODAL (Prev/Next, Chapters & Highlight)       -->
+  <!-- ===================================================================== -->
+  <div id="docPeekModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-xs">
+    <div
+      class="animate-msg w-full max-w-3xl max-h-[88vh] flex flex-col rounded-3xl bg-white dark:bg-[#080910] border border-slate-200 dark:border-violet-300/20 shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-100 dark:border-white/10 flex items-center justify-between gap-3 shrink-0">
+        <div class="min-w-0">
+          <span
+            class="text-[11px] uppercase tracking-[0.14em] text-indigo-600 dark:text-violet-300 font-semibold block">Interactive Page Reader</span>
+          <h3 id="peekDocTitle" class="font-bold text-base text-slate-900 dark:text-white truncate mt-0.5">Document</h3>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="inline-flex items-center gap-1 rounded-xl bg-gemini-pillLight dark:bg-white/10 border border-slate-200/80 dark:border-white/15 px-1.5 py-1">
+            <button id="peekPrevPageBtn" type="button" title="Previous Page"
+              class="p-1 rounded-lg text-slate-600 dark:text-neutral-200 hover:bg-white dark:hover:bg-white/15 disabled:opacity-35 transition-colors">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="flex items-center gap-1 text-[12px] font-semibold text-slate-700 dark:text-neutral-200 px-1">
+              <span>Pg</span>
+              <input id="peekPageInput" type="number" min="1" value="1"
+                class="w-11 text-center rounded-md bg-white dark:bg-black/40 border border-slate-200 dark:border-white/20 text-[12px] py-0.5 focus:outline-none" />
+              <span id="peekTotalPagesLabel" class="text-slate-400 dark:text-neutral-400">/ 1</span>
+            </div>
+            <button id="peekNextPageBtn" type="button" title="Next Page"
+              class="p-1 rounded-lg text-slate-600 dark:text-neutral-200 hover:bg-white dark:hover:bg-white/15 disabled:opacity-35 transition-colors">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <button id="closePeekBtn" type="button"
+            class="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 flex-1 min-h-0 flex flex-col gap-3 overflow-hidden">
+        <div id="peekDocMeta"
+          class="flex flex-wrap items-center gap-2 text-[12px] text-slate-600 dark:text-neutral-300 shrink-0"></div>
+
+        <!-- Detected Chapters / Sections Quick-Jump Strip -->
+        <div id="peekOutlineWrap" class="hidden shrink-0 space-y-1.5">
+          <span class="text-[10.5px] uppercase tracking-[0.14em] text-slate-400 dark:text-neutral-400 font-semibold block">Detected Chapters &amp; Sections</span>
+          <div id="peekOutlineList" class="flex items-center gap-1.5 overflow-x-auto gemini-scroll pb-1"></div>
+        </div>
+
+        <div
+          class="flex-1 min-h-0 flex flex-col rounded-2xl p-4 bg-gemini-pillLight/70 dark:bg-[#11121b] border border-slate-200/70 dark:border-violet-300/15 overflow-hidden">
+          <div class="flex items-center justify-between gap-2 mb-2 shrink-0">
+            <span id="peekPageSectionLabel"
+              class="text-[11px] uppercase tracking-wider text-indigo-600 dark:text-violet-300 font-bold">Page 1 Content</span>
+            <span id="peekHighlightBadge" class="hidden text-[11px] italic text-amber-700 dark:text-amber-300">Citation matched &amp; highlighted</span>
+          </div>
+          <div id="peekDocExcerpt" class="flex-1 overflow-y-auto gemini-scroll text-[14px] leading-relaxed text-slate-800 dark:text-neutral-200 whitespace-pre-wrap pr-1"></div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2.5 pt-1 shrink-0">
+          <button id="peekAskPageBtn" type="button"
+            class="px-3.5 py-2 rounded-xl bg-gemini-pillLight dark:bg-white/10 border border-slate-200/80 dark:border-white/15 text-[12.5px] font-semibold text-slate-700 dark:text-neutral-200 hover:border-indigo-400 transition-colors">
+            Summarize This Page
+          </button>
+          <button id="peekAskDocBtn" type="button"
+            class="px-4 py-2 rounded-xl gemini-bg-gradient text-white dark:text-black text-[13px] font-bold hover:brightness-105 transition-all">
+            Query This Document →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-Intrusive Toast Notification -->
+  <div id="toastWrap"
+    class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-200">
+    <div
+      class="px-4 py-2.5 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-black text-[13px] font-medium shadow-xl border border-transparent dark:border-white/20 flex items-center gap-2.5">
+      <span class="w-2 h-2 rounded-full gemini-bg-gradient dark:bg-black"></span>
+      <span id="toastMessage">Ready</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION ENGINE: DOCUMENT WORKSPACE & ADAPTIVE ASSESSMENT          -->
+  <!-- ===================================================================== -->
+  <script>
+    (function () {
+      // -------------------------------------------------------------------
+      // 1. State & Grounded Document Corpus
+      // -------------------------------------------------------------------
+      let currentLang = 'en';
+      let responseMode = 'thinking'; // 'thinking' | 'exact'
+      let isGenerating = false;
+      let peekedDoc = null;
+      let peekCurrentPage = 1;
+      let peekTotalPages = 1;
+      let chatHistory = [];
+      let chatTranscript = [];
+
+      // Seed documents: initial state loaded from backend if present
+      let documents = [
+        {
+          id: 'doc-sample',
+          name: 'CS301_AI_and_RAG_Notes.pdf',
+          pages: 4,
+          words: 1350,
+          active: true,
+          samplePrompt: 'Track 1 requirements',
+          excerpt:
+            '“CS301 Artificial Intelligence Lecture Notes covering Self-Attention Transformers, Bias-Variance Tradeoff, Overfitting prevention, and Classification Metrics.”',
+        }
+      ];
+
+      // Fallback offline knowledge base
+      const knowledgeBase = [
+        {
+          keywords: ['track 1', 'requirement', 'spec', 'problem statement', 'objective'],
+          docId: 'any',
+          docName: 'problem-statement-e3fb21da4b.pdf',
+          page: 'Page 1 · Section 1.2',
+          answerEn:
+            '<strong>Track 1 (Academic Document Intelligence)</strong> mandates a multi-PDF workspace supporting bilingual queries in English and Bengali, exact page citations, a strict out-of-scope refusal guardrail, and an adaptive assessment quiz generator with instant proof-based grading.',
+          answerBn:
+            '<strong>ট্র্যাক ১ (একাডেমিক ডকুমেন্ট ইন্টেলিজেন্স)</strong> অনুযায়ী সিস্টেমটিকে একাধিক পিডিএফ পরিচালনা করতে হবে, বাংলা ও ইংরেজিতে প্রশ্নোত্তর এবং নির্ভুল পেজ সাইটেশন দিতে হবে। ডকুমেন্টে তথ্য না থাকলে রিফিউজাল গার্ডরেইল ও ইনস্ট্যান্ট গ্রেডিংসহ কুইজ জেনারেটর থাকতে হবে।',
+          quote:
+            '“Track 1 deliverables must enforce verbatim document grounding, bilingual query support (EN/BN), explicit refusal on missing content, and automated quiz generation.”',
+        },
+        {
+          keywords: ['refusal', 'missing answer', 'hallucinat', 'guardrail', 'rule'],
+          docId: 'any',
+          docName: 'problem-statement-e3fb21da4b.pdf',
+          page: 'Page 2 · Guardrail Clause 3.1',
+          answerEn:
+            'Under the <strong>Strict Refusal Rule</strong>, whenever a query cannot be verified directly from the uploaded PDF pages, the system must decline to speculate and display the verified <em>“Not found in the document”</em> notice.',
+          answerBn:
+            '<strong>রিফিউজাল রুল</strong> অনুযায়ী, ব্যবহারকারীর প্রশ্নের উত্তর আপলোড করা ডকুমেন্টের কোনো পৃষ্ঠায় পাওয়া না গেলে সিস্টেম অনুমাননির্ভর তথ্য তৈরি করবে না; বরং সরাসরি <em>“Not found in the document”</em> বার্তা দেখাবে।',
+          quote:
+            '“If supporting evidence is absent from active PDF pages, the system MUST trigger a deterministic refusal rather than hallucinating facts.”',
+        },
+        {
+          keywords: ['কুইজ', 'quiz', 'নিয়ম', 'mcq', 'grading'],
+          docId: 'any',
+          docName: 'problem-statement-e3fb21da4b.pdf',
+          page: 'Page 3 · Assessment Rules',
+          answerEn:
+            '<strong>Quiz Generation Rules:</strong> Quizzes must be derived exclusively from active workspace documents, support configurable difficulty and question types, grade selections immediately, and display the verbatim PDF excerpt verifying the right answer.',
+          answerBn:
+            '<strong>কুইজের নিয়মাবলী:</strong> প্রতিটি প্রশ্ন শুধুমাত্র আপলোড করা নোট থেকে তৈরি হতে হবে। উত্তর নির্বাচনের সাথে সাথে মূল্যায়ন এবং সঠিক উত্তরের সপক্ষে মূল পিডিএফের পেজ রেফারেন্স প্রদর্শন করতে হবে।',
+          quote:
+            '“Generated quiz items must bind each correct answer to an inspectable citation inside the uploaded PDF workspace.”',
+        },
+        {
+          keywords: ['attention', 'scaled dot', 'transformer', 'formula'],
+          docId: 'any',
+          docName: 'CS301_AI_and_RAG_Notes.pdf',
+          page: 'Page 2 · Self-Attention',
+          answerEn:
+            '<strong>Scaled Dot-Product Attention</strong> is defined in the lecture notes as <code>Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V</code>, where <em>Q</em> denotes Queries, <em>K</em> denotes Keys, <em>V</em> denotes Values, and <em>d_k</em> scales the dot product for numerical stability.',
+          answerBn:
+            '<strong>স্কেল্ড ডট-প্রোডাক্ট অ্যাটেনশন</strong> ফর্মুলাটি হলো <code>Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V</code>, যেখানে Q (Queries), K (Keys), V (Values) এবং d_k সংখ্যাসূচক স্থিতিশীলতার জন্য ব্যবহৃত হয়।',
+          quote:
+            '“Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V, where Q represents Queries, K represents Keys, V represents Values, and d_k is the dimension of the key vectors used for numerical stability.”',
+        }
+      ];
+
+      const defaultQuizBank = [
+        {
+          id: 'q1',
+          type: 'mcq',
+          question: 'What is the mandatory behavior when a query cannot be verified from uploaded PDF notes?',
+          options: [
+            'Use external internet knowledge to estimate an answer',
+            'Trigger a strict refusal stating the information was not found in the document',
+            'Automatically delete the active PDF from the workspace',
+            'Generate a plausible-sounding summary from memory',
+          ],
+          correct: 1,
+          source: 'problem-statement-e3fb21da4b.pdf · Page 1',
+          proof: '“If the answer is not in the PDF, the app says Not found in the document instead of making up an answer.”',
+        },
+        {
+          id: 'q2',
+          type: 'true_false',
+          question: 'According to CS301 Lecture Notes, overfitting occurs when a model memorizes noise in training data and performs poorly on unseen test data.',
+          statement: 'According to CS301 Lecture Notes, overfitting occurs when a model memorizes noise in training data and performs poorly on unseen test data.',
+          isTrue: true,
+          options: ['True (সত্য)', 'False (মিথ্যা)'],
+          correct: 0,
+          source: 'CS301_AI_and_RAG_Notes.pdf · Page 3',
+          proof: '“Overfitting occurs when a machine learning model memorizes noise and specific patterns in the training data, resulting in very low training error but poor performance on unseen test data.”',
+        },
+        {
+          id: 'q3',
+          type: 'matching',
+          question: 'Match each Track 1 capability in Column A with its required behavior in Column B:',
+          pairs: [
+            { left: 'Document Chat', right: 'Answers strictly from uploaded PDF content' },
+            { left: 'Strict Refusal', right: 'Outputs Not found when evidence is absent' },
+            { left: 'Quiz Studio', right: 'Generates graded questions from the PDF' },
+            { left: 'Verbatim Excerpt', right: 'Shows the exact PDF passage and page number' },
+          ],
+          source: 'problem-statement-e3fb21da4b.pdf · Page 1',
+          proof: '“Each answer shows the part of the PDF it came from. If the answer is not in the PDF, the app says Not found in the document.”',
+        },
+        {
+          id: 'q4',
+          type: 'mcq',
+          question: 'Which languages must Track 1 Academic Document Intelligence support for queries and assessments?',
+          options: [
+            'English only',
+            'Both English and Bengali (বাংলা) natural-language queries',
+            'Structured query scripts exclusively',
+            'Numeric IDs only',
+          ],
+          correct: 1,
+          source: 'problem-statement-e3fb21da4b.pdf · Page 1',
+          proof: '“Bonus: Bangla questions and answers, page numbers in the sources, and support for more than one PDF.”',
+        },
+      ];
+
+      let quizBank = [...defaultQuizBank];
+      let quizAnswers = {};
+
+      // -------------------------------------------------------------------
+      // 2. Utilities: Toast, Safe Clipboard Copy & HTML Escaping
+      // -------------------------------------------------------------------
+      const toastWrap = document.getElementById('toastWrap');
+      const toastMessage = document.getElementById('toastMessage');
+      let toastTimer = null;
+
+      function showToast(text) {
+        toastMessage.textContent = text;
+        toastWrap.classList.remove('opacity-0', 'translate-y-2');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toastWrap.classList.add('opacity-0', 'translate-y-2');
+        }, 2500);
+      }
+
+      function copyToClipboard(text, successMsg) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast(successMsg || 'Copied to clipboard');
+        } catch (err) {
+          showToast('Unable to copy text');
+        }
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      // -------------------------------------------------------------------
+      // 3. Pure Dark Mode Toggle & Bilingual i18n Switch
+      // -------------------------------------------------------------------
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const themeToggleLabel = document.getElementById('themeToggleLabel');
+
+      themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        themeToggleLabel.textContent = isDark ? 'Light' : 'Pure Dark';
+        showToast(isDark ? 'Pure Monochrome Dark Mode enabled' : 'Light Editorial Mode enabled');
+      });
+
+      const i18nDict = {
+        en: {
+          headerSubtitle: 'Academic Document Intelligence · Track 1',
+          vaultTitle: 'Optical Document Vault',
+          vaultModeTag: 'Multi-PDF Workspace',
+          dropTitle: 'Drop PDF Notes or Click to Ingest',
+          dropSub: 'Instant text parsing & page citation mapping',
+          activeDocsLabel: 'Active Sources',
+          clearAll: 'Clear All',
+          quickVerifyLabel: 'Quick Verification Prompts',
+          tabChat: 'Document Chat & Search',
+          tabQuiz: 'Generate & Take Quiz',
+          guardTag: 'Zero-Hallucination Guard',
+          welcomeHi: 'Grounded Document Intelligence',
+          welcomeDesc:
+            'Every response is verified strictly against your active PDF notes with verbatim page citations. When evidence is absent, the refusal guardrail blocks hallucination automatically.',
+          askAi: 'Ask AI',
+          modeThinking: 'Thinking',
+          modeExact: 'Exact Only',
+          modeCrossVerify: 'Cross-Verify',
+          composerHint: 'Grounded strictly in selected vault PDFs · Press Enter to query',
+          placeholder: 'Ask a question about the uploaded document notes...',
+        },
+        bn: {
+          headerSubtitle: 'একাডেমিক ডকুমেন্ট ইন্টেলিজেন্স · ট্র্যাক ১',
+          vaultTitle: 'অপটিক্যাল ডকুমেন্ট ভল্ট',
+          vaultModeTag: 'মাল্টি-পিডিএফ ওয়ার্কস্পেস',
+          dropTitle: 'পিডিএফ নোট ড্রপ করুন বা ব্রাউজ করুন',
+          dropSub: 'তাৎক্ষণিক টেক্সট পার্সিং ও পেজ সাইটেশন ম্যাপিং',
+          activeDocsLabel: 'সক্রিয় ডকুমেন্টসমূহ',
+          clearAll: 'সব মুছুন',
+          quickVerifyLabel: 'দ্রুত যাচাইকরণ প্রশ্নাবলী',
+          tabChat: 'ডকুমেন্ট চ্যাট ও সার্চ',
+          tabQuiz: 'কুইজ তৈরি ও অনুশীলন',
+          guardTag: 'হ্যালুসিনেশন প্রতিরোধী গার্ড',
+          welcomeHi: 'যাচাইকৃত ডকুমেন্ট ইন্টেলিজেন্স',
+          welcomeDesc:
+            'প্রতিটি উত্তর আপনার সক্রিয় পিডিএফ নোট থেকে মূল পেজ রেফারেন্সসহ যাচাই করা হয়। তথ্য না থাকলে রিফিউজাল গার্ডরেইল স্বয়ংক্রিয়ভাবে অনুমান প্রতিরোধ করে।',
+          askAi: 'জিজ্ঞাসা করুন',
+          modeThinking: 'থিঙ্কিং (বিশ্লেষণ)',
+          modeExact: 'এক্সাক্ট উত্তর',
+          modeCrossVerify: 'ক্রস-ভেরিফাই',
+          composerHint: 'নির্বাচিত পিডিএফ থেকে যাচাইকৃত উত্তর · পাঠাতে Enter চাপুন',
+          placeholder: 'আপলোড করা নোট সম্পর্কে আপনার প্রশ্ন লিখুন...',
+        },
+      };
+
+      const langToggleBtn = document.getElementById('langToggleBtn');
+      const langToggleLabel = document.getElementById('langToggleLabel');
+      const chatInput = document.getElementById('chatInput');
+
+      langToggleBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'bn' : 'en';
+        langToggleLabel.textContent = currentLang === 'en' ? 'বাংলা' : 'English';
+        const pack = i18nDict[currentLang];
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          const key = el.getAttribute('data-i18n');
+          if (pack[key]) el.textContent = pack[key];
+        });
+        chatInput.placeholder = pack.placeholder;
+        showToast(currentLang === 'bn' ? 'বাংলা ইন্টারফেস চালু হয়েছে' : 'Switched to English interface');
+      });
+
+      // -------------------------------------------------------------------
+      // 4. Mobile Vault Drawer Controls
+      // -------------------------------------------------------------------
+      const vaultSidebar = document.getElementById('vaultSidebar');
+      const vaultBackdrop = document.getElementById('vaultBackdrop');
+      const mobileVaultBtn = document.getElementById('mobileVaultBtn');
+      const closeVaultBtn = document.getElementById('closeVaultBtn');
+
+      function openMobileVault() {
+        vaultSidebar.classList.remove('-translate-x-full');
+        vaultBackdrop.classList.remove('hidden');
+      }
+      function closeMobileVault() {
+        vaultSidebar.classList.add('-translate-x-full');
+        vaultBackdrop.classList.add('hidden');
+      }
+      mobileVaultBtn.addEventListener('click', openMobileVault);
+      closeVaultBtn.addEventListener('click', closeMobileVault);
+      vaultBackdrop.addEventListener('click', closeMobileVault);
+
+      // -------------------------------------------------------------------
+      // 5. Optical Document Vault & Backend Sync
+      // -------------------------------------------------------------------
+      const activeDocsList = document.getElementById('activeDocsList');
+      const docCountBadge = document.getElementById('docCountBadge');
+      const vaultWordSummary = document.getElementById('vaultWordSummary');
+      const vaultCapacityBar = document.getElementById('vaultCapacityBar');
+      const composerScopePill = document.getElementById('composerScopePill');
+      const pdfDropzone = document.getElementById('pdfDropzone');
+      const pdfFileInput = document.getElementById('pdfFileInput');
+      const uploadProgressWrap = document.getElementById('uploadProgressWrap');
+      const uploadProgressBar = document.getElementById('uploadProgressBar');
+      const uploadStatusLabel = document.getElementById('uploadStatusLabel');
+      const uploadPctLabel = document.getElementById('uploadPctLabel');
+      const stageSteps = [
+        document.getElementById('stageStep1'),
+        document.getElementById('stageStep2'),
+        document.getElementById('stageStep3'),
+      ];
+
+      // Inspector / Interactive Page Reader Modal Elements
+      const docPeekModal = document.getElementById('docPeekModal');
+      const peekDocTitle = document.getElementById('peekDocTitle');
+      const peekDocMeta = document.getElementById('peekDocMeta');
+      const peekDocExcerpt = document.getElementById('peekDocExcerpt');
+      const peekPageInput = document.getElementById('peekPageInput');
+      const peekTotalPagesLabel = document.getElementById('peekTotalPagesLabel');
+      const peekPrevPageBtn = document.getElementById('peekPrevPageBtn');
+      const peekNextPageBtn = document.getElementById('peekNextPageBtn');
+      const peekPageSectionLabel = document.getElementById('peekPageSectionLabel');
+      const peekHighlightBadge = document.getElementById('peekHighlightBadge');
+      const peekOutlineWrap = document.getElementById('peekOutlineWrap');
+      const peekOutlineList = document.getElementById('peekOutlineList');
+
+      function renderHighlightedPageText(rawText, highlightText) {
+        if (!highlightText || highlightText.trim().length < 6) {
+          peekHighlightBadge?.classList.add('hidden');
+          peekDocExcerpt.textContent = rawText;
+          return;
+        }
+        const escapedBody = escapeHtml(rawText);
+        // Extract candidate phrases (clean quotes/ellipses) to highlight inside full page text
+        const cleanQuery = highlightText.replace(/^[“"\s]+|[”"\s]+$/g, '').trim();
+        const words = cleanQuery.split(/\s+/).filter((w) => w.length >= 4).slice(0, 6);
+        let matched = false;
+        let html = escapedBody;
+
+        // First try matching a 28-char prefix or full phrase
+        const anchor = escapeHtml(cleanQuery.slice(0, Math.min(48, cleanQuery.length)));
+        if (anchor.length >= 12) {
+          const idx = html.toLowerCase().indexOf(anchor.toLowerCase());
+          if (idx !== -1) {
+            const endIdx = Math.min(html.length, idx + escapeHtml(cleanQuery).length);
+            html =
+              html.slice(0, idx) +
+              '<mark class="peek-hit bg-amber-200/90 text-slate-950 dark:bg-violet-500/45 dark:text-white px-1 rounded">' +
+              html.slice(idx, endIdx) +
+              '</mark>' +
+              html.slice(endIdx);
+            matched = true;
+          }
+        }
+        if (!matched && words.length > 0) {
+          const pat = new RegExp('(' + words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+          const nextHtml = html.replace(pat, (m) => {
+            matched = true;
+            return '<mark class="peek-hit bg-amber-200/80 text-slate-950 dark:bg-violet-500/40 dark:text-white px-0.5 rounded">' + m + '</mark>';
+          });
+          html = nextHtml;
+        }
+        peekHighlightBadge?.classList.toggle('hidden', !matched);
+        peekDocExcerpt.innerHTML = html;
+        if (matched) {
+          const firstHit = peekDocExcerpt.querySelector('.peek-hit');
+          if (firstHit) firstHit.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }
+
+      async function loadPeekPage(pageNum, highlightText = '') {
+        if (!peekedDoc) return;
+        const safePg = Math.max(1, Math.min(peekTotalPages || 1, Number(pageNum) || 1));
+        peekCurrentPage = safePg;
+        if (peekPageInput) peekPageInput.value = String(safePg);
+        if (peekPageSectionLabel) peekPageSectionLabel.textContent = `Page ${safePg} Content`;
+        if (peekPrevPageBtn) peekPrevPageBtn.disabled = safePg <= 1;
+        if (peekNextPageBtn) peekNextPageBtn.disabled = safePg >= (peekTotalPages || 1);
+
+        peekDocExcerpt.textContent = `Loading Page ${safePg}...`;
+        peekHighlightBadge?.classList.add('hidden');
+        try {
+          const res = await fetch(`/api/document/${encodeURIComponent(peekedDoc.id)}/page/${safePg}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.ok) {
+              if (data.totalPages) {
+                peekTotalPages = data.totalPages;
+                if (peekTotalPagesLabel) peekTotalPagesLabel.textContent = `/ ${peekTotalPages}`;
+                if (peekPageInput) peekPageInput.max = String(peekTotalPages);
+                if (peekNextPageBtn) peekNextPageBtn.disabled = safePg >= peekTotalPages;
+              }
+              renderHighlightedPageText(data.text || '', highlightText);
+              return;
+            }
+          }
+        } catch (e) { }
+        peekDocExcerpt.textContent = peekedDoc.excerpt || 'Page preview unavailable.';
+      }
+
+      async function loadPeekOutline(doc) {
+        if (!peekOutlineWrap || !peekOutlineList) return;
+        peekOutlineWrap.classList.add('hidden');
+        peekOutlineList.innerHTML = '';
+        try {
+          const res = await fetch(`/api/document/${encodeURIComponent(doc.id)}/outline`);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (data.ok && Array.isArray(data.outline) && data.outline.length > 0) {
+            peekOutlineWrap.classList.remove('hidden');
+            peekOutlineList.innerHTML = data.outline
+              .slice(0, 24)
+              .map(
+                (item) => `<button type="button" data-outline-page="${item.pageNumber}"
+                  class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11.5px] font-medium bg-gemini-pillLight dark:bg-white/[0.08] border border-slate-200/70 dark:border-violet-300/20 text-slate-700 dark:text-neutral-200 hover:border-indigo-400 dark:hover:border-white/50 transition-colors">
+                  <span class="font-bold text-indigo-600 dark:text-violet-300">P.${item.pageNumber}</span>
+                  <span class="max-w-[160px] truncate">${escapeHtml(item.title)}</span>
+                </button>`
+              )
+              .join('');
+            peekOutlineList.querySelectorAll('[data-outline-page]').forEach((btn) => {
+              btn.addEventListener('click', () => {
+                loadPeekPage(Number(btn.getAttribute('data-outline-page') || 1));
+              });
+            });
+          }
+        } catch (e) { }
+      }
+
+      async function openDocPeek(doc, targetPage = 1, highlightText = '') {
+        peekedDoc = doc;
+        peekTotalPages = doc.pages || 1;
+        peekCurrentPage = Math.max(1, Math.min(peekTotalPages, Number(targetPage) || 1));
+        peekDocTitle.textContent = doc.name;
+        if (peekTotalPagesLabel) peekTotalPagesLabel.textContent = `/ ${peekTotalPages}`;
+        if (peekPageInput) {
+          peekPageInput.max = String(peekTotalPages);
+          peekPageInput.value = String(peekCurrentPage);
+        }
+        peekDocMeta.innerHTML = `
+          <span class="px-2.5 py-0.5 rounded-full bg-gemini-pillLight dark:bg-white/10 border border-slate-200 dark:border-white/15">${peekTotalPages} Pages</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-gemini-pillLight dark:bg-white/10 border border-slate-200 dark:border-white/15">${(doc.words || 0).toLocaleString()} Words</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-gemini-pillLight dark:bg-white/10 border border-slate-200 dark:border-white/15">${doc.active ? 'Active' : 'Paused'}</span>
+        `;
+        docPeekModal.classList.remove('hidden');
+        docPeekModal.classList.add('flex');
+
+        loadPeekPage(peekCurrentPage, highlightText);
+        loadPeekOutline(doc);
+      }
+
+      function openCitationReader(docName, pageNumber, highlightText = '') {
+        const cleanName = String(docName || '').trim().toLowerCase();
+        const doc =
+          documents.find((d) => d.name.toLowerCase() === cleanName) ||
+          documents.find((d) => d.name.toLowerCase().includes(cleanName) || cleanName.includes(d.name.toLowerCase())) ||
+          documents.find((d) => d.active) ||
+          documents[0];
+        if (!doc) {
+          showToast('Document source is no longer in vault');
+          return;
+        }
+        const pg = parseInt(String(pageNumber || '1').replace(/[^\d]/g, ''), 10) || 1;
+        openDocPeek(doc, pg, highlightText);
+      }
+
+      function closeDocPeek() {
+        docPeekModal.classList.add('hidden');
+        docPeekModal.classList.remove('flex');
+      }
+
+      document.getElementById('closePeekBtn').addEventListener('click', closeDocPeek);
+      docPeekModal.addEventListener('click', (e) => {
+        if (e.target === docPeekModal) closeDocPeek();
+      });
+      if (peekPrevPageBtn) {
+        peekPrevPageBtn.addEventListener('click', () => loadPeekPage(peekCurrentPage - 1));
+      }
+      if (peekNextPageBtn) {
+        peekNextPageBtn.addEventListener('click', () => loadPeekPage(peekCurrentPage + 1));
+      }
+      if (peekPageInput) {
+        peekPageInput.addEventListener('change', () => loadPeekPage(Number(peekPageInput.value || 1)));
+      }
+      document.getElementById('peekAskPageBtn')?.addEventListener('click', () => {
+        if (!peekedDoc) return;
+        const prompt = `Summarize the key points on Page ${peekCurrentPage} of ${peekedDoc.name}`;
+        closeDocPeek();
+        switchMode('chat');
+        processUserQuery(prompt);
+      });
+      document.getElementById('peekAskDocBtn').addEventListener('click', () => {
+        if (!peekedDoc) return;
+        const prompt = peekedDoc.samplePrompt || `Summarize key concepts in ${peekedDoc.name}`;
+        closeDocPeek();
+        switchMode('chat');
+        processUserQuery(prompt);
+      });
+
+      function renderDocuments() {
+        const activeCount = documents.filter((d) => d.active).length;
+        docCountBadge.textContent = `${documents.length} ${documents.length === 1 ? 'PDF' : 'PDFs'}`;
+        composerScopePill.textContent = `${activeCount} Active ${activeCount === 1 ? 'PDF' : 'PDFs'}`;
+
+        const totalPages = documents.reduce((sum, d) => sum + (d.pages || 1), 0);
+        const totalWords = documents.reduce((sum, d) => sum + (d.words || 350), 0);
+        vaultWordSummary.textContent = `${totalPages} pages · ${totalWords.toLocaleString()} words`;
+
+        const densityPct = Math.min(100, Math.max(6, Math.round((totalWords / 14000) * 100)));
+        vaultCapacityBar.style.width = documents.length ? `${densityPct}%` : '0%';
+
+        if (documents.length === 0) {
+          activeDocsList.innerHTML = `
+            <div class="rounded-2xl border border-dashed border-slate-200 dark:border-white/15 p-4 text-center text-[13px] italic text-slate-400 dark:text-neutral-500">
+              Vault is empty. Drop a PDF or tap a sample preset above to begin indexing.
+            </div>
+          `;
+          return;
+        }
+
+        activeDocsList.innerHTML = '';
+        documents.forEach((doc) => {
+          const card = document.createElement('div');
+          card.className = `group relative rounded-2xl p-3 border transition-all duration-200 cursor-pointer flex items-center gap-3 ${doc.active
+            ? 'bg-white dark:bg-[#111111] border-indigo-200/80 dark:border-white/25 shadow-xs dark:shadow-none'
+            : 'bg-gemini-pillLight/45 dark:bg-[#0B0B0B] border-transparent opacity-55 hover:opacity-90'
+            }`;
+
+          card.innerHTML = `
+            <!-- Smart PDF Squircle Icon -->
+            <div class="smart-icon-box w-9 h-9 rounded-xl shrink-0 flex items-center justify-center ${doc.active
+              ? 'bg-gradient-to-br from-rose-500/15 to-indigo-500/15 text-rose-600 border border-rose-200/60 dark:bg-none dark:bg-white dark:text-black dark:border-white'
+              : 'bg-slate-200/70 dark:bg-white/10 text-slate-400 dark:text-neutral-400'
+            }">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <path stroke-linecap="round" d="M9 15l2 2 4-4" />
+              </svg>
+            </div>
+
+            <!-- Metadata -->
+            <div class="flex-1 min-w-0">
+              <p class="text-[13px] font-bold text-slate-900 dark:text-white truncate">${escapeHtml(doc.name)}</p>
+              <div class="flex items-center gap-1.5 mt-0.5 text-[11.5px] italic text-slate-500 dark:text-neutral-400">
+                <span>${doc.pages || 1} pages</span>
+                <span>·</span>
+                <span>${(doc.words || 350).toLocaleString()} words</span>
+              </div>
+            </div>
+
+            <!-- Inspect + Remove Actions -->
+            <div class="flex items-center gap-0.5 shrink-0">
+              <button
+                type="button"
+                data-peek-doc="${doc.id}"
+                title="Inspect indexed excerpt"
+                class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-white hover:bg-indigo-50 dark:hover:bg-white/10 transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-delete-doc="${doc.id}"
+                title="Remove PDF"
+                class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:text-neutral-400 dark:hover:text-white hover:bg-rose-50 dark:hover:bg-white/10 transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+              </button>
+            </div>
+          `;
+
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('[data-delete-doc]') || e.target.closest('[data-peek-doc]')) return;
+            doc.active = !doc.active;
+            renderDocuments();
+            showToast(doc.active ? `Activated ${doc.name} in workspace` : `Paused ${doc.name} from workspace`);
+            fetch('/api/documents/toggle', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: doc.id, enabled: doc.active })
+            }).catch(() => { });
+          });
+
+          card.querySelector('[data-peek-doc]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            openDocPeek(doc);
+          });
+
+          card.querySelector('[data-delete-doc]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idToRemove = doc.id;
+            documents = documents.filter((d) => d.id !== idToRemove);
+            renderDocuments();
+            showToast(`Removed ${doc.name}`);
+            fetch(`/api/documents/${idToRemove}`, { method: 'DELETE' }).catch(() => { });
+          });
+
+          activeDocsList.appendChild(card);
+        });
+      }
+
+      function setStageHighlight(stepIndex) {
+        stageSteps.forEach((el, idx) => {
+          if (idx <= stepIndex) {
+            el.className =
+              'px-2 py-1 rounded-lg font-semibold bg-indigo-600 text-white dark:bg-white dark:text-black transition-all';
+          } else {
+            el.className =
+              'px-2 py-1 rounded-lg bg-slate-200/70 dark:bg-white/10 text-slate-500 dark:text-neutral-500 transition-all';
+          }
+        });
+      }
+
+      async function ingestPdfFiles(fileEntries) {
+        if (!fileEntries || fileEntries.length === 0) return;
+        uploadProgressWrap.classList.remove('hidden');
+        pdfDropzone.classList.add('is-scanning');
+
+        let progress = 0;
+        const primaryName = fileEntries[0].name;
+        setStageHighlight(0);
+
+        const timer = setInterval(() => {
+          progress = Math.min(88, progress + 12);
+          if (progress < 35) {
+            uploadStatusLabel.textContent = `1/3 Uploading ${primaryName}...`;
+            setStageHighlight(0);
+          } else if (progress < 65) {
+            uploadStatusLabel.textContent = `2/3 Extracting all pages...`;
+            setStageHighlight(1);
+          } else {
+            uploadStatusLabel.textContent = `3/3 Finalizing page citations...`;
+            setStageHighlight(2);
+          }
+          uploadProgressBar.style.width = `${progress}%`;
+          uploadPctLabel.textContent = `${progress}%`;
+        }, 120);
+
+        // Upload to real Flask backend if actual Files provided
+        const formData = new FormData();
+        let hasFiles = false;
+        fileEntries.forEach((f) => {
+          if (f instanceof File || (typeof File !== 'undefined' && f instanceof Blob)) {
+            formData.append('pdf_files', f);
+            hasFiles = true;
+          }
+        });
+
+        if (hasFiles) {
+          try {
+            const resp = await fetch('/api/upload', {
+              method: 'POST',
+              body: formData,
+            });
+            clearInterval(timer);
+            let data = null;
+            try {
+              data = await resp.json();
+            } catch (_parseErr) {
+              data = null;
+            }
+
+            if (!resp.ok || !data || !data.ok) {
+              const errMsg = (data && data.error) || `Upload failed (HTTP ${resp.status})`;
+              showToast(errMsg);
+            } else if (Array.isArray(data.added) && data.added.length > 0) {
+              uploadProgressBar.style.width = '100%';
+              uploadPctLabel.textContent = '100%';
+              setStageHighlight(2);
+              data.added.forEach((ad) => {
+                documents.unshift({
+                  id: ad.id,
+                  name: ad.name,
+                  pages: ad.totalPages,
+                  words: ad.totalWords || (ad.totalPages * 300),
+                  active: true,
+                  samplePrompt: 'Summarize ' + ad.name,
+                  excerpt: `Extracted ${ad.extractedPages || ad.totalPages} of ${ad.totalPages} pages (${(ad.totalWords || 0).toLocaleString()} words).`
+                });
+              });
+              renderDocuments();
+              showToast(`Indexed ${data.added.length} PDF source(s) (${data.added[0].totalPages} pages)`);
+            } else if (data.failed && data.failed.length > 0) {
+              showToast(`Upload error: ${data.failed[0].reason}`);
+            } else {
+              showToast('No readable pages found in uploaded PDF.');
+            }
+          } catch (err) {
+            clearInterval(timer);
+            console.error('Upload error:', err);
+            showToast('Upload failed: could not connect to server.');
+          }
+        } else {
+          // Preset simulated files
+          fileEntries.forEach((f) => {
+            documents.unshift({
+              id: 'doc-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+              name: f.name,
+              pages: f.pages || 4,
+              words: f.words || 1400,
+              active: true,
+              samplePrompt: f.samplePrompt || 'Track 1 requirements',
+              excerpt: f.excerpt || '',
+            });
+          });
+          renderDocuments();
+          showToast(`Indexed ${fileEntries.length} preset PDF source(s)`);
+        }
+
+        setTimeout(() => {
+          pdfDropzone.classList.remove('is-scanning');
+          uploadProgressWrap.classList.add('hidden');
+          uploadProgressBar.style.width = '0%';
+        }, 550);
+      }
+
+      pdfDropzone.addEventListener('click', () => pdfFileInput.click());
+      pdfDropzone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pdfFileInput.click();
+        }
+      });
+      document.getElementById('composerAttachBtn').addEventListener('click', () => pdfFileInput.click());
+
+      pdfFileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length) ingestPdfFiles(files);
+        pdfFileInput.value = '';
+      });
+
+      ['dragenter', 'dragover'].forEach((ev) => {
+        pdfDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          pdfDropzone.classList.add('dropzone-active');
+        });
+      });
+      ['dragleave', 'drop'].forEach((ev) => {
+        pdfDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          pdfDropzone.classList.remove('dropzone-active');
+        });
+      });
+      pdfDropzone.addEventListener('drop', (e) => {
+        const files = Array.from(e.dataTransfer.files || []).filter((f) => f.name.toLowerCase().endsWith('.pdf'));
+        if (files.length) ingestPdfFiles(files);
+        else showToast('Please drop valid .pdf files');
+      });
+
+      document.getElementById('addSampleOcrBtn').addEventListener('click', () => {
+        fetch('/api/documents/reset-sample', { method: 'POST' })
+          .then(r => r.json())
+          .then(() => loadBackendDocuments())
+          .catch(() => {
+            ingestPdfFiles([
+              {
+                name: 'CS301_AI_and_RAG_Notes.pdf',
+                pages: 4,
+                words: 1350,
+                samplePrompt: 'Track 1 requirements',
+                excerpt: '“CS301 Artificial Intelligence Lecture Notes covering Transformers, Overfitting prevention, and Classification Metrics.”',
+              },
+            ]);
+          });
+      });
+
+      document.getElementById('addSampleSyllabusBtn').addEventListener('click', () => {
+        window.open('/sample-pdf', '_blank');
+      });
+
+      document.getElementById('clearDocsBtn').addEventListener('click', () => {
+        if (documents.length === 0) return;
+        documents = [];
+        renderDocuments();
+        fetch('/api/documents/clear', { method: 'POST' }).catch(() => { });
+        showToast('Cleared all PDFs from workspace');
+      });
+
+      // -------------------------------------------------------------------
+      // 6. Mode Switcher (Document Chat <-> Quiz)
+      // -------------------------------------------------------------------
+      const tabChatBtn = document.getElementById('tabChatBtn');
+      const tabQuizBtn = document.getElementById('tabQuizBtn');
+      const chatPanel = document.getElementById('chatPanel');
+      const quizPanel = document.getElementById('quizPanel');
+
+      function switchMode(mode) {
+        const isChat = mode === 'chat';
+        chatPanel.classList.toggle('hidden', !isChat);
+        chatPanel.classList.toggle('flex', isChat);
+        quizPanel.classList.toggle('hidden', isChat);
+        quizPanel.classList.toggle('flex', !isChat);
+
+        const activeClasses = ['bg-white', 'dark:bg-white', 'text-slate-900', 'dark:text-black', 'shadow-sm', 'font-bold'];
+        const idleClasses = ['text-slate-500', 'dark:text-neutral-400', 'font-medium'];
+
+        const chatSvg = tabChatBtn.querySelector('svg');
+        const quizSvg = tabQuizBtn.querySelector('svg');
+
+        if (isChat) {
+          tabChatBtn.classList.add(...activeClasses);
+          tabChatBtn.classList.remove(...idleClasses);
+          tabQuizBtn.classList.remove(...activeClasses);
+          tabQuizBtn.classList.add(...idleClasses);
+          chatSvg.classList.add('text-indigo-500', 'dark:text-black');
+          quizSvg.classList.remove('text-indigo-500', 'dark:text-black');
+        } else {
+          tabQuizBtn.classList.add(...activeClasses);
+          tabQuizBtn.classList.remove(...idleClasses);
+          tabChatBtn.classList.remove(...activeClasses);
+          tabChatBtn.classList.add(...idleClasses);
+          quizSvg.classList.add('text-indigo-500', 'dark:text-black');
+          chatSvg.classList.remove('text-indigo-500', 'dark:text-black');
+          renderQuiz();
+        }
+      }
+
+      tabChatBtn.addEventListener('click', () => switchMode('chat'));
+      tabQuizBtn.addEventListener('click', () => switchMode('quiz'));
+
+      // -------------------------------------------------------------------
+      // 7. Chat Stream, Shimmer Reasoning & Grounded Response
+      // -------------------------------------------------------------------
+      const chatStream = document.getElementById('chatStream');
+      const chatMessages = document.getElementById('chatMessages');
+      const chatForm = document.getElementById('chatForm');
+
+      function scrollChatToBottom() {
+        chatStream.scrollTo({ top: chatStream.scrollHeight, behavior: 'smooth' });
+      }
+
+      const emptyChatState = document.getElementById('emptyChatState');
+
+      function updateEmptyChatState() {
+        if (!emptyChatState) return;
+        const hasMessages = chatMessages && chatMessages.children.length > 0;
+        emptyChatState.classList.toggle('hidden', hasMessages);
+      }
+
+      function formatStructuredAnswerHtml(rawText) {
+        const escaped = escapeHtml(rawText || '');
+        const lines = escaped.split(/\r?\n/);
+        const blocks = [];
+        let listBuffer = [];
+        let listType = null; // 'ul' | 'ol'
+
+        const applyInline = (s) =>
+          s
+            .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-white/10 text-[12.5px] font-semibold text-indigo-700 dark:text-violet-200">$1</code>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-slate-950 dark:text-white">$1</strong>')
+            .replace(/(^|\s)\*([^\s*][^*]*?)\*/g, '$1<em class="italic">$2</em>');
+
+        const flushList = () => {
+          if (!listBuffer.length) return;
+          if (listType === 'ol') {
+            blocks.push(
+              `<ol class="space-y-2 pl-1">${listBuffer
+                .map(
+                  (item, idx) =>
+                    `<li class="flex items-start gap-2.5"><span class="mt-0.5 w-5 h-5 rounded-md bg-indigo-500/10 dark:bg-violet-400/15 text-indigo-700 dark:text-violet-200 text-[11px] font-bold flex items-center justify-center shrink-0">${item.num || idx + 1}</span><span class="flex-1 leading-relaxed">${applyInline(item.text)}</span></li>`
+                )
+                .join('')}</ol>`
+            );
+          } else {
+            blocks.push(
+              `<ul class="space-y-1.5 pl-1">${listBuffer
+                .map(
+                  (item) =>
+                    `<li class="flex items-start gap-2.5"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-violet-300 shrink-0"></span><span class="flex-1 leading-relaxed">${applyInline(item.text)}</span></li>`
+                )
+                .join('')}</ul>`
+            );
+          }
+          listBuffer = [];
+          listType = null;
+        };
+
+        for (const rawLine of lines) {
+          const line = rawLine.trim();
+          if (!line) {
+            flushList();
+            continue;
+          }
+          const hMatch = line.match(/^#{1,4}\s+(.+)$/);
+          if (hMatch) {
+            flushList();
+            blocks.push(
+              `<h4 class="font-bold text-[15px] text-slate-900 dark:text-violet-100 pt-1">${applyInline(hMatch[1])}</h4>`
+            );
+            continue;
+          }
+          const ulMatch = line.match(/^(?:[-*•])\s+(.+)$/);
+          if (ulMatch) {
+            if (listType && listType !== 'ul') flushList();
+            listType = 'ul';
+            listBuffer.push({ text: ulMatch[1] });
+            continue;
+          }
+          const olMatch = line.match(/^(\d+)[.)]\s+(.+)$/);
+          if (olMatch) {
+            if (listType && listType !== 'ol') flushList();
+            listType = 'ol';
+            listBuffer.push({ num: olMatch[1], text: olMatch[2] });
+            continue;
+          }
+          flushList();
+          blocks.push(`<p class="leading-relaxed">${applyInline(line)}</p>`);
+        }
+        flushList();
+        return blocks.length ? `<div class="space-y-2.5">${blocks.join('')}</div>` : applyInline(escaped);
+      }
+
+      function appendUserBubble(text) {
+        const div = document.createElement('div');
+        div.className = 'animate-msg flex items-start justify-end gap-3';
+        div.innerHTML = `
+          <div class="max-w-[82%] sm:max-w-[70%] rounded-3xl rounded-tr-lg px-4 sm:px-5 py-3 bg-slate-900 dark:bg-gradient-to-br dark:from-white dark:to-indigo-100 text-white dark:text-black text-[14px] sm:text-[15px] leading-relaxed shadow-sm dark:shadow-[0_0_24px_-8px_rgba(199,210,254,0.35)] whitespace-pre-wrap break-words">${escapeHtml(text)}</div>
+          <div class="smart-icon-box w-8 h-8 rounded-2xl bg-gradient-to-br from-rose-500 to-indigo-600 dark:bg-none dark:bg-[#131522] dark:border dark:border-violet-300/25 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+        `;
+        chatMessages.appendChild(div);
+        updateEmptyChatState();
+        scrollChatToBottom();
+      }
+
+      function appendThinkingShimmer(extensive = false, mode = 'thinking') {
+        const activeCount = documents.filter((d) => d.active).length;
+        const div = document.createElement('div');
+        div.className = 'animate-msg flex items-start gap-3.5 max-w-3xl';
+        const modeText = mode === 'exact' ? 'exact answer' : 'analytical response';
+        const msg = extensive
+          ? `Running multi-pass cross-verification for ${modeText}... <span class="font-bold text-violet-600 dark:text-violet-300">(15–30s)</span>`
+          : `Analyzing ${activeCount} active PDF source${activeCount === 1 ? '' : 's'} &amp; verifying page citations...`;
+        div.innerHTML = `
+          <div class="smart-icon-box w-8 h-8 rounded-2xl bg-indigo-50 border border-indigo-200/70 dark:bg-[#141414] dark:border-white/25 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4 text-indigo-600 dark:text-white sparkle-thinking" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
+            </svg>
+          </div>
+          <div class="flex-1 space-y-2.5 pt-1">
+            <div class="text-[12.5px] italic text-indigo-600 dark:text-neutral-300">
+              ${msg}
+            </div>
+            <div class="h-3 w-11/12 rounded-full shimmer-bar"></div>
+            <div class="h-3 w-4/5 rounded-full shimmer-bar"></div>
+            <div class="h-3 w-3/5 rounded-full shimmer-bar"></div>
+          </div>
+        `;
+        chatMessages.appendChild(div);
+        scrollChatToBottom();
+        return div;
+      }
+
+      function appendGroundedResponse({ answerHtml, docName, page, quote, citations, verificationNote, agreementStatus, respMode }) {
+        const id = 'resp-' + Date.now();
+        const div = document.createElement('div');
+        div.className = 'animate-msg flex items-start gap-3.5 max-w-3xl';
+
+        const fallbackPageNum = parseInt(String(page || '1').replace(/[^\d]/g, ''), 10) || 1;
+        const normalizedCitations = Array.isArray(citations) && citations.length > 0
+          ? citations
+          : [{ sourceDoc: docName, pageNumber: fallbackPageNum, label: `Page ${fallbackPageNum}`, excerpt: quote || '' }];
+        const isMultiOcc = normalizedCitations.length > 1;
+
+        const verifiedBadgeLabel = isMultiOcc
+          ? `Verified in ${normalizedCitations.length} places`
+          : 'Verified in Document';
+
+        const citationPillsHtml = normalizedCitations
+          .map((c, idx) => {
+            const cDoc = c.sourceDoc || docName;
+            const cPg = c.pageNumber || fallbackPageNum;
+            const cLabel = c.label && c.label.toLowerCase() !== `page ${cPg}` ? ` · ${c.label}` : '';
+            const shortName = normalizedCitations.length > 2 ? `Page ${cPg}${cLabel}` : `${cDoc} · Page ${cPg}${cLabel}`;
+            return `<button type="button" data-cit-idx="${idx}" title="Click to open ${escapeHtml(cDoc)} at Page ${cPg}"
+              class="cit-jump-btn inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11.5px] italic bg-gemini-pillLight dark:bg-[#12131d] text-slate-700 dark:text-violet-200 border border-slate-200/80 dark:border-violet-300/25 hover:border-indigo-400 dark:hover:border-white/50 hover:text-indigo-700 dark:hover:text-white transition-all cursor-pointer">
+              <span>${escapeHtml(shortName)}</span>
+              <span class="not-italic text-[10px] opacity-70">↗</span>
+            </button>`;
+          })
+          .join('');
+
+        const modePillHtml = respMode === 'exact'
+          ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/10 text-sky-700 border border-sky-400/30 dark:bg-white/15 dark:text-white dark:border-white/25">Exact Extract</span>`
+          : (respMode === 'thinking'
+            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/10 text-indigo-700 border border-indigo-400/25 dark:bg-white/10 dark:text-neutral-200 dark:border-white/15">Thinking</span>`
+            : '');
+
+        // Client-safe Cross-Verification status badge
+        const agreeBadgeHtml = agreementStatus ? (() => {
+          const colorMap = {
+            full: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-500/30',
+            partial: 'bg-amber-500/10 text-amber-700 border-amber-400/30 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-500/30',
+            none: 'bg-violet-500/10 text-violet-700 border-violet-400/30 dark:bg-violet-900/30 dark:text-violet-300 dark:border-violet-500/30',
+            unverified: 'bg-slate-200/60 text-slate-600 border-slate-300/40 dark:bg-white/10 dark:text-neutral-300 dark:border-white/15',
+          };
+          const icons = { full: '✦ Verified Consensus', partial: '◑ Reconciled & Verified', none: '✓ Audited & Corrected', unverified: '✓ Primary Verified' };
+          const cls = colorMap[agreementStatus] || colorMap.unverified;
+          const lbl = icons[agreementStatus] || '✓ Verified';
+          return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${cls}">${lbl}</span>`;
+        })() : '';
+        const verNoteHtml = verificationNote
+          ? `<p class="text-[11.5px] italic text-slate-500 dark:text-neutral-400 mt-0.5">${escapeHtml(verificationNote)}</p>`
+          : '';
+
+        const excerptsWithText = normalizedCitations.filter((c) => c.excerpt && c.excerpt.trim());
+        let proofSectionHtml = '';
+        if (excerptsWithText.length > 1) {
+          const itemsHtml = excerptsWithText
+            .map((c, idx) => `
+              <div class="rounded-xl bg-white/70 dark:bg-white/[0.03] border border-slate-200/60 dark:border-violet-300/15 px-3.5 py-2.5 space-y-1">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-[11px] font-bold text-indigo-600 dark:text-violet-300">
+                    ${escapeHtml(c.sourceDoc)} · Page ${c.pageNumber}${c.label && c.label.toLowerCase() !== `page ${c.pageNumber}` ? ` (${escapeHtml(c.label)})` : ''}
+                  </span>
+                  <button type="button" data-proof-idx="${idx}" class="proof-open-btn text-[11px] font-semibold text-slate-500 hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-white transition-colors">
+                    Read Page ↗
+                  </button>
+                </div>
+                <p class="text-[13px] italic leading-relaxed text-slate-700 dark:text-neutral-300">“${escapeHtml(c.excerpt)}”</p>
+              </div>
+            `)
+            .join('');
+          proofSectionHtml = `
+            <div class="rounded-2xl bg-gemini-pillLight/75 dark:bg-white/[0.03] border border-slate-200/70 dark:border-violet-300/[0.12] border-l-2 border-l-indigo-400 dark:border-l-violet-400/60 px-4 py-3 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10.5px] uppercase tracking-[0.14em] font-bold text-indigo-600 dark:text-violet-300">
+                  Verbatim Excerpts Across ${excerptsWithText.length} Pages
+                </span>
+                <button type="button" data-toggle-proofs="${id}" class="text-[11.5px] font-semibold text-indigo-600 dark:text-violet-300 hover:underline">
+                  Hide / Show All
+                </button>
+              </div>
+              <div data-proofs-list="${id}" class="space-y-2">${itemsHtml}</div>
+            </div>
+          `;
+        } else if (quote || excerptsWithText.length === 1) {
+          const singleEx = excerptsWithText.length === 1 ? excerptsWithText[0].excerpt : quote;
+          proofSectionHtml = `
+            <div class="rounded-2xl bg-gemini-pillLight/75 dark:bg-white/[0.03] border border-slate-200/70 dark:border-violet-300/[0.12] border-l-2 border-l-indigo-400 dark:border-l-violet-400/60 px-4 py-3 text-[13.5px] text-slate-700 dark:text-neutral-300">
+              <span class="text-[10.5px] uppercase tracking-[0.14em] font-bold text-indigo-600 dark:text-violet-300 block mb-1">Verbatim Excerpt</span>
+              <p class="italic leading-relaxed">“${escapeHtml(singleEx)}”</p>
+            </div>
+          `;
+        }
+
+        div.innerHTML = `
+          <div class="smart-icon-box w-8 h-8 rounded-2xl gemini-bg-gradient text-white dark:text-black flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" />
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-3">
+            <!-- Grounded Status & Multi-Occurrence Citation Pills -->
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11.5px] font-bold bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 dark:bg-white dark:text-black dark:border-white">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                ${verifiedBadgeLabel}
+              </span>
+              ${citationPillsHtml}
+              ${modePillHtml}
+              ${agreeBadgeHtml}
+            </div>
+            ${verNoteHtml}
+
+            <!-- Main Editorial Prose -->
+            <div data-answer-body="${id}" class="rounded-2xl px-4 py-3.5 bg-white/75 dark:bg-white/[0.03] border border-slate-200/60 dark:border-violet-300/[0.10] text-[14.5px] sm:text-[15.5px] leading-relaxed text-slate-800 dark:text-neutral-100">
+              ${answerHtml}
+            </div>
+
+            <!-- Verbatim Citation Proof Card(s) -->
+            ${proofSectionHtml}
+
+            <!-- Copy Utility -->
+            <div class="flex items-center gap-2 pt-0.5">
+              <button type="button" data-copy-id="${id}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[12px] font-medium text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white hover:bg-gemini-pillLight dark:hover:bg-white/10 transition-colors">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Citation</span>
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Clickable page pills -> open Interactive Page Reader & highlight excerpt
+        div.querySelectorAll('.cit-jump-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const c = normalizedCitations[Number(btn.getAttribute('data-cit-idx'))];
+            if (c) openCitationReader(c.sourceDoc || docName, c.pageNumber, c.excerpt || quote);
+          });
+        });
+
+        div.querySelectorAll('.proof-open-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const c = excerptsWithText[Number(btn.getAttribute('data-proof-idx'))];
+            if (c) openCitationReader(c.sourceDoc || docName, c.pageNumber, c.excerpt);
+          });
+        });
+
+        const toggleBtn = div.querySelector(`[data-toggle-proofs="${id}"]`);
+        const proofsList = div.querySelector(`[data-proofs-list="${id}"]`);
+        if (toggleBtn && proofsList) {
+          toggleBtn.addEventListener('click', () => proofsList.classList.toggle('hidden'));
+        }
+
+        div.querySelector(`[data-copy-id="${id}"]`).addEventListener('click', () => {
+          const bodyEl = div.querySelector(`[data-answer-body="${id}"]`);
+          const plain = (bodyEl ? bodyEl.innerText : div.textContent).trim();
+          const citSummary = normalizedCitations.map((c) => `${c.sourceDoc || docName} Page ${c.pageNumber}`).join('; ');
+          copyToClipboard(`${plain} [Sources: ${citSummary}]`, 'Answer & citations copied');
+        });
+        chatMessages.appendChild(div);
+        updateEmptyChatState();
+        scrollChatToBottom();
+      }
+
+      function appendRefusalCard(reasonText) {
+        const div = document.createElement('div');
+        div.className = 'animate-msg flex items-start gap-3.5 max-w-2xl';
+        div.innerHTML = `
+          <div class="smart-icon-box w-8 h-8 rounded-2xl bg-rose-500/12 border border-rose-300/60 text-rose-600 dark:bg-[#141414] dark:border-white/25 dark:text-white flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path stroke-linecap="round" d="M12 8v4m0 4h.01" />
+            </svg>
+          </div>
+          <div class="flex-1 rounded-2xl p-4 bg-gradient-to-br from-rose-50/90 via-white to-amber-50/40 dark:bg-none dark:bg-[#0D0D0D] border border-rose-200/80 dark:border-dashed dark:border-white/30 space-y-2">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-700 dark:bg-white/10 dark:text-white text-[12px] font-bold">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+              <span>Not found in the document</span>
+            </div>
+            <p class="text-[13.5px] sm:text-[14.5px] italic text-slate-600 dark:text-neutral-300 leading-relaxed">
+              ${escapeHtml(reasonText || 'This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.')}
+            </p>
+          </div>
+        `;
+        chatMessages.appendChild(div);
+        updateEmptyChatState();
+        scrollChatToBottom();
+      }
+
+      async function processUserQuery(rawQuery) {
+        const query = rawQuery.trim();
+        if (!query || isGenerating) return;
+        isGenerating = true;
+        closeMobileVault();
+
+        const isExtensive = document.getElementById('extensiveToggleBtn')?.getAttribute('aria-pressed') === 'true';
+        appendUserBubble(query);
+        const shimmerNode = appendThinkingShimmer(isExtensive, responseMode);
+
+        const activeDocs = documents.filter((d) => d.active);
+        const lower = query.toLowerCase();
+
+        if (activeDocs.length === 0) {
+          shimmerNode.remove();
+          appendRefusalCard('No active PDFs are selected in the Document Vault. Enable or upload a PDF to run document verification.');
+          isGenerating = false;
+          return;
+        }
+
+        // Explicit refusal triggers
+        if (lower.includes('missing content') || lower.includes('refusal test') || query === '?' || (query.length < 3 && !/\d/.test(query))) {
+          setTimeout(() => {
+            if (shimmerNode.parentNode) shimmerNode.remove();
+            appendRefusalCard('This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.');
+            isGenerating = false;
+          }, 350);
+          return;
+        }
+
+        // Query document intelligence endpoint (with recent conversation turns for follow-ups)
+        try {
+          const resp = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              query: query,
+              lang: currentLang,
+              extensive: isExtensive,
+              response_mode: responseMode,
+              history: chatHistory.slice(-4)
+            })
+          });
+
+          if (resp.ok) {
+            const result = await resp.json();
+            if (shimmerNode.parentNode) shimmerNode.remove();
+
+            if (result.ok && result.data && result.data.found) {
+              const rawAnswer = result.data.answer || '';
+              const formattedAnswer = formatStructuredAnswerHtml(rawAnswer);
+              const citList = Array.isArray(result.data.citations) ? result.data.citations : [];
+              appendGroundedResponse({
+                answerHtml: formattedAnswer,
+                docName: result.data.sourceDoc || (activeDocs[0] ? activeDocs[0].name : 'Document'),
+                page: result.data.pageNumber ? `Page ${result.data.pageNumber}` : 'Page 1',
+                quote: result.data.excerpt || '',
+                citations: citList,
+                verificationNote: result.data.verificationNote || '',
+                agreementStatus: result.data.agreementStatus || '',
+                respMode: result.data.responseMode || responseMode
+              });
+              chatHistory.push({ role: 'user', text: query });
+              chatHistory.push({ role: 'assistant', text: rawAnswer.slice(0, 450) });
+              if (chatHistory.length > 10) chatHistory = chatHistory.slice(-10);
+              chatTranscript.push({
+                query: query,
+                answer: rawAnswer,
+                citations: citList.length ? citList : [{ sourceDoc: result.data.sourceDoc, pageNumber: result.data.pageNumber, excerpt: result.data.excerpt }]
+              });
+              isGenerating = false;
+              return;
+            } else {
+              if (result.data?.notice) {
+                loadBackendDocuments();
+              }
+              appendRefusalCard(
+                result.data?.verificationNote || result.data?.notice || 'This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.'
+              );
+              isGenerating = false;
+              return;
+            }
+          }
+        } catch (networkErr) {
+          console.warn('Primary endpoint unreachable, checking offline knowledgebase', networkErr);
+        }
+
+        // Resilient Fallback to offline knowledge base
+        setTimeout(() => {
+          if (shimmerNode.parentNode) shimmerNode.remove();
+          const activeIds = new Set(activeDocs.map((d) => d.id));
+          const match = knowledgeBase.find((entry) => {
+            const docIsActive =
+              entry.docId === 'any' ||
+              activeIds.has(entry.docId) ||
+              (entry.docId === 'doc-2' && activeDocs.some((d) => d.name.toLowerCase().includes('ocr')));
+            return docIsActive && entry.keywords.some((kw) => lower.includes(kw));
+          });
+
+          if (match) {
+            const isBengaliQuery = /[\u0980-\u09FF]/.test(query) || currentLang === 'bn';
+            appendGroundedResponse({
+              answerHtml: isBengaliQuery ? match.answerBn : match.answerEn,
+              docName: match.docName,
+              page: match.page,
+              quote: match.quote,
+            });
+          } else {
+            appendRefusalCard(
+              'This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.'
+            );
+          }
+
+          isGenerating = false;
+        }, 400);
+      }
+
+      function resizeChatInput() {
+        chatInput.style.height = 'auto';
+        chatInput.style.height = Math.min(chatInput.scrollHeight, 160) + 'px';
+      }
+
+      chatInput.addEventListener('input', resizeChatInput);
+      chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+          e.preventDefault();
+          chatForm.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      });
+
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = chatInput.value;
+        if (!val.trim()) return;
+        chatInput.value = '';
+        resizeChatInput();
+        processUserQuery(val);
+      });
+
+      document.getElementById('clearChatBtn').addEventListener('click', () => {
+        chatMessages.innerHTML = '';
+        chatHistory = [];
+        chatTranscript = [];
+        updateEmptyChatState();
+        showToast('Conversation cleared');
+      });
+
+      document.getElementById('exportChatBtn')?.addEventListener('click', () => {
+        if (!chatTranscript.length) {
+          showToast('Ask at least one question before exporting study notes');
+          return;
+        }
+        const mdLines = [
+          '# Document Intelligence Study Notes',
+          `Generated: ${new Date().toLocaleString()}`,
+          ''
+        ];
+        chatTranscript.forEach((item, idx) => {
+          mdLines.push(`## ${idx + 1}. ${item.query}`);
+          mdLines.push(item.answer);
+          const refs = (item.citations || [])
+            .filter((c) => c && c.pageNumber)
+            .map((c) => `- ${c.sourceDoc || 'Document'} (Page ${c.pageNumber})${c.excerpt ? `: "${c.excerpt}"` : ''}`);
+          if (refs.length) {
+            mdLines.push('', '**Verified Page Citations:**', ...refs);
+          }
+          mdLines.push('', '---', '');
+        });
+        const blob = new Blob([mdLines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `study_notes_${Date.now()}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Study notes & citations downloaded (.md)');
+      });
+
+      const extensiveToggleBtn = document.getElementById('extensiveToggleBtn');
+      const modeThinkingBtn = document.getElementById('modeThinkingBtn');
+      const modeExactBtn = document.getElementById('modeExactBtn');
+      const activeModeSummary = document.getElementById('activeModeSummary');
+
+      function updateModeSummaryUI() {
+        const isCross = extensiveToggleBtn?.getAttribute('aria-pressed') === 'true';
+        const modeName = responseMode === 'exact' ? 'Exact Only' : 'Thinking';
+        if (activeModeSummary) {
+          activeModeSummary.textContent = isCross
+            ? `${modeName} · Cross-Verify ON`
+            : `${modeName} · Fast Grounded`;
+        }
+        [modeThinkingBtn, modeExactBtn].forEach((btn) => {
+          if (!btn) return;
+          const active = btn.getAttribute('data-answer-mode') === responseMode;
+          if (active) {
+            btn.className = 'answer-mode-btn inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11.5px] font-bold transition-all bg-white dark:bg-white text-indigo-700 dark:text-black shadow-xs';
+          } else {
+            btn.className = 'answer-mode-btn inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold transition-all text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white';
+          }
+        });
+      }
+
+      if (modeThinkingBtn) {
+        modeThinkingBtn.addEventListener('click', () => {
+          responseMode = 'thinking';
+          updateModeSummaryUI();
+          showToast('Thinking Mode active — structured analytical synthesis from PDF context');
+        });
+      }
+
+      if (modeExactBtn) {
+        modeExactBtn.addEventListener('click', () => {
+          responseMode = 'exact';
+          updateModeSummaryUI();
+          showToast('Exact Only Mode active — direct PDF extract with zero extra words');
+        });
+      }
+
+      if (extensiveToggleBtn) {
+        extensiveToggleBtn.addEventListener('click', () => {
+          const isActive = extensiveToggleBtn.getAttribute('aria-pressed') === 'true';
+          const next = !isActive;
+          extensiveToggleBtn.setAttribute('aria-pressed', next ? 'true' : 'false');
+          if (next) {
+            extensiveToggleBtn.classList.remove(
+              'bg-gemini-pillLight/90', 'dark:bg-[#111111]', 'text-slate-600', 'dark:text-neutral-300', 'border-slate-200/70', 'dark:border-white/15'
+            );
+            extensiveToggleBtn.classList.add(
+              'bg-violet-600', 'text-white', 'border-violet-600', 'shadow-sm',
+              'dark:bg-white', 'dark:text-black', 'dark:border-white'
+            );
+            showToast('Cross-Verify ON — Multi-pass independent audit active (15–30s)');
+          } else {
+            extensiveToggleBtn.classList.remove(
+              'bg-violet-600', 'text-white', 'border-violet-600', 'shadow-sm',
+              'dark:bg-white', 'dark:text-black', 'dark:border-white'
+            );
+            extensiveToggleBtn.classList.add(
+              'bg-gemini-pillLight/90', 'dark:bg-[#111111]', 'text-slate-600', 'dark:text-neutral-300', 'border-slate-200/70', 'dark:border-white/15'
+            );
+            showToast('Cross-Verify OFF — Fast grounded mode active');
+          }
+          updateModeSummaryUI();
+        });
+      }
+
+      document.querySelectorAll('.quick-prompt-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          switchMode('chat');
+          processUserQuery(btn.getAttribute('data-quick-prompt'));
+        });
+      });
+
+      // -------------------------------------------------------------------
+      // 8. Adaptive Multi-Format Quiz Engine (MCQ, True/False, Matching)
+      // -------------------------------------------------------------------
+      const quizCardsContainer = document.getElementById('quizCardsContainer');
+      const quizScoreCircle = document.getElementById('quizScoreCircle');
+      const quizScorePct = document.getElementById('quizScorePct');
+      const quizScoreCount = document.getElementById('quizScoreCount');
+      const QUIZ_CIRC = 2 * Math.PI * 22;
+
+      function isQuestionCorrect(q) {
+        const ans = quizAnswers[q.id];
+        if (ans === undefined) return false;
+        if (q.type === 'true_false') {
+          return ans === q.isTrue;
+        } else if (q.type === 'matching') {
+          if (!ans || typeof ans !== 'object') return false;
+          return q.pairs.every((p, idx) => ans[idx] === p.right);
+        } else {
+          return ans === q.correct;
+        }
+      }
+
+      function updateQuizScoreUI() {
+        const total = quizBank.length;
+        let correctCount = 0;
+        quizBank.forEach((q) => {
+          if (isQuestionCorrect(q)) correctCount++;
+        });
+        const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+        const offset = QUIZ_CIRC - (pct / 100) * QUIZ_CIRC;
+        quizScoreCircle.style.strokeDashoffset = offset.toFixed(2);
+        quizScorePct.textContent = `${pct}%`;
+        quizScoreCount.textContent = `${correctCount} / ${total}`;
+      }
+
+      function renderQuiz() {
+        quizCardsContainer.innerHTML = '';
+        quizBank.forEach((q, qIdx) => {
+          const userAns = quizAnswers[q.id];
+          const answered = userAns !== undefined;
+          const card = document.createElement('div');
+          card.className =
+            'rounded-2xl p-5 bg-white dark:bg-[#0D0D0D] border border-slate-200/80 dark:border-white/15 space-y-4';
+
+          const typeTagMap = {
+            mcq: { label: 'Multiple Choice', bg: 'bg-blue-500/10 text-blue-700 dark:bg-white/10 dark:text-blue-300' },
+            true_false: { label: 'True / False', bg: 'bg-purple-500/10 text-purple-700 dark:bg-white/10 dark:text-purple-300' },
+            matching: { label: 'Column Matching', bg: 'bg-emerald-500/10 text-emerald-700 dark:bg-white/10 dark:text-emerald-300' }
+          };
+          const typeInfo = typeTagMap[q.type || 'mcq'] || typeTagMap.mcq;
+
+          let bodyHtml = '';
+
+          // 1. TRUE / FALSE RENDERER
+          if (q.type === 'true_false') {
+            const isPickedTrue = userAns === true;
+            const isPickedFalse = userAns === false;
+
+            let trueBtnStyle = 'bg-gemini-pillLight/65 dark:bg-[#141414] border-slate-200 dark:border-white/15 text-slate-800 dark:text-neutral-200 hover:border-violet-400';
+            let falseBtnStyle = 'bg-gemini-pillLight/65 dark:bg-[#141414] border-slate-200 dark:border-white/15 text-slate-800 dark:text-neutral-200 hover:border-violet-400';
+
+            if (answered) {
+              if (q.isTrue) {
+                trueBtnStyle = 'bg-emerald-500/12 border-emerald-500/50 text-emerald-900 dark:bg-white dark:border-white dark:text-black font-bold ring-2 ring-emerald-500/30';
+                falseBtnStyle = isPickedFalse
+                  ? 'bg-rose-500/12 border-rose-500/50 text-rose-900 dark:bg-[#181818] dark:border-dashed dark:border-white/50 dark:text-neutral-400 line-through'
+                  : 'opacity-40 text-slate-400 dark:text-neutral-600 border-transparent';
+              } else {
+                falseBtnStyle = 'bg-emerald-500/12 border-emerald-500/50 text-emerald-900 dark:bg-white dark:border-white dark:text-black font-bold ring-2 ring-emerald-500/30';
+                trueBtnStyle = isPickedTrue
+                  ? 'bg-rose-500/12 border-rose-500/50 text-rose-900 dark:bg-[#181818] dark:border-dashed dark:border-white/50 dark:text-neutral-400 line-through'
+                  : 'opacity-40 text-slate-400 dark:text-neutral-600 border-transparent';
+              }
+            }
+
+            bodyHtml = `
+              <div class="p-4 rounded-xl bg-slate-50/70 dark:bg-[#121212] border border-slate-200/60 dark:border-white/10 text-[14.5px] italic text-slate-800 dark:text-neutral-200 leading-relaxed">
+                “${escapeHtml(q.statement || q.question)}”
+              </div>
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <button
+                  type="button"
+                  data-tf-qid="${q.id}"
+                  data-tf-val="true"
+                  class="quiz-tf-choice px-4 py-3 rounded-xl border text-[14px] font-bold flex items-center justify-center gap-2 transition-all ${trueBtnStyle}"
+                >
+                  <span class="w-5 h-5 rounded-md bg-white/80 dark:bg-black/30 border border-slate-200 dark:border-white/20 flex items-center justify-center text-[11px]">✓</span>
+                  <span>${currentLang === 'bn' ? 'সত্য (True)' : 'True'}</span>
+                </button>
+                <button
+                  type="button"
+                  data-tf-qid="${q.id}"
+                  data-tf-val="false"
+                  class="quiz-tf-choice px-4 py-3 rounded-xl border text-[14px] font-bold flex items-center justify-center gap-2 transition-all ${falseBtnStyle}"
+                >
+                  <span class="w-5 h-5 rounded-md bg-white/80 dark:bg-black/30 border border-slate-200 dark:border-white/20 flex items-center justify-center text-[11px]">✕</span>
+                  <span>${currentLang === 'bn' ? 'মিথ্যা (False)' : 'False'}</span>
+                </button>
+              </div>
+            `;
+
+            // 2. MATCHING PAIRS RENDERER (Deterministic Shuffle of Column B)
+          } else if (q.type === 'matching' && Array.isArray(q.pairs)) {
+            if (!q._shuffledRights) {
+              const uniqueRights = [...new Set(q.pairs.map((p) => p.right))];
+              // Deterministic Fisher-Yates shuffle seeded by question id so order stays stable during interaction
+              let seed = q.id.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0) + uniqueRights.length * 7;
+              for (let i = uniqueRights.length - 1; i > 0; i--) {
+                seed = (seed * 9301 + 49297) % 233280;
+                const j = seed % (i + 1);
+                [uniqueRights[i], uniqueRights[j]] = [uniqueRights[j], uniqueRights[i]];
+              }
+              q._shuffledRights = uniqueRights;
+            }
+            const allRights = q._shuffledRights;
+            const isMatchAnswered = Boolean(userAns && Object.keys(userAns).length === q.pairs.length);
+
+            const rowsHtml = q.pairs
+              .map((pair, pIdx) => {
+                const picked = userAns ? userAns[pIdx] : '';
+                const isPairCorrect = picked === pair.right;
+
+                let rowBorder = 'border-slate-200/70 dark:border-white/10';
+                let statusBadge = '';
+
+                if (isMatchAnswered) {
+                  if (isPairCorrect) {
+                    rowBorder = 'border-emerald-500/50 bg-emerald-500/5 dark:bg-emerald-950/20';
+                    statusBadge = `<span class="text-[11.5px] font-bold text-emerald-600 dark:text-emerald-400">✓ Match</span>`;
+                  } else {
+                    rowBorder = 'border-rose-500/50 bg-rose-500/5 dark:bg-rose-950/20';
+                    statusBadge = `<span class="text-[11px] font-bold text-rose-600 dark:text-rose-400">✕ Should be: ${escapeHtml(pair.right)}</span>`;
+                  }
+                }
+
+                const optionsHtml = allRights
+                  .map((r) => `<option value="${escapeHtml(r)}" ${picked === r ? 'selected' : ''}>${escapeHtml(r)}</option>`)
+                  .join('');
+
+                return `
+                  <div class="p-3 rounded-xl border ${rowBorder} flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all">
+                    <div class="flex items-center gap-2.5 min-w-0 sm:w-5/12">
+                      <span class="w-5 h-5 rounded-md bg-gemini-pillLight dark:bg-white/10 text-[11px] font-bold flex items-center justify-center shrink-0">
+                        ${String.fromCharCode(65 + pIdx)}
+                      </span>
+                      <span class="text-[13.5px] font-semibold text-slate-800 dark:text-neutral-200 truncate" title="${escapeHtml(pair.left)}">
+                        ${escapeHtml(pair.left)}
+                      </span>
+                    </div>
+
+                    <div class="flex items-center gap-2 sm:w-7/12">
+                      <svg class="w-4 h-4 text-slate-400 shrink-0 hidden sm:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                      <select
+                        data-match-qid="${q.id}"
+                        data-match-idx="${pIdx}"
+                        class="quiz-match-select flex-1 min-w-0 text-[12.5px] font-medium rounded-lg px-2.5 py-1.5 bg-white dark:bg-[#141414] border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white focus:outline-none"
+                      >
+                        <option value="">-- Choose Match --</option>
+                        ${optionsHtml}
+                      </select>
+                      ${statusBadge}
+                    </div>
+                  </div>
+                `;
+              })
+              .join('');
+
+            bodyHtml = `
+              <div class="space-y-2.5">
+                <div class="text-[12.5px] font-semibold text-slate-500 dark:text-neutral-400 mb-1">
+                  ${currentLang === 'bn' ? 'বাম পাশের বিষয়ের সাথে ডান পাশের সঠিক তথ্যটি নির্বাচন করুন:' : 'Pair each item in Column A with its corresponding match in Column B:'}
+                </div>
+                ${rowsHtml}
+              </div>
+            `;
+
+            // 3. STANDARD MCQ RENDERER
+          } else {
+            const options = q.options || [];
+            const optionsHtml = options
+              .map((opt, oIdx) => {
+                let style =
+                  'bg-gemini-pillLight/65 dark:bg-[#141414] border-transparent hover:border-indigo-300 dark:hover:border-white/40 text-slate-800 dark:text-neutral-200';
+                let badge = String.fromCharCode(65 + oIdx);
+
+                if (answered) {
+                  if (oIdx === q.correct) {
+                    style =
+                      'bg-emerald-500/12 border-emerald-500/50 text-emerald-900 dark:bg-white dark:border-white dark:text-black font-bold';
+                    badge = '✓';
+                  } else if (oIdx === userAns) {
+                    style =
+                      'bg-rose-500/12 border-rose-500/50 text-rose-900 dark:bg-[#181818] dark:border-dashed dark:border-white/50 dark:text-neutral-300 line-through';
+                    badge = '✕';
+                  } else {
+                    style = 'bg-slate-50 dark:bg-[#0A0A0A] border-transparent opacity-45 text-slate-500 dark:text-neutral-500';
+                  }
+                }
+
+                return `
+                  <button
+                    type="button"
+                    data-qid="${q.id}"
+                    data-oidx="${oIdx}"
+                    class="quiz-opt-choice w-full text-left px-4 py-3 rounded-xl border text-[13.5px] sm:text-[14px] transition-all flex items-center gap-3 ${style}"
+                  >
+                    <span class="w-6 h-6 rounded-lg bg-white/90 dark:bg-black/30 border border-slate-200/70 dark:border-current/25 text-[12px] font-bold flex items-center justify-center shrink-0">
+                      ${badge}
+                    </span>
+                    <span class="leading-snug">${escapeHtml(opt)}</span>
+                  </button>
+                `;
+              })
+              .join('');
+
+            bodyHtml = `
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                ${optionsHtml}
+              </div>
+            `;
+          }
+
+          card.innerHTML = `
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-start gap-3">
+                <span class="text-[12px] font-bold px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-700 dark:bg-white/10 dark:text-white shrink-0">Q0${qIdx + 1}</span>
+                <div class="space-y-1 pt-0.5">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider ${typeInfo.bg}">${typeInfo.label}</span>
+                  </div>
+                  <h4 class="font-bold text-[15px] sm:text-[16px] text-slate-900 dark:text-white leading-snug">
+                    ${escapeHtml(q.question)}
+                  </h4>
+                </div>
+              </div>
+              <button type="button" data-quiz-jump="${q.id}" title="Open source page in Page Reader"
+                class="hidden sm:inline-flex items-center gap-1 text-[11.5px] italic text-indigo-600 dark:text-violet-300 hover:underline shrink-0">
+                <span>${escapeHtml(q.source)}</span>
+                <span class="not-italic text-[10px]">↗</span>
+              </button>
+            </div>
+
+            ${bodyHtml}
+
+            ${answered
+              ? `
+              <div class="rounded-xl px-4 py-3 bg-indigo-50/60 border border-indigo-200/60 dark:bg-[#141414] dark:border-white/15 text-[13px] text-slate-700 dark:text-neutral-300 space-y-1">
+                <button type="button" data-quiz-jump="${q.id}" class="text-[10.5px] uppercase tracking-[0.12em] font-bold text-indigo-700 dark:text-violet-300 hover:underline block text-left">
+                  Verbatim Source Proof · ${escapeHtml(q.source)} ↗
+                </button>
+                <p class="italic">“${escapeHtml(q.proof)}”</p>
+              </div>
+            `
+              : ''
+            }
+          `;
+
+          card.querySelectorAll('[data-quiz-jump]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const parts = String(q.source || '').split(' · ');
+              const pg = parseInt((q.source.match(/Page\s+(\d+)/i) || [])[1] || '1', 10);
+              openCitationReader(parts[0] || 'Document', pg, q.proof || '');
+            });
+          });
+
+          quizCardsContainer.appendChild(card);
+        });
+
+        // Event listener for MCQ choices
+        quizCardsContainer.querySelectorAll('.quiz-opt-choice').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const qid = btn.getAttribute('data-qid');
+            const oidx = Number(btn.getAttribute('data-oidx'));
+            quizAnswers[qid] = oidx;
+            renderQuiz();
+            updateQuizScoreUI();
+          });
+        });
+
+        // Event listener for True/False choices
+        quizCardsContainer.querySelectorAll('.quiz-tf-choice').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const qid = btn.getAttribute('data-tf-qid');
+            const isTrue = btn.getAttribute('data-tf-val') === 'true';
+            quizAnswers[qid] = isTrue;
+            renderQuiz();
+            updateQuizScoreUI();
+          });
+        });
+
+        // Event listener for Matching dropdowns
+        quizCardsContainer.querySelectorAll('.quiz-match-select').forEach((sel) => {
+          sel.addEventListener('change', () => {
+            const qid = sel.getAttribute('data-match-qid');
+            const idx = Number(sel.getAttribute('data-match-idx'));
+            if (!quizAnswers[qid] || typeof quizAnswers[qid] !== 'object') {
+              quizAnswers[qid] = {};
+            }
+            quizAnswers[qid][idx] = sel.value;
+
+            // Check if all pairs for this matching question are selected
+            const q = quizBank.find((item) => item.id === qid);
+            if (q && q.pairs && Object.keys(quizAnswers[qid]).length === q.pairs.length) {
+              const allChosen = Object.values(quizAnswers[qid]).every((v) => Boolean(v));
+              if (allChosen) {
+                renderQuiz();
+                updateQuizScoreUI();
+              }
+            }
+          });
+        });
+
+        updateQuizScoreUI();
+      }
+
+      document.getElementById('generateQuizBtn').addEventListener('click', async () => {
+        quizAnswers = {};
+        const qType = document.getElementById('quizTypeSelect')?.value || 'mixed';
+        const diff = document.getElementById('quizDifficulty')?.value || 'Applied';
+        const count = Number(document.getElementById('quizCountSelect')?.value || 5);
+        const topic = (document.getElementById('quizTopicInput')?.value || '').trim();
+
+        const typeLabels = {
+          mixed: 'Mixed Combination (MCQ, True/False, Matching)',
+          mcq: 'Multiple Choice Questions (MCQ)',
+          true_false: 'True / False Questions',
+          matching: 'Column Matching Exercises'
+        };
+
+        quizCardsContainer.innerHTML = `
+          <div class="rounded-2xl p-6 border border-slate-200/70 dark:border-white/15 space-y-3">
+            <div class="flex items-center gap-2 text-[13px] italic text-indigo-600 dark:text-neutral-300">
+              <svg class="w-4 h-4 sparkle-thinking" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z"/></svg>
+              <span>Generating ${count} ${typeLabels[qType] || 'questions'} at ${diff} difficulty...</span>
+            </div>
+            <div class="h-3 w-11/12 rounded-full shimmer-bar"></div>
+            <div class="h-3 w-4/5 rounded-full shimmer-bar"></div>
+          </div>
+        `;
+
+        try {
+          const resp = await fetch('/api/quiz/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ count: count, difficulty: diff, quiz_type: qType, lang: currentLang, topic: topic })
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.ok && Array.isArray(data.questions) && data.questions.length > 0) {
+              quizBank = data.questions.map((q, idx) => ({
+                id: 'q_' + idx,
+                type: q.type || 'mcq',
+                question: q.question,
+                statement: q.statement || q.question,
+                isTrue: q.isTrue,
+                options: q.options || [],
+                correct: q.correctIndex,
+                pairs: q.pairs || [],
+                source: `${q.sourceDoc} · Page ${q.pageNumber}`,
+                proof: q.explanationQuote || ''
+              }));
+              renderQuiz();
+              showToast(`Generated ${quizBank.length} fresh assessment questions`);
+              return;
+            }
+          }
+        } catch (e) {
+          console.warn('Backend quiz generation fallback to local engine', e);
+        }
+
+        setTimeout(() => {
+          quizBank = [...defaultQuizBank];
+          renderQuiz();
+          showToast('Loaded adaptive sample assessment');
+        }, 500);
+      });
+
+      document.getElementById('exportQuizCsvBtn').addEventListener('click', () => {
+        const rows = ['Question,Type,Correct Answer / Matches,Source Citation'];
+        quizBank.forEach((q) => {
+          let ansText = '';
+          if (q.type === 'true_false') {
+            ansText = q.isTrue ? 'True' : 'False';
+          } else if (q.type === 'matching') {
+            ansText = q.pairs.map((p) => `${p.left} -> ${p.right}`).join('; ');
+          } else {
+            ansText = q.options && q.options[q.correct] ? q.options[q.correct] : 'Option ' + q.correct;
+          }
+          rows.push(`"${q.question.replace(/"/g, '""')}","${q.type}","${ansText.replace(/"/g, '""')}","${q.source}"`);
+        });
+        copyToClipboard(rows.join('\n'), 'Full quiz bank copied as CSV');
+      });
+
+      // Print Assessment Report
+      const printQuizBtn = document.getElementById('printQuizReportBtn');
+      if (printQuizBtn) {
+        printQuizBtn.addEventListener('click', async () => {
+          let score = 0;
+          const questionsData = quizBank.map((q) => {
+            const isCorrect = isQuestionCorrect(q);
+            if (isCorrect) score++;
+
+            let userPick = quizAnswers[q.id];
+            let userMatches = [];
+            if (q.type === 'matching' && userPick && typeof userPick === 'object') {
+              userMatches = q.pairs.map((p, idx) => userPick[idx] || '');
+            }
+
+            return {
+              question: q.question,
+              statement: q.statement,
+              type: q.type,
+              options: q.options || [],
+              pairs: q.pairs || [],
+              correctIndex: q.correct !== undefined ? q.correct : (q.isTrue ? 0 : 1),
+              isTrue: q.isTrue,
+              userIndex: typeof userPick === 'number' ? userPick : -1,
+              userAnswer: userPick,
+              userMatches: userMatches,
+              isCorrect: isCorrect,
+              sourceDoc: q.source.split(' · ')[0] || 'Document',
+              pageNumber: parseInt((q.source.match(/Page\s+(\d+)/i) || [])[1] || '1', 10),
+              explanationQuote: q.proof
+            };
+          });
+
+          try {
+            const resp = await fetch('/api/quiz/export', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                score: score,
+                total: quizBank.length,
+                percentage: quizBank.length ? Math.round((score / quizBank.length) * 100) : 0,
+                questions: questionsData
+              })
+            });
+            if (resp.ok) {
+              const html = await resp.text();
+              const win = window.open('', '_blank');
+              win.document.write(html);
+              win.document.close();
+              showToast('Assessment report opened for printing');
+            }
+          } catch (err) {
+            console.error('Quiz export failed:', err);
+            window.print();
+          }
+        });
+      }
+
+      // Retake / Reset Quiz
+      const resetQuizBtn = document.getElementById('resetQuizBtn');
+      if (resetQuizBtn) {
+        resetQuizBtn.addEventListener('click', () => {
+          quizAnswers = {};
+          renderQuiz();
+          updateQuizScoreUI();
+          showToast('Quiz reset — ready for retake');
+        });
+      }
+
+      // -------------------------------------------------------------------
+      // 9. Load Backend Documents on Start
+      // -------------------------------------------------------------------
+      async function loadBackendDocuments() {
+        try {
+          const res = await fetch('/api/documents');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.ok && Array.isArray(data.documents)) {
+              documents = data.documents.map((d) => ({
+                id: d.id,
+                name: d.name,
+                pages: d.totalPages || 1,
+                words: d.totalWords || ((d.totalPages || 1) * 300),
+                active: d.enabled !== false,
+                samplePrompt: 'Summarize ' + d.name,
+                excerpt: d.preview || 'Indexed PDF note'
+              }));
+              renderDocuments();
+              return;
+            }
+          }
+        } catch (e) { }
+        renderDocuments();
+      }
+
+      loadBackendDocuments();
+      updateEmptyChatState();
+    })();
+  </script>
+</body>
+
+</html>

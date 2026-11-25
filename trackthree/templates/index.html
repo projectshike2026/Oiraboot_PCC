@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="workspace-grid">
+
+  <!-- LEFT COLUMN: PDF MANAGEMENT & DOCUMENT VAULT -->
+  <aside class="sidebar-card">
+    <div class="sidebar-header">
+      <div class="section-tag">
+        <i data-lucide="file-text" class="icon-sm text-crimson"></i>
+        <span data-i18n="docVault">DOCUMENT VAULT</span>
+      </div>
+      <div class="stats-badge" id="doc-counter">
+        <span id="doc-count-num">{{ documents|length }}</span> <span data-i18n="docsLabel">Documents</span>
+      </div>
+    </div>
+
+    <!-- Drag & Drop PDF Upload Area -->
+    <div class="upload-dropzone" id="dropzone">
+      <input type="file" id="pdf-input" accept="application/pdf" multiple class="file-input-hidden" />
+      <div class="dropzone-content" onclick="document.getElementById('pdf-input').click()">
+        <div class="upload-icon-wrapper">
+          <i data-lucide="cloud-upload" class="icon-lg text-crimson"></i>
+        </div>
+        <p class="dropzone-main" data-i18n="dropzoneMain">Drop PDF here or click to browse</p>
+        <p class="dropzone-sub" data-i18n="dropzoneSub">Supports single or multi-PDF extraction</p>
+      </div>
+      <div id="upload-progress" class="upload-progress hidden">
+        <div class="progress-bar-fill"></div>
+        <span class="progress-label" data-i18n="processingPdf">Extracting pages & text...</span>
+      </div>
+    </div>
+
+    <!-- Active Documents List -->
+    <div class="doc-list-section">
+      <div class="doc-list-title">
+        <span data-i18n="activeDocs">ACTIVE DOCUMENTS</span>
+        {% if documents %}
+        <button class="clear-btn" onclick="clearAllDocs()" title="Clear all documents" data-i18n="clearAll">Clear All</button>
+        {% endif %}
+      </div>
+
+      <div class="doc-items-container" id="doc-items-list">
+        {% for doc in documents %}
+        <div class="doc-item" data-filename="{{ doc.filename }}">
+          <div class="doc-item-icon">
+            <i data-lucide="file-check" class="icon-sm text-crimson"></i>
+          </div>
+          <div class="doc-item-meta">
+            <div class="doc-item-name" title="{{ doc.filename }}">{{ doc.filename }}</div>
+            <div class="doc-item-stats">
+              <span>{{ doc.total_pages }} pages</span> • <span>{{ doc.total_words }} words</span>
+            </div>
+          </div>
+          <button class="doc-delete-btn" onclick="removeDoc('{{ doc.filename }}')" title="Remove Document">
+            <i data-lucide="trash-2" class="icon-xs"></i>
+          </button>
+        </div>
+        {% else %}
+        <div class="empty-docs-notice" id="empty-notice">
+          <i data-lucide="file-question" class="icon-md text-faint"></i>
+          <p data-i18n="noDocsUploaded">No PDF loaded yet. Upload your PDF notes above to begin.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Sample Questions Pills -->
+    <div class="sample-queries-section">
+      <div class="sample-title">
+        <i data-lucide="sparkles" class="icon-xs text-crimson"></i>
+        <span data-i18n="quickQuestions">QUICK VERIFICATION QUESTIONS</span>
+      </div>
+      <div class="query-pills">
+        <button class="query-pill" onclick="sendQuickQuery('What are the must-have requirements for Track 1 in the document?')">
+          Track 1 requirements
+        </button>
+        <button class="query-pill" onclick="sendQuickQuery('What is the rule if an answer is not found in the PDF?')">
+          Refusal rule for missing answers
+        </button>
+        <button class="query-pill" onclick="sendQuickQuery('What is the capital city of Australia?')">
+          Test missing content (refusal test)
+        </button>
+        <button class="query-pill" onclick="sendQuickQuery('ট্র্যাক ১ এ কুইজের জন্য কি কি নিয়ম বলা হয়েছে?')">
+          বাংলা প্রশ্ন: কুইজের নিয়ম
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN: INTERACTIVE TABBED STUDIO (CHAT & QUIZ) -->
+  <section class="main-studio-card">
+
+    <!-- Tab Bar -->
+    <div class="studio-tab-bar">
+      <button class="studio-tab active" id="tab-btn-chat" onclick="switchStudioTab('chat')">
+        <i data-lucide="messages-square" class="icon-sm"></i>
+        <span data-i18n="tabChat">Document Chat & Semantic Search</span>
+      </button>
+      <button class="studio-tab" id="tab-btn-quiz" onclick="switchStudioTab('quiz')">
+        <i data-lucide="award" class="icon-sm"></i>
+        <span data-i18n="tabQuiz">Generate & Take Quiz</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: CHAT WORKSPACE -->
+    <div class="tab-content" id="tab-chat-content">
+      <div class="chat-viewport" id="chat-messages">
+        <!-- Welcome Prompt -->
+        <div class="chat-msg ai-msg">
+          <div class="msg-avatar">
+            <i data-lucide="bot" class="icon-sm"></i>
+          </div>
+          <div class="msg-bubble">
+            <p class="msg-text" data-i18n="chatWelcome">
+              Welcome to the <strong>Document Intelligence Studio</strong>! Ask any question about your loaded PDF notes. Every answer includes verbatim excerpts and page-level citations. If information is absent, I will strictly respond with <em>"Not found in the document"</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input Area -->
+      <div class="chat-input-bar">
+        <form id="chat-form" onsubmit="handleChatSubmit(event)" class="chat-form">
+          <textarea
+            id="chat-input"
+            rows="1"
+            placeholder="Ask a question about the document notes..."
+            data-i18n-placeholder="chatPlaceholder"
+            onkeydown="handleTextareaKeydown(event)"
+          ></textarea>
+          <div class="input-actions">
+            <button type="button" class="btn-icon" onclick="clearChatHistory()" title="Clear Chat">
+              <i data-lucide="eraser" class="icon-sm"></i>
+            </button>
+            <button type="submit" id="send-btn" class="btn-send" title="Send question">
+              <span data-i18n="send">Ask AI</span>
+              <i data-lucide="send" class="icon-sm"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 2: QUIZ WORKSPACE -->
+    <div class="tab-content hidden" id="tab-quiz-content">
+
+      <!-- Quiz Configuration Panel -->
+      <div class="quiz-controls-card">
+        <div class="quiz-controls-grid">
+          <!-- Question Count Selector -->
+          <div class="control-group">
+            <label class="control-label" data-i18n="numQuestions">Number of Questions</label>
+            <select id="quiz-count" class="select-input">
+              <option value="5" selected>5 Questions (Standard)</option>
+              <option value="8">8 Questions</option>
+              <option value="10">10 Questions (Comprehensive)</option>
+            </select>
+          </div>
+
+          <!-- Difficulty Selector -->
+          <div class="control-group">
+            <label class="control-label" data-i18n="difficulty">Difficulty Level</label>
+            <select id="quiz-difficulty" class="select-input">
+              <option value="Easy">Easy (Direct factual)</option>
+              <option value="Medium" selected>Medium (Standard conceptual)</option>
+              <option value="Hard">Hard (In-depth analysis)</option>
+            </select>
+          </div>
+
+          <!-- Quiz Language -->
+          <div class="control-group">
+            <label class="control-label" data-i18n="quizLang">Quiz Language</label>
+            <select id="quiz-lang-select" class="select-input">
+              <option value="en" selected>English</option>
+              <option value="bn">বাংলা (Bengali)</option>
+            </select>
+          </div>
+
+          <!-- Action Button -->
+          <div class="control-action">
+            <button id="generate-quiz-btn" class="btn-generate" onclick="generateQuiz()">
+              <i data-lucide="sparkles" class="icon-sm"></i>
+              <span data-i18n="generateQuiz">Generate Quiz</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Interactive Stage -->
+      <div class="quiz-stage" id="quiz-stage">
+        <!-- Initial Empty Quiz Placeholder -->
+        <div class="quiz-empty-state" id="quiz-placeholder">
+          <div class="empty-icon-circle">
+            <i data-lucide="help-circle" class="icon-xl text-crimson"></i>
+          </div>
+          <h3 class="empty-heading" data-i18n="quizReadyHeading">Ready to Test Your Knowledge?</h3>
+          <p class="empty-desc" data-i18n="quizReadyDesc">
+            Click <strong>"Generate Quiz"</strong> above to synthesize multiple-choice questions directly from your uploaded PDF notes.
+          </p>
+        </div>
+
+        <!-- Quiz Loading Indicator -->
+        <div class="quiz-loading-state hidden" id="quiz-loading">
+          <div class="spinner"></div>
+          <p class="loading-text" data-i18n="synthesizingQuiz">Analyzing document and generating quiz questions with page citations...</p>
+        </div>
+
+        <!-- Quiz Form View -->
+        <div class="quiz-form-container hidden" id="quiz-form-wrapper">
+          <div class="quiz-status-header">
+            <div class="quiz-meta-tag">
+              <span id="quiz-badge-count">5 Questions</span> • <span id="quiz-badge-diff">Medium</span>
+            </div>
+            <div class="quiz-progress-text" id="quiz-progress-label">Answered 0 of 5</div>
+          </div>
+
+          <form id="quiz-form" onsubmit="handleQuizSubmit(event)">
+            <div id="questions-list" class="questions-list"></div>
+
+            <div class="quiz-submit-bar">
+              <button type="submit" id="quiz-submit-btn" class="btn-submit-quiz">
+                <i data-lucide="check-circle" class="icon-sm"></i>
+                <span data-i18n="submitQuiz">Submit Quiz & View Score</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Quiz Results & Assessment Review -->
+        <div class="quiz-results-container hidden" id="quiz-results-wrapper">
+          <!-- Final Score Header Card -->
+          <div class="score-summary-card">
+            <div class="score-circle" id="score-circle-indicator">
+              <span class="score-ratio" id="score-ratio">5 / 5</span>
+              <span class="score-pct" id="score-pct">100%</span>
+            </div>
+            <div class="score-meta">
+              <h3 class="score-feedback" id="score-feedback">Outstanding Performance!</h3>
+              <p class="score-subtext" data-i18n="scoreSubtext">
+                Review each question below with page numbers and exact document proof excerpts.
+              </p>
+              <div class="score-actions">
+                <button class="btn-download" onclick="downloadQuizResults()">
+                  <i data-lucide="download" class="icon-sm"></i>
+                  <span data-i18n="downloadResult">Download Quiz Result</span>
+                </button>
+                <button class="btn-secondary" onclick="retakeQuiz()">
+                  <i data-lucide="rotate-ccw" class="icon-sm"></i>
+                  <span data-i18n="retakeQuiz">Retake Quiz</span>
+                </button>
+                <button class="btn-secondary" onclick="generateQuiz()">
+                  <i data-lucide="sparkles" class="icon-sm"></i>
+                  <span data-i18n="newQuiz">New Quiz</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Answer Reviews with Page-Cited Explanations -->
+          <div class="reviews-list" id="reviews-list"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+</div>
+{% endblock %}

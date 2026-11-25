@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}PCIU Computer Club — Document Intelligence & RAG{% endblock %}</title>
+
+  <!-- Typography & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 0.85rem;">
+          <div class="brand-crest">
+            <svg viewBox="0 0 48 48" class="crest-svg" fill="none">
+              <path d="M12 36H36M16 33V20M24 33V20M32 33V20M12 20L24 11L36 20H12Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+              <circle cx="24" cy="16" r="2.2" fill="var(--crimson)" />
+            </svg>
+            <span class="pulse-dot"></span>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">
+              <span>PCIU</span> <span class="highlight">SCHOLARSHIP ATLAS</span>
+            </div>
+            <p class="brand-sub">Academic Intelligence • Track 3 & Track 1</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Module Navigation Links -->
+        <a href="http://127.0.0.1:5000/" class="pill-btn" title="Return to Oiraboot Academic Suite">
+          <i data-lucide="layout-grid" class="icon-sm text-crimson"></i>
+          <span>Oiraboot Suite</span>
+        </a>
+        <a href="/" class="pill-btn {% if request.path == '/' %}active{% endif %}" title="Track 3: Scholarship Finder">
+          <i data-lucide="award" class="icon-sm text-crimson"></i>
+          <span>Scholarship Atlas</span>
+        </a>
+        <a href="/track1" class="pill-btn {% if request.path == '/track1' %}active{% endif %}" title="Track 1: Document Intelligence">
+          <i data-lucide="file-search" class="icon-sm text-crimson"></i>
+          <span>Document Studio</span>
+        </a>
+
+        <!-- Language Switch -->
+        <button id="lang-btn" class="pill-btn" onclick="toggleLanguage()" title="Switch Language">
+          <i data-lucide="languages" class="icon-sm text-crimson"></i>
+          <span id="lang-text">বাংলা</span>
+        </button>
+
+        <!-- Theme Switch -->
+        <button id="theme-btn" class="pill-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+          <i id="theme-icon" data-lucide="moon" class="icon-sm text-crimson"></i>
+          <span id="theme-text">Dark</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Shell -->
+  <main class="app-shell">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Main JS -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
