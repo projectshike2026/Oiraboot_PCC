@@ -1090,6 +1090,7 @@ function renderScholarshipResults() {
   if (almostPill) almostPill.textContent = `${latestAlmost.length} Near Match`;
 
   if (sorted.length === 0) {
+    container.className = 'space-y-4';
     container.innerHTML = `
       <div class="surface-card rounded-2xl p-10 text-center space-y-3">
         <div class="w-12 h-12 mx-auto rounded-xl surface-subtle flex items-center justify-center text-crimson">
@@ -1100,6 +1101,7 @@ function renderScholarshipResults() {
       </div>
     `;
   } else if (scholarshipView === 'table') {
+    container.className = 'space-y-4 max-h-[680px] overflow-y-auto thin-scrollbar pr-1.5';
     container.innerHTML = `
       <div class="surface-card rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
@@ -1132,48 +1134,49 @@ function renderScholarshipResults() {
       </div>
     `;
   } else {
+    container.className = 'grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[680px] overflow-y-auto thin-scrollbar pr-1.5 items-start';
     container.innerHTML = sorted.map(s => {
       const reasonObj = latestReasons[s.id] || {};
       const steps = reasonObj.steps || s.checklist || [];
       return `
-        <div class="surface-card editorial-card rounded-2xl p-6 space-y-4 msg-animate">
-          <div class="flex flex-wrap items-start justify-between gap-4">
-            <div class="space-y-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-mono text-[10px] font-bold uppercase">Eligible</span>
-                ${s.need_based ? `<span class="px-2.5 py-0.5 rounded bg-crimson-soft border border-crimson font-mono text-[10px] font-semibold text-crimson uppercase">Need-Based</span>` : ''}
-                <span class="font-mono text-[10px] text-faint">Min CGPA ${s.min_cgpa.toFixed(2)}</span>
+        <div class="surface-card editorial-card rounded-2xl p-4 sm:p-5 space-y-3 msg-animate">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="px-2 py-0.5 rounded bg-[var(--bg-inverse)] text-[var(--text-inverse)] font-mono text-[10px] font-bold uppercase">Eligible</span>
+                ${s.need_based ? `<span class="px-2 py-0.5 rounded bg-crimson-soft border border-crimson font-mono text-[10px] font-semibold text-crimson uppercase">Need-Based</span>` : ''}
+                <span class="font-mono text-[10px] text-faint">Min ${s.min_cgpa.toFixed(2)}</span>
               </div>
-              <h4 class="font-athens text-base sm:text-lg font-bold text-main">${escapeHtml(s.name)}</h4>
-              <p class="text-xs text-muted">${escapeHtml(s.provider)}</p>
+              <h4 class="font-athens text-sm sm:text-base font-bold text-main leading-snug">${escapeHtml(s.name)}</h4>
+              <p class="text-[11px] text-muted truncate">${escapeHtml(s.provider)}</p>
             </div>
-            <div class="text-right">
-              <p class="font-mono text-lg font-bold text-crimson">BDT ${s.amount_value.toLocaleString()}</p>
-              <p class="font-mono text-[11px] text-muted flex items-center justify-end gap-1 mt-0.5">
-                <i data-lucide="calendar" class="w-3 h-3 text-crimson"></i> Due ${escapeHtml(s.deadline)}
+            <div class="text-right shrink-0">
+              <p class="font-mono text-sm sm:text-base font-bold text-crimson">BDT ${s.amount_value.toLocaleString()}</p>
+              <p class="font-mono text-[10px] text-muted flex items-center justify-end gap-1 mt-0.5">
+                <i data-lucide="calendar" class="w-3 h-3 text-crimson"></i> ${escapeHtml(s.deadline)}
               </p>
             </div>
           </div>
 
-          <div class="p-3.5 rounded-xl surface-subtle border-l-[3px] border-l-[var(--crimson)] flex items-start gap-2.5">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-crimson shrink-0 mt-0.5"></i>
-            <p class="text-xs text-main leading-relaxed">
-              <strong>Fit Summary:</strong> ${escapeHtml(reasonObj.reason || '')}
+          <div class="p-3 rounded-xl surface-subtle border-l-[3px] border-l-[var(--crimson)] flex items-start gap-2">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-crimson shrink-0 mt-0.5"></i>
+            <p class="text-[11px] text-main leading-relaxed">
+              <strong>Fit:</strong> ${escapeHtml(reasonObj.reason || '')}
             </p>
           </div>
 
           <details class="group">
-            <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-muted hover:text-crimson transition-colors pt-1">
-              <span class="flex items-center gap-2">
-                <i data-lucide="list-checks" class="w-4 h-4 text-crimson"></i>
-                <span>Application Checklist (${steps.length} Steps)</span>
+            <summary class="cursor-pointer list-none flex items-center justify-between text-[11px] font-bold text-muted hover:text-crimson transition-colors pt-0.5">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="list-checks" class="w-3.5 h-3.5 text-crimson"></i>
+                <span>Checklist (${steps.length} Steps)</span>
               </span>
-              <i data-lucide="chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform"></i>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 group-open:rotate-180 transition-transform"></i>
             </summary>
-            <ul class="mt-3 pt-3 border-t border-hairline space-y-2 text-xs text-muted">
+            <ul class="mt-2.5 pt-2.5 border-t border-hairline space-y-1.5 text-[11px] text-muted">
               ${steps.map((step, i) => `
-                <li class="flex items-start gap-2.5">
-                  <span class="w-5 h-5 rounded bg-crimson-soft font-mono text-[10px] font-bold text-crimson flex items-center justify-center shrink-0">${i + 1}</span>
+                <li class="flex items-start gap-2">
+                  <span class="w-4 h-4 rounded bg-crimson-soft font-mono text-[9px] font-bold text-crimson flex items-center justify-center shrink-0 mt-0.5">${i + 1}</span>
                   <span class="text-main">${escapeHtml(step)}</span>
                 </li>
               `).join('')}

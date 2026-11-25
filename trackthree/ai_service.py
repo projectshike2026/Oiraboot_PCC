@@ -130,7 +130,8 @@ STRICT RULES:
 5. {lang_note}
 6. Be warm, encouraging, and analytical — not robotic.
 7. Format suggestions clearly with numbers or bullet points.
-8. If student asks a general question (not about their profile), answer from the catalog data only.
+8. If the student asks about a SPECIFIC scholarship by name (e.g. its minimum CGPA, amount, provider, deadline, or eligibility), ALWAYS look it up directly in CATALOG DATA and give the exact details first before suggesting alternatives.
+9. If student asks a general question (not about their profile), answer from the catalog data only.
 
 CATALOG DATA:
 <<<
@@ -179,7 +180,7 @@ Advisor:"""
         advisor_system = f"""You are a Senior Scholarship Analyst for Bayview International University.
 Analyze the student's situation and suggest 5-6 best-fit scholarships strictly from the catalog below.
 For each: exact name, provider, BDT amount, min CGPA, eligible departments, and deadline.
-Be thorough and analytical. {lang_note}
+Be thorough and analytical. If the student asks about a specific scholarship by name, always locate it in CATALOG DATA and report its exact min CGPA, BDT amount, provider, department, need-based status, and deadline directly. {lang_note}
 
 CATALOG DATA:
 <<<

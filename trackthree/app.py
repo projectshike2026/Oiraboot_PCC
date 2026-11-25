@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_file, Response, session
@@ -143,21 +144,59 @@ def scholarship_chat():
     history = data.get("history", [])  # [{role: "user"|"assistant", content: "..."}]
     is_bangla = (client_lang == "bn")
 
-    # Build grounded scholarship context from catalog
-    # Pull top scholarships matching the profile (or all if no CGPA given)
+    # Build grounded scholarship context from ALL 136 catalog records so specific
+    # scholarship name queries (e.g. "Rising Star Scholarship") are never missed.
+    msg_lower = message.lower()
+    msg_tokens = [w for w in re.findall(r"[a-z0-9]+", msg_lower) if len(w) >= 3]
+
+    def _query_relevance(rec: dict) -> int:
+        name_l = rec.get("name", "").lower()
+        prov_l = rec.get("provider", "").lower()
+        desc_l = rec.get("description", "").lower()
+        score = 0
+        if name_l and name_l in msg_lower:
+            score += 100
+        if prov_l and prov_l in msg_lower:
+            score += 50
+        for tok in msg_tokens:
+            if tok in name_l:
+                score += 15
+            elif tok in prov_l:
+                score += 8
+            elif tok in desc_l:
+                score += 2
+        return score
+
+    # Prioritize: 1) direct query keyword matches, 2) profile-eligible matches, 3) rest of catalog
+    seen_ids = set()
+    ordered_records = []
+
+    query_hits = [r for r in scholarship_engine.records if _query_relevance(r) > 0]
+    query_hits.sort(key=_query_relevance, reverse=True)
+    for r in query_hits:
+        rid = r.get("id")
+        if rid not in seen_ids:
+            seen_ids.add(rid)
+            ordered_records.append(r)
+
     if cgpa and cgpa > 0:
         result = scholarship_engine.evaluate_profile(cgpa, dept, need, gender)
-        # eligible/near_miss are dicts with 'record' key
-        eligible_records = [item["record"] for item in result["eligible"][:30]]
-        near_miss_records = [item["record"] for item in result["near_miss"][:10]]
-        all_for_context = eligible_records + near_miss_records
-    else:
-        # No CGPA filter yet — provide full catalog sample for general questions
-        all_for_context = scholarship_engine.records[:40]
+        for item in result["eligible"] + result["near_miss"]:
+            r = item["record"]
+            rid = r.get("id")
+            if rid not in seen_ids:
+                seen_ids.add(rid)
+                ordered_records.append(r)
 
-    # Build compact grounded context string
+    for r in scholarship_engine.records:
+        rid = r.get("id")
+        if rid not in seen_ids:
+            seen_ids.add(rid)
+            ordered_records.append(r)
+
+    # Include full catalog in compact grounded context string (~136 entries)
     ctx_lines = []
-    for s in all_for_context[:35]:
+    for s in ordered_records:
         name = s.get("name", "")
         provider = s.get("provider", "")
         amount = s.get("amount_bdt", 0)
@@ -166,7 +205,7 @@ def scholarship_chat():
         deadline = s.get("deadline", "")
         need_b = "Yes" if s.get("need_based") else "No"
         gender_b = s.get("gender", "All")
-        desc = s.get("description", "")[:120]
+        desc = s.get("description", "")[:100]
         ctx_lines.append(
             f"• {name} | Provider: {provider} | Amount: BDT {amount:,} | "
             f"Min CGPA: {min_cgpa} | Dept: {depts} | Deadline: {deadline} | "
@@ -174,6 +213,7 @@ def scholarship_chat():
         )
 
     scholarship_context = "\n".join(ctx_lines)
+    all_for_context = ordered_records
 
     try:
         if extra_think:
