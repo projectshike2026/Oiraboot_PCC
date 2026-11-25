@@ -101,15 +101,15 @@ let currentLang = document.documentElement.getAttribute('lang') || 'en';
 const TYPEWRITER_SLIDES = {
   en: [
     { tag: 'Document Studio', text: 'Query lecture notes with exact page citations and generate graded self-test quizzes in seconds.' },
-    { tag: 'Admissions Desk', text: 'Engage with a friendly student concierge holding multi-turn memory on tuition fees, eligibility, and deadlines.' },
-    { tag: 'Scholarship Atlas', text: 'Match your CGPA and department against active grants with tailored AI fit rationales and gap analysis.' },
-    { tag: 'Zero Hallucination', text: 'Strict server-side verification ensures every citation is grounded in verifiable institutional records.' }
+    { tag: 'Admissions Desk', text: 'Engage with a friendly student concierge for instant answers on tuition fees, eligibility, and deadlines.' },
+    { tag: 'Scholarship Atlas', text: 'Match your CGPA and department against active grants with tailored fit explanations and gap analysis.' },
+    { tag: 'Verified Accuracy', text: 'Every response is verified against official university records and documents.' }
   ],
   bn: [
     { tag: 'ডকুমেন্ট স্টুডিও', text: 'লেকচার নোট থেকে পৃষ্ঠা নম্বরসহ নির্ভুল তথ্য খুঁজুন এবং তাৎক্ষণিক এমসিকিউ কুইজে নিজের প্রস্তুতি যাচাই করুন।' },
     { tag: 'ভর্তি ডেস্ক', text: 'বিশ্ববিদ্যালয় ভর্তির টিউশন ফি, যোগ্যতা ও তারিখ সংক্রান্ত যেকোনো প্রশ্নের উত্তর পান সহজ কথোপকথনে।' },
     { tag: 'স্কলারশিপ অ্যাটলাস', text: 'আপনার সিজিপিএ ও বিভাগের সাথে মানানসই সকল বৃত্তির সুযোগ এবং আবেদন নির্দেশিকা জানুন।' },
-    { tag: 'জিরো হ্যালুসিনেশন', text: 'প্রতিটি উত্তর অফিসিয়াল নথি দ্বারা সার্ভার সাইডে যাচাইকৃত—মনগড়া কোনো তথ্য নেই।' }
+    { tag: 'যাচাইকৃত তথ্য', text: 'প্রতিটি উত্তর অফিসিয়াল নথি দ্বারা যাচাইকৃত—মনগড়া কোনো তথ্য নেই।' }
   ]
 };
 
@@ -773,18 +773,18 @@ function getKindBadgeHtml(kind) {
   if (kind === 'unknown') {
     return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20">
       <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-      Not in Admission Doc
+      Not Listed in Guide
     </span>`;
   }
   if (kind === 'clarify') {
     return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
       <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Clarification Needed
+      Please Clarify
     </span>`;
   }
   return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
     <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    Verified from Admission Doc
+    Verified Answer
   </span>`;
 }
 
@@ -800,8 +800,8 @@ async function initAdmissionChat() {
 
     if (history.length === 0) {
       const welcomeHtml = `
-        <p class="leading-relaxed">Welcome to the <strong class="font-semibold text-zinc-900 dark:text-zinc-50">Oiraboot Admissions Concierge</strong>. I provide reasoned, structured guidance grounded strictly in our Official Admission Guide.</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ask about fees, GPA eligibility checks, waivers, deadlines, or enrollment steps in English or বাংলা — questions outside the document are declined without guessing.</p>
+        <p class="leading-relaxed">Welcome to the <strong class="font-semibold text-zinc-900 dark:text-zinc-50">Oiraboot Admissions Concierge</strong>. I provide clear, helpful answers directly from our Official Admission Guide.</p>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Ask about programs, tuition fees, GPA eligibility checks, waivers, deadlines, or enrollment steps in English or বাংলা.</p>
       `;
       appendAdmissionMessage('assistant', welcomeHtml, [
         'List all programs & fees',
@@ -843,7 +843,7 @@ function appendAdmissionMessage(role, html, suggestions = [], kind = 'answer', e
         <div class="mt-2.5 p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/50 border-l-[3px] border-l-emerald-600 dark:border-l-emerald-400 text-xs space-y-1">
           <div class="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>Official Document Proof</span>
+            <span>Official Source</span>
           </div>
           <p class="italic text-zinc-600 dark:text-zinc-300 leading-snug">"${escapeHtml(evidence[0])}"</p>
         </div>

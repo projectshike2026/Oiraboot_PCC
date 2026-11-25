@@ -79,13 +79,28 @@ def test_track2_reasoning_bilingual_and_refusal(test_client):
         assert r_bn["type"] == "answer"
         assert "4,48,000" in r_bn["reply"]
 
-        # 4. Out-of-document strict refusal (Pharmacy, Hostel, Vice Chancellor)
-        for bad_q in ["What is the fee for Pharmacy?", "Do you have hostel fees?", "Who is the vice chancellor?"]:
+        # 4. Smart reasoning on unlisted courses (Bangla, Pharmacy) + follow-up language switch
+        r_bangla_course = chat_admission(sid, "Can I study Bangla course here?", db)
+        assert r_bangla_course["type"] == "answer"
+        assert "Bangla" in r_bangla_course["reply"]
+        assert "English" in r_bangla_course["reply"]
+        assert "1851-120791" in r_bangla_course["reply"]
+
+        r_switch_bn = chat_admission(sid, "can you rply me in bangla ??", db)
+        assert r_switch_bn["type"] == "answer"
+        assert "বাংলা" in r_switch_bn["reply"]
+
+        r_pharma = chat_admission(sid, "What is the fee for Pharmacy?", db)
+        assert r_pharma["type"] == "answer"
+        assert "Pharmacy" in r_pharma["reply"] or "ফার্মেসি" in r_pharma["reply"]
+
+        # 5. Out-of-document strict refusal (Hostel, Vice Chancellor)
+        for bad_q in ["Do you have hostel fees?", "Who is the vice chancellor?"]:
             r_refuse = chat_admission(sid, bad_q, db)
             assert r_refuse["type"] == "unknown"
             assert "not" in r_refuse["reply"].lower() or "নেই" in r_refuse["reply"]
 
-        # 5. Bengali out-of-document refusal
+        # 6. Bengali out-of-document refusal
         r_refuse_bn = chat_admission(sid, "হোস্টেল ফি কত?", db, ui_lang="bn")
         assert r_refuse_bn["type"] == "unknown"
         assert "নথিতে নেই" in r_refuse_bn["reply"]

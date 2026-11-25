@@ -46,21 +46,28 @@ def chat_admission(sid: str, message: str, db, ui_lang: str = "en") -> Dict[str,
 
     check_rate_limit(f"admission:{sid}", Config.RATE_LIMIT_CHAT, Config.RATE_LIMIT_CHAT / 60.0)
 
-    has_bn_chars = any("\u0980" <= c <= "\u09FF" for c in clean_message)
-    has_en_chars = any("a" <= c.lower() <= "z" for c in clean_message)
-    if has_bn_chars:
-        is_bn = True
-    elif has_en_chars:
-        is_bn = False
-    else:
-        is_bn = (ui_lang == "bn")
-
     # Load conversation history (last 10 messages)
     history_rows = db.execute("""
     SELECT role, content FROM admission_messages
     WHERE sid = ? ORDER BY id DESC LIMIT 10
     """, (sid,)).fetchall()
     history = [{"role": r["role"], "content": r["content"]} for r in reversed(history_rows)]
+
+    from tracks.track2.reasoner import _detect_language_switch_request, _session_preferred_lang
+    lang_sw = _detect_language_switch_request(clean_message)
+    hist_lang = _session_preferred_lang(history)
+    has_bn_chars = any("\u0980" <= c <= "\u09FF" for c in clean_message)
+    has_en_chars = any("a" <= c.lower() <= "z" for c in clean_message)
+    if lang_sw:
+        is_bn = (lang_sw == "bn")
+    elif has_bn_chars:
+        is_bn = True
+    elif hist_lang:
+        is_bn = (hist_lang == "bn")
+    elif has_en_chars:
+        is_bn = False
+    else:
+        is_bn = (ui_lang == "bn")
 
     # Combine current message + previous user query for BM25 retrieval
     prev_user_text = ""

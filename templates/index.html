@@ -105,7 +105,7 @@
         </div>
 
         <p class="text-xs sm:text-sm text-muted leading-relaxed max-w-md lg:text-right" data-i18n="archDesc">
-          {{ 'প্রতিটি ওয়ার্কস্পেস সম্পূর্ণ স্বতন্ত্র ইন্টেলিজেন্স মডিউল হিসেবে কাজ করে—যাচাইকৃত উদ্ধৃতি, নির্ভুল তথ্য ও বাংলা–ইংরেজি সমান সক্ষমতাসহ।' if current_lang == 'bn' else 'Each workspace operates as a self-contained intelligence module with deterministic validation, verifiable citations, and full English–Bengali parity.' }}
+          {{ 'প্রতিটি ওয়ার্কস্পেস সম্পূর্ণ স্বতন্ত্র মডিউল হিসেবে কাজ করে—যাচাইকৃত উদ্ধৃতি, নির্ভুল তথ্য ও বাংলা–ইংরেজি সমান সক্ষমতাসহ।' if current_lang == 'bn' else 'Each workspace operates as a dedicated academic module with verified institutional data, exact citations, and full English–Bengali support.' }}
         </p>
       </div>
 
@@ -144,7 +144,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-3.5 h-3.5 text-crimson shrink-0"></i>
-                <span data-i18n="t1B2">{{ 'জিরো-হ্যালুসিনেশন রেফিউজাল গার্ডরেইল' if current_lang == 'bn' else 'Strict zero-hallucination refusal guardrail' }}</span>
+                <span data-i18n="t1B2">{{ 'শুধুমাত্র যাচাইকৃত নথির ওপর ভিত্তি করে উত্তর' if current_lang == 'bn' else 'Verified document-only answers' }}</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-3.5 h-3.5 text-crimson shrink-0"></i>
@@ -168,7 +168,7 @@
                 <i data-lucide="messages-square" class="w-5 h-5"></i>
               </div>
               <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-muted px-2.5 py-1 rounded-md border border-hairline">
-                02 · Multi-Turn
+                02 · Counselor
               </span>
             </div>
 
@@ -182,7 +182,7 @@
             </div>
 
             <p class="text-xs sm:text-[13px] leading-relaxed text-muted" data-i18n="t2Desc">
-              {{ 'মাল্টি-টার্ন কনটেক্সট মেমোরি ও ৬-ধাপের লাইভ চেকলিস্টসহ যাচাইকৃত টিউশন ফি, জিপিএ যোগ্যতা ও ভর্তির তারিখ জানুন।' if current_lang == 'bn' else 'Explore verified tuition schedules, GPA eligibility rules, and admission deadlines with multi-turn memory and a live 6-step tracker.' }}
+              {{ 'ধারাবাহিক কথোপকথন ও ৬-ধাপের লাইভ চেকলিস্টসহ যাচাইকৃত টিউশন ফি, জিপিএ যোগ্যতা ও ভর্তির তারিখ জানুন।' if current_lang == 'bn' else 'Explore verified tuition schedules, GPA eligibility rules, and admission deadlines with conversational continuity and a live 6-step tracker.' }}
             </p>
 
             <ul class="space-y-2 pt-2 border-t border-hairline/70 text-xs text-muted">
@@ -192,7 +192,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-3.5 h-3.5 text-crimson shrink-0"></i>
-                <span data-i18n="t2B2">{{ 'ধারাবাহিক মাল্টি-টার্ন কথোপকথন মেমোরি' if current_lang == 'bn' else 'Context-aware multi-turn dialogue' }}</span>
+                <span data-i18n="t2B2">{{ 'ধারাবাহিক ফলো-আপ কথোপকথন' if current_lang == 'bn' else 'Interactive follow-up counseling' }}</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-3.5 h-3.5 text-crimson shrink-0"></i>
@@ -273,10 +273,10 @@
             {{ 'প্রাতিষ্ঠানিক নিশ্চয়তা' if current_lang == 'bn' else 'Institutional Guarantee' }}
           </p>
           <h2 class="font-athens text-3xl sm:text-4xl font-bold text-main tracking-tight light-reactive-title" data-i18n="sec3Title">
-            {{ 'জিরো-হ্যালুসিনেশন ইঞ্জিনিয়ারিং' if current_lang == 'bn' else 'Zero-Hallucination Engineering' }}
+            {{ 'যাচাইকৃত নির্ভুল তথ্য' if current_lang == 'bn' else 'Verified Academic Accuracy' }}
           </h2>
           <p class="text-xs sm:text-sm text-muted leading-relaxed max-w-2xl" data-i18n="sec3Desc">
-            {{ 'সাধারণ অনুমাননির্ভর চ্যাটবটের বিপরীতে ঐরাবত প্রতিটি প্রশ্নের উত্তর যাচাইকৃত মূল নথির সাথে মিলিয়ে দেয়। নিশ্চিত তথ্য না থাকলে সিস্টেম সরাসরি অপারগতা বা অফিসিয়াল রেফারেল প্রদান করে।' if current_lang == 'bn' else 'Unlike generic conversational chatbots that speculate, Oiraboot cross-verifies every query against authoritative primary source documents. If an answer cannot be grounded with certainty, the system strictly outputs a refusal or official desk referral.' }}
+            {{ 'ঐরাবত প্রতিটি প্রশ্নের উত্তর যাচাইকৃত মূল নথির সাথে মিলিয়ে দেয়। নথিতে তথ্য না থাকলে তা স্পষ্টভাবে জানিয়ে অফিসিয়াল যোগাযোগের ঠিকানা প্রদান করে।' if current_lang == 'bn' else 'Oiraboot cross-verifies every query against authoritative primary university documents. If an answer is not listed in the guide, the system states so clearly and offers official office contacts.' }}
           </p>
         </div>
         <div class="lg:col-span-4 flex justify-start lg:justify-end">
@@ -296,9 +296,9 @@
             class="w-10 h-10 rounded-xl bg-crimson-soft border border-crimson/30 text-crimson flex items-center justify-center">
             <i data-lucide="file-check-2" class="w-5 h-5"></i>
           </div>
-          <h3 class="font-athens font-bold text-base text-main" data-i18n="p1Title">{{ '১০০% যাচাইকৃত উদ্ধৃতি' if current_lang == 'bn' else '100% Grounded Quotes' }}</h3>
+          <h3 class="font-athens font-bold text-base text-main" data-i18n="p1Title">{{ '১০০% যাচাইকৃত উদ্ধৃতি' if current_lang == 'bn' else '100% Verified Quotes' }}</h3>
           <p class="text-xs text-muted leading-relaxed" data-i18n="p1Desc">
-            {{ 'ডকুমেন্ট স্টুডিওর প্রতিটি উত্তর মূল পিডিএফের পৃষ্ঠা অবস্থানের সাথে যুক্ত। বহির্ভূত প্রশ্নে তাৎক্ষণিক রেফিউজাল প্রদর্শিত হয়।' if current_lang == 'bn' else 'Every statement generated in Document Studio is bound to character-level page coordinates. Non-PDF questions trigger an immediate grounded refusal.' }}
+            {{ 'ডকুমেন্ট স্টুডিওর প্রতিটি উত্তর মূল পিডিএফের পৃষ্ঠা অবস্থানের সাথে যুক্ত।' if current_lang == 'bn' else 'Every statement in Document Studio is linked to its exact document page.' }}
           </p>
         </div>
 
@@ -307,9 +307,9 @@
             class="w-10 h-10 rounded-xl bg-crimson-soft border border-crimson/30 text-crimson flex items-center justify-center">
             <i data-lucide="binary" class="w-5 h-5"></i>
           </div>
-          <h3 class="font-athens font-bold text-base text-main" data-i18n="p2Title">{{ 'নির্ভুল গাণিতিক নিয়ম' if current_lang == 'bn' else 'Deterministic Rule Math' }}</h3>
+          <h3 class="font-athens font-bold text-base text-main" data-i18n="p2Title">{{ 'নির্ভুল ফি ও যোগ্যতার নিয়ম' if current_lang == 'bn' else 'Exact Fee & Eligibility Rules' }}</h3>
           <p class="text-xs text-muted leading-relaxed" data-i18n="p2Desc">
-            {{ 'টিউশন ফি হিসাব এবং বৃত্তির যোগ্যতার মাপকাঠি সরাসরি সার্ভার লজিকে নির্ধারিত হয়—কখনোই অনুমানের ওপর ছেড়ে দেওয়া হয় না।' if current_lang == 'bn' else 'Fee calculations and scholarship eligibility thresholds execute on deterministic server logic—never left to probabilistic LLM arithmetic.' }}
+            {{ 'টিউশন ফি হিসাব এবং বৃত্তির যোগ্যতার মাপকাঠি বিশ্ববিদ্যালয়ের নির্ধারিত নিয়ম অনুযায়ী হিসাব করা হয়।' if current_lang == 'bn' else 'Fee calculations and scholarship eligibility thresholds follow official university rules—never guesswork.' }}
           </p>
         </div>
 

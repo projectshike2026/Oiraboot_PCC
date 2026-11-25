@@ -140,11 +140,27 @@ PROGRAMS: Dict[str, Dict[str, Any]] = {
     },
 }
 
+UNLISTED_COURSE_PATTERNS = [
+    ("Pharmacy", "ফার্মেসি", ["pharmacy", "pharma", "ফার্মেসি"]),
+    ("MBA / Master's", "এমবিএ / মাস্টার্স", ["mba", "emba", "masters", "master's", "msc", "phd", "মাস্টার্স", "এমবিএ"]),
+    ("Architecture", "আর্কিটেকচার", ["architecture", "আর্কিটেকচার", "স্থাপত্য"]),
+    ("Mechanical Engineering", "মেকানিক্যাল ইঞ্জিনিয়ারিং", ["mechanical", "মেকানিক্যাল"]),
+    ("Medical / MBBS", "মেডিকেল / এমবিবিএস", ["mbbs", "medical", "nursing", "মেডিকেল", "নার্সিং"]),
+    ("Economics", "অর্থনীতি (Economics)", ["economics", "অর্থনীতি"]),
+    ("Sociology", "সমাজবিজ্ঞান (Sociology)", ["sociology", "সমাজবিজ্ঞান"]),
+    ("Journalism / Media", "সাংবাদিকতা", ["journalism", "media studies", "সাংবাদিকতা"]),
+    ("Physics / Chemistry / Math Honors", "পদার্থবিজ্ঞান / রসায়ন / গণিত", ["physics honors", "chemistry", "পদার্থবিজ্ঞান নিয়ে", "রসায়ন"]),
+    ("History / Islamic Studies", "ইতিহাস / ইসলামিক স্টাডিজ", ["history", "islamic studies", "ইতিহাস", "ইসলামিক"]),
+]
+
+BANGLA_COURSE_PATTERNS = [
+    "bangla course", "bengali course", "bangla department", "bangla subject", "bangla honors",
+    "study bangla", "learn bangla", "ba in bangla", "do bangla", "have bangla", "bangla program",
+    "bangla degree", "bangla ache", "bangla ase", "বাংলা কোর্স", "বাংলা বিভাগ", "বাংলা সাবজেক্ট",
+    "বাংলা নিয়ে", "বাংলায় অনার্স", "বাংলা পড়া", "বাংলা করতে",
+]
+
 OUT_OF_SCOPE_TERMS = [
-    # Unsupported programs / degrees
-    "pharmacy", "pharma", "mbbs", "medical", "bba evening", "emba", "mba", "masters", "msc", "phd",
-    "architecture", "mechanical", "fashion", "journalism", "economics", "sociology", "bangla honors",
-    "ফার্মেসি", "মেডিকেল", "মাস্টার্স", "এমবিএ", "আর্কিটেকচার", "মেকানিক্যাল",
     # Campus logistics / outside info not in admission.txt
     "hostel", "dorm", "dormitory", "hall fee", "accommodation", "bus", "transport", "shuttle",
     "canteen", "cafeteria", "food", "menu", "gym", "swimming", "pool", "library", "wifi",
@@ -200,6 +216,62 @@ def _detect_intents(text: str) -> set:
     return intents
 
 
+def _detect_language_switch_request(text: str) -> Optional[str]:
+    """Detects meta requests like 'can you reply me in bangla?' (including typos like 'rply')."""
+    low = text.lower()
+    asks_lang = any(w in low for w in [
+        "reply", "rply", "rely", "speak", "talk", "answer", "respond", "write", "chat", "explain",
+        "bol", "bolo", "বল", "বলো", "উত্তর", "কথা", "লিখ", "বুঝা", "in bangla", "in bengali", "in english"
+    ])
+    if not asks_lang and len(low.split()) <= 3:
+        asks_lang = any(w in low for w in ["bangla", "bengali", "english", "বাংলা", "ইংরেজি"])
+    if not asks_lang:
+        return None
+    if any(w in low for w in ["bangla", "bengali", "bngla", "বাংলা"]):
+        return "bn"
+    if any(w in low for w in ["english", "ingreji", "ইংরেজি"]):
+        return "en"
+    return None
+
+
+def _detect_unlisted_course(text: str) -> Optional[Tuple[str, str]]:
+    """Checks if the user is asking about a specific course/program not offered in the admission guide."""
+    low = text.lower()
+    if any(p in low for p in BANGLA_COURSE_PATTERNS):
+        return ("Bangla", "বাংলা")
+    for en_name, bn_name, kws in UNLISTED_COURSE_PATTERNS:
+        if any(kw in low for kw in kws):
+            return (en_name, bn_name)
+    return None
+
+
+def _build_unlisted_course_response(course_en: str, course_bn: str, is_bn: bool) -> Dict[str, Any]:
+    if is_bn:
+        reply = (
+            f"আমাদের অফিসিয়াল ভর্তি নির্দেশিকায় **{course_bn}** প্রোগ্রামটির কোনো তথ্য উল্লেখ নেই—অর্থাৎ বর্তমানে আমাদের বিশ্ববিদ্যালয়ে এই কোর্সটি চালু থাকার কোনো তথ্য নথিতে পাওয়া যায়নি।\n\n"
+            "**তবে আমাদের অনুমোদিত ও চালু থাকা ৭টি স্নাতক প্রোগ্রাম হলো:**\n"
+            "- **ইঞ্জিনিয়ারিং:** CSE, EEE, Civil Engineering, Textile Engineering\n"
+            "- **ব্যবসায় ও সাধারণ:** BBA, B.A. (Hons) in English, LL.B. (Hons) in Law\n\n"
+            f"আপনি চাইলে ভাষা ও মানবিক শাখায় **B.A. (Hons) in English** প্রোগ্রামটি বিবেচনা করতে পারেন। **{course_bn}** সংক্রান্ত বিশেষ কোনো তথ্য বা ভবিষ্যতে চালু হবে কিনা জানতে অনুগ্রহ করে সরাসরি ভর্তি অফিসে যোগাযোগ করুন: **{kb.contacts['phone']}** অথবা **{kb.contacts['email']}**।"
+        )
+        suggestions = ["সবগুলো প্রোগ্রাম ও ফি দেখাও", "B.A. in English-এর ফি কত?", "ভর্তির যোগ্যতা কী?"]
+    else:
+        reply = (
+            f"Our official admission guide does not list **{course_en}**—which indicates this specific program is likely not offered at Oiraboot Academic University right now.\n\n"
+            "**However, here are the 7 accredited undergraduate programs currently available:**\n"
+            "- **Engineering:** CSE, EEE, Civil Engineering, Textile Engineering\n"
+            "- **Business & General:** BBA, B.A. (Hons) in English, LL.B. (Hons) in Law\n\n"
+            f"To confirm whether **{course_en}** or any related coursework is planned, please contact our Admission Office directly at **{kb.contacts['phone']}** or **{kb.contacts['email']}**."
+        )
+        suggestions = ["List all 7 programs & fees", "Tell me about B.A. in English", "What are the admission steps?"]
+    return {
+        "type": "answer",
+        "reply": reply,
+        "evidence": ["UNDERGRADUATE DEPARTMENTS, CREDITS & TUITION FEES:", "6. B.A. (Hons) in English"],
+        "suggestions": suggestions,
+    }
+
+
 def _is_greeting(text: str) -> bool:
     low = re.sub(r"[^\w\s\u0980-\u09FF]", "", text.lower()).strip()
     greetings = {
@@ -207,6 +279,11 @@ def _is_greeting(text: str) -> bool:
         "assalamu alaikum", "salam", "help", "হ্যালো", "হাই", "সালাম", "আসসালামু আলাইকুম", "সাহায্য"
     }
     return low in greetings
+
+
+def _is_thanks(text: str) -> bool:
+    low = re.sub(r"[^\w\s\u0980-\u09FF]", "", text.lower()).strip()
+    return low in {"thanks", "thank you", "thank you very much", "ok", "okay", "got it", "ধন্যবাদ", "অনেক ধন্যবাদ", "ঠিক আছে"}
 
 
 def _format_program_answer(prog: Dict[str, Any], is_bn: bool, focus_note: str = "") -> Dict[str, Any]:
@@ -444,16 +521,95 @@ def _resolve_history_context(history: List[Dict[str, str]]) -> Tuple[Optional[st
     return last_dept, last_intents
 
 
+def _session_preferred_lang(history: List[Dict[str, str]]) -> Optional[str]:
+    for msg in reversed(history):
+        if msg.get("role") == "user":
+            sw = _detect_language_switch_request(msg.get("content", ""))
+            if sw:
+                return sw
+    return None
+
+
 def reason_admission_query(message: str, history: List[Dict[str, str]], ui_lang: str = "en") -> Dict[str, Any]:
     """
     Strictly grounded reasoning engine over data/admission.txt.
     Returns JSON dict matching track2 contract: {type, reply, evidence, suggestions}.
     """
     clean = (message or "").strip()
-    is_bn = detect_lang(clean) == "bn" or ui_lang == "bn"
     low = clean.lower()
 
-    # 1. Explicit Out-of-Scope & Prompt-Injection Check
+    # Check if user explicitly asked to switch language now or earlier in session
+    lang_switch = _detect_language_switch_request(clean)
+    hist_lang = _session_preferred_lang(history)
+    if lang_switch:
+        is_bn = (lang_switch == "bn")
+    elif detect_lang(clean) == "bn":
+        is_bn = True
+    elif hist_lang:
+        is_bn = (hist_lang == "bn")
+    else:
+        is_bn = (ui_lang == "bn")
+
+    # 0. Meta-Conversational Language Switch (e.g., "can you rply me in bangla ??")
+    if lang_switch:
+        user_turns = [
+            (idx, m.get("content", ""))
+            for idx, m in enumerate(history)
+            if m.get("role") == "user" and not _detect_language_switch_request(m.get("content", ""))
+        ]
+        if user_turns:
+            prev_idx, prev_q = user_turns[-1]
+            prev_res = reason_admission_query(prev_q, history[:prev_idx], ui_lang=lang_switch)
+            # Force Bengali/English even if prev_q was in the other script
+            if lang_switch == "bn" and detect_lang(prev_q) != "bn":
+                # Re-run with a synthetic history containing lang switch so is_bn becomes True
+                prev_res = reason_admission_query(
+                    prev_q,
+                    history[:prev_idx] + [{"role": "user", "content": "বাংলায় উত্তর দাও"}],
+                    ui_lang="bn",
+                )
+            elif lang_switch == "en" and detect_lang(prev_q) == "bn":
+                prev_res = reason_admission_query(
+                    prev_q,
+                    history[:prev_idx] + [{"role": "user", "content": "reply in english"}],
+                    ui_lang="en",
+                )
+
+            prefix = (
+                "হ্যাঁ, অবশ্যই! এখন থেকে আমি আপনাকে বাংলায় উত্তর দিচ্ছি।\n\n"
+                if lang_switch == "bn" else
+                "Certainly! I will continue assisting you in English.\n\n"
+            )
+            if prev_res.get("type") == "answer" and prev_res.get("reply"):
+                prev_res["reply"] = prefix + prev_res["reply"]
+                return prev_res
+
+        if lang_switch == "bn":
+            return {
+                "type": "answer",
+                "reply": (
+                    "হ্যাঁ, অবশ্যই! এখন থেকে আমি আপনাকে বাংলায় উত্তর দেব।\n\n"
+                    "আপনি ওয়েরাবোট একাডেমিক বিশ্ববিদ্যালয়ের যেকোনো প্রোগ্রাম (CSE, EEE, BBA, Textile, Civil, English, LL.B.), টিউশন ফি, ভর্তির যোগ্যতা, ধাপ বা গুরুত্বপূর্ণ তারিখ সম্পর্কে বাংলায় বা ইংরেজিতে প্রশ্ন করতে পারেন।"
+                ),
+                "evidence": ["OIRABOOT ACADEMIC UNIVERSITY — OFFICIAL ADMISSION GUIDE"],
+                "suggestions": ["সবগুলো প্রোগ্রাম ও ফি দেখাও", "সিএসই ভর্তির যোগ্যতা কী?", "ভর্তির ধাপগুলো কী কী?"],
+            }
+        return {
+            "type": "answer",
+            "reply": (
+                "Certainly! I will respond in English from now on.\n\n"
+                "Feel free to ask about our 7 undergraduate programs (CSE, EEE, BBA, Textile, Civil, English, LL.B.), tuition fees, GPA eligibility, admission steps, or key dates."
+            ),
+            "evidence": ["OIRABOOT ACADEMIC UNIVERSITY — OFFICIAL ADMISSION GUIDE"],
+            "suggestions": ["List all programs & fees", "Eligibility requirements", "What are the admission steps?"],
+        }
+
+    # 1. Unlisted Course / Subject Inquiry (Smart Reasoning over our 7 offered programs)
+    unlisted = _detect_unlisted_course(clean)
+    if unlisted:
+        return _build_unlisted_course_response(unlisted[0], unlisted[1], is_bn)
+
+    # 2. Explicit Out-of-Scope & Prompt-Injection Check
     if any(term in low for term in OUT_OF_SCOPE_TERMS):
         return {
             "type": "unknown",
@@ -466,7 +622,23 @@ def reason_admission_query(message: str, history: List[Dict[str, str]], ui_lang:
             ),
         }
 
-    # 2. Friendly Greeting grounded in University Intro
+    # 3. Friendly Greeting or Thanks grounded in University Intro
+    if _is_thanks(clean):
+        return {
+            "type": "answer",
+            "reply": (
+                "আপনাকেও ধন্যবাদ! ভর্তি সংক্রান্ত আরও কোনো প্রশ্ন থাকলে নির্দ্বিধায় জিজ্ঞাসা করতে পারেন।"
+                if is_bn else
+                "You're very welcome! Let me know if you have any other questions about programs, fees, or enrollment."
+            ),
+            "evidence": ["OIRABOOT ACADEMIC UNIVERSITY — OFFICIAL ADMISSION GUIDE"],
+            "suggestions": (
+                ["সবগুলো প্রোগ্রাম ও ফি দেখাও", "ভর্তির ধাপগুলো কী কী?", "ক্যাম্পাসের ঠিকানা কী?"]
+                if is_bn else
+                ["List all programs & fees", "What are the admission steps?", "Campus address & hotline"]
+            ),
+        }
+
     if _is_greeting(clean):
         if is_bn:
             return {
