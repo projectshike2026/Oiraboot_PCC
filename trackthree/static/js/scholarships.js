@@ -211,6 +211,10 @@ async function triggerScholarshipMatch() {
       if (totalBdtEl) {
         totalBdtEl.innerText = `BDT ${(data.total_potential_bdt || 0).toLocaleString('en-US')}`;
       }
+      const maxAwardEl = document.getElementById('max-award-bdt');
+      if (maxAwardEl) {
+        maxAwardEl.innerText = `BDT ${(data.max_single_award_bdt || 0).toLocaleString('en-US')}`;
+      }
 
       renderCurrentList();
     }
@@ -355,11 +359,17 @@ function renderCards(items, container) {
 
         <!-- Card Footer -->
         <div class="card-footer-row">
-          <button class="btn-outline-sm" onclick="openChecklist(${s.id})">
-            <i data-lucide="list-checks" class="icon-xs text-crimson"></i>
-            <span>${SCHOLARSHIP_I18N[currentLang].checklistBtn}</span>
-          </button>
-          <span class="text-xs text-faint font-mono">Award #${s.id}</span>
+          <div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">
+            <button class="btn-outline-sm" onclick="openChecklist(${s.id})">
+              <i data-lucide="list-checks" class="icon-xs text-crimson"></i>
+              <span>${SCHOLARSHIP_I18N[currentLang].checklistBtn}</span>
+            </button>
+            <button class="btn-ask-ai-sm" data-award-name="${escapeHtml(s.name)}" onclick="askAdvisorAboutAward(this.getAttribute('data-award-name'))">
+              <i data-lucide="message-circle" class="icon-xs"></i>
+              <span>${currentLang === 'bn' ? 'এআই জিজ্ঞাসা' : 'Ask AI'}</span>
+            </button>
+          </div>
+          <span class="text-xs text-faint font-mono">#${s.id}</span>
         </div>
       </article>
     `;
@@ -747,3 +757,15 @@ async function clearScholarshipChat() {
 }
 
 // (init called by DOMContentLoaded above)
+
+
+function askAdvisorAboutAward(awardName) {
+  if (!awardName) return;
+  openScholarshipChat();
+  const prompt = (currentLang === 'bn')
+    ? `${awardName} বৃত্তির জন্য ন্যূনতম CGPA, অনুদানের পরিমাণ ও আবেদনের শর্তগুলো বিস্তারিত বলুন।`
+    : `Tell me the exact minimum CGPA, amount, deadline, and eligibility details for ${awardName}.`;
+  sendScholarshipQuick(prompt);
+  const panel = document.getElementById('ai-chat-panel');
+  if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}

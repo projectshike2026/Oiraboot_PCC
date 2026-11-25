@@ -2279,3 +2279,120 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
 }
+
+
+/* ================================================================== */
+/* DYNAMIC ATLAS KPI STRIP, INTERACTIVE CARDS & MOBILE POLISH         */
+/* ================================================================== */
+
+.chat-filter-divider {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.atlas-kpi-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  padding: 0.35rem 0;
+}
+
+.atlas-kpi-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  font-size: 0.72rem;
+}
+
+.atlas-kpi-label {
+  color: var(--text-faint);
+  font-weight: 600;
+}
+
+.atlas-kpi-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--crimson);
+}
+
+.scholarship-card {
+  border-top: 2px solid transparent;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.scholarship-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  border-top-color: var(--crimson);
+  box-shadow: 0 10px 26px -12px rgba(159, 18, 57, 0.22);
+}
+
+.btn-ask-ai-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(159, 18, 57, 0.28);
+  background: var(--crimson-soft);
+  color: var(--crimson);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ask-ai-sm:hover {
+  background: var(--crimson);
+  color: #ffffff;
+  border-color: var(--crimson);
+  transform: translateY(-1px);
+}
+
+.toolbar-right {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.65rem 0.9rem;
+  }
+  .nav-container {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .nav-actions {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .pill-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.7rem;
+  }
+  .app-shell {
+    padding: 0.85rem;
+  }
+  .ai-chat-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 0.9rem;
+  }
+  .ai-chat-messages {
+    min-height: 190px;
+    max-height: 260px;
+    padding: 0.75rem 0.9rem;
+  }
+  .scholarship-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .search-box,
+  .search-box input {
+    width: 100%;
+    flex: 1;
+  }
+}

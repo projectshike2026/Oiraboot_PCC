@@ -6,7 +6,7 @@
 <!-- =========================================================================
      HERO SECTION PLATE (PURE FULL-VIEWPORT COMPOSITION + GENERATIVE VIDEO)
      ========================================================================= -->
-<section id="hero-plate" class="relative z-20 w-full min-h-screen flex flex-col justify-between pt-20 bg-[var(--bg-page)]">
+<section id="hero-plate" class="relative z-20 w-full min-h-[76vh] sm:min-h-screen flex flex-col justify-between pt-4 sm:pt-20 bg-[var(--bg-page)]">
 
   <!-- Interactive Generative Video Canvas (Sculptural 3D Ribbons + Cosmic Particles) -->
   <canvas id="hero-video-canvas" aria-label="Interactive animated visualization"></canvas>
@@ -16,7 +16,7 @@
 
   <!-- CENTERPIECE MONUMENTAL TYPOGRAPHY & SEAMLESS INLINE TYPEWRITER (ZERO BOXES) -->
   <div
-    class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-5 sm:px-8 max-w-5xl mx-auto w-full py-12 pointer-events-none">
+    class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-5 sm:px-8 max-w-5xl mx-auto w-full py-6 sm:py-12 pointer-events-none">
 
     <!-- Active Scene Caption (Pure Typography — Zero Pills or Boxes) -->
     <div class="enter-fade d-1 flex items-center gap-3 mb-6">
@@ -52,20 +52,14 @@
       </p>
     </div>
 
-    <!-- Minimal Action Pair -->
+    <!-- Primary Studio Action -->
     <div
-      class="enter-fade d-3 mt-9 sm:mt-11 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 pointer-events-auto">
+      class="enter-fade d-3 mt-7 sm:mt-11 flex items-center justify-center pointer-events-auto">
       <a href="#studios"
         class="btn-primary-sweep px-7 sm:px-9 py-3.5 sm:py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] flex items-center gap-3">
         <span data-i18n="ctaPrimary">{{ 'স্টুডিওগুলো দেখুন' if current_lang == 'bn' else 'Explore Studios' }}</span>
         <i data-lucide="arrow-down" class="w-4 h-4"></i>
       </a>
-
-      <button type="button" onclick="triggerPulseShowcase()"
-        class="btn-ghost-clean px-6 sm:px-7 py-3.5 sm:py-4 rounded-full font-sans font-semibold text-xs sm:text-[13px] uppercase tracking-[0.18em] flex items-center gap-2.5">
-        <i data-lucide="waveform" class="w-4 h-4 text-crimson"></i>
-        <span data-i18n="ctaSecondary">{{ 'পরবর্তী দৃশ্য' if current_lang == 'bn' else 'Next Scene' }}</span>
-      </button>
     </div>
 
   </div>
