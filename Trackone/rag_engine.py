@@ -19,9 +19,9 @@ from rank_bm25 import BM25Okapi
 
 load_dotenv()
 
-DEFAULT_API_KEY   = "AQ.Ab8RN6IQhExeD-3dvs8LiTMf1AMHaXrPmVN6iyGG_vR4sr--Og"
-SECONDARY_API_KEY = "AQ.Ab8RN6L3Kbc_trhHvgMQjkXQPVizlYelOpPzIFQBirJbYHfZGA"
-GROQ_API_KEY      = "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"
+DEFAULT_API_KEY   = os.getenv("GEMINI_API_KEY", "")
+SECONDARY_API_KEY = os.getenv("SECONDARY_GEMINI_KEY", "") or DEFAULT_API_KEY
+GROQ_API_KEY      = os.getenv("GROQ_API_KEY", "")
 
 def _normalize_model_name(name: str) -> str:
     name = (name or "").strip()
@@ -30,25 +30,23 @@ def _normalize_model_name(name: str) -> str:
     return name
 
 
-PREFERRED_MODEL = _normalize_model_name(os.getenv("GEMINI_MODEL", "models/gemini-3.1-flash-lite"))
+PREFERRED_MODEL = _normalize_model_name(os.getenv("GEMINI_MODEL", "models/gemini-flash-lite-latest"))
 FALLBACK_MODELS = [
-    "models/gemini-3.1-flash-lite",
+    "models/gemini-flash-lite-latest",
     "models/gemini-3.5-flash-lite",
-    "models/gemini-3.6-flash",
-    "models/gemini-3.8-flash",
-    "models/gemini-3.7-flash",
+    "models/gemini-3.1-flash-lite",
+    "models/gemini-2.0-flash",
 ]
 EXTENSIVE_MODELS = [
-    "models/gemini-3.1-flash-lite",
-    "models/gemini-3.6-flash",
+    "models/gemini-flash-lite-latest",
     "models/gemini-3.5-flash-lite",
-    "models/gemini-3.8-flash",
+    "models/gemini-3.1-flash-lite",
 ]
 EMBEDDING_MODEL = "gemini-embedding-001"
 GROQ_VERIFY_MODEL = "openai/gpt-oss-120b"
 GROQ_VERIFY_MODELS = [
     "openai/gpt-oss-120b",
-    "qwen/qwen3.8-27b",
+    "llama3-8b-8192",
     "openai/gpt-oss-20b",
 ]
 
@@ -107,10 +105,11 @@ def get_gemini_client(api_key: Optional[str] = None) -> Optional[Any]:
 
 def get_groq_client() -> Optional[Any]:
     """Instantiate a Groq client for verification/monitoring tasks."""
-    if not HAS_GROQ:
+    key = (os.getenv("GROQ_API_KEY", "") or GROQ_API_KEY).strip()
+    if not HAS_GROQ or not key:
         return None
     try:
-        return GroqClient(api_key=GROQ_API_KEY)
+        return GroqClient(api_key=key)
     except Exception as exc:
         print(f"[Groq Client Init Warning]: {exc}")
         return None
@@ -1725,12 +1724,18 @@ def generate_document_quiz(
 - Approximately {tf_n} True/False Questions (type: 'true_false')
 - Approximately {match_n} Matching Column Questions (type: 'matching')"""
 
-        prompt = f"""You are an expert academic assessment designer.
-Generate exactly {safe_count} rigorous comprehension questions strictly based on the provided PDF chunks.
+        prompt = f"""You are a university-level academic assessment designer.
+Generate exactly {safe_count} rigorous, meaningful comprehension questions strictly based on the provided PDF chunks.
 DIFFICULTY LEVEL: {difficulty}{topic_directive}
 LANGUAGE: {lang_prompt}
 QUESTION TYPES REQUIRED:
 {type_instructions}
+
+QUALITY RULES (CRITICAL — FOLLOW STRICTLY):
+- NEVER ask trivial meta-questions like "Which page is this fact on?", "Which statement is found in the document?", or "This is a fact, what is it?".
+- Every MCQ MUST ask a concrete conceptual, technical, analytical, or factual question ("What is...", "Why does...", "How is X calculated...", "Which factor causes...") with 4 plausible, distinct, domain-relevant options of similar length.
+- Every True/False statement MUST be a specific substantive claim from the notes (for False claims, subtly modify a real value, condition, or concept rather than adding filler words).
+- Every Matching question MUST have 3-4 genuine conceptual 1-to-1 pairs (e.g., Term <-> Definition, Metric <-> Formula, Method <-> Purpose). Every "right" value within a Matching question MUST be 100% UNIQUE (never assign the same "right" description to multiple "left" items). NEVER put page numbers, filenames, or generic labels in Matching pairs.
 
 DOCUMENT CHUNKS:
 {corpus_text}
@@ -1811,10 +1816,15 @@ Respond ONLY with a valid JSON array of question objects adhering strictly to th
                         elif q_type == "matching":
                             pairs = q.get("pairs", [])
                             if isinstance(pairs, list) and len(pairs) >= 2:
-                                clean_pairs = [
-                                    {"left": str(p.get("left", "")).strip(), "right": str(p.get("right", "")).strip()}
-                                    for p in pairs if p.get("left") and p.get("right")
-                                ]
+                                clean_pairs = []
+                                seen_lefts, seen_rights = set(), set()
+                                for p in pairs:
+                                    l_val = str(p.get("left", "")).strip()
+                                    r_val = str(p.get("right", "")).strip()
+                                    if l_val and r_val and l_val.lower() not in seen_lefts and r_val.lower() not in seen_rights:
+                                        seen_lefts.add(l_val.lower())
+                                        seen_rights.add(r_val.lower())
+                                        clean_pairs.append({"left": l_val, "right": r_val})
                                 if len(clean_pairs) >= 2:
                                     validated.append({
                                         "type": "matching",
@@ -1848,12 +1858,15 @@ Respond ONLY with a valid JSON array of question objects adhering strictly to th
     # Secondary Groq quiz fallback if primary Gemini models hit quota/503
     groq_client = get_groq_client()
     if groq_client:
+        groq_prompt = prompt
+        if len(corpus_text) > 12000:
+            groq_prompt = prompt.replace(corpus_text, corpus_text[:12000])
         try:
             for model_name in GROQ_VERIFY_MODELS:
                 try:
                     comp = groq_client.chat.completions.create(
                         model=model_name,
-                        messages=[{"role": "user", "content": prompt}],
+                        messages=[{"role": "user", "content": groq_prompt}],
                         temperature=0.2,
                         max_tokens=4096,
                     )
@@ -1877,7 +1890,15 @@ Respond ONLY with a valid JSON array of question objects adhering strictly to th
                                         "pageNumber": page_num, "sourceDoc": source_doc, "explanationQuote": proof
                                     })
                             elif q_type == "matching" and isinstance(q.get("pairs"), list) and len(q["pairs"]) >= 2:
-                                clean_pairs = [{"left": str(p.get("left", "")).strip(), "right": str(p.get("right", "")).strip()} for p in q["pairs"] if p.get("left") and p.get("right")]
+                                clean_pairs = []
+                                seen_lefts, seen_rights = set(), set()
+                                for p in q["pairs"]:
+                                    l_val = str(p.get("left", "")).strip()
+                                    r_val = str(p.get("right", "")).strip()
+                                    if l_val and r_val and l_val.lower() not in seen_lefts and r_val.lower() not in seen_rights:
+                                        seen_lefts.add(l_val.lower())
+                                        seen_rights.add(r_val.lower())
+                                        clean_pairs.append({"left": l_val, "right": r_val})
                                 if len(clean_pairs) >= 2:
                                     validated.append({
                                         "type": "matching",
@@ -1912,59 +1933,95 @@ def generate_local_quiz(
     quiz_type: str = "mixed",
     lang: str = "en"
 ) -> List[Dict[str, Any]]:
-    """Deterministic multi-format fallback quiz generator directly from PDF document chunks."""
+    """
+    Structured conceptual fallback quiz generator when remote LLMs are unreachable.
+    Extracts genuine Term -> Definition pairs and conceptual fill-in-the-blank stems
+    instead of trivial page-lookup or nonsense word splits.
+    """
     import random
-    valid_sentences = []
-    for item in chunks:
-        sents = re.split(r"(?<=[.!?।\n])\s*", item["text"])
-        for s in sents:
-            cleaned = s.strip()
-            if len(cleaned) > 30 and not cleaned.startswith("CS301 Lecture Notes"):
-                valid_sentences.append({
-                    "sentence": cleaned,
-                    "sourceDoc": item["sourceDoc"],
-                    "pageNumber": item["pageNumber"]
-                })
 
-    if not valid_sentences:
+    # 1. Extract clean, substantive sentences and genuine Term: Definition pairs
+    fact_entries = []
+    concept_pairs = []
+    term_pool = []
+
+    def_pat = re.compile(
+        r"^(?:[-•*0-9.)]\s*)?([A-Za-z0-9\u0980-\u09FF][A-Za-z0-9\u0980-\u09FF\s\-/()]{2,42}?)\s*(?::|—|–|\s+=\s+|\s+is\s+(?:a|an|the)?\s+|\s+refers to\s+|\s+measures\s+|\s+computes\s+)\s*(.{14,160})$"
+    )
+
+    for item in chunks:
+        doc = item["sourceDoc"]
+        pg = item["pageNumber"]
+        for raw_line in item["text"].splitlines():
+            line = raw_line.strip()
+            if len(line) < 24 or line.startswith(("CS301 Lecture Notes", "Page ", "[DOCUMENT:")):
+                continue
+            m = def_pat.match(line)
+            if m:
+                left = m.group(1).strip(" -•*:")
+                right = m.group(2).strip().rstrip(".")
+                if 2 <= len(left) <= 42 and 12 <= len(right) <= 130 and left.lower() not in right.lower()[:12]:
+                    concept_pairs.append({
+                        "left": left,
+                        "right": right[:90] + ("..." if len(right) > 90 else ""),
+                        "full": line,
+                        "sourceDoc": doc,
+                        "pageNumber": pg,
+                    })
+                    if left not in term_pool:
+                        term_pool.append(left)
+
+        for s in re.split(r"(?<=[.!?।])\s+", item["text"]):
+            cleaned = s.strip()
+            words_in_s = cleaned.split()
+            # Skip headings or titles without a real verb/predicate
+            if 7 <= len(words_in_s) <= 45 and 35 <= len(cleaned) <= 220 and not cleaned.startswith(("CS301 Lecture Notes", "Page ")):
+                fact_entries.append({"sentence": cleaned, "sourceDoc": doc, "pageNumber": pg})
+
+    if not fact_entries and not concept_pairs:
         return []
 
-    sampled = valid_sentences[:count * 2] if len(valid_sentences) <= count * 2 else random.sample(valid_sentences, min(len(valid_sentences), count * 2))
     questions: List[Dict[str, Any]] = []
-
     quiz_type = str(quiz_type or "mixed").lower()
+    fallback_terms = ["Normalization", "Gradient Descent", "Cross-Validation", "Tokenization", "Backpropagation"]
 
     for idx in range(count):
-        item = sampled[idx % len(sampled)]
-        sent = item["sentence"]
-        source_doc = item["sourceDoc"]
-        page_num = item["pageNumber"]
+        if quiz_type in ("mcq", "true_false", "matching"):
+            slot_type = quiz_type
+        else:
+            slot_type = ("mcq", "true_false", "matching")[idx % 3]
 
-        # Determine type for this question slot
-        if quiz_type == "mcq":
-            slot_type = "mcq"
-        elif quiz_type == "true_false":
-            slot_type = "true_false"
-        elif quiz_type == "matching":
-            slot_type = "matching"
-        else: # mixed
-            if idx % 3 == 0:
-                slot_type = "mcq"
-            elif idx % 3 == 1:
-                slot_type = "true_false"
-            else:
-                slot_type = "matching"
+        if slot_type == "matching" and len(concept_pairs) >= 3:
+            chosen = concept_pairs[(idx * 2) % len(concept_pairs) : (idx * 2) % len(concept_pairs) + 3]
+            if len(chosen) < 3:
+                chosen = concept_pairs[:3]
+            questions.append({
+                "type": "matching",
+                "question": (
+                    "নিচের মূল ধারণাগুলোর সাথে তাদের সঠিক ব্যাখ্যা/সূত্র মিলান:"
+                    if lang == "bn"
+                    else "Match each key concept in Column A with its accurate description from the notes in Column B:"
+                ),
+                "pairs": [{"left": p["left"], "right": p["right"]} for p in chosen],
+                "pageNumber": chosen[0]["pageNumber"],
+                "sourceDoc": chosen[0]["sourceDoc"],
+                "explanationQuote": chosen[0]["full"],
+            })
 
-        if slot_type == "true_false":
+        elif slot_type == "true_false" and fact_entries:
+            entry = fact_entries[idx % len(fact_entries)]
+            sent = entry["sentence"]
             is_true = (idx % 2 == 0)
             if is_true:
                 statement = sent
             else:
-                statement = (
-                    f"{sent} — (এই বিবৃতিটি নথির মূল তথ্যের পরিপন্থী ও অসত্য)।"
-                    if lang == "bn"
-                    else f"It is established that: contrary to documented facts, {sent.lower()} does not apply."
-                )
+                # Create a subtle factual negation without awkward boilerplate
+                swapped = re.sub(r"\bis\b", "is never", sent, count=1)
+                if swapped == sent:
+                    swapped = re.sub(r"\bcan\b", "cannot", sent, count=1)
+                if swapped == sent:
+                    swapped = f"In all cases, the notes explicitly state that {sent[0].lower()}{sent[1:]} is completely false."
+                statement = swapped
             tf_options = ["সত্য (True)", "মিথ্যা (False)"] if lang == "bn" else ["True", "False"]
             questions.append({
                 "type": "true_false",
@@ -1973,62 +2030,51 @@ def generate_local_quiz(
                 "options": tf_options,
                 "isTrue": is_true,
                 "correctIndex": 0 if is_true else 1,
-                "pageNumber": page_num,
-                "sourceDoc": source_doc,
-                "explanationQuote": sent
+                "pageNumber": entry["pageNumber"],
+                "sourceDoc": entry["sourceDoc"],
+                "explanationQuote": sent,
             })
 
-        elif slot_type == "matching":
-            # Extract 3 meaningful clauses or phrases
-            words = [w for w in re.split(r"[\s,:;\-]+", sent) if len(w) > 3]
-            pairs = []
-            if len(words) >= 6:
-                pairs = [
-                    {"left": words[0] + " " + words[1], "right": "Relates to " + words[2]},
-                    {"left": words[3] + " " + words[4], "right": "Characteristic of " + words[5]},
-                    {"left": f"Source Section (P.{page_num})", "right": f"Grounded in {source_doc}"}
-                ]
-            else:
-                pairs = [
-                    {"left": f"Concept A ({source_doc})", "right": sent[:35] + "..."},
-                    {"left": f"Citation Anchor", "right": f"Page {page_num}"},
-                    {"left": "Grounding Rule", "right": "Verified from document notes"}
-                ]
-            questions.append({
-                "type": "matching",
-                "question": f"ডকুমেন্ট অনুসারে বাম ও ডান কলামের বিষয়গুলো মিলান (Page {page_num}):" if lang == "bn" else f"Match the items in Column A with their definitions in Column B (Page {page_num}):",
-                "pairs": pairs,
-                "pageNumber": page_num,
-                "sourceDoc": source_doc,
-                "explanationQuote": sent
-            })
-
-        else: # mcq
-            if lang == "bn":
-                q_text = f"নিচের কোন তথ্যটি {source_doc}-এর পৃষ্ঠা {page_num}-এ সত্য বলে প্রমাণিত?"
-                opt_correct = sent
-                d1 = "এই তথ্যটি নথির পরিপন্থী এবং অপ্রাসঙ্গিক।"
-                d2 = "মডেলের সাধারণীকরণের সাথে এর কোনো সম্পর্ক নেই।"
-                d3 = "এটি বাহ্যিক ডোমেইন সম্পর্কিত এবং ডকুমেন্টে নেই।"
-            else:
-                q_text = f"Which of the following statements is directly supported by {source_doc} (Page {page_num})?"
-                opt_correct = sent
-                d1 = "This claim contradicts the findings outlined in the provided documentation."
-                d2 = "The system relies exclusively on external parameters without document grounding."
-                d3 = "This observation has been invalidated by baseline classification benchmarks."
-
-            options = [opt_correct, d1, d2, d3]
+        elif concept_pairs:
+            cp = concept_pairs[idx % len(concept_pairs)]
+            correct = cp["left"]
+            distractors = [t for t in term_pool if t.lower() != correct.lower()]
+            while len(distractors) < 3:
+                cand = fallback_terms[len(distractors) % len(fallback_terms)]
+                if cand.lower() != correct.lower() and cand not in distractors:
+                    distractors.append(cand)
+            options = [correct] + distractors[:3]
             correct_idx = idx % 4
             options[0], options[correct_idx] = options[correct_idx], options[0]
-
+            q_text = (
+                f"নিচের কোন ধারণাটি '{cp['right']}' হিসেবে বর্ণিত হয়েছে?"
+                if lang == "bn"
+                else f"Which concept or term from the document is described as: \"{cp['right']}\"?"
+            )
             questions.append({
                 "type": "mcq",
                 "question": q_text,
                 "options": options,
                 "correctIndex": correct_idx,
-                "pageNumber": page_num,
-                "sourceDoc": source_doc,
-                "explanationQuote": sent
+                "pageNumber": cp["pageNumber"],
+                "sourceDoc": cp["sourceDoc"],
+                "explanationQuote": cp["full"],
+            })
+
+        elif fact_entries:
+            entry = fact_entries[idx % len(fact_entries)]
+            sent = entry["sentence"]
+            tf_options = ["সত্য (True)", "মিথ্যা (False)"] if lang == "bn" else ["True", "False"]
+            questions.append({
+                "type": "true_false",
+                "question": sent,
+                "statement": sent,
+                "options": tf_options,
+                "isTrue": True,
+                "correctIndex": 0,
+                "pageNumber": entry["pageNumber"],
+                "sourceDoc": entry["sourceDoc"],
+                "explanationQuote": sent,
             })
 
     return questions
