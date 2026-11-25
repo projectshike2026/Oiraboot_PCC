@@ -68,28 +68,34 @@ function closeCustomModal() {
 /* =========================================================================
    1. THEME CONTROLLER (WHITE / BLACK & CRIMSON)
    ========================================================================= */
-let currentTheme = localStorage.getItem('oiraboot_theme') || 'light';
+let currentTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('oiraboot_theme') || 'light';
 
 function toggleTheme() {
-  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const active = document.documentElement.getAttribute('data-theme') || localStorage.getItem('oiraboot_theme') || 'light';
+  currentTheme = active === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
+  document.documentElement.classList.toggle('dark', currentTheme === 'dark');
   localStorage.setItem('oiraboot_theme', currentTheme);
 
-  const label = document.getElementById('theme-label');
-  const iconEl = document.getElementById('theme-icon');
-  if (currentTheme === 'dark') {
-    if (label) label.textContent = 'White Mode';
-    if (iconEl) iconEl.setAttribute('data-lucide', 'sun');
+  if (typeof syncThemeUI === 'function') {
+    syncThemeUI(currentTheme);
   } else {
-    if (label) label.textContent = 'Black Mode';
-    if (iconEl) iconEl.setAttribute('data-lucide', 'moon');
+    const label = document.getElementById('theme-label');
+    const iconEl = document.getElementById('theme-icon');
+    if (currentTheme === 'dark') {
+      if (label) label.textContent = 'White Mode';
+      if (iconEl) iconEl.setAttribute('data-lucide', 'sun');
+    } else {
+      if (label) label.textContent = 'Black Mode';
+      if (iconEl) iconEl.setAttribute('data-lucide', 'moon');
+    }
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
   }
   updateThreeTheme();
   if (typeof updateGalaxyTheme === 'function') {
     updateGalaxyTheme(currentTheme);
-  }
-  if (typeof lucide !== 'undefined' && lucide.createIcons) {
-    lucide.createIcons();
   }
 }
 
@@ -539,7 +545,7 @@ async function handlePdfChatSubmit(e) {
           <div>
             <p class="text-sm font-bold text-main">Not found in the document</p>
             ${data.sub_answer ? `<p class="text-xs text-crimson font-medium">${escapeHtml(data.sub_answer)}</p>` : ''}
-            <p class="text-xs text-muted mt-1">Source verification prevented ungrounded speculation. This subject does not appear in your uploaded document archive.</p>
+            <p class="text-xs text-muted mt-1">This information is not in the uploaded document. To preserve factual accuracy, I do not answer outside your uploaded documents.</p>
           </div>
         </div>
       `);

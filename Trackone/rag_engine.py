@@ -1270,6 +1270,96 @@ def _format_qa_result(
     }
 
 
+COURTESY_GREETING_RE = re.compile(
+    r"^(?:hi+|hello+|hey+|hlo|yo|greetings|good\s+(?:morning|afternoon|evening|night)|"
+    r"assalamu\s*alaikum|salam|namaskar|হাই|হ্যালো|হেলো|সালাম|আসসালামু\s*আলাইকুম|কেমন\s+আছ[োে]?)"
+    r"[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+COURTESY_FAREWELL_RE = re.compile(
+    r"^(?:bye+|good\s*bye|see\s+you|take\s+care|allah\s+hafez|khoda\s+hafez|বাই|বিদায়|আল্লাহ\s*হাফেজ)"
+    r"[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+COURTESY_THANKS_RE = re.compile(
+    r"^(?:thanks?|thank\s+you(?:\s+so\s+much)?|thx|ty|dhonnobad|ধন্যবাদ|অনেক\s+ধন্যবাদ)"
+    r"[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+COURTESY_HELP_RE = re.compile(
+    r"^(?:(?:hi+|hello+|hey+)[,\s]+)?(?:"
+    r"how\s+can\s+you\s+help(?:\s+me)?|what\s+can\s+you\s+do|what\s+do\s+you\s+do|"
+    r"who\s+are\s+you|help(?:\s+me)?|"
+    r"তুমি\s+(?:আমাকে\s+)?(?:কি|কী|কীভাবে)\s+(?:হেল্প|সাহায্য)\s+করতে\s+(?:পারো|পারবে|পারেন)|"
+    r"তুমি\s+কে|আপনি\s+কে|কিভাবে\s+সাহায্য\s+করতে\s+পারো"
+    r")[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+
+
+def _match_courtesy_reply(
+    query: str,
+    documents: List[Dict[str, Any]],
+    requested_lang: str,
+    response_mode: str,
+) -> Optional[Dict[str, Any]]:
+    """Handles pure greetings, farewells, thanks, and capability questions without hallucination."""
+    q = (query or "").strip()
+    if not q:
+        return None
+    lang = detect_language(q, requested_lang)
+    active_names = [d.get("name", "PDF") for d in documents if d.get("enabled", True)]
+    docs_str = ", ".join(active_names[:4]) if active_names else ("কোনো ডকুমেন্ট নেই" if lang == "bn" else "no PDFs yet")
+
+    if COURTESY_GREETING_RE.match(q):
+        ans = (
+            f"হ্যালো! আমি **Oiraboot AI Engine**। বর্তমানে আপনার **{docs_str}** ডকুমেন্টের ওপর ভিত্তি করে প্রশ্নের উত্তর, পেজ রেফারেন্সসহ ব্যাখ্যা এবং কুইজ তৈরিতে সাহায্য করতে পারি। ডকুমেন্টের ভেতরের যেকোনো প্রশ্ন করতে পারেন।"
+            if lang == "bn"
+            else f"Hello! I am the **Oiraboot AI Engine**. I can answer questions strictly from your active document(s) (**{docs_str}**) with page citations, summarize topics, and generate practice quizzes. Ask me anything covered in your notes!"
+        )
+    elif COURTESY_FAREWELL_RE.match(q):
+        ans = (
+            "বিদায়! পড়াশোনা বা ডকুমেন্ট নিয়ে আবার কোনো সাহায্যের প্রয়োজন হলে ফিরে আসবেন।"
+            if lang == "bn"
+            else "Goodbye! Feel free to come back anytime you need help studying your documents."
+        )
+    elif COURTESY_THANKS_RE.match(q):
+        ans = (
+            "আপনাকেও ধন্যবাদ! ডকুমেন্টের আর কোনো অংশ বুঝতে বা কুইজ অনুশীলন করতে চাইলে জানাবেন।"
+            if lang == "bn"
+            else "You're welcome! Let me know if you have any more questions about your active documents."
+        )
+    elif COURTESY_HELP_RE.match(q):
+        ans = (
+            f"আমি আপনার আপলোড করা PDF (**{docs_str}**) থেকে যাচাইকৃত সাহায্য করতে পারি:\n"
+            "• **ডকুমেন্ট প্রশ্নোত্তর**: সরাসরি মূল পৃষ্ঠা নম্বর ও উদ্ধৃতিসহ নির্ভুল উত্তর।\n"
+            "• **বিশ্লেষণ ও সারসংক্ষেপ**: জটিল অধ্যায় বা বিষয় সহজভাবে বোঝানো।\n"
+            "• **কুইজ তৈরি**: অনুশীলনের জন্য ৫–১৫টি MCQ, True/False ও Matching কুইজ।\n\n"
+            "তথ্যের শতভাগ নির্ভুলতা বজায় রাখতে আমি কেবল ডকুমেন্টের ভেতরের তথ্য থেকেই উত্তর দিই।"
+            if lang == "bn"
+            else f"I can assist you strictly using your active document(s) (**{docs_str}**):\n"
+            "• **Grounded Q&A**: Answer questions with verbatim quotes and exact page citations.\n"
+            "• **Structured Explanations**: Break down sections or summarize key concepts.\n"
+            "• **Adaptive Quizzes**: Generate practice assessments directly from your notes.\n\n"
+            "To maintain strict factual accuracy, I only answer questions whose evidence exists in your uploaded documents."
+        )
+    else:
+        return None
+
+    return {
+        "found": True,
+        "isCourtesy": True,
+        "answer": ans,
+        "sourceDoc": "",
+        "pageNumber": 0,
+        "excerpt": "",
+        "citations": [],
+        "mode": "courtesy",
+        "responseMode": response_mode,
+        "telemetry": {"totalChunks": 0, "retrievedChunks": 0, "usedEmbeddings": False, "retrievalMs": 0},
+    }
+
+
 def query_document_qa(
     query: str,
     documents: List[Dict[str, Any]],
@@ -1289,6 +1379,10 @@ def query_document_qa(
     mode = (response_mode or "thinking").strip().lower()
     if mode not in ("exact", "thinking"):
         mode = "thinking"
+
+    courtesy = _match_courtesy_reply(query, documents, requested_lang, mode)
+    if courtesy is not None:
+        return courtesy
 
     if extensive:
         return extensive_query_qa(query, documents, requested_lang, response_mode=mode, history=history)

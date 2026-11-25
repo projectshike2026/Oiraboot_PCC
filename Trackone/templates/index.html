@@ -2131,20 +2131,22 @@
         return div;
       }
 
-      function appendGroundedResponse({ answerHtml, docName, page, quote, citations, verificationNote, agreementStatus, respMode }) {
+      function appendGroundedResponse({ answerHtml, docName, page, quote, citations, verificationNote, agreementStatus, respMode, isCourtesy = false }) {
         const id = 'resp-' + Date.now();
         const div = document.createElement('div');
         div.className = 'animate-msg flex items-start gap-3.5 max-w-3xl';
 
         const fallbackPageNum = parseInt(String(page || '1').replace(/[^\d]/g, ''), 10) || 1;
-        const normalizedCitations = Array.isArray(citations) && citations.length > 0
-          ? citations
-          : [{ sourceDoc: docName, pageNumber: fallbackPageNum, label: `Page ${fallbackPageNum}`, excerpt: quote || '' }];
+        const normalizedCitations = isCourtesy
+          ? []
+          : (Array.isArray(citations) && citations.length > 0
+              ? citations
+              : [{ sourceDoc: docName, pageNumber: fallbackPageNum, label: `Page ${fallbackPageNum}`, excerpt: quote || '' }]);
         const isMultiOcc = normalizedCitations.length > 1;
 
-        const verifiedBadgeLabel = isMultiOcc
-          ? `Verified in ${normalizedCitations.length} places`
-          : 'Verified in Document';
+        const verifiedBadgeLabel = isCourtesy
+          ? 'Oiraboot AI Engine'
+          : (isMultiOcc ? `Verified in ${normalizedCitations.length} places` : 'Verified in Document');
 
         const citationPillsHtml = normalizedCitations
           .map((c, idx) => {
@@ -2309,7 +2311,7 @@
               <span>Not found in the document</span>
             </div>
             <p class="text-[13.5px] sm:text-[14.5px] italic text-slate-600 dark:text-neutral-300 leading-relaxed">
-              ${escapeHtml(reasonText || 'This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.')}
+              ${escapeHtml(reasonText || 'This information is not in the uploaded document. To preserve factual accuracy, I cannot answer questions outside the uploaded documents.')}
             </p>
           </div>
         `;
@@ -2338,11 +2340,14 @@
           return;
         }
 
-        // Explicit refusal triggers
-        if (lower.includes('missing content') || lower.includes('refusal test') || query === '?' || (query.length < 3 && !/\d/.test(query))) {
+        // Explicit refusal triggers (allow short greetings like "hi" to pass through cleanly)
+        if (lower.includes('missing content') || lower.includes('refusal test') || query === '?' || (query.length < 2 && !/\d/.test(query))) {
           setTimeout(() => {
             if (shimmerNode.parentNode) shimmerNode.remove();
-            appendRefusalCard('This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.');
+            const isBn = currentLang === 'bn' || /[\u0980-\u09FF]/.test(query);
+            appendRefusalCard(isBn
+              ? 'এই তথ্যটি আপলোড করা ডকুমেন্টে নেই। তথ্যের নির্ভুলতা বজায় রাখতে ডকুমেন্টের বাইরের কোনো প্রশ্নের উত্তর আমি দিতে পারি না।'
+              : 'This information is not in the uploaded document. To preserve factual accuracy, I cannot answer questions outside the uploaded documents.');
             isGenerating = false;
           }, 350);
           return;
@@ -2378,7 +2383,8 @@
                 citations: citList,
                 verificationNote: result.data.verificationNote || '',
                 agreementStatus: result.data.agreementStatus || '',
-                respMode: result.data.responseMode || responseMode
+                respMode: result.data.responseMode || responseMode,
+                isCourtesy: Boolean(result.data.isCourtesy)
               });
               chatHistory.push({ role: 'user', text: query });
               chatHistory.push({ role: 'assistant', text: rawAnswer.slice(0, 450) });
@@ -2394,8 +2400,11 @@
               if (result.data?.notice) {
                 loadBackendDocuments();
               }
+              const isBn = currentLang === 'bn' || /[\u0980-\u09FF]/.test(query);
               appendRefusalCard(
-                result.data?.verificationNote || result.data?.notice || 'This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.'
+                result.data?.verificationNote || result.data?.notice || (isBn
+                  ? 'এই তথ্যটি আপলোড করা ডকুমেন্টে নেই। তথ্যের নির্ভুলতা বজায় রাখতে ডকুমেন্টের বাইরের কোনো প্রশ্নের উত্তর আমি দিতে পারি না।'
+                  : 'This information is not in the uploaded document. To preserve factual accuracy, I cannot answer questions outside the uploaded documents.')
               );
               isGenerating = false;
               return;
@@ -2426,9 +2435,10 @@
               quote: match.quote,
             });
           } else {
-            appendRefusalCard(
-              'This query could not be verified from the uploaded document notes. The system refuses to hallucinate facts.'
-            );
+            const isBn = currentLang === 'bn' || /[\u0980-\u09FF]/.test(query);
+            appendRefusalCard(isBn
+              ? 'এই তথ্যটি আপলোড করা ডকুমেন্টে নেই। তথ্যের নির্ভুলতা বজায় রাখতে ডকুমেন্টের বাইরের কোনো প্রশ্নের উত্তর আমি দিতে পারি না।'
+              : 'This information is not in the uploaded document. To preserve factual accuracy, I cannot answer questions outside the uploaded documents.');
           }
 
           isGenerating = false;

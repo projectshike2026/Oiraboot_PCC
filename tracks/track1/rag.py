@@ -1,4 +1,5 @@
 import json
+import re
 import time
 from typing import List, Dict, Any, Optional
 from config import Config
@@ -6,6 +7,62 @@ from core.errors import AppError
 from core.textutil import tokenise, bm25, verify_quote, detect_lang
 from core.security import check_rate_limit
 from core.llm import chat_json
+
+_COURTESY_GREETING_RE = re.compile(
+    r"^(?:hi+|hello+|hey+|hlo|yo|greetings|good\s+(?:morning|afternoon|evening|night)|"
+    r"assalamu\s*alaikum|salam|namaskar|হাই|হ্যালো|হেলো|সালাম|আসসালামু\s*আলাইকুম|কেমন\s+আছ[োে]?)"
+    r"[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+_COURTESY_FAREWELL_RE = re.compile(
+    r"^(?:bye+|good\s*bye|see\s+you|take\s+care|allah\s+hafez|khoda\s+hafez|বাই|বিদায়|আল্লাহ\s*হাফেজ)"
+    r"[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+_COURTESY_THANKS_RE = re.compile(
+    r"^(?:thanks?|thank\s+you(?:\s+so\s+much)?|thx|ty|dhonnobad|ধন্যবাদ|অনেক\s+ধন্যবাদ)"
+    r"[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+_COURTESY_HELP_RE = re.compile(
+    r"^(?:(?:hi+|hello+|hey+)[,\s]+)?(?:"
+    r"how\s+can\s+you\s+help(?:\s+me)?|what\s+can\s+you\s+do|what\s+do\s+you\s+do|"
+    r"who\s+are\s+you|help(?:\s+me)?|"
+    r"তুমি\s+(?:আমাকে\s+)?(?:কি|কী|কীভাবে)\s+(?:হেল্প|সাহায্য)\s+করতে\s+(?:পারো|পারবে|পারেন)|"
+    r"তুমি\s+কে|আপনি\s+কে|কিভাবে\s+সাহায্য\s+করতে\s+পারো"
+    r")[\s!.,?।]*$",
+    re.IGNORECASE,
+)
+
+
+def _match_courtesy_message(clean_question: str, ui_lang: str, filenames: List[str]) -> Optional[str]:
+    is_bn = detect_lang(clean_question) == "bn" or ui_lang == "bn"
+    docs_str = ", ".join(sorted(set(filenames))[:4]) or "uploaded documents"
+    if _COURTESY_GREETING_RE.match(clean_question):
+        return (
+            f"হ্যালো! আমি Oiraboot AI Engine। আপনার নির্বাচিত ডকুমেন্ট ({docs_str}) থেকে পৃষ্ঠা নম্বরসহ প্রশ্নের উত্তর ও কুইজ তৈরিতে সাহায্য করতে পারি।"
+            if is_bn
+            else f"Hello! I am Oiraboot AI Engine. I can answer questions strictly from your selected documents ({docs_str}) with page citations and generate practice quizzes."
+        )
+    if _COURTESY_FAREWELL_RE.match(clean_question):
+        return (
+            "বিদায়! ডকুমেন্ট নিয়ে আবার কোনো সাহায্যের প্রয়োজন হলে জানাবেন।"
+            if is_bn
+            else "Goodbye! Feel free to return anytime you need help with your study documents."
+        )
+    if _COURTESY_THANKS_RE.match(clean_question):
+        return (
+            "আপনাকেও ধন্যবাদ! আপনার ডকুমেন্ট সম্পর্কে আর কিছু জানতে চাইলে জিজ্ঞাসা করতে পারেন।"
+            if is_bn
+            else "You're welcome! Ask me anything else covered in your uploaded documents."
+        )
+    if _COURTESY_HELP_RE.match(clean_question):
+        return (
+            f"আমি আপনার নির্বাচিত ডকুমেন্ট ({docs_str}) থেকে প্রশ্নোত্তর, মূল উদ্ধৃতি ও পেজ রেফারেন্স এবং কুইজ তৈরিতে সাহায্য করতে পারি। তথ্যের নির্ভুলতা রক্ষায় ডকুমেন্টের বাইরের কোনো প্রশ্নের উত্তর আমি দিই না।"
+            if is_bn
+            else f"I can help you by answering questions with exact page citations and generating practice quizzes from your selected documents ({docs_str}). To keep answers accurate, I do not answer outside the uploaded documents."
+        )
+    return None
 
 SYSTEM_PROMPT = """You are Shuta, a careful study assistant. You answer questions using ONLY the document excerpts provided.
 
@@ -50,6 +107,16 @@ def answer_question(sid: str, doc_ids: List[int], question: str, db, ui_lang: st
         raise AppError("no_doc", "No document content found for the selected documents.", 400)
 
     chunks = [dict(r) for r in rows]
+
+    courtesy_reply = _match_courtesy_message(clean_question, ui_lang, [c["filename"] for c in chunks])
+    if courtesy_reply is not None:
+        return {
+            "found": True,
+            "answer": courtesy_reply,
+            "sub_answer": None,
+            "sources": []
+        }
+
     total_chars = sum(len(c["text"]) for c in chunks)
 
     # Context selection: if under FULL_CONTEXT_CHARS, send all chunks; otherwise top 8 BM25
